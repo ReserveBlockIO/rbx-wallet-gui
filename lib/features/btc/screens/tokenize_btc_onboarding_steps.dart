@@ -8,9 +8,6 @@ class _TransferBtcToVbtcStep extends BaseComponent {
     final provider = ref.read(vBtcOnboardProvider.notifier);
     final state = ref.watch(vBtcOnboardProvider);
 
-    final controller = TextEditingController();
-    final formKey = GlobalKey<FormState>();
-
     if (state.btcAccount == null || state.tokenizedBtc == null) {
       return Column(
         mainAxisSize: MainAxisSize.min,
@@ -31,170 +28,187 @@ class _TransferBtcToVbtcStep extends BaseComponent {
     return ConstrainedBox(
       constraints: BoxConstraints(maxWidth: 550),
       child: Form(
-        key: formKey,
+        key: provider.btcTransferFormKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("From: ${state.btcAccount!.address}"),
-            SizedBox(
-              height: 8,
-            ),
-            Text("To: ${state.tokenizedBtc!.btcAddress}"),
-            SizedBox(
-              height: 8,
-            ),
-            TextFormField(
-              controller: controller,
-              validator: (val) => formValidatorNumber(val, "Amount"),
-              decoration: InputDecoration(label: Text("Amount to Send (BTC)")),
-              inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Builder(
-              builder: (context) {
-                final recommendedFees = ref.watch(sessionProvider).btcRecommendedFees ?? BtcRecommendedFees.fallback();
+            if (!state.transferToTokenManually) ...[
+              Text("From: ${state.btcAccount!.address}"),
+              SizedBox(
+                height: 8,
+              ),
+              Text("To: ${state.tokenizedBtc!.btcAddress}"),
+              SizedBox(
+                height: 8,
+              ),
+              TextFormField(
+                controller: provider.btcTransferAmountController,
+                validator: (val) => formValidatorNumber(val, "Amount"),
+                decoration: InputDecoration(label: Text("Amount to Send (BTC)")),
+                inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Builder(
+                builder: (context) {
+                  final recommendedFees = ref.watch(sessionProvider).btcRecommendedFees ?? BtcRecommendedFees.fallback();
 
-                switch (state.btcFeeRatePreset) {
-                  case BtcFeeRatePreset.custom:
-                    fee = 0;
-                    break;
-                  case BtcFeeRatePreset.minimum:
-                    fee = recommendedFees.minimumFee;
-                    break;
-                  case BtcFeeRatePreset.economy:
-                    fee = recommendedFees.economyFee;
-                    break;
-                  case BtcFeeRatePreset.hour:
-                    fee = recommendedFees.hourFee;
-                    break;
-                  case BtcFeeRatePreset.halfHour:
-                    fee = recommendedFees.halfHourFee;
-                    break;
-                  case BtcFeeRatePreset.fastest:
-                    fee = recommendedFees.fastestFee;
-                    break;
-                }
+                  switch (state.btcFeeRatePreset) {
+                    case BtcFeeRatePreset.custom:
+                      fee = 0;
+                      break;
+                    case BtcFeeRatePreset.minimum:
+                      fee = recommendedFees.minimumFee;
+                      break;
+                    case BtcFeeRatePreset.economy:
+                      fee = recommendedFees.economyFee;
+                      break;
+                    case BtcFeeRatePreset.hour:
+                      fee = recommendedFees.hourFee;
+                      break;
+                    case BtcFeeRatePreset.halfHour:
+                      fee = recommendedFees.halfHourFee;
+                      break;
+                    case BtcFeeRatePreset.fastest:
+                      fee = recommendedFees.fastestFee;
+                      break;
+                  }
 
-                final feeBtc = satashiToBtcLabel(fee);
-                final feeEstimate = satashiTxFeeEstimate(fee);
-                final feeEstimateBtc = btcTxFeeEstimateLabel(fee);
+                  final feeBtc = satashiToBtcLabel(fee);
+                  final feeEstimate = satashiTxFeeEstimate(fee);
+                  final feeEstimateBtc = btcTxFeeEstimateLabel(fee);
 
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ListTile(
-                      leading: const SizedBox(width: 100, child: Text("Fee Rate:")),
-                      title: Row(
-                        children: [
-                          PopupMenuButton<BtcFeeRatePreset>(
-                            color: Color(0xFF080808),
-                            onSelected: (value) {
-                              provider.setBtcFeeRatePreset(value);
-                            },
-                            itemBuilder: (context) {
-                              return BtcFeeRatePreset.values.map((preset) {
-                                return PopupMenuItem(
-                                  value: preset,
-                                  child: Text(preset.label),
-                                );
-                              }).toList();
-                            },
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  state.btcFeeRatePreset.label,
-                                  style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.btcOrange),
-                                ),
-                                Icon(
-                                  Icons.arrow_drop_down,
-                                  size: 24,
-                                  color: Theme.of(context).colorScheme.btcOrange,
-                                ),
-                              ],
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListTile(
+                        leading: const SizedBox(width: 100, child: Text("Fee Rate:")),
+                        title: Row(
+                          children: [
+                            PopupMenuButton<BtcFeeRatePreset>(
+                              color: Color(0xFF080808),
+                              onSelected: (value) {
+                                provider.setBtcFeeRatePreset(value);
+                              },
+                              itemBuilder: (context) {
+                                return BtcFeeRatePreset.values.map((preset) {
+                                  return PopupMenuItem(
+                                    value: preset,
+                                    child: Text(preset.label),
+                                  );
+                                }).toList();
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    state.btcFeeRatePreset.label,
+                                    style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.btcOrange),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_drop_down,
+                                    size: 24,
+                                    color: Theme.of(context).colorScheme.btcOrange,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      "Fee Estimate: ~$feeEstimate SATS | ~$feeEstimateBtc BTC    ($fee SATS /byte | $feeBtc BTC /byte)",
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                  ],
-                );
-              },
-            ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: AppButton(
-                  label: "Initiate Transfer",
-                  variant: AppColorVariant.Btc,
-                  onPressed: () async {
-                    if (!formKey.currentState!.validate()) {
-                      return;
-                    }
-                    final amountParsed = double.tryParse(controller.text.trim());
-                    if (amountParsed == null) {
-                      Toast.error("Invalid Amount");
-                      return;
-                    }
-
-                    if (amountParsed < state.btcAccount!.balance) {
-                      Toast.error("Not enough balance in BTC account to send $amountParsed BTC");
-                      return;
-                    }
-
-                    final success = await provider.transferBtcToVbtc(amountParsed, fee);
-
-                    if (success) {
-                      provider.setProcessingState(VBtcProcessingState.waitingForBtcToVbtcTransfer);
-                    }
-                  },
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 32,
-            ),
-            Divider(),
-            Text("Alternatively, you can send the BTC manually to your token's deposit address"),
-            TextFormField(
-              initialValue: state.tokenizedBtc!.btcAddress,
-              readOnly: true,
-              decoration: InputDecoration(
-                label: Text("BTC Address"),
-                suffix: IconButton(
-                  icon: Icon(Icons.copy),
-                  onPressed: () async {
-                    await Clipboard.setData(ClipboardData(text: state.tokenizedBtc!.btcAddress));
-                    Toast.message("Address copied to clipboard!");
-                  },
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 12,
-            ),
-            Center(
-              child: AppButton(
-                label: "I've sent this manually!",
-                type: AppButtonType.Text,
-                underlined: true,
-                onPressed: () {
-                  provider.setProcessingState(VBtcProcessingState.waitingForBtcToVbtcTransfer);
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        "Fee Estimate: ~$feeEstimate SATS | ~$feeEstimateBtc BTC    ($fee SATS /byte | $feeBtc BTC /byte)",
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                    ],
+                  );
                 },
-                variant: AppColorVariant.Btc,
               ),
-            )
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: AppButton(
+                    label: "Initiate Transfer",
+                    variant: AppColorVariant.Btc,
+                    onPressed: () async {
+                      if (!provider.btcTransferFormKey.currentState!.validate()) {
+                        return;
+                      }
+                      final amountParsed = double.tryParse(provider.btcTransferAmountController.text.trim());
+                      if (amountParsed == null) {
+                        Toast.error("Invalid Amount");
+                        return;
+                      }
+
+                      if (amountParsed > state.btcAccount!.balance) {
+                        Toast.error("Not enough balance in BTC account to send $amountParsed BTC");
+                        return;
+                      }
+
+                      final success = await provider.transferBtcToVbtc(amountParsed, fee);
+
+                      if (success) {
+                        provider.setProcessingState(VBtcProcessingState.waitingForBtcToVbtcTransfer);
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ],
+            if (!state.transferToTokenManually) ...[
+              Divider(),
+              Text("Alternatively, you can send the BTC manually to your token's deposit address."),
+            ],
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Center(
+                child: AppButton(
+                  label: state.transferToTokenManually ? "Send Automatically" : "Send Manually",
+                  type: AppButtonType.Text,
+                  underlined: true,
+                  onPressed: () {
+                    provider.setTransferToTokenManually(!state.transferToTokenManually);
+                  },
+                  variant: AppColorVariant.Light,
+                ),
+              ),
+            ),
+            if (state.transferToTokenManually) ...[
+              TextFormField(
+                initialValue: state.tokenizedBtc!.btcAddress,
+                readOnly: true,
+                decoration: InputDecoration(
+                  label: Text("BTC Address"),
+                  suffix: IconButton(
+                    icon: Icon(Icons.copy),
+                    onPressed: () async {
+                      await Clipboard.setData(ClipboardData(text: state.tokenizedBtc!.btcAddress));
+                      Toast.message("Address copied to clipboard!");
+                    },
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              Center(
+                child: AppButton(
+                  label: "I've sent this manually!",
+                  type: AppButtonType.Text,
+                  underlined: true,
+                  onPressed: () {
+                    provider.setProcessingState(VBtcProcessingState.waitingForBtcToVbtcTransfer);
+                  },
+                  variant: AppColorVariant.Btc,
+                ),
+              ),
+            ]
           ],
         ),
       ),
@@ -614,7 +628,7 @@ class _CreateOrImportBtcAccountStep extends BaseComponent {
           SizedBox(
             height: 16,
           ),
-          Text("Or use one of your existing VFX Wallets:"),
+          Text("Or use one of your existing BTC Wallets:"),
           ...existingAccounts
               .map((a) => Padding(
                     padding: const EdgeInsets.all(16.0),

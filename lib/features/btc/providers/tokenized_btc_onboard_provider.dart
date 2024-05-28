@@ -1,11 +1,4 @@
-// create VFX wallet
-// get $ from faucet
-// import btc key OR
-//create btc account
-//transfer BTC
-// tokenize
-// transfer btc => vbtc
-
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/btc/models/btc_account.dart';
 import 'package:rbx_wallet/features/btc/models/btc_fee_rate_preset.dart';
@@ -14,7 +7,6 @@ import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart
 import 'package:rbx_wallet/features/btc/providers/tokenize_btc_form_provider.dart';
 import 'package:rbx_wallet/features/btc/providers/tokenized_bitcoin_list_provider.dart';
 import 'package:rbx_wallet/features/btc/services/btc_service.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/tokenization/tokenization_provider.dart';
 import 'package:rbx_wallet/features/transactions/models/transaction.dart';
 import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
@@ -52,6 +44,7 @@ class VBtcOnboardState {
   final VBtcProcessingState processingState;
   final bool completed;
   final BtcFeeRatePreset btcFeeRatePreset;
+  final bool transferToTokenManually;
 
   VBtcOnboardState({
     this.step = VBtcOnboardStep.createVfxWallet,
@@ -62,17 +55,20 @@ class VBtcOnboardState {
     this.processingState = VBtcProcessingState.ready,
     this.completed = false,
     this.btcFeeRatePreset = BtcFeeRatePreset.economy,
+    this.transferToTokenManually = false,
   });
 
-  VBtcOnboardState copyWith(
-      {VBtcOnboardStep? step,
-      Wallet? vfxWallet,
-      BtcAccount? btcAccount,
-      double? amountOfBtcToTransfer,
-      TokenizedBitcoin? tokenizedBtc,
-      VBtcProcessingState? processingState,
-      bool? completed,
-      BtcFeeRatePreset? btcFeeRatePreset}) {
+  VBtcOnboardState copyWith({
+    VBtcOnboardStep? step,
+    Wallet? vfxWallet,
+    BtcAccount? btcAccount,
+    double? amountOfBtcToTransfer,
+    TokenizedBitcoin? tokenizedBtc,
+    VBtcProcessingState? processingState,
+    bool? completed,
+    BtcFeeRatePreset? btcFeeRatePreset,
+    bool? transferToTokenManually,
+  }) {
     return VBtcOnboardState(
       step: step ?? this.step,
       vfxWallet: vfxWallet ?? this.vfxWallet,
@@ -82,6 +78,7 @@ class VBtcOnboardState {
       processingState: processingState ?? this.processingState,
       completed: completed ?? this.completed,
       btcFeeRatePreset: btcFeeRatePreset ?? this.btcFeeRatePreset,
+      transferToTokenManually: transferToTokenManually ?? this.transferToTokenManually,
     );
   }
 
@@ -169,6 +166,28 @@ class VBtcOnboardState {
         return "Waiting for BTC to vBTC transaction to reflect on-chain.";
     }
   }
+
+  bool get stepIsBtc {
+    switch (step) {
+      case VBtcOnboardStep.createVfxWallet:
+        return false;
+
+      case VBtcOnboardStep.faucetWithdrawl:
+        return false;
+
+      case VBtcOnboardStep.createOrImportBtcAccount:
+        return true;
+
+      case VBtcOnboardStep.transferBtc:
+        return true;
+
+      case VBtcOnboardStep.tokenize:
+        return true;
+
+      case VBtcOnboardStep.transferBtcToVbtc:
+        return true;
+    }
+  }
 }
 
 @Riverpod(keepAlive: true)
@@ -177,6 +196,10 @@ class VBtcOnboard extends _$VBtcOnboard {
   ProviderSubscription<List<BtcAccount>>? btcTransferListener;
   ProviderSubscription<List<TokenizedBitcoin>>? btcTokenizationListener;
   ProviderSubscription<List<TokenizedBitcoin>>? btcToVbtcListener;
+
+  final GlobalKey<FormState> btcTransferFormKey = GlobalKey<FormState>();
+
+  final TextEditingController btcTransferAmountController = TextEditingController();
 
   @override
   VBtcOnboardState build() {
@@ -227,7 +250,13 @@ class VBtcOnboard extends _$VBtcOnboard {
   void setupBtcToVbtcListener() {
     btcToVbtcListener = ref.listen(tokenizedBitcoinListProvider, (previous, List<TokenizedBitcoin> tokens) {
       if (state.step == VBtcOnboardStep.transferBtcToVbtc) {
-        final token = tokens.firstWhereOrNull((t) => t.rbxAddress == state.vfxWallet?.address && t.balance >= 0);
+        if (state.tokenizedBtc == null) {
+          print("tokenized btc is null. closing listener");
+          btcToVbtcListener?.close();
+
+          return;
+        }
+        final token = tokens.firstWhereOrNull((t) => t.id == state.tokenizedBtc!.id && t.balance > 0);
         if (token != null) {
           Toast.message("Transfer Complete!");
           state = state.copyWith(completed: true, processingState: VBtcProcessingState.ready);
@@ -240,6 +269,11 @@ class VBtcOnboard extends _$VBtcOnboard {
 
   void reset() {
     state = VBtcOnboardState();
+    btcTransferAmountController.clear();
+    vfxTransferListener?.close();
+    btcTransferListener?.close();
+    btcTokenizationListener?.close();
+    btcToVbtcListener?.close();
   }
 
   void setProcessingState(VBtcProcessingState processingState) {
@@ -279,11 +313,16 @@ class VBtcOnboard extends _$VBtcOnboard {
       state = state.copyWith(btcAccount: account, step: VBtcOnboardStep.tokenize);
     } else {
       state = state.copyWith(btcAccount: account, step: VBtcOnboardStep.transferBtc);
+      setProcessingState(VBtcProcessingState.waitingForBtcTransfer);
     }
   }
 
   void setBtcFeeRatePreset(BtcFeeRatePreset value) {
     state = state.copyWith(btcFeeRatePreset: value);
+  }
+
+  void setTransferToTokenManually(bool value) {
+    state = state.copyWith(transferToTokenManually: value);
   }
 
   Future<bool> transferBtcToVbtc(double amount, int feeRate) async {
@@ -300,6 +339,7 @@ class VBtcOnboard extends _$VBtcOnboard {
       Toast.error("No BTC address in token");
       return false;
     }
+
     final result = await BtcService().sendTransaction(
       fromAddress: state.btcAccount!.address,
       toAddress: state.tokenizedBtc!.btcAddress!,

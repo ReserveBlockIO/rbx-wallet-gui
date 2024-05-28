@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/features/btc/models/tokenized_bitcoin.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
@@ -135,6 +136,11 @@ class BtcService extends BaseService {
     required int feeRate,
   }) async {
     try {
+      if (Env.isTestNet) {
+        print("Oversupplying the fee since testnet");
+        feeRate = 140 * 99; //140bytes * 99 SATS
+      }
+
       final result = await getJson(
         "/SendTransaction/$fromAddress/$toAddress/$amount/$feeRate/true",
         inspect: true,

@@ -8,9 +8,11 @@ import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 import 'package:rbx_wallet/features/btc/models/tokenized_bitcoin.dart';
+import 'package:rbx_wallet/features/btc/providers/tokenized_btc_onboard_provider.dart';
 
 import 'package:rbx_wallet/features/btc/screens/tokenize_btc_screen.dart';
 import 'package:rbx_wallet/features/btc/screens/tokenized_btc_detail_screen.dart';
@@ -108,6 +110,8 @@ class TokenizeBtcListScreen extends BaseScreen {
                   return;
                 }
 
+                ref.read(vBtcOnboardProvider.notifier).reset();
+
                 final token = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => TokenizeBtcOnboardingScreen()));
                 if (token == null) {
                   return;
@@ -143,6 +147,33 @@ class TokenizeBtcListScreen extends BaseScreen {
             },
           ),
         ),
+        if (Env.isTestNet)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: AppButton(
+              label: "Use Wizard (Testnet Only)",
+              type: AppButtonType.Text,
+              onPressed: () async {
+                ref.read(vBtcOnboardProvider.notifier).reset();
+
+                final token = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => TokenizeBtcOnboardingScreen()));
+                if (token == null) {
+                  return;
+                }
+
+                if (token is TokenizedBitcoin) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => TokenizedBtcDetailScreen(tokenId: token.id),
+                    ),
+                  );
+                  return;
+                }
+              },
+              variant: AppColorVariant.Light,
+              underlined: true,
+            ),
+          ),
         // Text(
         //   "Need VFX?",
         //   style: TextStyle(fontSize: 12),

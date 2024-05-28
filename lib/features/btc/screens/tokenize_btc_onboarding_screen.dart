@@ -123,7 +123,7 @@ class TokenizeBtcOnboardingScreen extends BaseScreen {
                     state.stepTitle,
                     style: TextStyle(
                       fontSize: 22,
-                      color: Theme.of(context).colorScheme.btcOrange,
+                      color: state.stepIsBtc ? Theme.of(context).colorScheme.btcOrange : Theme.of(context).colorScheme.secondary,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
