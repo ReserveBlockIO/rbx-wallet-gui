@@ -2,6 +2,7 @@ import 'package:rbx_wallet/features/btc/models/btc_transaction.dart';
 import 'package:rbx_wallet/features/btc/models/btc_utxo.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_utxo_list_provider.dart';
+import 'package:rbx_wallet/features/btc/providers/tokenized_bitcoin_list_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'combined_btc_utxo_list_provider.g.dart';
@@ -14,6 +15,13 @@ List<BtcUtxo> combinedBtcUtxoList(CombinedBtcUtxoListRef ref) {
   for (final a in accounts) {
     utxos.addAll(ref.watch(btcUtxoListProvider(a.address)));
   }
+  final tokens = ref.watch(tokenizedBitcoinListProvider);
 
-  return utxos;
+  for (final t in tokens) {
+    if (t.btcAddress != null) {
+      utxos.addAll(ref.watch(btcUtxoListProvider(t.btcAddress!)));
+    }
+  }
+
+  return utxos..reversed.toList();
 }

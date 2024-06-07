@@ -63,7 +63,7 @@ class _CompileAnimationState extends State<CompileAnimation> with TickerProvider
                       width: 100,
                       height: 100,
                       child: Image.asset(
-                        widget.btc ? Assets.images.animatedCubeBtc.path : Assets.images.animatedCube.path,
+                        widget.btc ? Assets.images.vbtc.path : Assets.images.animatedCube.path,
                         scale: 1,
                       ),
                     ),

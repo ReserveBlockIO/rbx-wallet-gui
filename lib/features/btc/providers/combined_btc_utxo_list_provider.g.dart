@@ -7,7 +7,7 @@ part of 'combined_btc_utxo_list_provider.dart';
 // **************************************************************************
 
 String _$combinedBtcUtxoListHash() =>
-    r'd178e3f0f7aae149906f15fd56c9651f618b280d';
+    r'7a4980903fa25e68edd4cb07a132c9583ed457f6';
 
 /// See also [combinedBtcUtxoList].
 @ProviderFor(combinedBtcUtxoList)

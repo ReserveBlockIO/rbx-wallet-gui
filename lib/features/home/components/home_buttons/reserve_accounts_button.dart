@@ -24,7 +24,8 @@ class ReserveAccountsButton extends BaseComponent {
       onPressed: !cliStarted
           ? null
           : () {
-              AutoRouter.of(context).push(ReserveAccountOverviewScreenRoute());
+              // AutoRouter.of(context).push(ReserveAccountOverviewScreenRoute());
+              AutoTabsRouter.of(context).setActiveIndex(14);
             },
     );
   }

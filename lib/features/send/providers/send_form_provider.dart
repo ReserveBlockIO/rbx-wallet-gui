@@ -136,6 +136,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         }
 
         final feeRateInt = getFeeRate();
+
         final btcFee = satashisToBtc(feeRateInt);
         if (account.balance < (parsed + btcFee)) {
           return "Not enough balance in BTC account";
@@ -411,7 +412,16 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
           return;
         }
 
-        double btcFee = satashisToBtc(feeRateInt);
+        final calculatedFeeRate = await BtcService().getFee(account.address, address, amountDouble, feeRateInt);
+        late double btcFee;
+
+        if (calculatedFeeRate == null) {
+          Toast.error("Can't calculate fee.");
+
+          return;
+        }
+        btcFee = calculatedFeeRate;
+
         if (account.balance < (amountDouble + btcFee)) {
           Toast.error("Not enough balance in BTC account");
           return;
@@ -419,7 +429,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
         final confirmed = await ConfirmDialog.show(
           title: "Please Confirm",
-          body: "Sending:\n$amount BTC\n\nTo:\n$address\n\nFrom:\n${account.address}",
+          body: "Sending:\n$amount BTC\n\nTo:\n$address\n\nFrom:\n${account.address}\n\nFee:\n${btcFee.toStringAsFixed(8)} BTC",
           confirmText: "Send",
           cancelText: "Cancel",
         );
@@ -436,7 +446,6 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         );
 
         if (result.success) {
-          clear();
           final txHash = result.message;
           final message = "BTC TX broadcasted with hash of $txHash";
 
@@ -449,6 +458,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
               );
 
           Toast.message("$amount BTC has been sent to $address.");
+          clear();
 
           InfoDialog.show(
               title: "Transaction Broadcasted",

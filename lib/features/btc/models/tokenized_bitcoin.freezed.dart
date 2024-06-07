@@ -30,6 +30,8 @@ mixin _$TokenizedBitcoin {
   String? get btcAddress => throw _privateConstructorUsedError;
   @JsonKey(name: "Balance")
   double get balance => throw _privateConstructorUsedError;
+  @JsonKey(name: "MyBalance")
+  double get myBalance => throw _privateConstructorUsedError;
   @JsonKey(name: "TokenName")
   String get tokenName => throw _privateConstructorUsedError;
   @JsonKey(name: "TokenDescription")
@@ -57,6 +59,7 @@ abstract class $TokenizedBitcoinCopyWith<$Res> {
       @JsonKey(name: "RBXAddress") String rbxAddress,
       @JsonKey(name: "DepositAddress") String? btcAddress,
       @JsonKey(name: "Balance") double balance,
+      @JsonKey(name: "MyBalance") double myBalance,
       @JsonKey(name: "TokenName") String tokenName,
       @JsonKey(name: "TokenDescription") String tokenDescription,
       @JsonKey(name: "SmartContractMainId") double smartContractMainId,
@@ -81,6 +84,7 @@ class _$TokenizedBitcoinCopyWithImpl<$Res, $Val extends TokenizedBitcoin>
     Object? rbxAddress = null,
     Object? btcAddress = freezed,
     Object? balance = null,
+    Object? myBalance = null,
     Object? tokenName = null,
     Object? tokenDescription = null,
     Object? smartContractMainId = null,
@@ -106,6 +110,10 @@ class _$TokenizedBitcoinCopyWithImpl<$Res, $Val extends TokenizedBitcoin>
       balance: null == balance
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
+              as double,
+      myBalance: null == myBalance
+          ? _value.myBalance
+          : myBalance // ignore: cast_nullable_to_non_nullable
               as double,
       tokenName: null == tokenName
           ? _value.tokenName
@@ -141,6 +149,7 @@ abstract class _$$_TokenizedBitcoinCopyWith<$Res>
       @JsonKey(name: "RBXAddress") String rbxAddress,
       @JsonKey(name: "DepositAddress") String? btcAddress,
       @JsonKey(name: "Balance") double balance,
+      @JsonKey(name: "MyBalance") double myBalance,
       @JsonKey(name: "TokenName") String tokenName,
       @JsonKey(name: "TokenDescription") String tokenDescription,
       @JsonKey(name: "SmartContractMainId") double smartContractMainId,
@@ -163,6 +172,7 @@ class __$$_TokenizedBitcoinCopyWithImpl<$Res>
     Object? rbxAddress = null,
     Object? btcAddress = freezed,
     Object? balance = null,
+    Object? myBalance = null,
     Object? tokenName = null,
     Object? tokenDescription = null,
     Object? smartContractMainId = null,
@@ -188,6 +198,10 @@ class __$$_TokenizedBitcoinCopyWithImpl<$Res>
       balance: null == balance
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
+              as double,
+      myBalance: null == myBalance
+          ? _value.myBalance
+          : myBalance // ignore: cast_nullable_to_non_nullable
               as double,
       tokenName: null == tokenName
           ? _value.tokenName
@@ -218,6 +232,7 @@ class _$_TokenizedBitcoin extends _TokenizedBitcoin {
       @JsonKey(name: "RBXAddress") required this.rbxAddress,
       @JsonKey(name: "DepositAddress") this.btcAddress,
       @JsonKey(name: "Balance") this.balance = 0.0,
+      @JsonKey(name: "MyBalance") this.myBalance = 0.0,
       @JsonKey(name: "TokenName") required this.tokenName,
       @JsonKey(name: "TokenDescription") required this.tokenDescription,
       @JsonKey(name: "SmartContractMainId") required this.smartContractMainId,
@@ -243,6 +258,9 @@ class _$_TokenizedBitcoin extends _TokenizedBitcoin {
   @JsonKey(name: "Balance")
   final double balance;
   @override
+  @JsonKey(name: "MyBalance")
+  final double myBalance;
+  @override
   @JsonKey(name: "TokenName")
   final String tokenName;
   @override
@@ -257,7 +275,7 @@ class _$_TokenizedBitcoin extends _TokenizedBitcoin {
 
   @override
   String toString() {
-    return 'TokenizedBitcoin(id: $id, smartContractUid: $smartContractUid, rbxAddress: $rbxAddress, btcAddress: $btcAddress, balance: $balance, tokenName: $tokenName, tokenDescription: $tokenDescription, smartContractMainId: $smartContractMainId, isPublished: $isPublished)';
+    return 'TokenizedBitcoin(id: $id, smartContractUid: $smartContractUid, rbxAddress: $rbxAddress, btcAddress: $btcAddress, balance: $balance, myBalance: $myBalance, tokenName: $tokenName, tokenDescription: $tokenDescription, smartContractMainId: $smartContractMainId, isPublished: $isPublished)';
   }
 
   @override
@@ -273,6 +291,8 @@ class _$_TokenizedBitcoin extends _TokenizedBitcoin {
             (identical(other.btcAddress, btcAddress) ||
                 other.btcAddress == btcAddress) &&
             (identical(other.balance, balance) || other.balance == balance) &&
+            (identical(other.myBalance, myBalance) ||
+                other.myBalance == myBalance) &&
             (identical(other.tokenName, tokenName) ||
                 other.tokenName == tokenName) &&
             (identical(other.tokenDescription, tokenDescription) ||
@@ -292,6 +312,7 @@ class _$_TokenizedBitcoin extends _TokenizedBitcoin {
       rbxAddress,
       btcAddress,
       balance,
+      myBalance,
       tokenName,
       tokenDescription,
       smartContractMainId,
@@ -323,6 +344,8 @@ abstract class _TokenizedBitcoin extends TokenizedBitcoin {
           final String? btcAddress,
       @JsonKey(name: "Balance")
           final double balance,
+      @JsonKey(name: "MyBalance")
+          final double myBalance,
       @JsonKey(name: "TokenName")
           required final String tokenName,
       @JsonKey(name: "TokenDescription")
@@ -351,6 +374,9 @@ abstract class _TokenizedBitcoin extends TokenizedBitcoin {
   @override
   @JsonKey(name: "Balance")
   double get balance;
+  @override
+  @JsonKey(name: "MyBalance")
+  double get myBalance;
   @override
   @JsonKey(name: "TokenName")
   String get tokenName;

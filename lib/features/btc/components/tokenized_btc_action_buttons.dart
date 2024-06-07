@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/app.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
@@ -25,9 +26,11 @@ import 'package:rbx_wallet/features/nft/utils.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:collection/collection.dart';
 
 class TokenizedBtcActionButtons extends BaseComponent {
   final TokenizedBitcoin token;
@@ -91,6 +94,8 @@ class TokenizedBtcActionButtons extends BaseComponent {
           );
         }
 
+        final isOwner = ref.watch(walletListProvider).firstWhereOrNull((w) => w.address == token.rbxAddress) != null;
+
         return Wrap(
           alignment: WrapAlignment.center,
           runAlignment: WrapAlignment.center,
@@ -98,7 +103,7 @@ class TokenizedBtcActionButtons extends BaseComponent {
           runSpacing: 8,
           children: [
             AppButton(
-              label: "Copy BTC Address",
+              label: "Copy Deposit Address",
               icon: Icons.copy,
               variant: AppColorVariant.Primary,
               onPressed: () async {
@@ -106,264 +111,328 @@ class TokenizedBtcActionButtons extends BaseComponent {
                 Toast.message("BTC Address copied to clipboard");
               },
             ),
-            AppButton(
-              label: "Fund",
-              icon: Icons.outbox,
-              onPressed: () {
-                final btcAccounts = ref.watch(btcAccountListProvider).where((a) => a.balance > 0).toList();
+            if (isOwner && token.btcAddress != null)
+              AppButton(
+                label: "Fund",
+                icon: Icons.outbox,
+                onPressed: () {
+                  final btcAccounts = ref.watch(btcAccountListProvider).where((a) => a.balance > 0).toList();
 
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) {
-                    return ModalContainer(
-                      withDecor: false,
-                      withClose: true,
-                      children: [
-                        Text(
-                          "Choose BTC Wallet to Send From",
-                          style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
-                        ),
-                        Divider(),
-                        ListView(
-                          shrinkWrap: true,
-                          children: [
-                            ...btcAccounts.map((account) {
-                              return Card(
-                                margin: EdgeInsets.symmetric(vertical: 2),
-                                color: Colors.white10,
-                                child: ListTile(
-                                  title: Text(account.address),
-                                  subtitle: Text("${account.balance} BTC"),
-                                  trailing: Icon(Icons.send),
-                                  onTap: () async {
-                                    Navigator.of(context).pop();
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return ModalContainer(
+                        withDecor: false,
+                        withClose: true,
+                        children: [
+                          Text(
+                            "Choose BTC Wallet to Send From",
+                            style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
+                          ),
+                          Divider(),
+                          ListView(
+                            shrinkWrap: true,
+                            children: [
+                              ...btcAccounts.map((account) {
+                                return Card(
+                                  margin: EdgeInsets.symmetric(vertical: 2),
+                                  color: Colors.white10,
+                                  child: ListTile(
+                                    title: Text(account.address),
+                                    subtitle: Text("${account.balance} BTC"),
+                                    trailing: Icon(Icons.send),
+                                    onTap: () async {
+                                      Navigator.of(context).pop();
 
-                                    final amount = await PromptModal.show(
-                                      title: "BTC Amount",
-                                      validator: (v) => formValidatorNumber(v, "Amount"),
-                                      labelText: "Amount",
-                                      inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
-                                    );
+                                      final amount = await PromptModal.show(
+                                        title: "BTC Amount",
+                                        validator: (v) => formValidatorNumber(v, "Amount"),
+                                        labelText: "Amount",
+                                        inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
+                                      );
 
-                                    if (amount != null) {
-                                      final parsedAmount = double.tryParse(amount);
+                                      if (amount != null) {
+                                        final parsedAmount = double.tryParse(amount);
 
-                                      if (parsedAmount == null) {
-                                        Toast.error("Invalid Amount");
-                                        return;
-                                      }
+                                        if (parsedAmount == null) {
+                                          Toast.error("Invalid Amount");
+                                          return;
+                                        }
 
-                                      if (parsedAmount <= 0) {
-                                        Toast.error("Amount must be greater than 0.0 BTC");
-                                        return;
-                                      }
+                                        if (parsedAmount <= 0) {
+                                          Toast.error("Amount must be greater than 0.0 BTC");
+                                          return;
+                                        }
 
-                                      if (parsedAmount > account.balance) {
-                                        Toast.error("Insufficient Balance. This account only has ${account.balance} BTC.");
-                                        return;
-                                      }
-                                      ref.read(globalLoadingProvider.notifier).start();
-                                      final recommendedFees = await BtcFeeRateService().recommended();
-                                      ref.read(globalLoadingProvider.notifier).complete();
+                                        if (parsedAmount > account.balance) {
+                                          Toast.error("Insufficient Balance. This account only has ${account.balance} BTC.");
+                                          return;
+                                        }
+                                        ref.read(globalLoadingProvider.notifier).start();
+                                        final recommendedFees = await BtcFeeRateService().recommended();
+                                        ref.read(globalLoadingProvider.notifier).complete();
 
-                                      final int? feeRate = await showDialog(
-                                        context: rootNavigatorKey.currentContext!,
-                                        builder: (context) {
-                                          BtcFeeRatePreset preset = BtcFeeRatePreset.economy;
-                                          return StatefulBuilder(
-                                            builder: (context, setState) {
-                                              int fee = 0;
+                                        final int? feeRate = await showDialog(
+                                          context: rootNavigatorKey.currentContext!,
+                                          builder: (context) {
+                                            BtcFeeRatePreset preset = BtcFeeRatePreset.economy;
+                                            int fee = 0;
+                                            bool isCustom = false;
+                                            int customFee = 0;
+                                            String customFeeLabel = "";
 
-                                              return AlertDialog(
-                                                title: Text("Fee Rate"),
-                                                content: Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  children: BtcFeeRatePreset.values.where((element) => element != BtcFeeRatePreset.custom).map((p) {
-                                                    switch (p) {
-                                                      case BtcFeeRatePreset.custom:
-                                                        fee = 0;
-                                                        break;
-                                                      case BtcFeeRatePreset.minimum:
-                                                        fee = recommendedFees.minimumFee;
-                                                        break;
-                                                      case BtcFeeRatePreset.economy:
-                                                        fee = recommendedFees.economyFee;
-                                                        break;
-                                                      case BtcFeeRatePreset.hour:
-                                                        fee = recommendedFees.hourFee;
-                                                        break;
-                                                      case BtcFeeRatePreset.halfHour:
-                                                        fee = recommendedFees.halfHourFee;
-                                                        break;
-                                                      case BtcFeeRatePreset.fastest:
-                                                        fee = recommendedFees.fastestFee;
-                                                        break;
-                                                    }
+                                            return StatefulBuilder(
+                                              builder: (context, setState) {
+                                                return AlertDialog(
+                                                  title: Text("Fee Rate"),
+                                                  content:
+                                                      Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                                    ...BtcFeeRatePreset.values.map((p) {
+                                                      switch (p) {
+                                                        case BtcFeeRatePreset.custom:
+                                                          break;
+                                                        case BtcFeeRatePreset.minimum:
+                                                          fee = recommendedFees.minimumFee;
+                                                          break;
+                                                        case BtcFeeRatePreset.economy:
+                                                          fee = recommendedFees.economyFee;
+                                                          break;
+                                                        case BtcFeeRatePreset.hour:
+                                                          fee = recommendedFees.hourFee;
+                                                          break;
+                                                        case BtcFeeRatePreset.halfHour:
+                                                          fee = recommendedFees.halfHourFee;
+                                                          break;
+                                                        case BtcFeeRatePreset.fastest:
+                                                          fee = recommendedFees.fastestFee;
+                                                          break;
+                                                      }
 
-                                                    return ConstrainedBox(
-                                                      constraints: BoxConstraints(minWidth: 300),
-                                                      child: CheckboxListTile(
-                                                        value: p == preset,
-                                                        controlAffinity: ListTileControlAffinity.leading,
+                                                      return ConstrainedBox(
+                                                        key: Key("${p}_$fee"),
+                                                        constraints: BoxConstraints(minWidth: 300),
+                                                        child: CheckboxListTile(
+                                                          value: p == preset,
+                                                          controlAffinity: ListTileControlAffinity.leading,
+                                                          onChanged: (v) {
+                                                            if (v == true) {
+                                                              if (p == BtcFeeRatePreset.custom) {
+                                                                setState(() {
+                                                                  preset = p;
+                                                                  isCustom = true;
+                                                                });
+                                                              } else {
+                                                                print('ho');
+                                                                setState(() {
+                                                                  preset = p;
+                                                                  isCustom = false;
+                                                                });
+                                                              }
+                                                            }
+                                                          },
+                                                          title: Text(p.label),
+                                                          subtitle:
+                                                              p == BtcFeeRatePreset.custom ? null : Text("$fee SATS | ${satashiToBtcLabel(fee)} BTC"),
+                                                        ),
+                                                      );
+                                                    }).toList(),
+                                                    if (isCustom) ...[
+                                                      TextFormField(
+                                                        autofocus: true,
+                                                        // controller: formProvider.btcCustomFeeRateController,
                                                         onChanged: (v) {
-                                                          if (v == true) {
+                                                          final valueInt = int.tryParse(v);
+                                                          print(v);
+                                                          if (valueInt != null) {
                                                             setState(() {
-                                                              preset = p;
+                                                              fee = valueInt;
+                                                              customFeeLabel = "$valueInt SATS /byte | ${(satashiToBtcLabel(valueInt))} BTC /byte";
+                                                              customFee = fee;
                                                             });
                                                           }
                                                         },
-                                                        title: Text(p.label),
-                                                        subtitle: Text("$fee SATS | ${satashiToBtcLabel(fee)} BTC"),
+                                                        validator: (value) {
+                                                          if (value == null) {
+                                                            return "Fee Rate Required";
+                                                          }
+
+                                                          if ((int.tryParse(value) ?? 0) < 1) {
+                                                            return "Invalid Fee Rate. Must be atleast 1 satoshi.";
+                                                          }
+
+                                                          return null;
+                                                        },
+                                                        inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9]"))],
+                                                        decoration: InputDecoration(hintText: "Fee rate in satoshis"),
+                                                        keyboardType: const TextInputType.numberWithOptions(decimal: false),
                                                       ),
-                                                    );
-                                                  }).toList(),
-                                                ),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context).pop(null);
-                                                    },
-                                                    child: Text(
-                                                      "Cancel",
-                                                      style: TextStyle(color: Colors.white70),
+                                                    ],
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(top: 4.0),
+                                                      child: Text(
+                                                        customFeeLabel,
+                                                        style: Theme.of(context).textTheme.caption,
+                                                      ),
+                                                    )
+                                                  ]),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context).pop(null);
+                                                      },
+                                                      child: Text(
+                                                        "Cancel",
+                                                        style: TextStyle(color: Colors.white70),
+                                                      ),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        if (isCustom) {
+                                                          Navigator.of(context).pop(customFee);
+                                                        } else {
+                                                          Navigator.of(context).pop(fee);
+                                                        }
+                                                      },
+                                                      child: Text(
+                                                        "Continue",
+                                                        style: TextStyle(color: Colors.white),
+                                                      ),
+                                                    )
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                        );
+
+                                        if (feeRate == null) {
+                                          return;
+                                        }
+
+                                        // final amountRequired = parsedAmount + satashisToBtc(feeRate);
+
+                                        // if (amountRequired > account.balance) {
+                                        //   Toast.error(
+                                        //       "Insufficient Balance. This account only has ${account.balance} BTC. With the fee, the amount required is ${amountRequired.toStringAsFixed(9)} BTC.");
+                                        //   return;
+                                        // }
+
+                                        final calculatedFeeRate =
+                                            await BtcService().getFee(account.address, token.btcAddress!, parsedAmount, feeRate);
+
+                                        if (calculatedFeeRate == null) {
+                                          return;
+                                        }
+
+                                        final confirmed = await ConfirmDialog.show(
+                                          title: "Confirm Transaction",
+                                          body:
+                                              "Sending ${parsedAmount.toStringAsFixed(9)} BTC from ${account.address} to ${token.btcAddress}.\n\nFee:\n${calculatedFeeRate.toStringAsFixed(8)} BTC",
+                                          confirmText: "Send",
+                                          cancelText: "Cancel",
+                                        );
+
+                                        if (confirmed != true) {
+                                          return;
+                                        }
+                                        ref.read(globalLoadingProvider.notifier).start();
+
+                                        final result = await BtcService().sendTransaction(
+                                          amount: parsedAmount,
+                                          feeRate: feeRate,
+                                          fromAddress: account.address,
+                                          toAddress: token.btcAddress!,
+                                        );
+                                        ref.read(globalLoadingProvider.notifier).complete();
+
+                                        if (!result.success) {
+                                          Toast.error(result.message);
+                                          return;
+                                        }
+                                        final txHash = result.message;
+                                        final message = "BTC TX broadcasted with hash of $txHash";
+                                        ref.read(logProvider.notifier).append(
+                                              LogEntry(
+                                                message: message,
+                                                textToCopy: txHash,
+                                                variant: AppColorVariant.Btc,
+                                              ),
+                                            );
+                                        Toast.message("$amount BTC has been sent to ${token.btcAddress}.");
+
+                                        InfoDialog.show(
+                                            title: "Transaction Broadcasted",
+                                            buttonColorOverride: Color(0xfff7931a),
+                                            content: ConstrainedBox(
+                                              constraints: BoxConstraints(maxWidth: 600),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  TextFormField(
+                                                    initialValue: txHash,
+                                                    readOnly: true,
+                                                    decoration: InputDecoration(
+                                                      label: Text(
+                                                        "Transaction Hash",
+                                                        style: TextStyle(
+                                                          color: Color(0xfff7931a),
+                                                        ),
+                                                      ),
+                                                      suffix: IconButton(
+                                                        icon: Icon(Icons.copy),
+                                                        onPressed: () async {
+                                                          await Clipboard.setData(ClipboardData(text: txHash));
+                                                          Toast.message("Transaction Hash copied to clipboard");
+                                                        },
+                                                      ),
                                                     ),
                                                   ),
-                                                  TextButton(
+                                                  SizedBox(
+                                                    height: 12,
+                                                  ),
+                                                  AppButton(
+                                                    label: "Open in BTC Explorer",
+                                                    variant: AppColorVariant.Btc,
+                                                    type: AppButtonType.Text,
                                                     onPressed: () {
-                                                      Navigator.of(context).pop(fee);
+                                                      if (Env.isTestNet) {
+                                                        launchUrlString("https://live.blockcypher.com/btc-testnet/tx/$txHash/");
+                                                      } else {
+                                                        launchUrlString("https://live.blockcypher.com/btc/tx/$txHash/");
+                                                      }
                                                     },
-                                                    child: Text(
-                                                      "Continue",
-                                                      style: TextStyle(color: Colors.white),
-                                                    ),
                                                   )
                                                 ],
-                                              );
-                                            },
-                                          );
-                                        },
-                                      );
-
-                                      if (feeRate == null) {
-                                        return;
+                                              ),
+                                            ));
                                       }
-
-                                      final amountRequired = parsedAmount + satashisToBtc(feeRate);
-
-                                      if (amountRequired > account.balance) {
-                                        Toast.error(
-                                            "Insufficient Balance. This account only has ${account.balance} BTC. With the fee, the amount required is ${amountRequired.toStringAsFixed(9)} BTC.");
-                                        return;
-                                      }
-
-                                      final confirmed = await ConfirmDialog.show(
-                                        title: "Confirm Transaction",
-                                        body: "Sending ${parsedAmount.toStringAsFixed(9)} BTC to ${account.address}",
-                                        confirmText: "Send",
-                                        cancelText: "Cancel",
-                                      );
-
-                                      if (confirmed != true) {
-                                        return;
-                                      }
-                                      ref.read(globalLoadingProvider.notifier).start();
-
-                                      final result = await BtcService().sendTransaction(
-                                        amount: parsedAmount,
-                                        feeRate: feeRate,
-                                        fromAddress: account.address,
-                                        toAddress: token.btcAddress ?? "null",
-                                      );
-                                      ref.read(globalLoadingProvider.notifier).complete();
-
-                                      if (!result.success) {
-                                        Toast.error(result.message);
-                                        return;
-                                      }
-                                      final txHash = result.message;
-                                      final message = "BTC TX broadcasted with hash of $txHash";
-                                      ref.read(logProvider.notifier).append(
-                                            LogEntry(
-                                              message: message,
-                                              textToCopy: txHash,
-                                              variant: AppColorVariant.Btc,
-                                            ),
-                                          );
-                                      Toast.message("$amount BTC has been sent to ${token.btcAddress}.");
-
-                                      InfoDialog.show(
-                                          title: "Transaction Broadcasted",
-                                          buttonColorOverride: Color(0xfff7931a),
-                                          content: ConstrainedBox(
-                                            constraints: BoxConstraints(maxWidth: 600),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                TextFormField(
-                                                  initialValue: txHash,
-                                                  readOnly: true,
-                                                  decoration: InputDecoration(
-                                                    label: Text(
-                                                      "Transaction Hash",
-                                                      style: TextStyle(
-                                                        color: Color(0xfff7931a),
-                                                      ),
-                                                    ),
-                                                    suffix: IconButton(
-                                                      icon: Icon(Icons.copy),
-                                                      onPressed: () async {
-                                                        await Clipboard.setData(ClipboardData(text: txHash));
-                                                        Toast.message("Transaction Hash copied to clipboard");
-                                                      },
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 12,
-                                                ),
-                                                AppButton(
-                                                  label: "Open in BTC Explorer",
-                                                  variant: AppColorVariant.Btc,
-                                                  type: AppButtonType.Text,
-                                                  onPressed: () {
-                                                    if (Env.isTestNet) {
-                                                      launchUrlString("https://live.blockcypher.com/btc-testnet/tx/$txHash/");
-                                                    } else {
-                                                      launchUrlString("https://live.blockcypher.com/btc/tx/$txHash/");
-                                                    }
-                                                  },
-                                                )
-                                              ],
-                                            ),
-                                          ));
-                                    }
+                                    },
+                                  ),
+                                );
+                              }).toList(),
+                              Card(
+                                margin: EdgeInsets.symmetric(vertical: 2),
+                                color: Colors.white10,
+                                child: ListTile(
+                                  title: Text("Manual Send"),
+                                  subtitle: Text("Send coin manually to this token's BTC deposit address"),
+                                  trailing: Icon(Icons.send),
+                                  onTap: () async {
+                                    await Clipboard.setData(ClipboardData(text: token.btcAddress));
+                                    Toast.message("Send funds to ${token.btcAddress} (address copied to clipboard)");
                                   },
                                 ),
-                              );
-                            }).toList(),
-                            Card(
-                              margin: EdgeInsets.symmetric(vertical: 2),
-                              color: Colors.white10,
-                              child: ListTile(
-                                title: Text("Manual Send"),
-                                subtitle: Text("Send coin manually to this token's BTC deposit address"),
-                                trailing: Icon(Icons.send),
-                                onTap: () async {
-                                  await Clipboard.setData(ClipboardData(text: token.btcAddress));
-                                  Toast.message("Send funds to ${token.btcAddress} (address copied to clipboard)");
-                                },
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              variant: AppColorVariant.Primary,
-            ),
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                variant: AppColorVariant.Primary,
+              ),
             AppButton(
               label: "Transfer",
               variant: AppColorVariant.Primary,
@@ -380,24 +449,25 @@ class TokenizedBtcActionButtons extends BaseComponent {
                             "Transfer",
                             style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
                           ),
-                          Card(
-                            color: Colors.white10,
-                            child: ListTile(
-                              title: Text("Transfer Token"),
-                              leading: Icon(Icons.toll),
-                              subtitle: Text("Transfer the ownership of this token to another VFX wallet."),
-                              trailing: Icon(Icons.chevron_right),
-                              onTap: () {
-                                Navigator.of(context).pop(1);
-                              },
+                          if (isOwner)
+                            Card(
+                              color: Colors.white10,
+                              child: ListTile(
+                                title: Text("Transfer Token Ownership"),
+                                subtitle: Text("Transfer the ownership of this token to another VFX wallet."),
+                                trailing: Icon(Icons.chevron_right),
+                                onTap: () {
+                                  Navigator.of(context).pop(1);
+                                },
+                              ),
                             ),
-                          ),
                           Card(
                             color: Colors.white10,
                             child: ListTile(
-                              title: Text("Transfer Token Shares"),
-                              leading: Icon(FontAwesomeIcons.btc),
-                              subtitle: Text("Transfer a specific portion of the BTC within the token to another address."),
+                              title: Text("Transfer vBTC"),
+                              // leading: Icon(FontAwesomeIcons.btc),
+
+                              subtitle: Text("Transfer a specific portion of the vBTC within the token to another VFX address."),
                               trailing: Icon(Icons.chevron_right),
                               onTap: () {
                                 Navigator.of(context).pop(2);
@@ -408,26 +478,25 @@ class TokenizedBtcActionButtons extends BaseComponent {
                             color: Colors.white10,
                             child: ListTile(
                               title: Text("Withdraw BTC"),
-                              leading: Icon(FontAwesomeIcons.btc),
-                              subtitle: Text("Transfer BTC from this token to another BTC address."),
+                              subtitle: Text("Convert vBTC to BTC and transfer it from this token to a BTC address."),
                               trailing: Icon(Icons.chevron_right),
                               onTap: () {
                                 Navigator.of(context).pop(3);
                               },
                             ),
                           ),
-                          Card(
-                            color: Colors.white10,
-                            child: ListTile(
-                              title: Text("Transfer To Reserve/Protected Account"),
-                              leading: Icon(Icons.security),
-                              subtitle: Text("Transfer this token to your reserve/protected account."),
-                              trailing: Icon(Icons.chevron_right),
-                              onTap: () {
-                                Navigator.of(context).pop(4);
-                              },
+                          if (isOwner)
+                            Card(
+                              color: Colors.white10,
+                              child: ListTile(
+                                title: Text("Transfer Ownership To Reserve/Protected Account"),
+                                subtitle: Text("Transfer the ownership of this token to your reserve/protected account."),
+                                trailing: Icon(Icons.chevron_right),
+                                onTap: () {
+                                  Navigator.of(context).pop(4);
+                                },
+                              ),
                             ),
-                          ),
                         ],
                       );
                     });
@@ -476,29 +545,32 @@ class TokenizedBtcActionButtons extends BaseComponent {
                       return;
                     }
 
-                    late final String? txHash;
+                    late final bool success;
 
                     if (option == 2) {
-                      txHash = await BtcService().transferTokenShares(
+                      success = await BtcService().transferTokenShares(
                         token.smartContractUid,
                         result.toAddress,
+                        token.rbxAddress,
                         result.amount,
                       );
                     } else {
-                      txHash = await BtcService().withdrawCoin(
+                      success = await BtcService().withdrawCoin(
                         token.smartContractUid,
                         result.toAddress,
-                        result.fromAddress ?? token.rbxAddress,
+                        token.rbxAddress,
                         result.amount,
                       );
                     }
 
-                    final message = "BTC ${forWithdrawl ? "Withdrawl" : "Transfer"} TX Broadcasted successfully with hash for $txHash";
-                    Toast.message(message);
+                    if (success) {
+                      final message = "BTC ${forWithdrawl ? "Withdrawl" : "Transfer"} TX Broadcasted successfully.";
+                      Toast.message(message);
 
-                    ref.read(logProvider.notifier).append(
-                          LogEntry(message: message, textToCopy: txHash, variant: AppColorVariant.Btc),
-                        );
+                      ref.read(logProvider.notifier).append(
+                            LogEntry(message: message, variant: AppColorVariant.Btc),
+                          );
+                    }
                   }
                 }
 
@@ -676,12 +748,10 @@ class TokenizedBtcActionButtons extends BaseComponent {
 
 class _TransferShareModalResponse {
   final String toAddress;
-  final String? fromAddress;
   final double amount;
 
   _TransferShareModalResponse({
     required this.toAddress,
-    this.fromAddress,
     required this.amount,
   });
 }
@@ -698,10 +768,10 @@ class _TransferSharesModal extends BaseComponent {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final TextEditingController toAddressController = TextEditingController();
-    final TextEditingController fromAddressController = TextEditingController(text: forWithdrawl ? token.rbxAddress : '');
+    // final TextEditingController fromAddressController = TextEditingController(text: forWithdrawl ? token.rbxAddress : '');
     final TextEditingController amountControlller = TextEditingController();
 
-    final color = forWithdrawl ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.btcOrange;
+    final color = Theme.of(context).colorScheme.btcOrange;
 
     return ModalContainer(
       withClose: true,
@@ -727,17 +797,17 @@ class _TransferSharesModal extends BaseComponent {
                   ),
                 ),
               ),
-              if (forWithdrawl)
-                TextFormField(
-                  controller: fromAddressController,
-                  readOnly: true,
-                  decoration: InputDecoration(
-                    label: Text(
-                      "From VFX Address",
-                      style: TextStyle(color: color),
-                    ),
-                  ),
-                ),
+              // if (forWithdrawl)
+              //   TextFormField(
+              //     controller: fromAddressController,
+              //     readOnly: true,
+              //     decoration: InputDecoration(
+              //       label: Text(
+              //         "From VFX Address",
+              //         style: TextStyle(color: color),
+              //       ),
+              //     ),
+              //   ),
               TextFormField(
                 controller: amountControlller,
                 decoration: InputDecoration(
@@ -770,11 +840,11 @@ class _TransferSharesModal extends BaseComponent {
                         return;
                       }
 
-                      final fromAddress = forWithdrawl ? fromAddressController.text.trim() : null;
-                      if (forWithdrawl && fromAddress!.isEmpty) {
-                        print("Invalid From Address");
-                        return;
-                      }
+                      // final fromAddress = forWithdrawl ? fromAddressController.text.trim() : null;
+                      // if (forWithdrawl && fromAddress!.isEmpty) {
+                      //   print("Invalid From Address");
+                      //   return;
+                      // }
 
                       final amount = double.tryParse(amountControlller.text);
 
@@ -784,11 +854,11 @@ class _TransferSharesModal extends BaseComponent {
                       }
                       print("-----");
 
-                      if (amount > token.balance) {
+                      if (amount > token.myBalance) {
                         Toast.error("Not enough balance");
                         return;
                       }
-                      final result = _TransferShareModalResponse(toAddress: toAddress, fromAddress: fromAddress, amount: amount);
+                      final result = _TransferShareModalResponse(toAddress: toAddress, amount: amount);
                       Navigator.of(context).pop(result);
                     },
                   )

@@ -129,6 +129,33 @@ class BtcService extends BaseService {
     }
   }
 
+  Future<double?> getFee(String fromAddress, String toAddress, double amount, int feeRate) async {
+    // if (Env.isTestNet) {
+    //   print("Oversupplying the fee since testnet (getFee)");
+    //   feeRate = 55;
+    // }
+    try {
+      final result = await getJson("/CalculateFee/$fromAddress/$toAddress/$amount/$feeRate", cleanPath: false, inspect: true);
+
+      if (result["Success"] == true && result['Fee'] != null) {
+        final fee = double.tryParse(result['Fee']);
+
+        if (fee != null) {
+          return fee;
+        }
+      }
+
+      Toast.error(result["Message"]);
+
+      return null;
+    } catch (e) {
+      print("GetLastAccounySync");
+
+      print(e);
+      return null;
+    }
+  }
+
   Future<BtcSendTxResult> sendTransaction({
     required String fromAddress,
     required String toAddress,
@@ -136,10 +163,10 @@ class BtcService extends BaseService {
     required int feeRate,
   }) async {
     try {
-      if (Env.isTestNet) {
-        print("Oversupplying the fee since testnet");
-        feeRate = 140 * 99; //140bytes * 99 SATS
-      }
+      // if (Env.isTestNet) {
+      //   print("Oversupplying the fee since testnet");
+      //   feeRate = 55;
+      // }
 
       final result = await getJson(
         "/SendTransaction/$fromAddress/$toAddress/$amount/$feeRate/true",
@@ -294,6 +321,7 @@ class BtcService extends BaseService {
         params: params,
         cleanPath: false,
         inspect: true,
+        timeout: 0,
       );
 
       final Map<String, dynamic> data = result['data'];
@@ -364,31 +392,55 @@ class BtcService extends BaseService {
     }
   }
 
-  Future<String?> transferTokenShares(String scUid, String toAddress, double amount) async {
+  Future<bool> transferTokenOwnership(String scUid, String toAddress, String? backupUrl) async {
+    try {
+      final url = backupUrl != null ? "/TransferOwnership/$scUid/$toAddress/$backupUrl" : "/TransferOwnership/$scUid/$toAddress";
+
+      final result = await getJson(url, cleanPath: false);
+
+      if (result.containsKey("Success") && result['Success'] == true) {
+        return true;
+      }
+
+      Toast.error(result['Message']);
+      return false;
+    } catch (e) {
+      Toast.error(e.toString());
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> transferTokenShares(String scUid, String toAddress, String fromAddress, double amount) async {
     final params = {
       'SCUID': scUid,
       'ToAddress': toAddress,
       'Amount': amount,
+      'FromAddress': fromAddress,
     };
     try {
-      final result = await postJson("/TransferCoin", cleanPath: false, params: params);
+      final response = await postJson("/TransferCoin", cleanPath: false, params: params);
+
+      final result = response['data'];
+      print(result);
+      print("---------");
 
       if (result.containsKey("Success") && result['Success'] == true) {
-        return result['Hash'];
+        return true;
       }
 
       print(result['Message']);
       Toast.error(result['Message']);
-      return null;
+      return false;
     } catch (e) {
       print(e);
       Toast.error(e.toString());
 
-      return null;
+      return false;
     }
   }
 
-  Future<String?> withdrawCoin(String scUid, String toAddress, String fromAddress, double amount) async {
+  Future<bool> withdrawCoin(String scUid, String toAddress, String fromAddress, double amount) async {
     final params = {
       'SCUID': scUid,
       'ToAddress': toAddress,
@@ -396,7 +448,31 @@ class BtcService extends BaseService {
       'Amount': amount,
     };
     try {
-      final result = await postJson("/WithdrawalCoin", cleanPath: false, params: params);
+      final response = await postJson("/WithdrawalCoin", cleanPath: false, params: params);
+
+      final result = response['data'];
+
+      if (result.containsKey("Success") && result['Success'] == true) {
+        return true;
+      }
+
+      print(result['Message']);
+      Toast.error(result['Message']);
+      return false;
+    } catch (e) {
+      print(e);
+      Toast.error(e.toString());
+
+      return false;
+    }
+  }
+
+  Future<String?> replaceByFee(String txId, int feeRate) async {
+    try {
+      final result = await getJson(
+        "/ReplaceByFee/$txId/$feeRate",
+        cleanPath: false,
+      );
 
       if (result.containsKey("Success") && result['Success'] == true) {
         return result['Hash'];
@@ -413,10 +489,10 @@ class BtcService extends BaseService {
     }
   }
 
-  Future<String?> replaceByFee(String txId, int feeRate) async {
+  Future<String?> rebroadcastTx(String txId) async {
     try {
       final result = await getJson(
-        "/ReplaceByFee/$txId/$feeRate",
+        "/Rebroadcast/$txId",
         cleanPath: false,
       );
 

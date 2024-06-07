@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
+import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
+import 'package:rbx_wallet/features/btc/services/btc_service.dart';
+import 'package:rbx_wallet/utils/validation.dart';
 import '../../../core/base_component.dart';
 import '../../../core/env.dart';
 import '../../../core/theme/app_theme.dart';
@@ -155,6 +161,73 @@ class BtcTransactionListTileState extends BaseComponentState<BtcTransactionListT
                                   ),
                                 ],
                               ),
+                            ),
+                            AppButton(
+                              label: "Replace By Fee",
+                              onPressed: () async {
+                                final feeRateStr = await PromptModal.show(
+                                    title: "Fee Rate",
+                                    body: "Input your desired fee rate (SATS /byte) for this transaction.",
+                                    validator: (v) => formValidatorInteger(v, "Fee Rate"),
+                                    labelText: "Fee Rate (SATS /byte)",
+                                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                    lines: 1,
+                                    obscureText: false);
+
+                                if (feeRateStr == null) {
+                                  return;
+                                }
+
+                                final feeRate = int.tryParse(feeRateStr);
+
+                                if (feeRate == null) {
+                                  Toast.error("Invalid fee rate. Must be a whole number");
+                                  return;
+                                }
+
+                                final hash = await BtcService().replaceByFee(widget.transaction.hash, feeRate);
+
+                                if (hash != null) {
+                                  final message = "Replaced by fee ($feeRate SATS /byte) TX sent. Hash: $hash";
+                                  Toast.message(message);
+
+                                  ref.read(logProvider.notifier).append(
+                                        LogEntry(
+                                          message: message,
+                                          textToCopy: hash,
+                                          variant: AppColorVariant.Btc,
+                                        ),
+                                      );
+                                }
+                              },
+                              variant: AppColorVariant.Btc,
+                              type: AppButtonType.Outlined,
+                            ),
+                            AppButton(
+                              label: "Rebroadcast TX",
+                              onPressed: () async {
+                                final confirmed =
+                                    await ConfirmDialog.show(title: "Rebroadcast TX", body: "Are you sure you want to rebroadcast this transaction?");
+                                if (confirmed != true) {
+                                  return;
+                                }
+                                final hash = await BtcService().rebroadcastTx(widget.transaction.hash);
+
+                                if (hash != null) {
+                                  final message = "Rebroadcasted TX. ($hash)";
+                                  Toast.message(message);
+
+                                  ref.read(logProvider.notifier).append(
+                                        LogEntry(
+                                          message: message,
+                                          textToCopy: hash,
+                                          variant: AppColorVariant.Btc,
+                                        ),
+                                      );
+                                }
+                              },
+                              variant: AppColorVariant.Light,
+                              type: AppButtonType.Outlined,
                             ),
                           ],
                         ),

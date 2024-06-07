@@ -35,10 +35,13 @@ class TokenizedBtcDetailScreen extends BaseScreen {
         Padding(
           padding: const EdgeInsets.only(right: 8.0),
           child: Center(
-            child: Text(
-              "Balance: 0.0 BTC",
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
+            child: Tooltip(
+              message: "Token Total Balance: ${token.balance} vBTC",
+              child: Text(
+                "My Balance: ${token.myBalance} vBTC",
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),
@@ -128,8 +131,12 @@ class TokenizedBtcDetailScreen extends BaseScreen {
                     withCopy: true,
                   ),
                   _DetailRow(
-                    label: "Balance",
-                    value: "${token.balance} BTC",
+                    label: "My Balance",
+                    value: "${token.myBalance} vBTC",
+                  ),
+                  _DetailRow(
+                    label: "Token Total Balance",
+                    value: "${token.balance} vBTC",
                   ),
                 ],
               ),

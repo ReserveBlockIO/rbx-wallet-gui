@@ -151,7 +151,7 @@ class TokenizeBtcListScreen extends BaseScreen {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: AppButton(
-              label: "Use Wizard (Testnet Only)",
+              label: "Use Wizard",
               type: AppButtonType.Text,
               onPressed: () async {
                 ref.read(vBtcOnboardProvider.notifier).reset();
@@ -212,8 +212,8 @@ class TokenizeBtcListScreen extends BaseScreen {
                           color: Colors.black,
                           child: ListTile(
                             title: Text(token.tokenName),
-                            subtitle: Text(token.btcAddress != null ? token.btcAddress! : "No BTC Address"),
-                            // leading: Icon(FontAwesomeIcons.bitcoin),
+                            subtitle: Text("${token.myBalance} vBTC"),
+
                             leading: FutureBuilder<Nft?>(
                                 future: NftService().retrieve(token.smartContractUid),
                                 builder: (context, snapshot) {

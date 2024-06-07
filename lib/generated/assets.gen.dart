@@ -281,6 +281,9 @@ class $AssetsImagesGen {
   AssetGenImage get tutRoyalty3 =>
       const AssetGenImage('assets/images/tut_royalty_3.gif');
 
+  /// File path: assets/images/vbtc.gif
+  AssetGenImage get vbtc => const AssetGenImage('assets/images/vbtc.gif');
+
   /// File path: assets/images/wordmark.png
   AssetGenImage get wordmark =>
       const AssetGenImage('assets/images/wordmark.png');
@@ -325,6 +328,7 @@ class $AssetsImagesGen {
         tutRoyalty1,
         tutRoyalty2,
         tutRoyalty3,
+        vbtc,
         wordmark,
         wordmarkWeb
       ];

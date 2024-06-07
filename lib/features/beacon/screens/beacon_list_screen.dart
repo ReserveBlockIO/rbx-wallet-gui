@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
@@ -27,12 +28,13 @@ class BeaconListScreen extends BaseScreen {
     return AppBar(
       title: const Text("Beacons"),
       backgroundColor: Colors.black54,
-      leading: IconButton(
-        onPressed: () {
-          ref.read(beaconListProvider.notifier).refresh();
-        },
-        icon: const Icon(Icons.refresh),
-      ),
+      // leading: IconButton(
+      //   onPressed: () {
+      //     ref.read(beaconListProvider.notifier).refresh();
+      //   },
+      //   icon: const Icon(Icons.refresh),
+      // ),
+      leading: BackToHomeButton(),
       actions: [
         AppButton(
           label: "Add Remote Beacon",

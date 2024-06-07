@@ -209,8 +209,13 @@ Future<dynamic> initTransferNftProcess(
             if (confirmed == true) {
               final success = reservePassword != null
                   ? await _provider.transferFromReserveAccount(
-                      toAddress: address, fromAddress: fromAddress!, password: reservePassword, backupUrl: url, delayHours: delayHours!)
-                  : await _provider.transfer(address, url);
+                      toAddress: address,
+                      fromAddress: fromAddress!,
+                      password: reservePassword,
+                      backupUrl: url,
+                      delayHours: delayHours!,
+                      isToken: isToken)
+                  : await _provider.transfer(address, url, isToken);
 
               if (!success) {
                 return;
@@ -219,7 +224,7 @@ Future<dynamic> initTransferNftProcess(
               await InfoDialog.show(
                 title: "Transfer in Progress",
                 body:
-                    "Please ensure to keep your wallet open until this ${isToken ? 'Token' : 'NFT'} transfer transaction appears in your transaction list.\n\nTo monitor the asset transfer progress, open your 'nftlog.txt' in your databases folder.",
+                    "Please ensure to keep your wallet open until this ${isToken ? 'Token' : 'NFT'} transfer transaction appears in your transaction list.\n\nTo monitor the asset transfer progress, open your 'sclog.txt' in your databases folder.",
                 closeText: "Okay",
               );
 

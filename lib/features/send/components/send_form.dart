@@ -521,7 +521,7 @@ class SendForm extends BaseComponent {
                           Padding(
                             padding: const EdgeInsets.only(left: leadingWidth + 30),
                             child: Text(
-                              "Fee Estimate: ~$feeEstimate SATS | ~$feeEstimateBtc BTC    ($fee SATS /byte | $feeBtc BTC /byte)",
+                              "Fee Rate: $fee SATS /byte [$feeBtc BTC /byte]\nFee Estimate: ~$feeEstimate SATS [~$feeEstimateBtc BTC]    ",
                               style: Theme.of(context).textTheme.caption,
                             ),
                           ),
@@ -529,7 +529,7 @@ class SendForm extends BaseComponent {
                           Padding(
                             padding: const EdgeInsets.only(left: leadingWidth + 30),
                             child: Text(
-                              "Fee Estimate: ~${formState.btcCustomFeeRate * BTC_TX_EXPECTED_BYTES * BTC_SATOSHI_MULTIPLIER} BTC",
+                              "Fee Rate: ${formState.btcCustomFeeRate} SATS /byte [${(formState.btcCustomFeeRate * BTC_SATOSHI_MULTIPLIER).toStringAsFixed(9)} BTC /byte]\nFee Estimate: ${(formState.btcCustomFeeRate * BTC_TX_EXPECTED_BYTES)} SATS [~${(formState.btcCustomFeeRate * BTC_TX_EXPECTED_BYTES * BTC_SATOSHI_MULTIPLIER).toStringAsFixed(9)} BTC]",
                               style: Theme.of(context).textTheme.caption,
                             ),
                           ),

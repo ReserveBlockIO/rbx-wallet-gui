@@ -13,6 +13,7 @@ class TokenizedBitcoin with _$TokenizedBitcoin {
     @JsonKey(name: "RBXAddress") required String rbxAddress,
     @JsonKey(name: "DepositAddress") String? btcAddress,
     @JsonKey(name: "Balance") @Default(0.0) double balance,
+    @JsonKey(name: "MyBalance") @Default(0.0) double myBalance,
     @JsonKey(name: "TokenName") required String tokenName,
     @JsonKey(name: "TokenDescription") required String tokenDescription,
     @JsonKey(name: "SmartContractMainId") required double smartContractMainId,

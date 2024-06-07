@@ -28,7 +28,7 @@ class MainMenu extends BaseComponent {
     final btcBalance = ref.watch(btcBalanceProvider);
     final btcAccountSyncInfo = ref.watch(sessionProvider).btcAccountSyncInfo;
 
-    final vBtcBalance = ref.watch(tokenizedBitcoinListProvider).fold<double>(0.0, (previousValue, element) => previousValue + element.balance);
+    final vBtcBalance = ref.watch(tokenizedBitcoinListProvider).fold<double>(0.0, (previousValue, element) => previousValue + element.myBalance);
 
     return Scrollbar(
       controller: scrollController,
