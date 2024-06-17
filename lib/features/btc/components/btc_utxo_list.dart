@@ -31,8 +31,7 @@ class BtcUtxoList extends BaseComponent {
           child: ListTile(
             dense: true,
             title: Text("Address: ${utxo.address}"),
-            subtitle: Text("TX ID: ${utxo.hash}"),
-            leading: Text("${utxo.value}"),
+            subtitle: Text("TX ID: ${utxo.hash}\nAmount:${utxo.valueBtcLabel}"),
             trailing: utxo.isUsed
                 ? AppBadge(
                     label: "Used",

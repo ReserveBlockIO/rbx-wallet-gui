@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/btc/utils.dart';
 
 part 'btc_utxo.freezed.dart';
 part 'btc_utxo.g.dart';
@@ -17,4 +18,12 @@ class BtcUtxo with _$BtcUtxo {
   }) = _BtcUtxo;
 
   factory BtcUtxo.fromJson(Map<String, dynamic> json) => _$BtcUtxoFromJson(json);
+
+  double get valueBtc {
+    return satashisToBtc(value);
+  }
+
+  String get valueBtcLabel {
+    return "${valueBtc.toStringAsFixed(9)} BTC";
+  }
 }

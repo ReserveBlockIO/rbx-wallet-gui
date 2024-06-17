@@ -203,6 +203,18 @@ class Transaction with _$Transaction {
         }
         return "Tokenization Mint";
       case 18:
+        final data = parseNftData(this);
+        if (data != null) {
+          final function = nftDataValue(data, 'Function');
+          final amount = nftDataValue(data, 'Amount');
+          if (function == "TransferCoin()") {
+            return "vBTC Transfer Coin ($amount vBTC)";
+          }
+
+          if (function == "Transfer()") {
+            return "vBTC Token Ownership Transfer";
+          }
+        }
         return "Tokenization TX";
 
       case 19:

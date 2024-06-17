@@ -1,16 +1,25 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/asset/asset_thumbnail.dart';
 import 'package:rbx_wallet/features/btc/components/tokenized_btc_action_buttons.dart';
+import 'package:rbx_wallet/features/btc/models/tokenized_bitcoin.dart';
 import 'package:rbx_wallet/features/btc/providers/tokenized_btc_detail_provider.dart';
+import 'package:rbx_wallet/features/nft/components/web_asset_thumbnail.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
+import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
+import 'package:collection/collection.dart';
 
 class TokenizedBtcDetailScreen extends BaseScreen {
   final double tokenId;
@@ -156,10 +165,7 @@ class TokenizedBtcDetailScreen extends BaseScreen {
         SizedBox(
           height: 8,
         ),
-        Text(
-          "This token does not contain any additional media.",
-          style: Theme.of(context).textTheme.caption,
-        ),
+        _BtcTokenMedia(token: token),
         SizedBox(
           height: 16,
         ),
@@ -179,6 +185,109 @@ class TokenizedBtcDetailScreen extends BaseScreen {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _BtcTokenMedia extends BaseComponent {
+  final TokenizedBitcoin token;
+  const _BtcTokenMedia({
+    super.key,
+    required this.token,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.read(nftDetailProvider(token.smartContractUid).notifier);
+    final nft = ref.watch(nftDetailProvider(token.smartContractUid));
+
+    if (nft == null) {
+      return SizedBox();
+    }
+
+    if (nft.additionalAssets.isEmpty) {
+      return Text(
+        "This token does not contain any additional media.",
+        style: Theme.of(context).textTheme.caption,
+      );
+    }
+
+    if (ref.watch(walletListProvider).firstWhereOrNull((element) => element.address == nft.currentOwner) == null) {
+      return Text("Only the token owner can view the additional media.");
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: kIsWeb && nft.additionalAssetsWeb == null
+          ? buildAssetsNotAvailable(provider, false)
+          : kIsWeb
+              ? Wrap(
+                  children: (nft.additionalAssetsWeb ?? [])
+                      .map(
+                        (a) => Padding(
+                          padding: const EdgeInsets.only(right: 6.0),
+                          child: WebAssetThumbnail(
+                            a,
+                            nft: nft,
+                          ),
+                        ),
+                      )
+                      .toList(),
+                )
+              : Wrap(
+                  children: nft.additionalLocalAssets
+                      .map(
+                        (a) => Padding(
+                          padding: const EdgeInsets.only(right: 6.0),
+                          child: AssetThumbnail(
+                            a,
+                            nftId: nft.id,
+                            ownerAddress: nft.nextOwner ?? nft.currentOwner,
+                            isPrimaryAsset: false,
+                            size: 100,
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+    );
+  }
+
+  Widget buildAssetsNotAvailable(NftDetailProvider _provider, [bool includeButton = true]) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+          color: Colors.black12,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  "NFT assets have not been transfered to the VFX Web Wallet.",
+                  textAlign: TextAlign.center,
+                ),
+                if (includeButton)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: AppButton(
+                      label: "Transfer Now",
+                      onPressed: () async {
+                        final success = await _provider.transferWebIn();
+
+                        if (success == true) {
+                          Toast.message("Transfer request has been broadcasted. Your assets should be available soon.");
+                        }
+                      },
+                      variant: AppColorVariant.Success,
+                    ),
+                  )
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

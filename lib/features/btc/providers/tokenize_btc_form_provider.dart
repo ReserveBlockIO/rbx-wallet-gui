@@ -10,6 +10,7 @@ import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/btc/services/btc_service.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/compile_animation.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 part 'tokenize_btc_form_provider.freezed.dart';
@@ -136,6 +137,7 @@ class TokenizeBtcFormProvider extends StateNotifier<TokenizeBtcFormState> {
       fileLocation: assetLocation,
       name: tokenName,
       description: tokenDescription,
+      multiAsset: state.additionalAssets.isNotEmpty ? MultiAsset(assets: state.additionalAssets) : null,
     );
 
     state = state.copyWith(isProcessing: false);

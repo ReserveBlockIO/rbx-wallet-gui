@@ -507,6 +507,7 @@ class TokenizedBtcActionButtons extends BaseComponent {
 
                 if (option == 1) {
                   final nft = await NftService().retrieve(token.smartContractUid);
+
                   if (nft == null) {
                     Toast.error("Could not resolve nft from ${token.smartContractUid}");
                     return;
@@ -538,7 +539,7 @@ class TokenizedBtcActionButtons extends BaseComponent {
                       title: forWithdrawl ? "Withdraw BTC" : "Transfer BTC",
                       body: forWithdrawl
                           ? "Are you sure you want to withdraw ${result.amount} BTC"
-                          : "Are you sure you want to transfer ${result.amount} shares to ${result.toAddress}?",
+                          : "Are you sure you want to transfer ${result.amount} vBTC to ${result.toAddress}?",
                     );
 
                     if (confirmed != true) {

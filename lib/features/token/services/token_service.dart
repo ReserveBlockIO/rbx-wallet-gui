@@ -15,7 +15,7 @@ class TokenService extends BaseService {
     required double amount,
   }) async {
     try {
-      final response = await getText("/TokenMint/$scId/$fromAddress/$amount", cleanPath: false);
+      final response = await getText("/TokenMint/$scId/$fromAddress/$amount", cleanPath: false, inspect: true);
       final data = jsonDecode(response);
 
       if (data['Success'] == true) {

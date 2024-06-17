@@ -23,5 +23,5 @@ List<BtcUtxo> combinedBtcUtxoList(CombinedBtcUtxoListRef ref) {
     }
   }
 
-  return utxos..reversed.toList();
+  return utxos..sort((a, b) => a.id > b.id ? -1 : 1);
 }

@@ -23,5 +23,5 @@ List<BtcTransaction> combinedBtcTransactionList(CombinedBtcTransactionListRef re
     }
   }
 
-  return transactions..reversed.toList();
+  return transactions..sort((a, b) => a.timestamp > b.timestamp ? -1 : 1);
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/features/btc/models/tokenized_bitcoin.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/services/base_service.dart';
@@ -307,6 +308,7 @@ class BtcService extends BaseService {
     String? fileLocation,
     String? name,
     String? description,
+    MultiAsset? multiAsset,
   }) async {
     Map<String, dynamic> params = {
       "RBXAddress": rbxAddress,
@@ -314,6 +316,16 @@ class BtcService extends BaseService {
       "Description": description ?? "vBTC Token",
       "FileLocation": fileLocation ?? "default",
     };
+
+    if (multiAsset != null) {
+      final List<Map<String, dynamic>> features = [];
+      final f = {'FeatureName': MultiAsset.compilerEnum, 'FeatureFeatures': multiAsset.serializeForCompiler(rbxAddress)};
+      features.add(f);
+
+      params['Features'] = features;
+    }
+
+    print(jsonEncode(params));
 
     try {
       final result = await postJson(
@@ -325,6 +337,8 @@ class BtcService extends BaseService {
       );
 
       final Map<String, dynamic> data = result['data'];
+
+      print(jsonEncode(data));
 
       if (data.containsKey('Success') && data['Success'] == true) {
         if (data.containsKey("Hash")) {

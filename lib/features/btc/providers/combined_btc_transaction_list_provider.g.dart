@@ -7,7 +7,7 @@ part of 'combined_btc_transaction_list_provider.dart';
 // **************************************************************************
 
 String _$combinedBtcTransactionListHash() =>
-    r'c77984e284fa17f6b2ad6ddd8be8f312ace01972';
+    r'7dc20186caf7aaeb11914cacfc9d858566c45c9b';
 
 /// See also [combinedBtcTransactionList].
 @ProviderFor(combinedBtcTransactionList)
