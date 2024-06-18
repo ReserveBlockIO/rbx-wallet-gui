@@ -30,7 +30,7 @@ mixin _$CompilerPayload {
   Asset get asset => throw _privateConstructorUsedError;
   @JsonKey(name: "IsPublic", defaultValue: true)
   bool get isPublic => throw _privateConstructorUsedError;
-  @JsonKey(name: "SmartContractUID")
+  @JsonKey(name: "SmartContractUID", includeToJson: false)
   String? get uuid => throw _privateConstructorUsedError;
   @JsonKey(name: "Features")
   List<Map<String, dynamic>>? get features =>
@@ -62,7 +62,7 @@ abstract class $CompilerPayloadCopyWith<$Res> {
       @JsonKey(name: "Description") String description,
       @JsonKey(name: "SmartContractAsset") Asset asset,
       @JsonKey(name: "IsPublic", defaultValue: true) bool isPublic,
-      @JsonKey(name: "SmartContractUID") String? uuid,
+      @JsonKey(name: "SmartContractUID", includeToJson: false) String? uuid,
       @JsonKey(name: "Features") List<Map<String, dynamic>>? features,
       @JsonKey(name: "MinterAddress") String minterAddress,
       @JsonKey(name: "IsMinter") bool isMinter,
@@ -168,7 +168,7 @@ abstract class _$$_CompilerPayloadCopyWith<$Res>
       @JsonKey(name: "Description") String description,
       @JsonKey(name: "SmartContractAsset") Asset asset,
       @JsonKey(name: "IsPublic", defaultValue: true) bool isPublic,
-      @JsonKey(name: "SmartContractUID") String? uuid,
+      @JsonKey(name: "SmartContractUID", includeToJson: false) String? uuid,
       @JsonKey(name: "Features") List<Map<String, dynamic>>? features,
       @JsonKey(name: "MinterAddress") String minterAddress,
       @JsonKey(name: "IsMinter") bool isMinter,
@@ -261,7 +261,7 @@ class _$_CompilerPayload extends _CompilerPayload {
       @JsonKey(name: "Description") required this.description,
       @JsonKey(name: "SmartContractAsset") required this.asset,
       @JsonKey(name: "IsPublic", defaultValue: true) required this.isPublic,
-      @JsonKey(name: "SmartContractUID") this.uuid,
+      @JsonKey(name: "SmartContractUID", includeToJson: false) this.uuid,
       @JsonKey(name: "Features") final List<Map<String, dynamic>>? features,
       @JsonKey(name: "MinterAddress") required this.minterAddress,
       @JsonKey(name: "IsMinter") required this.isMinter,
@@ -290,7 +290,7 @@ class _$_CompilerPayload extends _CompilerPayload {
   @JsonKey(name: "IsPublic", defaultValue: true)
   final bool isPublic;
   @override
-  @JsonKey(name: "SmartContractUID")
+  @JsonKey(name: "SmartContractUID", includeToJson: false)
   final String? uuid;
   final List<Map<String, dynamic>>? _features;
   @override
@@ -395,7 +395,7 @@ abstract class _CompilerPayload extends CompilerPayload {
           required final Asset asset,
       @JsonKey(name: "IsPublic", defaultValue: true)
           required final bool isPublic,
-      @JsonKey(name: "SmartContractUID")
+      @JsonKey(name: "SmartContractUID", includeToJson: false)
           final String? uuid,
       @JsonKey(name: "Features")
           final List<Map<String, dynamic>>? features,
@@ -428,7 +428,7 @@ abstract class _CompilerPayload extends CompilerPayload {
   @JsonKey(name: "IsPublic", defaultValue: true)
   bool get isPublic;
   @override
-  @JsonKey(name: "SmartContractUID")
+  @JsonKey(name: "SmartContractUID", includeToJson: false)
   String? get uuid;
   @override
   @JsonKey(name: "Features")

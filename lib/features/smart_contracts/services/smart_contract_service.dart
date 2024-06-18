@@ -56,7 +56,7 @@ class SmartContractService extends BaseService {
     final Map<String, dynamic> p = {...payload}..remove('hash');
 
     try {
-      final response = await postJson("/CreateSmartContract", params: p, timeout: 0);
+      final response = await postJson("/CreateSmartContract", params: p, timeout: 0, inspect: true);
       final csc = CompilerResponse.fromJson(response['data'][0]);
       return csc;
     } catch (e, stackTrace) {
@@ -125,6 +125,7 @@ class SmartContractService extends BaseService {
       final response = await getText(
         "/MintSmartContract/$id",
         timeout: 0,
+        inspect: true,
       );
 
       print(response);

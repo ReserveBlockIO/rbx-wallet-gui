@@ -32,7 +32,6 @@ Map<String, dynamic> _$$_CompilerPayloadToJson(_$_CompilerPayload instance) =>
       'Description': instance.description,
       'SmartContractAsset': instance.asset.toJson(),
       'IsPublic': instance.isPublic,
-      'SmartContractUID': instance.uuid,
       'Features': instance.features,
       'MinterAddress': instance.minterAddress,
       'IsMinter': instance.isMinter,
