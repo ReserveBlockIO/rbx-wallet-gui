@@ -38,7 +38,7 @@ class TokenListTile extends BaseComponent {
   void showRaErrorMessage() {
     InfoDialog.show(
       title: "Not Supported by Reserve Account",
-      body: "Reserve Account owned tokens can not perform this action. Please change hte ownership to a standard VFX wallet to continue.",
+      body: "Reserve Account owned tokens can not perform this action.",
     );
   }
 
@@ -100,8 +100,6 @@ class TokenListTile extends BaseComponent {
                     scId: tokenAccount.smartContractId,
                     fromAddress: address,
                     currentBalance: tokenAccount.balance,
-                    isOwnedByRA: isOwnedByRA,
-                    showRaErrorMessage: showRaErrorMessage,
                   ),
                   if (canBurn)
                     Padding(

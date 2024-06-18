@@ -38,6 +38,7 @@ class BurnTokensButton extends BaseComponent {
     return AppButton(
       label: "Burn",
       variant: AppColorVariant.Danger,
+      useDisabledColor: isOwnedByRA,
       type: elevated ? AppButtonType.Elevated : AppButtonType.Text,
       onPressed: () async {
         if (isOwnedByRA) {

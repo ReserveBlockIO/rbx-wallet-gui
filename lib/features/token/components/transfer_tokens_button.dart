@@ -15,16 +15,12 @@ class TransferTokensButton extends BaseComponent {
   final String scId;
   final String fromAddress;
   final double currentBalance;
-  final VoidCallback showRaErrorMessage;
-  final bool isOwnedByRA;
 
   const TransferTokensButton({
     super.key,
     required this.scId,
     required this.fromAddress,
     required this.currentBalance,
-    required this.showRaErrorMessage,
-    required this.isOwnedByRA,
   });
 
   @override
@@ -33,10 +29,6 @@ class TransferTokensButton extends BaseComponent {
       label: "Transfer",
       variant: AppColorVariant.Primary,
       onPressed: () async {
-        if (isOwnedByRA) {
-          showRaErrorMessage();
-          return;
-        }
         final amount = await PromptModal.show(
           title: "Amount to Transfer",
           validator: (val) => formValidatorNumber(val, "Amount"),
