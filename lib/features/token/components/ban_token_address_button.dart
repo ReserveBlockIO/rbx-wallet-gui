@@ -13,20 +13,29 @@ import 'package:rbx_wallet/utils/validation.dart';
 class BanTokenAddressButton extends BaseComponent {
   final Nft nft;
   final String fromAddress;
+  final VoidCallback showRaErrorMessage;
 
   const BanTokenAddressButton({
     super.key,
     required this.nft,
     required this.fromAddress,
+    required this.showRaErrorMessage,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isOwnedByRA = nft.currentOwner.startsWith("xRBX");
+
     return AppButton(
       label: "Ban Address",
       variant: AppColorVariant.Danger,
       type: AppButtonType.Text,
+      useDisabledColor: isOwnedByRA,
       onPressed: () async {
+        if (isOwnedByRA) {
+          showRaErrorMessage();
+          return;
+        }
         final banAddress = await PromptModal.show(
           title: "Address To Ban",
           validator: (val) => formValidatorRbxAddress(val),

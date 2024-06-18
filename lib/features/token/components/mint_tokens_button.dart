@@ -16,11 +16,13 @@ import 'package:rbx_wallet/utils/validation.dart';
 class MintTokensButton extends BaseComponent {
   final Nft nft;
   final bool elevated;
+  final VoidCallback showRaErrorMessage;
 
   const MintTokensButton({
     super.key,
     required this.nft,
     this.elevated = true,
+    required this.showRaErrorMessage,
   });
 
   @override
@@ -35,36 +37,42 @@ class MintTokensButton extends BaseComponent {
     if (!token.mintable) {
       return SizedBox();
     }
+    final isOwnedByRA = nft.currentOwner.startsWith("xRBX");
 
     return AppButton(
       label: "Mint Tokens",
       variant: AppColorVariant.Success,
+      useDisabledColor: isOwnedByRA,
       type: elevated ? AppButtonType.Elevated : AppButtonType.Text,
-      onPressed: () async {
-        final amount = await PromptModal.show(
-          title: "Amount to Mint",
-          validator: (val) => formValidatorNumber(val, "Amount"),
-          labelText: "Amount",
-          inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
-        );
-        if (amount == null || amount.isEmpty) {
-          return;
-        }
+      onPressed: isOwnedByRA
+          ? () {
+              showRaErrorMessage();
+            }
+          : () async {
+              final amount = await PromptModal.show(
+                title: "Amount to Mint",
+                validator: (val) => formValidatorNumber(val, "Amount"),
+                labelText: "Amount",
+                inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
+              );
+              if (amount == null || amount.isEmpty) {
+                return;
+              }
 
-        final amountDouble = double.tryParse(amount);
+              final amountDouble = double.tryParse(amount);
 
-        if (amountDouble == null) {
-          Toast.error("Invalid Amount");
-          return;
-        }
-        ref.read(globalLoadingProvider.notifier).start();
-        final success = await TokenService().mint(scId: nft.id, fromAddress: nft.currentOwner, amount: amountDouble);
-        ref.read(globalLoadingProvider.notifier).complete();
+              if (amountDouble == null) {
+                Toast.error("Invalid Amount");
+                return;
+              }
+              ref.read(globalLoadingProvider.notifier).start();
+              final success = await TokenService().mint(scId: nft.id, fromAddress: nft.currentOwner, amount: amountDouble);
+              ref.read(globalLoadingProvider.notifier).complete();
 
-        if (success) {
-          Toast.message("Token mint transaction broadcasted");
-        }
-      },
+              if (success) {
+                Toast.message("Token mint transaction broadcasted");
+              }
+            },
     );
   }
 }

@@ -35,8 +35,17 @@ class TokenListTile extends BaseComponent {
     this.interactive = true,
   });
 
+  void showRaErrorMessage() {
+    InfoDialog.show(
+      title: "Not Supported by Reserve Account",
+      body: "Reserve Account owned tokens can not perform this action. Please change hte ownership to a standard VFX wallet to continue.",
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isOwnedByRA = address.startsWith("xRBX");
+
     bool canBurn = true;
     bool canVote = false;
     final nftRef = ref.read(tokenNftsProvider)[tokenAccount.smartContractId];
@@ -91,6 +100,8 @@ class TokenListTile extends BaseComponent {
                     scId: tokenAccount.smartContractId,
                     fromAddress: address,
                     currentBalance: tokenAccount.balance,
+                    isOwnedByRA: isOwnedByRA,
+                    showRaErrorMessage: showRaErrorMessage,
                   ),
                   if (canBurn)
                     Padding(
@@ -99,6 +110,8 @@ class TokenListTile extends BaseComponent {
                         scId: tokenAccount.smartContractId,
                         fromAddress: address,
                         currentBalance: tokenAccount.balance,
+                        isOwnedByRA: isOwnedByRA,
+                        showRaErrorMessage: showRaErrorMessage,
                       ),
                     ),
                   if (canVote)

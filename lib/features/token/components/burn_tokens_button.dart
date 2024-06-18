@@ -20,6 +20,8 @@ class BurnTokensButton extends BaseComponent {
   final String fromAddress;
   final double currentBalance;
   final bool elevated;
+  final VoidCallback showRaErrorMessage;
+  final bool isOwnedByRA;
 
   const BurnTokensButton({
     super.key,
@@ -27,6 +29,8 @@ class BurnTokensButton extends BaseComponent {
     required this.fromAddress,
     required this.currentBalance,
     this.elevated = true,
+    required this.showRaErrorMessage,
+    required this.isOwnedByRA,
   });
 
   @override
@@ -36,6 +40,11 @@ class BurnTokensButton extends BaseComponent {
       variant: AppColorVariant.Danger,
       type: elevated ? AppButtonType.Elevated : AppButtonType.Text,
       onPressed: () async {
+        if (isOwnedByRA) {
+          showRaErrorMessage();
+          return;
+        }
+
         final nft = await NftService().getNftData(scId);
 
         if (nft?.tokenStateDetails?.burnable != true) {

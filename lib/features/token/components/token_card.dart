@@ -28,22 +28,20 @@ class TokenCard extends BaseComponent {
     }
 
     return InkWell(
-      onTap: isTransferred
-          ? null
-          : () async {
-              final tokenAccount = TokenAccount.fromNft(nft, ref);
-              final tokenFeature = TokenScFeature.fromNft(nft);
-              if (tokenAccount != null && tokenFeature != null) {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => TokenManagementScreen(
-                          tokenAccount,
-                          tokenFeature,
-                          nft.id,
-                          nft.currentOwner,
-                        )));
-                return;
-              }
-            },
+      onTap: () async {
+        final tokenAccount = TokenAccount.fromNft(nft, ref);
+        final tokenFeature = TokenScFeature.fromNft(nft);
+        if (tokenAccount != null && tokenFeature != null) {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => TokenManagementScreen(
+                    tokenAccount,
+                    tokenFeature,
+                    nft.id,
+                    nft.currentOwner,
+                  )));
+          return;
+        }
+      },
       child: Card(
         color: Colors.black,
         child: Stack(
@@ -148,11 +146,11 @@ class TokenCard extends BaseComponent {
                 ),
               ),
             ),
-            if (isTransferred)
-              TransferingOverlay(
-                nft,
-                withLog: true,
-              ),
+            // if (isTransferred)
+            //   TransferingOverlay(
+            //     nft,
+            //     withLog: true,
+            //   ),
           ],
         ),
       ),

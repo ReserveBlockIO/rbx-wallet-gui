@@ -20,11 +20,15 @@ import 'package:rbx_wallet/utils/validation.dart';
 class PauseTokenButton extends BaseComponent {
   final String scId;
   final String fromAddress;
+  final bool isOwnedByRa;
+  final VoidCallback showRaErrorMessage;
 
   const PauseTokenButton({
     super.key,
     required this.scId,
     required this.fromAddress,
+    required this.isOwnedByRa,
+    required this.showRaErrorMessage,
   });
 
   @override
@@ -46,14 +50,21 @@ class PauseTokenButton extends BaseComponent {
               label: isPaused ? "Pending Resume" : "Pending Pause",
               processing: true,
               variant: AppColorVariant.Light,
-              onPressed: () {},
+              onPressed: () {
+                Toast.message("Token state change is pending. Please wait");
+              },
             );
           }
 
           return AppButton(
             label: isPaused ? "Resume TXs" : "Pause TXs",
-            variant: AppColorVariant.Light,
+            variant: isOwnedByRa ? AppColorVariant.Primary : AppColorVariant.Light,
+            useDisabledColor: isOwnedByRa,
             onPressed: () async {
+              if (isOwnedByRa) {
+                showRaErrorMessage();
+                return;
+              }
               final confirmed = await ConfirmDialog.show(
                 title: isPaused ? "Resume Token Transactions" : "Pause Token Transactions",
                 body: isPaused

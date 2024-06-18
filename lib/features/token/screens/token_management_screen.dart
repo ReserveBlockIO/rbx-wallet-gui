@@ -130,6 +130,7 @@ class TokenManagementScreen extends BaseScreen {
         print("base64 image error");
       }
     }
+
     return AppBar(
       backgroundColor: Colors.black54,
       title: Row(
@@ -161,6 +162,13 @@ class TokenManagementScreen extends BaseScreen {
     );
   }
 
+  void showRaErrorMessage() {
+    InfoDialog.show(
+      title: "Not Supported by Reserve Account",
+      body: "Reserve Account owned tokens can not perform this action. Please change hte ownership to a standard VFX wallet to continue.",
+    );
+  }
+
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final data = ref.watch(nftDetailWatcher(nftId));
@@ -171,6 +179,8 @@ class TokenManagementScreen extends BaseScreen {
         if (nft == null) {
           return SizedBox();
         }
+
+        final isOwnedByRA = nft.currentOwner.startsWith("xRBX");
 
         final accounts = ref.watch(sessionProvider).balances.where((b) => b.tokens.isNotEmpty).toList();
         final List<TokenAccount> tokenAccounts = [];
@@ -205,10 +215,12 @@ class TokenManagementScreen extends BaseScreen {
                     spacing: 12.0,
                     runSpacing: 12.0,
                     children: [
-                      if (token.mintable) MintTokensButton(nft: nft),
+                      if (token.mintable) MintTokensButton(nft: nft, showRaErrorMessage: showRaErrorMessage),
                       PauseTokenButton(
                         scId: nft.id,
                         fromAddress: nft.currentOwner,
+                        showRaErrorMessage: showRaErrorMessage,
+                        isOwnedByRa: isOwnedByRA,
                       ),
                       if (token.voting)
                         AppButton(
@@ -226,6 +238,10 @@ class TokenManagementScreen extends BaseScreen {
                                       title: Text("Create Token Topic"),
                                       leading: Icon(Icons.new_label),
                                       onTap: () {
+                                        if (isOwnedByRA) {
+                                          showRaErrorMessage();
+                                          return;
+                                        }
                                         Navigator.of(context).pop();
                                         AutoRouter.of(context).push(CreateTokenTopicScreenRoute(scId: nft.id, address: nft.currentOwner));
                                       },
@@ -309,6 +325,7 @@ class TokenManagementScreen extends BaseScreen {
                       BanTokenAddressButton(
                         nft: nft,
                         fromAddress: nft.currentOwner,
+                        showRaErrorMessage: showRaErrorMessage,
                       ),
                       if (nft.tokenStateDetails != null &&
                           nft.tokenStateDetails!.addressBlackList != null &&
@@ -343,6 +360,7 @@ class TokenManagementScreen extends BaseScreen {
                           child: MintTokensButton(
                             nft: nft,
                             elevated: false,
+                            showRaErrorMessage: showRaErrorMessage,
                           ),
                         ),
                     ],
