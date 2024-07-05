@@ -22,8 +22,7 @@ class LatestBlock extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final latestBlock =
-        blockOverride ?? ref.watch(walletInfoProvider)?.lastestBlock;
+    final latestBlock = blockOverride ?? ref.watch(walletInfoProvider)?.lastestBlock;
 
     if (latestBlock == null) {
       return const SizedBox();
@@ -48,10 +47,7 @@ class LatestBlock extends BaseComponent {
                 children: [
                   Text(
                     "Block ${latestBlock.height}",
-                    style: Theme.of(context)
-                        .textTheme
-                        .caption!
-                        .copyWith(color: Colors.white),
+                    style: Theme.of(context).textTheme.caption!.copyWith(color: Colors.white),
                   ),
                   Text(
                     timeago.format(
@@ -102,8 +98,7 @@ class LatestBlock extends BaseComponent {
                           showModalBottomSheet(
                               context: context,
                               builder: (context) {
-                                return BlockTransactionListBottomSheet(
-                                    transactions: latestBlock.transactions);
+                                return BlockTransactionListBottomSheet(transactions: latestBlock.transactions);
                               });
                         },
                         child: Padding(
@@ -113,11 +108,7 @@ class LatestBlock extends BaseComponent {
                             style: Theme.of(context)
                                 .textTheme
                                 .caption!
-                                .copyWith(
-                                    fontSize: 10,
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                    decoration: TextDecoration.underline),
+                                .copyWith(fontSize: 10, color: Theme.of(context).colorScheme.secondary, decoration: TextDecoration.underline),
                           ),
                         ),
                       ),
@@ -183,10 +174,9 @@ class LatestBlock extends BaseComponent {
                   InkWell(
                     onTap: () {
                       if (Env.isTestNet) {
-                        launchUrlString(
-                            "https://live.blockcypher.com/btc-testnet/");
+                        launchUrlString("https://mempool.space/testnet4/");
                       } else {
-                        launchUrlString("https://live.blockcypher.com/btc/");
+                        launchUrlString("https://mempool.space/");
                       }
                     },
                     child: Row(
@@ -246,20 +236,17 @@ class _DetailItem extends StatelessWidget {
       children: [
         Text(
           label,
-          style: Theme.of(context)
-              .textTheme
-              .caption!
-              .copyWith(decoration: TextDecoration.underline),
+          style: Theme.of(context).textTheme.caption!.copyWith(decoration: TextDecoration.underline),
         ),
         const SizedBox(
           height: 2,
         ),
         Text(
           value,
-          style: Theme.of(context).textTheme.caption!.copyWith(
-              fontSize: mono ? 10 : null,
-              fontFamily: mono ? "RobotoMono" : null,
-              color: Colors.white38),
+          style: Theme.of(context)
+              .textTheme
+              .caption!
+              .copyWith(fontSize: mono ? 10 : null, fontFamily: mono ? "RobotoMono" : null, color: Colors.white38),
         ),
         const SizedBox(
           height: 8,

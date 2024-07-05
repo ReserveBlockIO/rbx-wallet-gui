@@ -70,9 +70,9 @@ class _WebBtcTransactionListTileState extends State<WebBtcTransactionListTile> {
                     IconButton(
                       onPressed: () {
                         if (Env.isTestNet) {
-                          launchUrlString("https://live.blockcypher.com/btc-testnet/tx/${tx.hash}/");
+                          launchUrlString("https://mempool.space/testnet4/tx/${tx.hash}");
                         } else {
-                          launchUrlString("https://live.blockcypher.com/btc/tx/${tx.hash}/");
+                          launchUrlString("https://mempool.space/tx/${tx.hash}");
                         }
                       },
                       icon: Icon(Icons.open_in_new),

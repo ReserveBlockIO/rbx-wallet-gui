@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/providers/cached_memory_image_provider.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
+import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/token/models/token_account.dart';
 import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
 
@@ -32,12 +33,14 @@ class TokenCard extends BaseComponent {
         final tokenAccount = TokenAccount.fromNft(nft, ref);
         final tokenFeature = TokenScFeature.fromNft(nft);
         if (tokenAccount != null && tokenFeature != null) {
+          final updatedNft = await NftService().retrieve(nft.id);
+
           Navigator.of(context).push(MaterialPageRoute(
               builder: (_) => TokenManagementScreen(
                     tokenAccount,
                     tokenFeature,
-                    nft.id,
-                    nft.currentOwner,
+                    updatedNft?.id ?? nft.id,
+                    updatedNft?.currentOwner ?? nft.currentOwner,
                   )));
           return;
         }

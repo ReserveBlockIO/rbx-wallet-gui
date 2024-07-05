@@ -10,7 +10,7 @@ class BtcFeeRateService extends BaseService {
 
   Future<BtcRecommendedFees> recommended() async {
     try {
-      final data = await getJson("${Env.isTestNet ? '/testnet' : ''}/api/v1/fees/recommended");
+      final data = await getJson("${Env.isTestNet ? '/testnet4' : ''}/api/v1/fees/recommended");
       return BtcRecommendedFees.fromJson(data);
     } catch (e) {
       print(e);

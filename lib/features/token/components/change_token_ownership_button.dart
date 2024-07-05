@@ -4,6 +4,7 @@ import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/encrypt/utils.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/transferred_provider.dart';
@@ -36,6 +37,12 @@ class ChangeTokenOwnershipButton extends BaseComponent {
       label: "Change Ownership",
       variant: AppColorVariant.Danger,
       onPressed: () async {
+        if (fromAddress.startsWith("xRBX")) {
+          if (!await passwordRequiredGuardV2(context, ref, fromAddress)) {
+            return;
+          }
+        }
+
         final toAddress = await PromptModal.show(
           title: "Transfer To Address",
           validator: (val) => formValidatorRbxAddress(val),

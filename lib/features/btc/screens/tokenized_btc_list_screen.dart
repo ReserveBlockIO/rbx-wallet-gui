@@ -99,7 +99,7 @@ class TokenizeBtcListScreen extends BaseScreen {
             onPressed: () async {
               Wallet? wallet = ref.read(walletListProvider).firstWhereOrNull((a) => a.balance > MIN_RBX_FOR_SC_ACTION && !a.isReserved);
 
-              if (wallet == null || tokens.isEmpty) {
+              if (wallet == null) {
                 final confirmContinue = await ConfirmDialog.show(
                   title: "VFX Address with Balance Required",
                   body: "A VFX address with a balance is required to proceed. Would you like to set this up now?",

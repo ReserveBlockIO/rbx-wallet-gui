@@ -379,9 +379,9 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
                     type: AppButtonType.Text,
                     onPressed: () {
                       if (Env.isTestNet) {
-                        launchUrlString("https://live.blockcypher.com/btc-testnet/tx/$txHash/");
+                        launchUrlString("https://mempool.space/testnet4/tx/${txHash}");
                       } else {
-                        launchUrlString("https://live.blockcypher.com/btc/tx/$txHash/");
+                        launchUrlString("https://mempool.space/tx/${txHash}");
                       }
                     },
                   )
@@ -416,8 +416,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
         late double btcFee;
 
         if (calculatedFeeRate == null) {
-          Toast.error("Can't calculate fee.");
-
+          // Toast.error("Can't calculate fee.");
           return;
         }
         btcFee = calculatedFeeRate;
@@ -497,9 +496,9 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
                       type: AppButtonType.Text,
                       onPressed: () {
                         if (Env.isTestNet) {
-                          launchUrlString("https://live.blockcypher.com/btc-testnet/tx/$txHash/");
+                          launchUrlString("https://mempool.space/testnet4/tx/${txHash}");
                         } else {
-                          launchUrlString("https://live.blockcypher.com/btc/tx/$txHash/");
+                          launchUrlString("https://mempool.space/tx/${txHash}");
                         }
                       },
                     )

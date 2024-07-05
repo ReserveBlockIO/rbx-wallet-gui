@@ -100,7 +100,7 @@ class TokenService extends BaseService {
     required String toAddress,
   }) async {
     try {
-      final response = await getText("/ChangeTokenContractOwnership/$scId/$fromAddress/$toAddress", cleanPath: false);
+      final response = await getText("/ChangeTokenContractOwnership/$scId/$fromAddress/$toAddress", cleanPath: false, inspect: true);
       final data = jsonDecode(response);
 
       if (data['Success'] == true) {

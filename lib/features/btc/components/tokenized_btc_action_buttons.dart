@@ -397,9 +397,9 @@ class TokenizedBtcActionButtons extends BaseComponent {
                                                     type: AppButtonType.Text,
                                                     onPressed: () {
                                                       if (Env.isTestNet) {
-                                                        launchUrlString("https://live.blockcypher.com/btc-testnet/tx/$txHash/");
+                                                        launchUrlString("https://mempool.space/testnet4/tx/${txHash}");
                                                       } else {
-                                                        launchUrlString("https://live.blockcypher.com/btc/tx/$txHash/");
+                                                        launchUrlString("https://mempool.space/tx/${txHash}");
                                                       }
                                                     },
                                                   )

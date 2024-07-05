@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
 
 import '../../core/dialogs.dart';
 import '../../core/providers/session_provider.dart';
@@ -40,6 +41,45 @@ Future<bool> passwordRequiredGuard(
     }
     return true;
   }
+  return false;
+}
+
+Future<bool> passwordRequiredGuardV2(
+  BuildContext context,
+  WidgetRef ref,
+  String address, [
+  bool prompt = true,
+  bool forValidating = false,
+]) async {
+  if (kIsWeb) {
+    return true;
+  }
+
+  final alreadyUnlocked = await ReserveAccountService().isUnlockedV2(address);
+  if (alreadyUnlocked) {
+    return true;
+  }
+
+  final password = await PromptModal.show(
+    title: "Unlock Wallet",
+    contextOverride: context,
+    validator: (value) => formValidatorNotEmpty(value, "Password"),
+    labelText: "Password",
+    obscureText: true,
+    lines: 1,
+    tightPadding: true,
+  );
+  if (password == null) {
+    return false;
+  }
+
+  final unlocked = await ReserveAccountService().unlockV2(address, password);
+  if (unlocked) {
+    return true;
+  }
+
+  Toast.error("Incorrect decryption password.");
+
   return false;
 }
 

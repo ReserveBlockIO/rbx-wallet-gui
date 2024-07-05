@@ -245,4 +245,22 @@ class ReserveAccountService extends BaseService {
       return false;
     }
   }
+
+  Future<bool> isUnlockedV2(String address) async {
+    final response = await getText("/UnlockReserveAccount/$address/0/checking", cleanPath: false);
+    final data = jsonDecode(response);
+
+    print(data);
+
+    return data['AlreadyUnlocked'] == true;
+  }
+
+  Future<bool> unlockV2(String address, String password) async {
+    final response = await getText("/UnlockReserveAccount/$address/0/$password", cleanPath: false);
+    final data = jsonDecode(response);
+
+    print(data);
+
+    return data['Success'] == true;
+  }
 }
