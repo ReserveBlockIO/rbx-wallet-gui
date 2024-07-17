@@ -210,42 +210,7 @@ class TokenizeBtcListScreen extends BaseScreen {
                         ),
                         child: Card(
                           color: Colors.black,
-                          child: ListTile(
-                            title: Text(token.tokenName),
-                            subtitle: Text("${token.myBalance} vBTC"),
-                            leading: BtcTokenImage(
-                              nftId: token.smartContractUid,
-                              size: 48,
-                            ),
-                            trailing: Icon(Icons.chevron_right),
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (_) => TokenizedBtcDetailScreen(tokenId: token.id),
-                                ),
-                              );
-                              // InfoDialog.show(
-                              //   contextOverride: context,
-                              //   title: "Token Info",
-                              //   content: Builder(builder: (context) {
-                              //     return ConstrainedBox(
-                              //       constraints: BoxConstraints(maxWidth: 600),
-                              //       child: Column(
-                              //         mainAxisSize: MainAxisSize.min,
-                              //         crossAxisAlignment: CrossAxisAlignment.start,
-                              //         children: [
-                              //           Text("Name: ${token.tokenName}"),
-                              //           Text("Description: ${token.tokenDescription}"),
-                              //           SelectableText("VFX Owner: ${token.rbxAddress}"),
-                              //           SelectableText("BTC Address: ${token.btcAddress ?? '-'}"),
-                              //           SelectableText("Smart Contract ID: ${token.smartContractUid}"),
-                              //         ],
-                              //       ),
-                              //     );
-                              //   }),
-                              // );
-                            },
-                          ),
+                          child: TokenizedBtcListTile(token: token),
                         ),
                       ),
                     );
@@ -253,6 +218,64 @@ class TokenizeBtcListScreen extends BaseScreen {
                 ),
         ),
       ],
+    );
+  }
+}
+
+class TokenizedBtcListTile extends StatelessWidget {
+  const TokenizedBtcListTile({
+    super.key,
+    required this.token,
+  });
+
+  final TokenizedBitcoin token;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(token.tokenName),
+      // subtitle: Text("${token.myBalance} vBTC"),
+      subtitle: Text(
+        token.rbxAddress,
+        style: TextStyle(
+          color: token.rbxAddress.startsWith("xRBX") ? Colors.deepPurple.shade200 : null,
+        ),
+      ),
+      leading: BtcTokenImage(
+        nftId: token.smartContractUid,
+        size: 48,
+      ),
+      trailing: Text(
+        "${token.myBalance} vBTC",
+        style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
+      ),
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => TokenizedBtcDetailScreen(tokenId: token.id),
+          ),
+        );
+        // InfoDialog.show(
+        //   contextOverride: context,
+        //   title: "Token Info",
+        //   content: Builder(builder: (context) {
+        //     return ConstrainedBox(
+        //       constraints: BoxConstraints(maxWidth: 600),
+        //       child: Column(
+        //         mainAxisSize: MainAxisSize.min,
+        //         crossAxisAlignment: CrossAxisAlignment.start,
+        //         children: [
+        //           Text("Name: ${token.tokenName}"),
+        //           Text("Description: ${token.tokenDescription}"),
+        //           SelectableText("VFX Owner: ${token.rbxAddress}"),
+        //           SelectableText("BTC Address: ${token.btcAddress ?? '-'}"),
+        //           SelectableText("Smart Contract ID: ${token.smartContractUid}"),
+        //         ],
+        //       ),
+        //     );
+        //   }),
+        // );
+      },
     );
   }
 }

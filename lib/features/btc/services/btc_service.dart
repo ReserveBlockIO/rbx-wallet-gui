@@ -454,17 +454,24 @@ class BtcService extends BaseService {
     }
   }
 
-  Future<bool> withdrawCoin(String scUid, String toAddress, String fromAddress, double amount) async {
+  Future<bool> withdrawCoin(String scUid, String toAddress, String fromAddress, double amount, int feeRate) async {
     final params = {
       'SCUID': scUid,
       'ToAddress': toAddress,
       'FromAddress': fromAddress,
       'Amount': amount,
+      // 'ChosenFeeRate': feeRate,
+      'ChosenFeeRate': 10,
     };
+
+    print(jsonEncode(params));
+    // return false;
+
     try {
-      final response = await postJson("/WithdrawalCoin", cleanPath: false, params: params);
+      final response = await postJson("/WithdrawalCoin", cleanPath: false, params: params, inspect: true);
 
       final result = response['data'];
+      print(result);
 
       if (result.containsKey("Success") && result['Success'] == true) {
         return true;

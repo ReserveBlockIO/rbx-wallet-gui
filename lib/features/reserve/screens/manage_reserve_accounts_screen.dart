@@ -7,6 +7,8 @@ import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/btc/providers/tokenized_bitcoin_list_provider.dart';
+import 'package:rbx_wallet/features/btc/screens/tokenized_btc_list_screen.dart';
 import 'package:rbx_wallet/features/nft/components/nft_list_tile.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
@@ -251,7 +253,7 @@ class ManageReserveAccountsScreen extends BaseScreen {
                                                             child: Card(
                                                               color: Colors.black,
                                                               child: ListTile(
-                                                                title: Text("Bitcoin"),
+                                                                title: Text("Bitcoin (vBTC)"),
                                                                 leading: Icon(FontAwesomeIcons.bitcoin),
                                                                 trailing: Icon(Icons.chevron_right),
                                                                 onTap: () {
@@ -368,7 +370,23 @@ class ManageReserveAccountsScreen extends BaseScreen {
                                                           ],
                                                         );
                                                       });
-                                                } else if (option == 'btc') {}
+                                                } else if (option == 'btc') {
+                                                  final btcTokens =
+                                                      ref.read(tokenizedBitcoinListProvider).where((t) => t.rbxAddress == ra.address).toList();
+                                                  if (btcTokens.isEmpty) {
+                                                    Toast.message("This account has no vBTC Tokens");
+                                                    return;
+                                                  }
+                                                  showModalBottomSheet(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return ModalContainer(
+                                                          withClose: true,
+                                                          withDecor: false,
+                                                          children: btcTokens.map((token) => TokenizedBtcListTile(token: token)).toList(),
+                                                        );
+                                                      });
+                                                }
                                               },
                                             ),
                                             AppButton(

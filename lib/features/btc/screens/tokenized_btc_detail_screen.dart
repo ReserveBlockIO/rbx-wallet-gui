@@ -10,6 +10,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/asset/asset_thumbnail.dart';
 import 'package:rbx_wallet/features/btc/components/tokenized_btc_action_buttons.dart';
@@ -22,6 +23,7 @@ import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:collection/collection.dart';
 
@@ -72,6 +74,14 @@ class TokenizedBtcDetailScreen extends BaseScreen {
         child: Text("Token Not Found"),
       );
     }
+    final nft = ref.watch(nftDetailProvider(token.smartContractUid));
+
+    if (nft == null) {
+      return CenteredLoader();
+    }
+
+    final scOwner = nft.currentOwner;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,6 +124,12 @@ class TokenizedBtcDetailScreen extends BaseScreen {
                     value: token.rbxAddress,
                     withCopy: true,
                   ),
+                  if (scOwner != token.rbxAddress)
+                    _DetailRow(
+                      label: "Smart Contract Owner",
+                      value: scOwner,
+                      withCopy: true,
+                    ),
                   _DetailRow(
                     label: "BTC Deposit Address",
                     value: token.btcAddress ?? 'Not Generated',
@@ -164,7 +180,7 @@ class TokenizedBtcDetailScreen extends BaseScreen {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TokenizedBtcActionButtons(token: token),
+                TokenizedBtcActionButtons(token: token, scOwner: scOwner),
               ],
             ),
           ),
@@ -371,17 +387,17 @@ class _BtcTokenImageState extends State<BtcTokenImage> {
       }
     }
 
-    if (bytes == null) {
-      String? defaultb64 = await BtcService().defaultImage();
-      if (defaultb64 != null) {
-        Uint8List imageBytes = base64.decode(defaultb64);
-        List<int> imageBytesList = imageBytes.toList();
+    // if (bytes == null) {
+    //   String? defaultb64 = await BtcService().defaultImage();
+    //   if (defaultb64 != null) {
+    //     Uint8List imageBytes = base64.decode(defaultb64);
+    //     List<int> imageBytesList = imageBytes.toList();
 
-        setState(() {
-          bytes = imageBytesList;
-        });
-      }
-    }
+    //     setState(() {
+    //       bytes = imageBytesList;
+    //     });
+    //   }
+    // }
   }
 
   @override
@@ -400,7 +416,12 @@ class _BtcTokenImageState extends State<BtcTokenImage> {
             );
           }
 
-          return Icon(FontAwesomeIcons.bitcoin);
+          // return Icon(FontAwesomeIcons.bitcoin);
+          return Image.asset(
+            Assets.images.vbtc.path,
+            width: widget.size,
+            height: widget.size,
+          );
         },
       ),
     );

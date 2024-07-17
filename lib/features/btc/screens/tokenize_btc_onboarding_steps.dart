@@ -94,7 +94,7 @@ class _TransferBtcToVbtcStep extends BaseComponent {
                                 provider.setBtcFeeRatePreset(value);
                               },
                               itemBuilder: (context) {
-                                return BtcFeeRatePreset.values.map((preset) {
+                                return BtcFeeRatePreset.values.where((type) => type != BtcFeeRatePreset.custom).map((preset) {
                                   return PopupMenuItem(
                                     value: preset,
                                     child: Text(preset.label),

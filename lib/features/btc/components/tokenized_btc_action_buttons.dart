@@ -9,17 +9,21 @@ import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/btc/models/btc_fee_rate_preset.dart';
+import 'package:rbx_wallet/features/btc/models/btc_recommended_fees.dart';
 import 'package:rbx_wallet/features/btc/models/tokenized_bitcoin.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_pending_tokenized_address_list_provider.dart';
 import 'package:rbx_wallet/features/btc/providers/tokenized_bitcoin_list_provider.dart';
+import 'package:rbx_wallet/features/btc/providers/tokenized_btc_onboard_provider.dart';
 import 'package:rbx_wallet/features/btc/services/btc_fee_rate_service.dart';
 import 'package:rbx_wallet/features/btc/services/btc_service.dart';
 import 'package:rbx_wallet/features/btc/utils.dart';
+import 'package:rbx_wallet/features/encrypt/utils.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/nft/utils.dart';
@@ -34,9 +38,11 @@ import 'package:collection/collection.dart';
 
 class TokenizedBtcActionButtons extends BaseComponent {
   final TokenizedBitcoin token;
+  final String scOwner;
   const TokenizedBtcActionButtons({
     super.key,
     required this.token,
+    required this.scOwner,
   });
 
   @override
@@ -44,6 +50,8 @@ class TokenizedBtcActionButtons extends BaseComponent {
     final pendingIds = ref.watch(btcPendingTokenizedAddressListProvider);
 
     bool debuggingAddressExists = true;
+
+    final isRa = token.rbxAddress.startsWith("xRBX");
 
     return Builder(
       builder: (context) {
@@ -94,7 +102,7 @@ class TokenizedBtcActionButtons extends BaseComponent {
           );
         }
 
-        final isOwner = ref.watch(walletListProvider).firstWhereOrNull((w) => w.address == token.rbxAddress) != null;
+        final isOwner = ref.watch(walletListProvider).firstWhereOrNull((w) => w.address == scOwner) != null && scOwner == token.rbxAddress;
 
         return Wrap(
           alignment: WrapAlignment.center,
@@ -524,6 +532,13 @@ class TokenizedBtcActionButtons extends BaseComponent {
                 if (option == 2 || option == 3) {
                   final forWithdrawl = option == 3;
 
+                  if (forWithdrawl) {
+                    if (isRa) {
+                      Toast.error("Reserve Accounts can not withdrawl. Please transfer vBTC to a standard VFX address");
+                      return;
+                    }
+                  }
+
                   final result = await showModalBottomSheet(
                     context: context,
                     builder: (context) {
@@ -549,6 +564,12 @@ class TokenizedBtcActionButtons extends BaseComponent {
                     late final bool success;
 
                     if (option == 2) {
+                      if (isRa) {
+                        if (!await passwordRequiredGuardV2(context, ref, token.rbxAddress)) {
+                          return;
+                        }
+                      }
+
                       success = await BtcService().transferTokenShares(
                         token.smartContractUid,
                         result.toAddress,
@@ -561,6 +582,7 @@ class TokenizedBtcActionButtons extends BaseComponent {
                         result.toAddress,
                         token.rbxAddress,
                         result.amount,
+                        result.feeRate,
                       );
                     }
 
@@ -750,29 +772,34 @@ class TokenizedBtcActionButtons extends BaseComponent {
 class _TransferShareModalResponse {
   final String toAddress;
   final double amount;
+  final int feeRate;
 
   _TransferShareModalResponse({
     required this.toAddress,
     required this.amount,
+    this.feeRate = 0,
   });
 }
 
 class _TransferSharesModal extends BaseComponent {
   final TokenizedBitcoin token;
   final bool forWithdrawl;
-  const _TransferSharesModal({
+  _TransferSharesModal({
     super.key,
     required this.token,
     required this.forWithdrawl,
   });
 
+  final TextEditingController toAddressController = TextEditingController();
+  // final TextEditingController fromAddressController = TextEditingController(text: forWithdrawl ? token.rbxAddress : '');
+  final TextEditingController amountControlller = TextEditingController();
+
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final TextEditingController toAddressController = TextEditingController();
-    // final TextEditingController fromAddressController = TextEditingController(text: forWithdrawl ? token.rbxAddress : '');
-    final TextEditingController amountControlller = TextEditingController();
-
     final color = Theme.of(context).colorScheme.btcOrange;
+    // int fee = 0;
+    // BtcFeeRatePreset btcFeeRatePreset = BtcFeeRatePreset.economy;
+    int fee = 0;
 
     return ModalContainer(
       withClose: true,
@@ -819,6 +846,89 @@ class _TransferSharesModal extends BaseComponent {
                 ),
                 inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
               ),
+              if (forWithdrawl)
+                Builder(
+                  builder: (context) {
+                    final state = ref.watch(vBtcOnboardProvider);
+
+                    final recommendedFees = ref.watch(sessionProvider).btcRecommendedFees ?? BtcRecommendedFees.fallback();
+
+                    switch (state.btcFeeRatePreset) {
+                      case BtcFeeRatePreset.custom:
+                        fee = 1;
+                        break;
+                      case BtcFeeRatePreset.minimum:
+                        fee = recommendedFees.minimumFee;
+                        break;
+                      case BtcFeeRatePreset.economy:
+                        fee = recommendedFees.economyFee;
+                        break;
+                      case BtcFeeRatePreset.hour:
+                        fee = recommendedFees.hourFee;
+                        break;
+                      case BtcFeeRatePreset.halfHour:
+                        fee = recommendedFees.halfHourFee;
+                        break;
+                      case BtcFeeRatePreset.fastest:
+                        fee = recommendedFees.fastestFee;
+                        break;
+                    }
+
+                    final feeBtc = satashiToBtcLabel(fee);
+                    final feeEstimate = satashiTxFeeEstimate(fee);
+                    final feeEstimateBtc = btcTxFeeEstimateLabel(fee);
+
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: const SizedBox(width: 100, child: Text("Fee Rate:")),
+                          title: Row(
+                            children: [
+                              PopupMenuButton<BtcFeeRatePreset>(
+                                color: Color(0xFF080808),
+                                onSelected: (value) {
+                                  ref.read(vBtcOnboardProvider.notifier).setBtcFeeRatePreset(value);
+                                },
+                                itemBuilder: (context) {
+                                  return BtcFeeRatePreset.values.where((type) => type != BtcFeeRatePreset.custom).map((preset) {
+                                    return PopupMenuItem(
+                                      value: preset,
+                                      child: Text(preset.label),
+                                    );
+                                  }).toList();
+                                },
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      state.btcFeeRatePreset.label,
+                                      style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.btcOrange),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_drop_down,
+                                      size: 24,
+                                      color: Theme.of(context).colorScheme.btcOrange,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "Fee Estimate: ~$feeEstimate SATS | ~$feeEstimateBtc BTC    ($fee SATS /byte | $feeBtc BTC /byte)",
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                      ],
+                    );
+                  },
+                ),
               Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -859,7 +969,7 @@ class _TransferSharesModal extends BaseComponent {
                         Toast.error("Not enough balance");
                         return;
                       }
-                      final result = _TransferShareModalResponse(toAddress: toAddress, amount: amount);
+                      final result = _TransferShareModalResponse(toAddress: toAddress, amount: amount, feeRate: fee);
                       Navigator.of(context).pop(result);
                     },
                   )
