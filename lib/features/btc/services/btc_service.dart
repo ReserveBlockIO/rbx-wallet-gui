@@ -524,4 +524,19 @@ class BtcService extends BaseService {
       return null;
     }
   }
+
+  Future<String?> defaultImage() async {
+    try {
+      final result = await getJson("/GetDefaultImageBase");
+
+      if (result["Success"] == true) {
+        return result['ImageBase'];
+      }
+
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 }

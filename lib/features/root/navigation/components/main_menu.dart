@@ -28,7 +28,12 @@ class MainMenu extends BaseComponent {
     final btcBalance = ref.watch(btcBalanceProvider);
     final btcAccountSyncInfo = ref.watch(sessionProvider).btcAccountSyncInfo;
 
-    final vBtcBalance = ref.watch(tokenizedBitcoinListProvider).fold<double>(0.0, (previousValue, element) => previousValue + element.myBalance);
+    double vBtcBalance = 0;
+    for (final a in ref.watch(tokenizedBitcoinListProvider)) {
+      vBtcBalance += a.myBalance;
+    }
+
+    // final vBtcBalance = ref.watch(tokenizedBitcoinListProvider).fold<double>(0.0, (previousValue, element) => previousValue + element.myBalance);
 
     return Scrollbar(
       controller: scrollController,
@@ -142,6 +147,7 @@ class MainMenu extends BaseComponent {
                       padding: const EdgeInsets.all(8.0).copyWith(top: 0),
                       child: Center(
                         child: RichText(
+                          textAlign: TextAlign.center,
                           text: TextSpan(
                             style: Theme.of(context).textTheme.caption!.copyWith(
                                   fontWeight: FontWeight.w600,

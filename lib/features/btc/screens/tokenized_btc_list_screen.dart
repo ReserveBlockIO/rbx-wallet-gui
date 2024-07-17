@@ -213,28 +213,10 @@ class TokenizeBtcListScreen extends BaseScreen {
                           child: ListTile(
                             title: Text(token.tokenName),
                             subtitle: Text("${token.myBalance} vBTC"),
-
-                            leading: FutureBuilder<Nft?>(
-                                future: NftService().retrieve(token.smartContractUid),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    final nft = snapshot.data;
-
-                                    if (nft != null) {
-                                      final path = nft.currentEvolveAsset.localPath;
-                                      if (path != null) {
-                                        return Image.file(
-                                          File(path),
-                                          width: 40,
-                                          height: 40,
-                                          fit: BoxFit.cover,
-                                        );
-                                      }
-                                    }
-                                  }
-                                  return Icon(FontAwesomeIcons.bitcoin);
-                                }),
-                            // trailing: TokenizedBtcActionButtons(token: token),
+                            leading: BtcTokenImage(
+                              nftId: token.smartContractUid,
+                              size: 48,
+                            ),
                             trailing: Icon(Icons.chevron_right),
                             onTap: () {
                               Navigator.of(context).push(

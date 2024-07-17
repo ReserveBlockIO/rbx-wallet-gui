@@ -28,6 +28,8 @@ mixin _$Tokenize {
   bool get keyRevealed => throw _privateConstructorUsedError;
   @JsonKey(name: "KeyRevealedRequestHash")
   String? get keyRevealedRequestHash => throw _privateConstructorUsedError;
+  @JsonKey(name: "ImageBase")
+  String? get imageBase => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,7 +46,8 @@ abstract class $TokenizeCopyWith<$Res> {
       {@JsonKey(name: "AssetName") String assetName,
       @JsonKey(name: "AssetTicker") String assetTicker,
       @JsonKey(name: "KeyRevealed") bool keyRevealed,
-      @JsonKey(name: "KeyRevealedRequestHash") String? keyRevealedRequestHash});
+      @JsonKey(name: "KeyRevealedRequestHash") String? keyRevealedRequestHash,
+      @JsonKey(name: "ImageBase") String? imageBase});
 }
 
 /// @nodoc
@@ -64,6 +67,7 @@ class _$TokenizeCopyWithImpl<$Res, $Val extends Tokenize>
     Object? assetTicker = null,
     Object? keyRevealed = null,
     Object? keyRevealedRequestHash = freezed,
+    Object? imageBase = freezed,
   }) {
     return _then(_value.copyWith(
       assetName: null == assetName
@@ -82,6 +86,10 @@ class _$TokenizeCopyWithImpl<$Res, $Val extends Tokenize>
           ? _value.keyRevealedRequestHash
           : keyRevealedRequestHash // ignore: cast_nullable_to_non_nullable
               as String?,
+      imageBase: freezed == imageBase
+          ? _value.imageBase
+          : imageBase // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -97,7 +105,8 @@ abstract class _$$_TokenizeCopyWith<$Res> implements $TokenizeCopyWith<$Res> {
       {@JsonKey(name: "AssetName") String assetName,
       @JsonKey(name: "AssetTicker") String assetTicker,
       @JsonKey(name: "KeyRevealed") bool keyRevealed,
-      @JsonKey(name: "KeyRevealedRequestHash") String? keyRevealedRequestHash});
+      @JsonKey(name: "KeyRevealedRequestHash") String? keyRevealedRequestHash,
+      @JsonKey(name: "ImageBase") String? imageBase});
 }
 
 /// @nodoc
@@ -115,6 +124,7 @@ class __$$_TokenizeCopyWithImpl<$Res>
     Object? assetTicker = null,
     Object? keyRevealed = null,
     Object? keyRevealedRequestHash = freezed,
+    Object? imageBase = freezed,
   }) {
     return _then(_$_Tokenize(
       assetName: null == assetName
@@ -133,6 +143,10 @@ class __$$_TokenizeCopyWithImpl<$Res>
           ? _value.keyRevealedRequestHash
           : keyRevealedRequestHash // ignore: cast_nullable_to_non_nullable
               as String?,
+      imageBase: freezed == imageBase
+          ? _value.imageBase
+          : imageBase // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -145,7 +159,8 @@ class _$_Tokenize extends _Tokenize {
       {@JsonKey(name: "AssetName") required this.assetName,
       @JsonKey(name: "AssetTicker") required this.assetTicker,
       @JsonKey(name: "KeyRevealed") this.keyRevealed = false,
-      @JsonKey(name: "KeyRevealedRequestHash") this.keyRevealedRequestHash})
+      @JsonKey(name: "KeyRevealedRequestHash") this.keyRevealedRequestHash,
+      @JsonKey(name: "ImageBase") this.imageBase})
       : super._();
 
   factory _$_Tokenize.fromJson(Map<String, dynamic> json) =>
@@ -163,10 +178,13 @@ class _$_Tokenize extends _Tokenize {
   @override
   @JsonKey(name: "KeyRevealedRequestHash")
   final String? keyRevealedRequestHash;
+  @override
+  @JsonKey(name: "ImageBase")
+  final String? imageBase;
 
   @override
   String toString() {
-    return 'Tokenize(assetName: $assetName, assetTicker: $assetTicker, keyRevealed: $keyRevealed, keyRevealedRequestHash: $keyRevealedRequestHash)';
+    return 'Tokenize(assetName: $assetName, assetTicker: $assetTicker, keyRevealed: $keyRevealed, keyRevealedRequestHash: $keyRevealedRequestHash, imageBase: $imageBase)';
   }
 
   @override
@@ -181,13 +199,15 @@ class _$_Tokenize extends _Tokenize {
             (identical(other.keyRevealed, keyRevealed) ||
                 other.keyRevealed == keyRevealed) &&
             (identical(other.keyRevealedRequestHash, keyRevealedRequestHash) ||
-                other.keyRevealedRequestHash == keyRevealedRequestHash));
+                other.keyRevealedRequestHash == keyRevealedRequestHash) &&
+            (identical(other.imageBase, imageBase) ||
+                other.imageBase == imageBase));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, assetName, assetTicker, keyRevealed, keyRevealedRequestHash);
+  int get hashCode => Object.hash(runtimeType, assetName, assetTicker,
+      keyRevealed, keyRevealedRequestHash, imageBase);
 
   @JsonKey(ignore: true)
   @override
@@ -212,7 +232,9 @@ abstract class _Tokenize extends Tokenize {
       @JsonKey(name: "KeyRevealed")
           final bool keyRevealed,
       @JsonKey(name: "KeyRevealedRequestHash")
-          final String? keyRevealedRequestHash}) = _$_Tokenize;
+          final String? keyRevealedRequestHash,
+      @JsonKey(name: "ImageBase")
+          final String? imageBase}) = _$_Tokenize;
   const _Tokenize._() : super._();
 
   factory _Tokenize.fromJson(Map<String, dynamic> json) = _$_Tokenize.fromJson;
@@ -229,6 +251,9 @@ abstract class _Tokenize extends Tokenize {
   @override
   @JsonKey(name: "KeyRevealedRequestHash")
   String? get keyRevealedRequestHash;
+  @override
+  @JsonKey(name: "ImageBase")
+  String? get imageBase;
   @override
   @JsonKey(ignore: true)
   _$$_TokenizeCopyWith<_$_Tokenize> get copyWith =>

@@ -30,4 +30,9 @@ class BridgeServiceV2 extends BaseService {
     }
     return null;
   }
+
+  // Future<String?> decompressData(String compressedData) async {
+
+  //   await postJson("/GetImageUncompressedByte", body )
+  // }
 }

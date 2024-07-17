@@ -95,6 +95,7 @@ class TokenizeBtcForm extends BaseComponent {
           FileSelector(
             asset: formState.asset,
             allowedExtensions: IMAGE_EXTENSIONS,
+            resizeToSquareWidth: 200,
             onChange: (a) {
               formProvider.setAsset(a);
             },

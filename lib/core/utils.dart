@@ -8,6 +8,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rbx_wallet/features/btc/services/btc_service.dart';
 import '../features/transactions/models/transaction.dart';
@@ -205,7 +206,14 @@ Map<String, dynamic>? parseNftData(Transaction transaction) {
 }
 
 String? nftDataValue(Map<String, dynamic> nftData, String key) {
-  return nftData.containsKey(key) ? nftData[key].toString() : null;
+  if (nftData.containsKey(key)) {
+    final val = nftData[key];
+    if (val is double) {
+      return formatDecimal(val);
+    }
+    return nftData[key].toString();
+  }
+  return null;
 }
 
 String getExtensionFromMimeType(String mimeType) {
@@ -244,4 +252,19 @@ String? cleanPhoneNumber(String phoneNumber) {
     return "+$cleanedNumber";
   }
   return null;
+}
+
+String formatDecimal(double number) {
+  NumberFormat formatter = NumberFormat('#.##########'); // Adjust the number of '#' as needed
+  String formatted = formatter.format(number);
+
+  // Ensure at least one decimal place if it's an integer
+  if (formatted.contains('.')) {
+    formatted = formatted.replaceAll(RegExp(r'0*$'), '');
+    formatted = formatted.replaceAll(RegExp(r'\.$'), '.0');
+  } else {
+    formatted = '$formatted.0';
+  }
+
+  return formatted;
 }

@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:archive/archive_io.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,10 +15,12 @@ import 'package:rbx_wallet/features/asset/asset_thumbnail.dart';
 import 'package:rbx_wallet/features/btc/components/tokenized_btc_action_buttons.dart';
 import 'package:rbx_wallet/features/btc/models/tokenized_bitcoin.dart';
 import 'package:rbx_wallet/features/btc/providers/tokenized_btc_detail_provider.dart';
+import 'package:rbx_wallet/features/btc/services/btc_service.dart';
 import 'package:rbx_wallet/features/nft/components/web_asset_thumbnail.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
+import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:collection/collection.dart';
@@ -75,28 +79,9 @@ class TokenizedBtcDetailScreen extends BaseScreen {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              width: 200,
-              child: FutureBuilder<Nft?>(
-                  future: NftService().retrieve(token.smartContractUid),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final nft = snapshot.data;
-
-                      if (nft != null) {
-                        final path = nft.currentEvolveAsset.localPath;
-                        if (path != null) {
-                          return Image.file(
-                            File(path),
-                            width: 200,
-                            height: 200,
-                            fit: BoxFit.cover,
-                          );
-                        }
-                      }
-                    }
-                    return Icon(FontAwesomeIcons.bitcoin);
-                  }),
+            BtcTokenImage(
+              nftId: token.smartContractUid,
+              size: 200,
             ),
             SizedBox(
               width: 16,
@@ -338,6 +323,85 @@ class _DetailRow extends StatelessWidget {
               ),
             )
         ],
+      ),
+    );
+  }
+}
+
+class BtcTokenImage extends StatefulWidget {
+  final String nftId;
+  final double size;
+  const BtcTokenImage({
+    super.key,
+    required this.nftId,
+    required this.size,
+  });
+
+  @override
+  State<BtcTokenImage> createState() => _BtcTokenImageState();
+}
+
+class _BtcTokenImageState extends State<BtcTokenImage> {
+  List<int>? bytes;
+
+  @override
+  void initState() {
+    load();
+    super.initState();
+  }
+
+  Future<void> load() async {
+    final nft = await NftService().retrieve(widget.nftId);
+    if (nft == null) {
+      return;
+    }
+
+    for (final f in nft.features) {
+      if (f['FeatureName'] == 3) {
+        final imageBase = f['FeatureFeatures']['ImageBase'];
+        if (imageBase != null) {
+          final decodedB64 = base64Decode(imageBase);
+          final decodedGzip = GZipDecoder().decodeBytes(decodedB64);
+          setState(() {
+            bytes = decodedGzip;
+          });
+
+          break;
+        }
+      }
+    }
+
+    if (bytes == null) {
+      String? defaultb64 = await BtcService().defaultImage();
+      if (defaultb64 != null) {
+        Uint8List imageBytes = base64.decode(defaultb64);
+        List<int> imageBytesList = imageBytes.toList();
+
+        setState(() {
+          bytes = imageBytesList;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: widget.size,
+      height: widget.size,
+      child: Builder(
+        builder: (context) {
+          if (bytes != null) {
+            return Image.memory(
+              Uint8List.fromList(bytes!),
+              width: widget.size,
+              height: widget.size,
+              fit: BoxFit.contain,
+            );
+          }
+
+          return Icon(FontAwesomeIcons.bitcoin);
+        },
       ),
     );
   }

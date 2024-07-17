@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rbx_wallet/core/providers/cached_memory_image_provider.dart';
 import '../../../../../core/env.dart';
 import '../../../../../core/services/explorer_service.dart';
@@ -18,6 +19,7 @@ import '../../../../../utils/files.dart';
 import '../../../../../utils/validation.dart';
 import '../../../../asset/asset.dart';
 import '../../../../config/providers/config_provider.dart';
+import 'package:image/image.dart' as IMG;
 
 class FileSelector extends BaseComponent {
   final bool transparentBackground;
@@ -28,6 +30,7 @@ class FileSelector extends BaseComponent {
   final bool withAuthorName;
   final bool allowReplace;
   final List<String>? allowedExtensions;
+  final int? resizeToSquareWidth;
   const FileSelector({
     Key? key,
     this.transparentBackground = false,
@@ -38,6 +41,7 @@ class FileSelector extends BaseComponent {
     this.withAuthorName = false,
     this.allowReplace = true,
     this.allowedExtensions,
+    this.resizeToSquareWidth,
   }) : super(key: key);
 
   Future<void> _handleUpload(WidgetRef ref) async {
@@ -85,7 +89,30 @@ class FileSelector extends BaseComponent {
       );
     } else {
       file = File(result.files.single.path!);
-      final filePath = file.path;
+      String filePath = file.path;
+
+      IMG.Image? thumbnail;
+
+      if (resizeToSquareWidth != null) {
+        final image = IMG.decodeImage(File(file.path).readAsBytesSync());
+        if (image != null) {
+          thumbnail = IMG.copyResizeCropSquare(image, size: resizeToSquareWidth!);
+          print("THUMB");
+          print(thumbnail);
+        }
+      }
+
+      if (thumbnail != null) {
+        Directory tempDir = await getTemporaryDirectory();
+        String tempPath = tempDir.path;
+        final ts = DateTime.now().millisecondsSinceEpoch.toString();
+        String path = '$tempPath${Platform.isWindows ? '\\' : '/'}$ts.jpg';
+        final bytes = Uint8List.fromList(IMG.encodeJpg(thumbnail, quality: 60));
+        await File(path).writeAsBytes(bytes);
+        filePath = path;
+      }
+
+      print(filePath);
 
       final slash = Platform.isWindows ? "\\" : "/";
       final name = filePath.split(slash).last;
