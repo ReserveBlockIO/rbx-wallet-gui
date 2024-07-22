@@ -233,6 +233,25 @@ class BtcService extends BaseService {
     }
   }
 
+  Future<List<BtcTransaction>> listAllTransactions() async {
+    try {
+      final result = await getJson("/GetBitcoinTXList/true/", cleanPath: false);
+
+      if (result['Success'] == true) {
+        final items = (result['TXs'] ?? []) as List;
+        return items.map((item) => BtcTransaction.fromJson(item)).toList();
+      }
+
+      print(result["Message"]);
+
+      return [];
+    } catch (e) {
+      print("GetAddressTXList");
+      print(e);
+      return [];
+    }
+  }
+
   Future<String?> createAdnr({
     required String address,
     required String btcAddress,

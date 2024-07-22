@@ -24,8 +24,8 @@ class BtcAccountList extends _$BtcAccountList {
   void _updateTransactions() {
     for (final account in state) {
       ref.read(btcUtxoListProvider(account.address).notifier).load();
-      ref.read(btcTransactionListProvider(account.address).notifier).load();
     }
+    ref.read(btcTransactionListProvider.notifier).load();
   }
 
   Future<BtcAccount?> create() async {

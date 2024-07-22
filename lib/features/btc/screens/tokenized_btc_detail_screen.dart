@@ -13,8 +13,10 @@ import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/asset/asset_thumbnail.dart';
+import 'package:rbx_wallet/features/btc/components/btc_transaction_list_tile.dart';
 import 'package:rbx_wallet/features/btc/components/tokenized_btc_action_buttons.dart';
 import 'package:rbx_wallet/features/btc/models/tokenized_bitcoin.dart';
+import 'package:rbx_wallet/features/btc/providers/btc_transaction_list_provider.dart';
 import 'package:rbx_wallet/features/btc/providers/tokenized_btc_detail_provider.dart';
 import 'package:rbx_wallet/features/btc/services/btc_service.dart';
 import 'package:rbx_wallet/features/nft/components/web_asset_thumbnail.dart';
@@ -82,110 +84,132 @@ class TokenizedBtcDetailScreen extends BaseScreen {
 
     final scOwner = nft.currentOwner;
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            BtcTokenImage(
-              nftId: token.smartContractUid,
-              size: 200,
-            ),
-            SizedBox(
-              width: 16,
-            ),
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Token Details",
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      fontSize: 18,
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              BtcTokenImage(
+                nftId: token.smartContractUid,
+                size: 200,
+              ),
+              SizedBox(
+                width: 16,
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Token Details",
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        fontSize: 18,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  _DetailRow(
-                    label: "Name",
-                    value: token.tokenName,
-                  ),
-                  _DetailRow(
-                    label: "Description",
-                    value: token.tokenDescription,
-                  ),
-                  _DetailRow(
-                    label: "Owner",
-                    value: token.rbxAddress,
-                    withCopy: true,
-                  ),
-                  if (scOwner != token.rbxAddress)
+                    SizedBox(
+                      height: 8,
+                    ),
                     _DetailRow(
-                      label: "Smart Contract Owner",
-                      value: scOwner,
+                      label: "Name",
+                      value: token.tokenName,
+                    ),
+                    _DetailRow(
+                      label: "Description",
+                      value: token.tokenDescription,
+                    ),
+                    _DetailRow(
+                      label: "Owner",
+                      value: token.rbxAddress,
                       withCopy: true,
                     ),
-                  _DetailRow(
-                    label: "BTC Deposit Address",
-                    value: token.btcAddress ?? 'Not Generated',
-                    withCopy: token.btcAddress != null,
-                  ),
-                  _DetailRow(
-                    label: "Smart Contract ID",
-                    value: token.smartContractUid,
-                    withCopy: true,
-                  ),
-                  _DetailRow(
-                    label: "My Balance",
-                    value: "${token.myBalance} vBTC",
-                  ),
-                  _DetailRow(
-                    label: "Token Total Balance",
-                    value: "${token.balance} vBTC",
-                  ),
+                    if (scOwner != token.rbxAddress)
+                      _DetailRow(
+                        label: "Smart Contract Owner",
+                        value: scOwner,
+                        withCopy: true,
+                      ),
+                    _DetailRow(
+                      label: "BTC Deposit Address",
+                      value: token.btcAddress ?? 'Not Generated',
+                      withCopy: token.btcAddress != null,
+                    ),
+                    _DetailRow(
+                      label: "Smart Contract ID",
+                      value: token.smartContractUid,
+                      withCopy: true,
+                    ),
+                    _DetailRow(
+                      label: "My Balance",
+                      value: "${token.myBalance} vBTC",
+                    ),
+                    _DetailRow(
+                      label: "Token Total Balance",
+                      value: "${token.balance} vBTC",
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          Text(
+            "Token Media",
+            style: TextStyle(
+              decoration: TextDecoration.underline,
+              fontSize: 16,
+            ),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          _BtcTokenMedia(token: token),
+          SizedBox(
+            height: 16,
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.btcOrange.withOpacity(1),
+            ),
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TokenizedBtcActionButtons(token: token, scOwner: scOwner),
                 ],
               ),
             ),
-          ],
-        ),
-        SizedBox(
-          height: 16,
-        ),
-        Text(
-          "Token Media",
-          style: TextStyle(
-            decoration: TextDecoration.underline,
-            fontSize: 18,
           ),
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        _BtcTokenMedia(token: token),
-        SizedBox(
-          height: 16,
-        ),
-        Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.btcOrange.withOpacity(1),
+          SizedBox(
+            height: 16,
           ),
-          width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TokenizedBtcActionButtons(token: token, scOwner: scOwner),
-              ],
+          Text(
+            "BTC Transactions",
+            style: TextStyle(
+              decoration: TextDecoration.underline,
+              fontSize: 16,
             ),
           ),
-        ),
-      ],
+          SizedBox(
+            height: 16,
+          ),
+          if (token.btcAddress != null)
+            ...ref.watch(btcTransactionListProvider).where((tx) => tx.toAddress == token.btcAddress || tx.fromAddress == token.btcAddress).map((tx) {
+              return BtcTransactionListTile(
+                address: token.btcAddress!,
+                transaction: tx,
+              );
+            }).toList()
+        ],
+      ),
     );
   }
 }

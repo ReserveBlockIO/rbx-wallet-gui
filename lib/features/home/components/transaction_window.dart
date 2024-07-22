@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/components/currency_segmented_button.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/btc/components/btc_transaction_list_tile.dart';
+import 'package:rbx_wallet/features/btc/providers/btc_transaction_list_provider.dart';
 import 'package:rbx_wallet/features/btc/providers/combined_btc_transaction_list_provider.dart';
 import '../../../core/theme/app_theme.dart';
 
@@ -20,7 +21,7 @@ class TransactionWindow extends BaseComponent {
     final transactions = ref.watch(transactionListProvider(TransactionListType.All));
 
     final recentTransactions = transactions.take(5).toList();
-    final recentBtcTranscations = ref.watch(combinedBtcTransactionListProvider).take(5).toList();
+    final recentBtcTranscations = ref.watch(btcTransactionListProvider).take(5).toList();
 
     final isBtc = ref.watch(sessionProvider).btcSelected;
 
