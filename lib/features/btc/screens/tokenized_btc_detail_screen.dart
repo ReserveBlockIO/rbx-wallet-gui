@@ -191,23 +191,41 @@ class TokenizedBtcDetailScreen extends BaseScreen {
           SizedBox(
             height: 16,
           ),
-          Text(
-            "BTC Transactions",
-            style: TextStyle(
-              decoration: TextDecoration.underline,
-              fontSize: 16,
-            ),
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          if (token.btcAddress != null)
-            ...ref.watch(btcTransactionListProvider).where((tx) => tx.toAddress == token.btcAddress || tx.fromAddress == token.btcAddress).map((tx) {
-              return BtcTransactionListTile(
-                address: token.btcAddress!,
-                transaction: tx,
-              );
-            }).toList()
+          Builder(builder: (context) {
+            final transactions =
+                ref.watch(btcTransactionListProvider).where((tx) => tx.toAddress == token.btcAddress || tx.fromAddress == token.btcAddress);
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "BTC Transactions",
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    fontSize: 16,
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                if (transactions.isEmpty)
+                  Text(
+                    "No BTC Transactions",
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                SizedBox(
+                  height: 8,
+                ),
+                if (token.btcAddress != null)
+                  ...transactions.map((tx) {
+                    return BtcTransactionListTile(
+                      address: token.btcAddress!,
+                      transaction: tx,
+                    );
+                  }).toList()
+              ],
+            );
+          }),
         ],
       ),
     );

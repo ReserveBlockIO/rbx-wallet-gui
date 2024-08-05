@@ -15,8 +15,10 @@ _$_BtcTransaction _$$_BtcTransactionFromJson(Map<String, dynamic> json) =>
       fee: (json['Fee'] as num).toDouble(),
       timestamp: json['Timestamp'] as int,
       signature: json['Signature'] as String,
-      type: json['TransactionType'] as int,
+      type: txTypeFromJson(json['TransactionType'] as int),
       feeRate: json['FeeRate'] as int,
+      confirmedHeight: json['ConfirmedHeight'] as int,
+      isConfirmed: json['IsConfirmed'] as bool,
     );
 
 Map<String, dynamic> _$$_BtcTransactionToJson(_$_BtcTransaction instance) =>
@@ -28,6 +30,16 @@ Map<String, dynamic> _$$_BtcTransactionToJson(_$_BtcTransaction instance) =>
       'Fee': instance.fee,
       'Timestamp': instance.timestamp,
       'Signature': instance.signature,
-      'TransactionType': instance.type,
+      'TransactionType': _$BTCTransactionTypeEnumMap[instance.type]!,
       'FeeRate': instance.feeRate,
+      'ConfirmedHeight': instance.confirmedHeight,
+      'IsConfirmed': instance.isConfirmed,
     };
+
+const _$BTCTransactionTypeEnumMap = {
+  BTCTransactionType.send: 'send',
+  BTCTransactionType.recieve: 'recieve',
+  BTCTransactionType.replaced: 'replaced',
+  BTCTransactionType.multiSigSend: 'multiSigSend',
+  BTCTransactionType.sameWalletTx: 'sameWalletTx',
+};

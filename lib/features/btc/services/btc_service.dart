@@ -473,7 +473,7 @@ class BtcService extends BaseService {
     }
   }
 
-  Future<bool> withdrawCoin(String scUid, String toAddress, String fromAddress, double amount, int feeRate) async {
+  Future<String?> withdrawCoin(String scUid, String toAddress, String fromAddress, double amount, int feeRate) async {
     final params = {
       'SCUID': scUid,
       'ToAddress': toAddress,
@@ -493,17 +493,18 @@ class BtcService extends BaseService {
       print(result);
 
       if (result.containsKey("Success") && result['Success'] == true) {
-        return true;
+        final hash = "${result['Message']}".replaceAll("Transaction Success. Hash: ", "");
+        return hash;
       }
 
       print(result['Message']);
       Toast.error(result['Message']);
-      return false;
+      return null;
     } catch (e) {
       print(e);
       Toast.error(e.toString());
 
-      return false;
+      return null;
     }
   }
 

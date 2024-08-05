@@ -34,10 +34,14 @@ mixin _$BtcTransaction {
   int get timestamp => throw _privateConstructorUsedError;
   @JsonKey(name: "Signature")
   String get signature => throw _privateConstructorUsedError;
-  @JsonKey(name: "TransactionType")
-  int get type => throw _privateConstructorUsedError;
+  @JsonKey(name: "TransactionType", fromJson: txTypeFromJson)
+  BTCTransactionType get type => throw _privateConstructorUsedError;
   @JsonKey(name: "FeeRate")
   int get feeRate => throw _privateConstructorUsedError;
+  @JsonKey(name: "ConfirmedHeight")
+  int get confirmedHeight => throw _privateConstructorUsedError;
+  @JsonKey(name: "IsConfirmed")
+  bool get isConfirmed => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -52,15 +56,28 @@ abstract class $BtcTransactionCopyWith<$Res> {
       _$BtcTransactionCopyWithImpl<$Res, BtcTransaction>;
   @useResult
   $Res call(
-      {@JsonKey(name: "Hash") String hash,
-      @JsonKey(name: "ToAddress") String toAddress,
-      @JsonKey(name: "FromAddress") String fromAddress,
-      @JsonKey(name: "Amount") double amount,
-      @JsonKey(name: "Fee") double fee,
-      @JsonKey(name: "Timestamp") int timestamp,
-      @JsonKey(name: "Signature") String signature,
-      @JsonKey(name: "TransactionType") int type,
-      @JsonKey(name: "FeeRate") int feeRate});
+      {@JsonKey(name: "Hash")
+          String hash,
+      @JsonKey(name: "ToAddress")
+          String toAddress,
+      @JsonKey(name: "FromAddress")
+          String fromAddress,
+      @JsonKey(name: "Amount")
+          double amount,
+      @JsonKey(name: "Fee")
+          double fee,
+      @JsonKey(name: "Timestamp")
+          int timestamp,
+      @JsonKey(name: "Signature")
+          String signature,
+      @JsonKey(name: "TransactionType", fromJson: txTypeFromJson)
+          BTCTransactionType type,
+      @JsonKey(name: "FeeRate")
+          int feeRate,
+      @JsonKey(name: "ConfirmedHeight")
+          int confirmedHeight,
+      @JsonKey(name: "IsConfirmed")
+          bool isConfirmed});
 }
 
 /// @nodoc
@@ -85,6 +102,8 @@ class _$BtcTransactionCopyWithImpl<$Res, $Val extends BtcTransaction>
     Object? signature = null,
     Object? type = null,
     Object? feeRate = null,
+    Object? confirmedHeight = null,
+    Object? isConfirmed = null,
   }) {
     return _then(_value.copyWith(
       hash: null == hash
@@ -118,11 +137,19 @@ class _$BtcTransactionCopyWithImpl<$Res, $Val extends BtcTransaction>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as int,
+              as BTCTransactionType,
       feeRate: null == feeRate
           ? _value.feeRate
           : feeRate // ignore: cast_nullable_to_non_nullable
               as int,
+      confirmedHeight: null == confirmedHeight
+          ? _value.confirmedHeight
+          : confirmedHeight // ignore: cast_nullable_to_non_nullable
+              as int,
+      isConfirmed: null == isConfirmed
+          ? _value.isConfirmed
+          : isConfirmed // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -136,15 +163,28 @@ abstract class _$$_BtcTransactionCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "Hash") String hash,
-      @JsonKey(name: "ToAddress") String toAddress,
-      @JsonKey(name: "FromAddress") String fromAddress,
-      @JsonKey(name: "Amount") double amount,
-      @JsonKey(name: "Fee") double fee,
-      @JsonKey(name: "Timestamp") int timestamp,
-      @JsonKey(name: "Signature") String signature,
-      @JsonKey(name: "TransactionType") int type,
-      @JsonKey(name: "FeeRate") int feeRate});
+      {@JsonKey(name: "Hash")
+          String hash,
+      @JsonKey(name: "ToAddress")
+          String toAddress,
+      @JsonKey(name: "FromAddress")
+          String fromAddress,
+      @JsonKey(name: "Amount")
+          double amount,
+      @JsonKey(name: "Fee")
+          double fee,
+      @JsonKey(name: "Timestamp")
+          int timestamp,
+      @JsonKey(name: "Signature")
+          String signature,
+      @JsonKey(name: "TransactionType", fromJson: txTypeFromJson)
+          BTCTransactionType type,
+      @JsonKey(name: "FeeRate")
+          int feeRate,
+      @JsonKey(name: "ConfirmedHeight")
+          int confirmedHeight,
+      @JsonKey(name: "IsConfirmed")
+          bool isConfirmed});
 }
 
 /// @nodoc
@@ -167,6 +207,8 @@ class __$$_BtcTransactionCopyWithImpl<$Res>
     Object? signature = null,
     Object? type = null,
     Object? feeRate = null,
+    Object? confirmedHeight = null,
+    Object? isConfirmed = null,
   }) {
     return _then(_$_BtcTransaction(
       hash: null == hash
@@ -200,11 +242,19 @@ class __$$_BtcTransactionCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as int,
+              as BTCTransactionType,
       feeRate: null == feeRate
           ? _value.feeRate
           : feeRate // ignore: cast_nullable_to_non_nullable
               as int,
+      confirmedHeight: null == confirmedHeight
+          ? _value.confirmedHeight
+          : confirmedHeight // ignore: cast_nullable_to_non_nullable
+              as int,
+      isConfirmed: null == isConfirmed
+          ? _value.isConfirmed
+          : isConfirmed // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -213,15 +263,28 @@ class __$$_BtcTransactionCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_BtcTransaction extends _BtcTransaction {
   _$_BtcTransaction(
-      {@JsonKey(name: "Hash") required this.hash,
-      @JsonKey(name: "ToAddress") required this.toAddress,
-      @JsonKey(name: "FromAddress") required this.fromAddress,
-      @JsonKey(name: "Amount") required this.amount,
-      @JsonKey(name: "Fee") required this.fee,
-      @JsonKey(name: "Timestamp") required this.timestamp,
-      @JsonKey(name: "Signature") required this.signature,
-      @JsonKey(name: "TransactionType") required this.type,
-      @JsonKey(name: "FeeRate") required this.feeRate})
+      {@JsonKey(name: "Hash")
+          required this.hash,
+      @JsonKey(name: "ToAddress")
+          required this.toAddress,
+      @JsonKey(name: "FromAddress")
+          required this.fromAddress,
+      @JsonKey(name: "Amount")
+          required this.amount,
+      @JsonKey(name: "Fee")
+          required this.fee,
+      @JsonKey(name: "Timestamp")
+          required this.timestamp,
+      @JsonKey(name: "Signature")
+          required this.signature,
+      @JsonKey(name: "TransactionType", fromJson: txTypeFromJson)
+          required this.type,
+      @JsonKey(name: "FeeRate")
+          required this.feeRate,
+      @JsonKey(name: "ConfirmedHeight")
+          required this.confirmedHeight,
+      @JsonKey(name: "IsConfirmed")
+          required this.isConfirmed})
       : super._();
 
   factory _$_BtcTransaction.fromJson(Map<String, dynamic> json) =>
@@ -249,15 +312,21 @@ class _$_BtcTransaction extends _BtcTransaction {
   @JsonKey(name: "Signature")
   final String signature;
   @override
-  @JsonKey(name: "TransactionType")
-  final int type;
+  @JsonKey(name: "TransactionType", fromJson: txTypeFromJson)
+  final BTCTransactionType type;
   @override
   @JsonKey(name: "FeeRate")
   final int feeRate;
+  @override
+  @JsonKey(name: "ConfirmedHeight")
+  final int confirmedHeight;
+  @override
+  @JsonKey(name: "IsConfirmed")
+  final bool isConfirmed;
 
   @override
   String toString() {
-    return 'BtcTransaction(hash: $hash, toAddress: $toAddress, fromAddress: $fromAddress, amount: $amount, fee: $fee, timestamp: $timestamp, signature: $signature, type: $type, feeRate: $feeRate)';
+    return 'BtcTransaction(hash: $hash, toAddress: $toAddress, fromAddress: $fromAddress, amount: $amount, fee: $fee, timestamp: $timestamp, signature: $signature, type: $type, feeRate: $feeRate, confirmedHeight: $confirmedHeight, isConfirmed: $isConfirmed)';
   }
 
   @override
@@ -277,13 +346,28 @@ class _$_BtcTransaction extends _BtcTransaction {
             (identical(other.signature, signature) ||
                 other.signature == signature) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.feeRate, feeRate) || other.feeRate == feeRate));
+            (identical(other.feeRate, feeRate) || other.feeRate == feeRate) &&
+            (identical(other.confirmedHeight, confirmedHeight) ||
+                other.confirmedHeight == confirmedHeight) &&
+            (identical(other.isConfirmed, isConfirmed) ||
+                other.isConfirmed == isConfirmed));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, hash, toAddress, fromAddress,
-      amount, fee, timestamp, signature, type, feeRate);
+  int get hashCode => Object.hash(
+      runtimeType,
+      hash,
+      toAddress,
+      fromAddress,
+      amount,
+      fee,
+      timestamp,
+      signature,
+      type,
+      feeRate,
+      confirmedHeight,
+      isConfirmed);
 
   @JsonKey(ignore: true)
   @override
@@ -301,16 +385,28 @@ class _$_BtcTransaction extends _BtcTransaction {
 
 abstract class _BtcTransaction extends BtcTransaction {
   factory _BtcTransaction(
-          {@JsonKey(name: "Hash") required final String hash,
-          @JsonKey(name: "ToAddress") required final String toAddress,
-          @JsonKey(name: "FromAddress") required final String fromAddress,
-          @JsonKey(name: "Amount") required final double amount,
-          @JsonKey(name: "Fee") required final double fee,
-          @JsonKey(name: "Timestamp") required final int timestamp,
-          @JsonKey(name: "Signature") required final String signature,
-          @JsonKey(name: "TransactionType") required final int type,
-          @JsonKey(name: "FeeRate") required final int feeRate}) =
-      _$_BtcTransaction;
+      {@JsonKey(name: "Hash")
+          required final String hash,
+      @JsonKey(name: "ToAddress")
+          required final String toAddress,
+      @JsonKey(name: "FromAddress")
+          required final String fromAddress,
+      @JsonKey(name: "Amount")
+          required final double amount,
+      @JsonKey(name: "Fee")
+          required final double fee,
+      @JsonKey(name: "Timestamp")
+          required final int timestamp,
+      @JsonKey(name: "Signature")
+          required final String signature,
+      @JsonKey(name: "TransactionType", fromJson: txTypeFromJson)
+          required final BTCTransactionType type,
+      @JsonKey(name: "FeeRate")
+          required final int feeRate,
+      @JsonKey(name: "ConfirmedHeight")
+          required final int confirmedHeight,
+      @JsonKey(name: "IsConfirmed")
+          required final bool isConfirmed}) = _$_BtcTransaction;
   _BtcTransaction._() : super._();
 
   factory _BtcTransaction.fromJson(Map<String, dynamic> json) =
@@ -338,11 +434,17 @@ abstract class _BtcTransaction extends BtcTransaction {
   @JsonKey(name: "Signature")
   String get signature;
   @override
-  @JsonKey(name: "TransactionType")
-  int get type;
+  @JsonKey(name: "TransactionType", fromJson: txTypeFromJson)
+  BTCTransactionType get type;
   @override
   @JsonKey(name: "FeeRate")
   int get feeRate;
+  @override
+  @JsonKey(name: "ConfirmedHeight")
+  int get confirmedHeight;
+  @override
+  @JsonKey(name: "IsConfirmed")
+  bool get isConfirmed;
   @override
   @JsonKey(ignore: true)
   _$$_BtcTransactionCopyWith<_$_BtcTransaction> get copyWith =>

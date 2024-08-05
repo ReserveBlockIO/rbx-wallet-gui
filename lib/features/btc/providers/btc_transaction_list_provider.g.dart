@@ -7,7 +7,7 @@ part of 'btc_transaction_list_provider.dart';
 // **************************************************************************
 
 String _$btcTransactionListHash() =>
-    r'5bb3c12b02748427ed9ed176de57bed76957dc53';
+    r'8d0579b758d7fe03ebc1ff09b531d90088004b97';
 
 /// See also [BtcTransactionList].
 @ProviderFor(BtcTransactionList)

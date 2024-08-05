@@ -562,6 +562,7 @@ class TokenizedBtcActionButtons extends BaseComponent {
                     }
 
                     late final bool success;
+                    String? withdrawlHash;
 
                     if (option == 2) {
                       if (isRa) {
@@ -569,6 +570,7 @@ class TokenizedBtcActionButtons extends BaseComponent {
                           return;
                         }
                       }
+                      ref.read(globalLoadingProvider.notifier).start();
 
                       success = await BtcService().transferTokenShares(
                         token.smartContractUid,
@@ -576,22 +578,30 @@ class TokenizedBtcActionButtons extends BaseComponent {
                         token.rbxAddress,
                         result.amount,
                       );
+                      ref.read(globalLoadingProvider.notifier).complete();
                     } else {
-                      success = await BtcService().withdrawCoin(
+                      ref.read(globalLoadingProvider.notifier).start();
+                      withdrawlHash = await BtcService().withdrawCoin(
                         token.smartContractUid,
                         result.toAddress,
                         token.rbxAddress,
                         result.amount,
                         result.feeRate,
                       );
+                      ref.read(globalLoadingProvider.notifier).complete();
+
+                      if (withdrawlHash != null) {
+                        success = true;
+                      }
                     }
 
                     if (success) {
-                      final message = "BTC ${forWithdrawl ? "Withdrawl" : "Transfer"} TX Broadcasted successfully.";
+                      final message =
+                          "BTC ${forWithdrawl ? "Withdrawl" : "Transfer"} TX Broadcasted successfully.${withdrawlHash != null ? ' Hash: $withdrawlHash' : ''}";
                       Toast.message(message);
 
                       ref.read(logProvider.notifier).append(
-                            LogEntry(message: message, variant: AppColorVariant.Btc),
+                            LogEntry(message: message, variant: AppColorVariant.Btc, textToCopy: withdrawlHash),
                           );
                     }
                   }
