@@ -14,6 +14,7 @@ import '../../../../utils/formatting.dart';
 import '../../../block/latest_block.dart';
 import '../../../bridge/providers/status_provider.dart';
 import '../../../bridge/providers/wallet_info_provider.dart';
+import '../../../btc/providers/electrum_connected_provider.dart';
 
 class StatusContainer extends BaseComponent {
   const StatusContainer({Key? key}) : super(key: key);
@@ -64,16 +65,25 @@ class StatusContainer extends BaseComponent {
                             )),
                       ),
                     ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  // const Text(
+                  //   "Status",
+                  //   style: TextStyle(fontWeight: FontWeight.bold),
+                  // ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      const Text(
-                        "Status",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
                       _StatusIndicator(status),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4.0),
+                        child: _BtcStatusIndicator(),
+                      ),
                     ],
                   ),
+                  //   ],
+                  // ),
                   if (blockchainVersion != null)
                     _DetailItem(
                       label: "Blockchain Version",
@@ -430,12 +440,12 @@ class _StatusIndicator extends BaseComponent {
         );
       case BridgeStatus.Online:
         return const AppBadge(
-          label: "Online",
+          label: "VFX Online",
           variant: AppColorVariant.Success,
         );
       case BridgeStatus.Offline:
         return const AppBadge(
-          label: "Offline",
+          label: "VFX Offline",
           variant: AppColorVariant.Danger,
         );
     }
@@ -478,5 +488,47 @@ class _DetailItem extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class _BtcStatusIndicator extends BaseComponent {
+  const _BtcStatusIndicator({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sessionState = ref.watch(sessionProvider);
+
+    if (!sessionState.cliStarted) {
+      return SizedBox();
+    }
+
+    final electrumConnected = ref.watch(electrumConnectedProvider);
+
+    final btcAccountSyncInfo = sessionState.btcAccountSyncInfo;
+
+    switch (electrumConnected) {
+      case null:
+        return const AppBadge(
+          label: "BTC Loading",
+          variant: AppColorVariant.Light,
+        );
+      case true:
+        return Tooltip(
+          message: btcAccountSyncInfo != null
+              ? "Last Sync: ${btcAccountSyncInfo.lastSyncFormatted}\nNext Sync: ${btcAccountSyncInfo.nextSyncFormatted}"
+              : "",
+          child: const AppBadge(
+            label: "BTC Online",
+            variant: AppColorVariant.Btc,
+          ),
+        );
+      case false:
+        return const AppBadge(
+          label: "BTC Offline",
+          variant: AppColorVariant.Danger,
+        );
+    }
+
+    return SizedBox();
   }
 }

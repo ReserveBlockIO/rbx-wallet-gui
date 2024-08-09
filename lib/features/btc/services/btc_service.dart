@@ -17,6 +17,20 @@ import '../models/btc_utxo.dart';
 class BtcService extends BaseService {
   BtcService() : super(apiBasePathOverride: "/btcapi/BTCV2");
 
+  Future<bool> electrumConnectionState() async {
+    try {
+      final result = await getJson('/GetElectrumXState');
+
+      if (result.containsKey("IsConnected")) {
+        return result['IsConnected'] == true;
+      }
+
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<BtcAddressType> addressType() async {
     BtcAddressType? type;
 
