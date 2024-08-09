@@ -5,6 +5,7 @@ import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
+import 'package:rbx_wallet/features/btc/components/btc_utxo_list.dart';
 import 'package:rbx_wallet/features/btc/services/btc_service.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 import '../../../core/base_component.dart';
@@ -258,6 +259,7 @@ class BtcTransactionListTileState extends BaseComponentState<BtcTransactionListT
                         if (_expanded)
                           Column(
                             mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Divider(),
                               Row(
@@ -301,6 +303,19 @@ class BtcTransactionListTileState extends BaseComponentState<BtcTransactionListT
                                 transaction.signature,
                                 style: Theme.of(context).textTheme.caption,
                               ),
+                              SizedBox(
+                                height: 6,
+                              ),
+                              Text(
+                                "UTXOs:",
+                                style: TextStyle(decoration: TextDecoration.underline),
+                              ),
+                              SizedBox(
+                                height: 12,
+                              ),
+                              ...transaction.utxos.map((utxo) {
+                                return UtxoListTile(utxo: utxo);
+                              }).toList(),
                             ],
                           ),
                       ],

@@ -147,10 +147,11 @@ class TokenizedBtcDetailScreen extends BaseScreen {
                       label: "My Balance",
                       value: "${token.myBalance} vBTC",
                     ),
-                    _DetailRow(
-                      label: "Token Total Balance",
-                      value: "${token.balance} vBTC",
-                    ),
+                    if (scOwner == token.rbxAddress)
+                      _DetailRow(
+                        label: "Token Total Balance",
+                        value: "${token.balance} vBTC",
+                      ),
                   ],
                 ),
               ),
@@ -416,13 +417,17 @@ class _BtcTokenImageState extends State<BtcTokenImage> {
 
     for (final f in nft.features) {
       if (f['FeatureName'] == 3) {
-        final imageBase = f['FeatureFeatures']['ImageBase'];
+        final String? imageBase = f['FeatureFeatures']['ImageBase'];
         if (imageBase != null) {
-          final decodedB64 = base64Decode(imageBase);
-          final decodedGzip = GZipDecoder().decodeBytes(decodedB64);
-          setState(() {
-            bytes = decodedGzip;
-          });
+          try {
+            final decodedB64 = base64Decode(imageBase);
+            final decodedGzip = GZipDecoder().decodeBytes(decodedB64);
+            setState(() {
+              bytes = decodedGzip;
+            });
+          } catch (e) {
+            // Probably just an old file
+          }
 
           break;
         }

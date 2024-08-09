@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/features/btc/models/tokenized_bitcoin.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
@@ -494,7 +495,7 @@ class BtcService extends BaseService {
       'FromAddress': fromAddress,
       'Amount': amount,
       // 'ChosenFeeRate': feeRate,
-      'ChosenFeeRate': 10,
+      'ChosenFeeRate': BTC_WITHDRAWL_FEE_RATE,
     };
 
     print(jsonEncode(params));

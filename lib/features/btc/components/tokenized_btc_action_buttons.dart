@@ -553,7 +553,7 @@ class TokenizedBtcActionButtons extends BaseComponent {
                     final confirmed = await ConfirmDialog.show(
                       title: forWithdrawl ? "Withdraw BTC" : "Transfer BTC",
                       body: forWithdrawl
-                          ? "Are you sure you want to withdraw ${result.amount} BTC"
+                          ? "Are you sure you want to withdraw ${result.amount} BTC to ${result.toAddress}?"
                           : "Are you sure you want to transfer ${result.amount} vBTC to ${result.toAddress}?",
                     );
 
@@ -825,6 +825,7 @@ class _TransferSharesModal extends BaseComponent {
         Form(
           child: Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
                 controller: toAddressController,
@@ -856,89 +857,97 @@ class _TransferSharesModal extends BaseComponent {
                 ),
                 inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
               ),
-              if (forWithdrawl)
-                Builder(
-                  builder: (context) {
-                    final state = ref.watch(vBtcOnboardProvider);
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text("Fee Rate: $BTC_WITHDRAWL_FEE_RATE SATS per byte (${satashiToBtcLabel(BTC_WITHDRAWL_FEE_RATE)} BTC per byte)"),
+              ),
+              Text(
+                "This is a Multi-signature. The fee rate has been calculated for you.",
+                style: Theme.of(context).textTheme.caption,
+              ),
+              // if (forWithdrawl)
+              //   Builder(
+              //     builder: (context) {
+              //       final state = ref.watch(vBtcOnboardProvider);
 
-                    final recommendedFees = ref.watch(sessionProvider).btcRecommendedFees ?? BtcRecommendedFees.fallback();
+              //       final recommendedFees = ref.watch(sessionProvider).btcRecommendedFees ?? BtcRecommendedFees.fallback();
 
-                    switch (state.btcFeeRatePreset) {
-                      case BtcFeeRatePreset.custom:
-                        fee = 1;
-                        break;
-                      case BtcFeeRatePreset.minimum:
-                        fee = recommendedFees.minimumFee;
-                        break;
-                      case BtcFeeRatePreset.economy:
-                        fee = recommendedFees.economyFee;
-                        break;
-                      case BtcFeeRatePreset.hour:
-                        fee = recommendedFees.hourFee;
-                        break;
-                      case BtcFeeRatePreset.halfHour:
-                        fee = recommendedFees.halfHourFee;
-                        break;
-                      case BtcFeeRatePreset.fastest:
-                        fee = recommendedFees.fastestFee;
-                        break;
-                    }
+              //       switch (state.btcFeeRatePreset) {
+              //         case BtcFeeRatePreset.custom:
+              //           fee = 1;
+              //           break;
+              //         case BtcFeeRatePreset.minimum:
+              //           fee = recommendedFees.minimumFee;
+              //           break;
+              //         case BtcFeeRatePreset.economy:
+              //           fee = recommendedFees.economyFee;
+              //           break;
+              //         case BtcFeeRatePreset.hour:
+              //           fee = recommendedFees.hourFee;
+              //           break;
+              //         case BtcFeeRatePreset.halfHour:
+              //           fee = recommendedFees.halfHourFee;
+              //           break;
+              //         case BtcFeeRatePreset.fastest:
+              //           fee = recommendedFees.fastestFee;
+              //           break;
+              //       }
 
-                    final feeBtc = satashiToBtcLabel(fee);
-                    final feeEstimate = satashiTxFeeEstimate(fee);
-                    final feeEstimateBtc = btcTxFeeEstimateLabel(fee);
+              //       final feeBtc = satashiToBtcLabel(fee);
+              //       final feeEstimate = satashiTxFeeEstimate(fee);
+              //       final feeEstimateBtc = btcTxFeeEstimateLabel(fee);
 
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          leading: const SizedBox(width: 100, child: Text("Fee Rate:")),
-                          title: Row(
-                            children: [
-                              PopupMenuButton<BtcFeeRatePreset>(
-                                color: Color(0xFF080808),
-                                onSelected: (value) {
-                                  ref.read(vBtcOnboardProvider.notifier).setBtcFeeRatePreset(value);
-                                },
-                                itemBuilder: (context) {
-                                  return BtcFeeRatePreset.values.where((type) => type != BtcFeeRatePreset.custom).map((preset) {
-                                    return PopupMenuItem(
-                                      value: preset,
-                                      child: Text(preset.label),
-                                    );
-                                  }).toList();
-                                },
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      state.btcFeeRatePreset.label,
-                                      style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.btcOrange),
-                                    ),
-                                    Icon(
-                                      Icons.arrow_drop_down,
-                                      size: 24,
-                                      color: Theme.of(context).colorScheme.btcOrange,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          "Fee Estimate: ~$feeEstimate SATS | ~$feeEstimateBtc BTC    ($fee SATS /byte | $feeBtc BTC /byte)",
-                          style: Theme.of(context).textTheme.caption,
-                        ),
-                      ],
-                    );
-                  },
-                ),
+              //       return Column(
+              //         mainAxisSize: MainAxisSize.min,
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: [
+              //           ListTile(
+              //             contentPadding: EdgeInsets.zero,
+              //             leading: const SizedBox(width: 100, child: Text("Fee Rate:")),
+              //             title: Row(
+              //               children: [
+              //                 PopupMenuButton<BtcFeeRatePreset>(
+              //                   color: Color(0xFF080808),
+              //                   onSelected: (value) {
+              //                     ref.read(vBtcOnboardProvider.notifier).setBtcFeeRatePreset(value);
+              //                   },
+              //                   itemBuilder: (context) {
+              //                     return BtcFeeRatePreset.values.where((type) => type != BtcFeeRatePreset.custom).map((preset) {
+              //                       return PopupMenuItem(
+              //                         value: preset,
+              //                         child: Text(preset.label),
+              //                       );
+              //                     }).toList();
+              //                   },
+              //                   child: Row(
+              //                     mainAxisSize: MainAxisSize.min,
+              //                     children: [
+              //                       Text(
+              //                         state.btcFeeRatePreset.label,
+              //                         style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.btcOrange),
+              //                       ),
+              //                       Icon(
+              //                         Icons.arrow_drop_down,
+              //                         size: 24,
+              //                         color: Theme.of(context).colorScheme.btcOrange,
+              //                       ),
+              //                     ],
+              //                   ),
+              //                 ),
+              //               ],
+              //             ),
+              //           ),
+              //           SizedBox(
+              //             height: 8,
+              //           ),
+              //           Text(
+              //             "Fee Estimate: ~$feeEstimate SATS | ~$feeEstimateBtc BTC    ($fee SATS /byte | $feeBtc BTC /byte)",
+              //             style: Theme.of(context).textTheme.caption,
+              //           ),
+              //         ],
+              //       );
+              //     },
+              //   ),
               Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

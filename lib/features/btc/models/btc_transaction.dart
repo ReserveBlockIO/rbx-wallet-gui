@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
+import 'package:rbx_wallet/features/btc/models/btc_utxo.dart';
 
 part 'btc_transaction.freezed.dart';
 part 'btc_transaction.g.dart';
@@ -33,6 +34,7 @@ class BtcTransaction with _$BtcTransaction {
     @JsonKey(name: "FeeRate") required int feeRate,
     @JsonKey(name: "ConfirmedHeight") required int confirmedHeight,
     @JsonKey(name: "IsConfirmed") required bool isConfirmed,
+    @JsonKey(name: "BitcoinUTXOs") @Default([]) List<BtcUtxo> utxos,
   }) = _BtcTransaction;
 
   factory BtcTransaction.fromJson(Map<String, dynamic> json) => _$BtcTransactionFromJson(json);

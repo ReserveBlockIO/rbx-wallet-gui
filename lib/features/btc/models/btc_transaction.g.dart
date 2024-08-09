@@ -19,6 +19,10 @@ _$_BtcTransaction _$$_BtcTransactionFromJson(Map<String, dynamic> json) =>
       feeRate: json['FeeRate'] as int,
       confirmedHeight: json['ConfirmedHeight'] as int,
       isConfirmed: json['IsConfirmed'] as bool,
+      utxos: (json['BitcoinUTXOs'] as List<dynamic>?)
+              ?.map((e) => BtcUtxo.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$_BtcTransactionToJson(_$_BtcTransaction instance) =>
@@ -34,6 +38,7 @@ Map<String, dynamic> _$$_BtcTransactionToJson(_$_BtcTransaction instance) =>
       'FeeRate': instance.feeRate,
       'ConfirmedHeight': instance.confirmedHeight,
       'IsConfirmed': instance.isConfirmed,
+      'BitcoinUTXOs': instance.utxos,
     };
 
 const _$BTCTransactionTypeEnumMap = {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/btc/models/btc_utxo.dart';
 import 'package:rbx_wallet/features/btc/providers/combined_btc_utxo_list_provider.dart';
 import '../../../core/base_component.dart';
 import '../../../core/components/badges.dart';
@@ -23,27 +24,41 @@ class BtcUtxoList extends BaseComponent {
       itemBuilder: (context, index) {
         final utxo = utxos[index];
 
-        return Container(
-          decoration: BoxDecoration(
-            color: Color(0xFF050505),
-            boxShadow: glowingBoxBtc,
-          ),
-          child: ListTile(
-            dense: true,
-            title: Text("Address: ${utxo.address}"),
-            subtitle: Text("TX ID: ${utxo.hash}\nAmount:${utxo.valueBtcLabel}"),
-            trailing: utxo.isUsed
-                ? AppBadge(
-                    label: "Used",
-                    variant: AppColorVariant.Btc,
-                  )
-                : AppBadge(
-                    label: "Unused",
-                    variant: AppColorVariant.Primary,
-                  ),
-          ),
-        );
+        return UtxoListTile(utxo: utxo);
       },
+    );
+  }
+}
+
+class UtxoListTile extends StatelessWidget {
+  const UtxoListTile({
+    super.key,
+    required this.utxo,
+  });
+
+  final BtcUtxo utxo;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Color(0xFF050505),
+        boxShadow: glowingBoxBtc,
+      ),
+      child: ListTile(
+        dense: true,
+        title: Text("Address: ${utxo.address}"),
+        subtitle: Text("TX ID: ${utxo.hash}\nAmount:${utxo.valueBtcLabel}"),
+        trailing: utxo.isUsed
+            ? AppBadge(
+                label: "Used",
+                variant: AppColorVariant.Btc,
+              )
+            : AppBadge(
+                label: "Unused",
+                variant: AppColorVariant.Primary,
+              ),
+      ),
     );
   }
 }

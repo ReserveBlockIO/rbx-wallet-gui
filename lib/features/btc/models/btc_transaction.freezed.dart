@@ -42,6 +42,8 @@ mixin _$BtcTransaction {
   int get confirmedHeight => throw _privateConstructorUsedError;
   @JsonKey(name: "IsConfirmed")
   bool get isConfirmed => throw _privateConstructorUsedError;
+  @JsonKey(name: "BitcoinUTXOs")
+  List<BtcUtxo> get utxos => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -77,7 +79,9 @@ abstract class $BtcTransactionCopyWith<$Res> {
       @JsonKey(name: "ConfirmedHeight")
           int confirmedHeight,
       @JsonKey(name: "IsConfirmed")
-          bool isConfirmed});
+          bool isConfirmed,
+      @JsonKey(name: "BitcoinUTXOs")
+          List<BtcUtxo> utxos});
 }
 
 /// @nodoc
@@ -104,6 +108,7 @@ class _$BtcTransactionCopyWithImpl<$Res, $Val extends BtcTransaction>
     Object? feeRate = null,
     Object? confirmedHeight = null,
     Object? isConfirmed = null,
+    Object? utxos = null,
   }) {
     return _then(_value.copyWith(
       hash: null == hash
@@ -150,6 +155,10 @@ class _$BtcTransactionCopyWithImpl<$Res, $Val extends BtcTransaction>
           ? _value.isConfirmed
           : isConfirmed // ignore: cast_nullable_to_non_nullable
               as bool,
+      utxos: null == utxos
+          ? _value.utxos
+          : utxos // ignore: cast_nullable_to_non_nullable
+              as List<BtcUtxo>,
     ) as $Val);
   }
 }
@@ -184,7 +193,9 @@ abstract class _$$_BtcTransactionCopyWith<$Res>
       @JsonKey(name: "ConfirmedHeight")
           int confirmedHeight,
       @JsonKey(name: "IsConfirmed")
-          bool isConfirmed});
+          bool isConfirmed,
+      @JsonKey(name: "BitcoinUTXOs")
+          List<BtcUtxo> utxos});
 }
 
 /// @nodoc
@@ -209,6 +220,7 @@ class __$$_BtcTransactionCopyWithImpl<$Res>
     Object? feeRate = null,
     Object? confirmedHeight = null,
     Object? isConfirmed = null,
+    Object? utxos = null,
   }) {
     return _then(_$_BtcTransaction(
       hash: null == hash
@@ -255,6 +267,10 @@ class __$$_BtcTransactionCopyWithImpl<$Res>
           ? _value.isConfirmed
           : isConfirmed // ignore: cast_nullable_to_non_nullable
               as bool,
+      utxos: null == utxos
+          ? _value._utxos
+          : utxos // ignore: cast_nullable_to_non_nullable
+              as List<BtcUtxo>,
     ));
   }
 }
@@ -284,8 +300,11 @@ class _$_BtcTransaction extends _BtcTransaction {
       @JsonKey(name: "ConfirmedHeight")
           required this.confirmedHeight,
       @JsonKey(name: "IsConfirmed")
-          required this.isConfirmed})
-      : super._();
+          required this.isConfirmed,
+      @JsonKey(name: "BitcoinUTXOs")
+          final List<BtcUtxo> utxos = const []})
+      : _utxos = utxos,
+        super._();
 
   factory _$_BtcTransaction.fromJson(Map<String, dynamic> json) =>
       _$$_BtcTransactionFromJson(json);
@@ -323,10 +342,18 @@ class _$_BtcTransaction extends _BtcTransaction {
   @override
   @JsonKey(name: "IsConfirmed")
   final bool isConfirmed;
+  final List<BtcUtxo> _utxos;
+  @override
+  @JsonKey(name: "BitcoinUTXOs")
+  List<BtcUtxo> get utxos {
+    if (_utxos is EqualUnmodifiableListView) return _utxos;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_utxos);
+  }
 
   @override
   String toString() {
-    return 'BtcTransaction(hash: $hash, toAddress: $toAddress, fromAddress: $fromAddress, amount: $amount, fee: $fee, timestamp: $timestamp, signature: $signature, type: $type, feeRate: $feeRate, confirmedHeight: $confirmedHeight, isConfirmed: $isConfirmed)';
+    return 'BtcTransaction(hash: $hash, toAddress: $toAddress, fromAddress: $fromAddress, amount: $amount, fee: $fee, timestamp: $timestamp, signature: $signature, type: $type, feeRate: $feeRate, confirmedHeight: $confirmedHeight, isConfirmed: $isConfirmed, utxos: $utxos)';
   }
 
   @override
@@ -350,7 +377,8 @@ class _$_BtcTransaction extends _BtcTransaction {
             (identical(other.confirmedHeight, confirmedHeight) ||
                 other.confirmedHeight == confirmedHeight) &&
             (identical(other.isConfirmed, isConfirmed) ||
-                other.isConfirmed == isConfirmed));
+                other.isConfirmed == isConfirmed) &&
+            const DeepCollectionEquality().equals(other._utxos, _utxos));
   }
 
   @JsonKey(ignore: true)
@@ -367,7 +395,8 @@ class _$_BtcTransaction extends _BtcTransaction {
       type,
       feeRate,
       confirmedHeight,
-      isConfirmed);
+      isConfirmed,
+      const DeepCollectionEquality().hash(_utxos));
 
   @JsonKey(ignore: true)
   @override
@@ -406,7 +435,9 @@ abstract class _BtcTransaction extends BtcTransaction {
       @JsonKey(name: "ConfirmedHeight")
           required final int confirmedHeight,
       @JsonKey(name: "IsConfirmed")
-          required final bool isConfirmed}) = _$_BtcTransaction;
+          required final bool isConfirmed,
+      @JsonKey(name: "BitcoinUTXOs")
+          final List<BtcUtxo> utxos}) = _$_BtcTransaction;
   _BtcTransaction._() : super._();
 
   factory _BtcTransaction.fromJson(Map<String, dynamic> json) =
@@ -445,6 +476,9 @@ abstract class _BtcTransaction extends BtcTransaction {
   @override
   @JsonKey(name: "IsConfirmed")
   bool get isConfirmed;
+  @override
+  @JsonKey(name: "BitcoinUTXOs")
+  List<BtcUtxo> get utxos;
   @override
   @JsonKey(ignore: true)
   _$$_BtcTransactionCopyWith<_$_BtcTransaction> get copyWith =>
