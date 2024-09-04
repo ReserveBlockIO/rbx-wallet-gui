@@ -10,12 +10,14 @@ import '../features/dst/screens/create_dec_shop_container_screen.dart';
 import '../features/dst/screens/dst_landing_screen.dart';
 import '../features/dst/screens/my_collection_detail_screen.dart';
 import '../features/dst/screens/my_collection_list_screen.dart';
+import '../features/home/screens/new_home_screen.dart';
 import '../features/remote_shop/screens/remote_shop_collection_screen.dart';
 import '../features/remote_shop/screens/remote_shop_container_screen.dart';
 import '../features/remote_shop/screens/remote_shop_detail_screen.dart';
 import '../features/remote_shop/screens/remote_shop_list_screen.dart';
 import '../features/reserve/screens/manage_reserve_accounts_screen.dart';
 import '../features/reserve/screens/reserve_account_overview_screen.dart';
+import '../features/root/new_root_container.dart';
 import '../features/token/screens/token_topic_create_screen.dart';
 import '../features/web_shop/screens/create_web_listing_screen.dart';
 import '../features/web_shop/screens/web_collection_detail_screen.dart';
@@ -65,14 +67,14 @@ const List<AutoRoute> appRoutes = [
   AutoRoute(
     initial: true,
     path: '/',
-    page: RootContainer,
+    page: NewRootContainer,
     children: [
       AutoRoute(
         path: "home",
         name: "HomeTabRouter",
         page: EmptyRouterPage,
         children: [
-          AutoRoute(path: "", page: HomeScreen),
+          AutoRoute(path: "", page: NewHomeScreen),
           AutoRoute(path: "reserve-accounts", page: ReserveAccountOverviewScreen),
         ],
       ),

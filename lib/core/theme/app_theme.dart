@@ -101,6 +101,7 @@ class AppTheme {
           color: _secondaryColor,
         ),
       ),
+      splashFactory: NoSplash.splashFactory,
       textTheme: _textTheme(),
       fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : null,
     );
@@ -124,6 +125,7 @@ class AppTheme {
           borderSide: BorderSide(color: _infoColor),
         ),
       ),
+      splashFactory: NoSplash.splashFactory,
       scaffoldBackgroundColor: Colors.black,
       dialogTheme: DialogTheme(
           backgroundColor: Color(0xff070707),
@@ -134,8 +136,16 @@ class AppTheme {
             fontSize: 18,
             fontWeight: FontWeight.w600,
           )),
+      appBarTheme: AppBarTheme(
+          titleTextStyle: TextStyle(
+        fontFamily: "Mukta",
+        fontSize: 20,
+        letterSpacing: 1,
+        fontWeight: FontWeight.w300,
+        color: Colors.white.withOpacity(0.8),
+      )),
       textTheme: _textTheme(true),
-      fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : null,
+      fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : "Mukta",
       colorScheme: ColorScheme.fromSwatch(
         brightness: Brightness.dark,
         primarySwatch: createMaterialColor(_primaryColor),

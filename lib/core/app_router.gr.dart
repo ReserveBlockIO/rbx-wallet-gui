@@ -52,7 +52,7 @@ import 'package:rbx_wallet/features/dst/screens/my_collection_detail_screen.dart
     as _i28;
 import 'package:rbx_wallet/features/dst/screens/my_collection_list_screen.dart'
     as _i27;
-import 'package:rbx_wallet/features/home/screens/home_screen.dart' as _i13;
+import 'package:rbx_wallet/features/home/screens/new_home_screen.dart' as _i13;
 import 'package:rbx_wallet/features/mother/screens/mother_dashboard_screen.dart'
     as _i8;
 import 'package:rbx_wallet/features/nft/screens/nft_list_screen.dart' as _i22;
@@ -69,7 +69,7 @@ import 'package:rbx_wallet/features/reserve/screens/manage_reserve_accounts_scre
     as _i39;
 import 'package:rbx_wallet/features/reserve/screens/reserve_account_overview_screen.dart'
     as _i14;
-import 'package:rbx_wallet/features/root/root_container.dart' as _i1;
+import 'package:rbx_wallet/features/root/new_root_container.dart' as _i1;
 import 'package:rbx_wallet/features/send/screens/send_screen.dart' as _i15;
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/smart_contract_creator_main.dart'
     as _i44;
@@ -116,10 +116,10 @@ class AppRouter extends _i53.RootStackRouter {
 
   @override
   final Map<String, _i53.PageFactory> pagesMap = {
-    RootContainerRoute.name: (routeData) {
+    NewRootContainerRoute.name: (routeData) {
       return _i53.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i1.RootContainer(),
+        child: const _i1.NewRootContainer(),
       );
     },
     MySmartContractsScreenRoute.name: (routeData) {
@@ -298,10 +298,16 @@ class AppRouter extends _i53.RootStackRouter {
         child: const _i12.EmptyRouterPage(),
       );
     },
-    HomeScreenRoute.name: (routeData) {
+    NewHomeScreenRoute.name: (routeData) {
+      final args = routeData.argsAs<NewHomeScreenRouteArgs>(
+          orElse: () => const NewHomeScreenRouteArgs());
       return _i53.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i13.HomeScreen(),
+        child: _i13.NewHomeScreen(
+          key: args.key,
+          verticalPadding: args.verticalPadding,
+          horizontalPadding: args.horizontalPadding,
+        ),
       );
     },
     ReserveAccountOverviewScreenRoute.name: (routeData) {
@@ -657,16 +663,16 @@ class AppRouter extends _i53.RootStackRouter {
   @override
   List<_i53.RouteConfig> get routes => [
         _i53.RouteConfig(
-          RootContainerRoute.name,
+          NewRootContainerRoute.name,
           path: '/',
           children: [
             _i53.RouteConfig(
               HomeTabRouter.name,
               path: 'home',
-              parent: RootContainerRoute.name,
+              parent: NewRootContainerRoute.name,
               children: [
                 _i53.RouteConfig(
-                  HomeScreenRoute.name,
+                  NewHomeScreenRoute.name,
                   path: '',
                   parent: HomeTabRouter.name,
                 ),
@@ -680,7 +686,7 @@ class AppRouter extends _i53.RootStackRouter {
             _i53.RouteConfig(
               SendTabRouter.name,
               path: 'send',
-              parent: RootContainerRoute.name,
+              parent: NewRootContainerRoute.name,
               children: [
                 _i53.RouteConfig(
                   SendScreenRoute.name,
@@ -692,7 +698,7 @@ class AppRouter extends _i53.RootStackRouter {
             _i53.RouteConfig(
               ReceiveTabRouter.name,
               path: 'receive',
-              parent: RootContainerRoute.name,
+              parent: NewRootContainerRoute.name,
               children: [
                 _i53.RouteConfig(
                   ReceiveScreenRoute.name,
@@ -704,7 +710,7 @@ class AppRouter extends _i53.RootStackRouter {
             _i53.RouteConfig(
               TransactionsTabRouter.name,
               path: 'transactions',
-              parent: RootContainerRoute.name,
+              parent: NewRootContainerRoute.name,
               children: [
                 _i53.RouteConfig(
                   TransactionsScreenRoute.name,
@@ -716,7 +722,7 @@ class AppRouter extends _i53.RootStackRouter {
             _i53.RouteConfig(
               ValidatorTabRouter.name,
               path: 'validator',
-              parent: RootContainerRoute.name,
+              parent: NewRootContainerRoute.name,
               children: [
                 _i53.RouteConfig(
                   ValidatorScreenRoute.name,
@@ -728,7 +734,7 @@ class AppRouter extends _i53.RootStackRouter {
             _i53.RouteConfig(
               AdjudicatorTabRouter.name,
               path: 'adjudicator',
-              parent: RootContainerRoute.name,
+              parent: NewRootContainerRoute.name,
               children: [
                 _i53.RouteConfig(
                   AdjudicatorScreenRoute.name,
@@ -740,7 +746,7 @@ class AppRouter extends _i53.RootStackRouter {
             _i53.RouteConfig(
               NodesTabsRouter.name,
               path: 'nodes',
-              parent: RootContainerRoute.name,
+              parent: NewRootContainerRoute.name,
               children: [
                 _i53.RouteConfig(
                   NodeListScreenRoute.name,
@@ -752,7 +758,7 @@ class AppRouter extends _i53.RootStackRouter {
             _i53.RouteConfig(
               DatanodeTabRouter.name,
               path: 'datanode',
-              parent: RootContainerRoute.name,
+              parent: NewRootContainerRoute.name,
               children: [
                 _i53.RouteConfig(
                   DataNodeScreenRoute.name,
@@ -764,7 +770,7 @@ class AppRouter extends _i53.RootStackRouter {
             _i53.RouteConfig(
               NftTabRouter.name,
               path: 'nft',
-              parent: RootContainerRoute.name,
+              parent: NewRootContainerRoute.name,
               children: [
                 _i53.RouteConfig(
                   NftListScreenRoute.name,
@@ -776,7 +782,7 @@ class AppRouter extends _i53.RootStackRouter {
             _i53.RouteConfig(
               SmartContractsTabRouter.name,
               path: 'smart-contracts',
-              parent: RootContainerRoute.name,
+              parent: NewRootContainerRoute.name,
               children: [
                 _i53.RouteConfig(
                   SmartContractsScreenRoute.name,
@@ -788,7 +794,7 @@ class AppRouter extends _i53.RootStackRouter {
             _i53.RouteConfig(
               DstsTabRouter.name,
               path: 'dsts',
-              parent: RootContainerRoute.name,
+              parent: NewRootContainerRoute.name,
               children: [
                 _i53.RouteConfig(
                   DstLandingScreenRoute.name,
@@ -845,7 +851,7 @@ class AppRouter extends _i53.RootStackRouter {
             _i53.RouteConfig(
               AdnrTabRouter.name,
               path: 'adnr',
-              parent: RootContainerRoute.name,
+              parent: NewRootContainerRoute.name,
               children: [
                 _i53.RouteConfig(
                   AdnrScreenRoute.name,
@@ -857,7 +863,7 @@ class AppRouter extends _i53.RootStackRouter {
             _i53.RouteConfig(
               VotingTabRouter.name,
               path: 'voting',
-              parent: RootContainerRoute.name,
+              parent: NewRootContainerRoute.name,
               children: [
                 _i53.RouteConfig(
                   TopicListScreenRoute.name,
@@ -879,7 +885,7 @@ class AppRouter extends _i53.RootStackRouter {
             _i53.RouteConfig(
               BeaconTabRouter.name,
               path: 'beacons',
-              parent: RootContainerRoute.name,
+              parent: NewRootContainerRoute.name,
               children: [
                 _i53.RouteConfig(
                   BeaconListScreenRoute.name,
@@ -891,7 +897,7 @@ class AppRouter extends _i53.RootStackRouter {
             _i53.RouteConfig(
               ReserveAccountsTabRouter.name,
               path: 'reserve-accounts',
-              parent: RootContainerRoute.name,
+              parent: NewRootContainerRoute.name,
               children: [
                 _i53.RouteConfig(
                   ReserveAccountOverviewScreenTab.name,
@@ -908,7 +914,7 @@ class AppRouter extends _i53.RootStackRouter {
             _i53.RouteConfig(
               TokenizeBtcTabRouter.name,
               path: 'tokenize-btc',
-              parent: RootContainerRoute.name,
+              parent: NewRootContainerRoute.name,
               children: [
                 _i53.RouteConfig(
                   TokenizeBtcListScreenRoute.name,
@@ -920,7 +926,7 @@ class AppRouter extends _i53.RootStackRouter {
             _i53.RouteConfig(
               TokenTabRouter.name,
               path: 'tokens',
-              parent: RootContainerRoute.name,
+              parent: NewRootContainerRoute.name,
               children: [
                 _i53.RouteConfig(
                   TokenListScreenRoute.name,
@@ -1049,16 +1055,16 @@ class AppRouter extends _i53.RootStackRouter {
 }
 
 /// generated route for
-/// [_i1.RootContainer]
-class RootContainerRoute extends _i53.PageRouteInfo<void> {
-  const RootContainerRoute({List<_i53.PageRouteInfo>? children})
+/// [_i1.NewRootContainer]
+class NewRootContainerRoute extends _i53.PageRouteInfo<void> {
+  const NewRootContainerRoute({List<_i53.PageRouteInfo>? children})
       : super(
-          RootContainerRoute.name,
+          NewRootContainerRoute.name,
           path: '/',
           initialChildren: children,
         );
 
-  static const String name = 'RootContainerRoute';
+  static const String name = 'NewRootContainerRoute';
 }
 
 /// generated route for
@@ -1454,15 +1460,42 @@ class TokenTabRouter extends _i53.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i13.HomeScreen]
-class HomeScreenRoute extends _i53.PageRouteInfo<void> {
-  const HomeScreenRoute()
-      : super(
-          HomeScreenRoute.name,
+/// [_i13.NewHomeScreen]
+class NewHomeScreenRoute extends _i53.PageRouteInfo<NewHomeScreenRouteArgs> {
+  NewHomeScreenRoute({
+    _i54.Key? key,
+    double verticalPadding = 0,
+    double horizontalPadding = 0,
+  }) : super(
+          NewHomeScreenRoute.name,
           path: '',
+          args: NewHomeScreenRouteArgs(
+            key: key,
+            verticalPadding: verticalPadding,
+            horizontalPadding: horizontalPadding,
+          ),
         );
 
-  static const String name = 'HomeScreenRoute';
+  static const String name = 'NewHomeScreenRoute';
+}
+
+class NewHomeScreenRouteArgs {
+  const NewHomeScreenRouteArgs({
+    this.key,
+    this.verticalPadding = 0,
+    this.horizontalPadding = 0,
+  });
+
+  final _i54.Key? key;
+
+  final double verticalPadding;
+
+  final double horizontalPadding;
+
+  @override
+  String toString() {
+    return 'NewHomeScreenRouteArgs{key: $key, verticalPadding: $verticalPadding, horizontalPadding: $horizontalPadding}';
+  }
 }
 
 /// generated route for
