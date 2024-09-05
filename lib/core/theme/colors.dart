@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 
 enum ColorShade { s50, s100, s200, s300, s400 }
 
@@ -21,10 +22,10 @@ class AppColors {
 
   static const Map<int, Color> white = {
     50: Color(0xFFFFFFFF),
-    100: Color(0xFFe6e6e6),
-    200: Color(0xFFdedede),
-    300: Color(0xFFcacace),
-    400: Color(0xFFa8a8b6),
+    100: Color(0xFFdedede),
+    200: Color(0xFFcacace),
+    300: Color(0xFFa8a8b6),
+    400: Color(0xFFaaaaaa),
   };
 
   static const Map<int, Color> blue = {
@@ -117,5 +118,77 @@ class AppColors {
 
   static Color getSpringGreen([ColorShade shade = ColorShade.s100]) {
     return springGreen[_shadeValues[shade]]!;
+  }
+
+  static Color getBtc() {
+    return Color(0xfff7931a);
+  }
+
+  static Color getBtcSubtle() {
+    return Color(0xfff7931a).withOpacity(0.7);
+  }
+
+  static Color getReserve() {
+    return Colors.deepPurple.shade200;
+  }
+
+  static Color colorVariantToColor(AppColorVariant variant, [ColorShade shade = ColorShade.s100]) {
+    switch (variant) {
+      case AppColorVariant.Primary:
+        return getGray(shade);
+      case AppColorVariant.Secondary:
+        return getBlue(shade);
+
+      case AppColorVariant.Info:
+        return getIndigo(shade);
+
+      case AppColorVariant.Success:
+        return getSpringGreen(shade);
+
+      case AppColorVariant.Warning:
+        return getGold(shade);
+
+      case AppColorVariant.Danger:
+        return Color(0xFFBA2121);
+
+      case AppColorVariant.Light:
+        return getWhite(shade);
+
+      case AppColorVariant.Dark:
+        return getGray(shade);
+
+      case AppColorVariant.Btc:
+        return Color(0xfff7931a).withOpacity(0.7);
+    }
+  }
+
+  static Color colorVariantToColorFg(AppColorVariant variant, [ColorShade shade = ColorShade.s100]) {
+    switch (variant) {
+      case AppColorVariant.Primary:
+        return Colors.white;
+      case AppColorVariant.Secondary:
+        return Colors.black;
+
+      case AppColorVariant.Info:
+        return Colors.white;
+
+      case AppColorVariant.Success:
+        return Colors.white;
+
+      case AppColorVariant.Warning:
+        return Colors.black;
+
+      case AppColorVariant.Danger:
+        return Colors.white;
+
+      case AppColorVariant.Light:
+        return Colors.black;
+
+      case AppColorVariant.Dark:
+        return Colors.white;
+
+      case AppColorVariant.Btc:
+        return Colors.white;
+    }
   }
 }

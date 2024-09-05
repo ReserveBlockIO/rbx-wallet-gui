@@ -60,7 +60,7 @@ class _HomeButtonsState extends State<HomeButtons> {
               ),
             ),
             SizedBox(
-              width: 6,
+              width: 10,
             ),
             SegmentedButton<HomeButtonSection>(
               multiSelectionEnabled: false,
@@ -85,7 +85,7 @@ class _HomeButtonsState extends State<HomeButtons> {
                     if (states.contains(MaterialState.pressed)) {
                       return AppColors.getBlue(ColorShade.s300);
                     }
-                    return Colors.black;
+                    return AppColors.getGray(ColorShade.s100);
                   },
                 ),
                 foregroundColor: MaterialStateProperty.resolveWith(

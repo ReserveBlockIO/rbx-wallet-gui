@@ -11,8 +11,11 @@ import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/colors.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
+
+import '../block/latest_block.dart';
 
 const TRANSITION_DURATION = Duration(milliseconds: 250);
 const TRANSITION_CURVE = Curves.ease;
@@ -71,6 +74,9 @@ class _Layout extends StatefulWidget {
 class _LayoutState extends State<_Layout> {
   bool sideNavExpanded = true;
 
+  bool latestBlockIsHovering = false;
+  bool latestBlockIsExpanded = false;
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -124,16 +130,19 @@ class _LayoutState extends State<_Layout> {
                 AnimatedOpacity(
                   duration: TRANSITION_DURATION * 2,
                   opacity: sideNavExpanded ? 1 : 0,
-                  child: Text(
-                    "X",
-                    style: TextStyle(
-                      color: AppColors.getBlue(ColorShade.s100),
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Mukta',
-                      letterSpacing: 0,
-                    ),
-                  ),
+                  child: Consumer(builder: (context, ref, _) {
+                    return AnimatedDefaultTextStyle(
+                      duration: TRANSITION_DURATION,
+                      style: TextStyle(
+                        color: ref.watch(sessionProvider).btcSelected ? AppColors.getBtc() : AppColors.getBlue(ColorShade.s100),
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Mukta',
+                        letterSpacing: 0,
+                      ),
+                      child: Text("X"),
+                    );
+                  }),
                 ),
               ],
             ),
@@ -146,7 +155,78 @@ class _LayoutState extends State<_Layout> {
           child: Container(
             child: widget.child,
           ),
-        )
+        ),
+        Consumer(builder: (context, ref, _) {
+          final block = ref.watch(walletInfoProvider)?.lastestBlock;
+          if (block == null) {
+            return SizedBox();
+          }
+
+          return AnimatedPositioned(
+            right: 0,
+            bottom: latestBlockIsExpanded ? 0 : -320,
+            duration: TRANSITION_DURATION,
+            curve: TRANSITION_CURVE,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Transform.translate(
+                  offset: Offset(1, 2),
+                  child: MouseRegion(
+                    onHover: (_) {
+                      setState(() {
+                        latestBlockIsHovering = true;
+                      });
+                    },
+                    onExit: (_) {
+                      setState(() {
+                        latestBlockIsHovering = false;
+                      });
+                    },
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          latestBlockIsExpanded = !latestBlockIsExpanded;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.getGray(ColorShade.s300),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(16),
+                          ),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.15),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
+                          child: AnimatedDefaultTextStyle(
+                            duration: Duration(milliseconds: 105),
+                            style: TextStyle(
+                              color: latestBlockIsHovering ? Colors.white : Colors.white.withOpacity(0.75),
+                              fontSize: 14,
+                            ),
+                            child: Text(
+                              "Block ${block.height}",
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 240,
+                  height: 320,
+                  child: LatestBlock(),
+                ),
+              ],
+            ),
+          );
+        }),
       ],
     );
   }
@@ -163,30 +243,32 @@ class _SideNav extends BaseComponent {
 
     return Padding(
       padding: const EdgeInsets.only(left: 2.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AnimatedContainer(
-            duration: TRANSITION_DURATION,
-            curve: TRANSITION_CURVE,
-            width: isExpanded ? SIDE_NAV_WIDTH_EXPANDED : SIDE_NAV_WIDTH_CONTRACTED,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(8),
-                bottomRight: Radius.circular(8),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AnimatedContainer(
+              duration: TRANSITION_DURATION,
+              curve: TRANSITION_CURVE,
+              width: isExpanded ? SIDE_NAV_WIDTH_EXPANDED : SIDE_NAV_WIDTH_CONTRACTED,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(8),
+                  bottomRight: Radius.circular(8),
+                ),
+                border: Border.all(
+                  color: AppColors.getGray(ColorShade.s50),
+                ),
               ),
-              border: Border.all(
-                color: AppColors.getGray(ColorShade.s50),
-              ),
+              clipBehavior: Clip.antiAlias,
+              child: _SideNavList(tabsRouter: tabsRouter, isExpanded: isExpanded),
             ),
-            clipBehavior: Clip.antiAlias,
-            child: _SideNavList(tabsRouter: tabsRouter, isExpanded: isExpanded),
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: _Expander(onToggleExpanded: onToggleExpanded, isExpanded: isExpanded),
-          )
-        ],
+            Align(
+              alignment: Alignment.centerLeft,
+              child: _Expander(onToggleExpanded: onToggleExpanded, isExpanded: isExpanded),
+            )
+          ],
+        ),
       ),
     );
   }
