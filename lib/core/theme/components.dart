@@ -70,6 +70,7 @@ class AppVerticalIconButton extends StatefulWidget {
   final Color? color;
   final Color? hoverColor;
   final AppVerticalIconButtonSize size;
+  final double iconScale;
   const AppVerticalIconButton({
     super.key,
     required this.onPressed,
@@ -78,6 +79,7 @@ class AppVerticalIconButton extends StatefulWidget {
     this.color,
     this.hoverColor,
     this.size = AppVerticalIconButtonSize.md,
+    this.iconScale = 1.0,
   });
 
   @override
@@ -121,10 +123,13 @@ class _AppVerticalIconButtonState extends State<AppVerticalIconButton> {
                       borderRadius: isHovering ? BorderRadius.circular(8) : BorderRadius.circular(widget.size.circleSize / 2),
                     ),
                     child: Center(
-                      child: Icon(
-                        widget.icon,
-                        color: Colors.black,
-                        size: widget.size.iconSize,
+                      child: Transform.scale(
+                        scale: widget.iconScale,
+                        child: Icon(
+                          widget.icon,
+                          color: Colors.black,
+                          size: widget.size.iconSize,
+                        ),
                       ),
                     ),
                   ),
@@ -140,6 +145,8 @@ class _AppVerticalIconButtonState extends State<AppVerticalIconButton> {
                       height: 1.1,
                     ),
                     textAlign: TextAlign.center,
+                    softWrap: false,
+                    overflow: TextOverflow.visible,
                   ),
                 ],
               ),

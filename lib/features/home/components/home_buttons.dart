@@ -24,6 +24,7 @@ import 'package:rbx_wallet/utils/toast.dart';
 import '../../../core/theme/colors.dart';
 
 enum HomeButtonSection {
+  none,
   general,
   security,
   nft,
@@ -40,252 +41,267 @@ class HomeButtons extends StatefulWidget {
 }
 
 class _HomeButtonsState extends State<HomeButtons> {
-  Set<HomeButtonSection> selection = {HomeButtonSection.general};
+  Set<HomeButtonSection> selection = {HomeButtonSection.none};
+
+  bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
     final tabsRouter = AutoTabsRouter.of(context);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "Operations:",
-              style: TextStyle(
-                fontWeight: FontWeight.w300,
-                color: AppColors.getWhite(ColorShade.s300),
-                fontSize: 14,
-              ),
+    return Column(mainAxisSize: MainAxisSize.min, children: [
+      Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            "Operations:",
+            style: TextStyle(
+              fontWeight: FontWeight.w300,
+              color: AppColors.getWhite(ColorShade.s300),
+              fontSize: 14,
             ),
-            SizedBox(
-              width: 10,
-            ),
-            SegmentedButton<HomeButtonSection>(
-              multiSelectionEnabled: false,
-              selectedIcon: null,
-              showSelectedIcon: false,
-              style: ButtonStyle(
-                side: MaterialStateProperty.all(
-                  BorderSide(
-                    width: 1,
-                    color: Colors.white10,
-                  ),
-                ),
-                splashFactory: NoSplash.splashFactory,
-                backgroundColor: MaterialStateProperty.resolveWith(
-                  (states) {
-                    if (states.contains(MaterialState.selected)) {
-                      return AppColors.getGold(ColorShade.s100);
-                    }
-                    if (states.contains(MaterialState.hovered)) {
-                      return AppColors.getBlue(ColorShade.s400);
-                    }
-                    if (states.contains(MaterialState.pressed)) {
-                      return AppColors.getBlue(ColorShade.s300);
-                    }
-                    return AppColors.getGray(ColorShade.s100);
-                  },
-                ),
-                foregroundColor: MaterialStateProperty.resolveWith(
-                  (states) {
-                    if (states.contains(MaterialState.selected)) {
-                      return Colors.black;
-                    }
-                    return AppColors.getBlue(ColorShade.s50);
-                  },
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          SegmentedButton<HomeButtonSection>(
+            multiSelectionEnabled: false,
+            selectedIcon: null,
+            showSelectedIcon: false,
+            emptySelectionAllowed: true,
+            style: ButtonStyle(
+              side: MaterialStateProperty.all(
+                BorderSide(
+                  width: 1,
+                  color: Colors.white10,
                 ),
               ),
-              onSelectionChanged: (value) {
+              splashFactory: NoSplash.splashFactory,
+              backgroundColor: MaterialStateProperty.resolveWith(
+                (states) {
+                  if (states.contains(MaterialState.selected)) {
+                    return AppColors.getGold(ColorShade.s100);
+                  }
+                  if (states.contains(MaterialState.hovered)) {
+                    return AppColors.getBlue(ColorShade.s400);
+                  }
+                  if (states.contains(MaterialState.pressed)) {
+                    return AppColors.getBlue(ColorShade.s300);
+                  }
+                  return AppColors.getGray(ColorShade.s100);
+                },
+              ),
+              foregroundColor: MaterialStateProperty.resolveWith(
+                (states) {
+                  if (states.contains(MaterialState.selected)) {
+                    return Colors.black;
+                  }
+                  return AppColors.getBlue(ColorShade.s50);
+                },
+              ),
+            ),
+            onSelectionChanged: (value) {
+              if (value == selection) {
                 setState(() {
-                  selection = value;
+                  isExpanded = false;
+                  selection = {HomeButtonSection.none};
                 });
-              },
-              segments: [
-                ButtonSegment(
-                  label: Text("General"),
-                  value: HomeButtonSection.general,
-                ),
-                ButtonSegment(
-                  label: Text("Wallet Security"),
-                  value: HomeButtonSection.security,
-                ),
-                ButtonSegment(
-                  label: Text("Tokens / NFTs"),
-                  value: HomeButtonSection.nft,
-                ),
-                ButtonSegment(
-                  label: Text("Validator"),
-                  value: HomeButtonSection.validator,
-                ),
-                ButtonSegment(
-                  label: Text("Diagnose"),
-                  value: HomeButtonSection.diagnose,
-                ),
-              ],
-              selected: selection,
-            ),
-          ],
-        ),
+                return;
+              }
+              setState(() {
+                isExpanded = true;
+                selection = value;
+              });
+            },
+            segments: [
+              ButtonSegment(
+                label: Text("General"),
+                value: HomeButtonSection.general,
+              ),
+              ButtonSegment(
+                label: Text("Wallet Security"),
+                value: HomeButtonSection.security,
+              ),
+              ButtonSegment(
+                label: Text("Tokens / NFTs"),
+                value: HomeButtonSection.nft,
+              ),
+              ButtonSegment(
+                label: Text("Validator"),
+                value: HomeButtonSection.validator,
+              ),
+              ButtonSegment(
+                label: Text("Diagnose"),
+                value: HomeButtonSection.diagnose,
+              ),
+            ],
+            selected: selection,
+          ),
+        ],
+      ),
+      if (isExpanded && selection.isNotEmpty)
         SizedBox(
           height: 16,
         ),
-        Builder(
-          builder: (context) {
-            switch (selection.first) {
-              case HomeButtonSection.general:
-                return Wrap(
-                  spacing: 12,
-                  runSpacing: 12,
-                  alignment: WrapAlignment.start,
-                  children: [
-                    RestartCliButton(),
-                    PrintAdressesButton(),
-                    const OpenDbFolderButton(),
-                    ImportSnapshotButton(),
-                    // AppButton(
-                    //   label: "Tokenize BTC",
-                    //   variant: AppColorVariant.Btc,
-                    //   icon: FontAwesomeIcons.bitcoin,
-                    //   onPressed: () {
-                    //     Navigator.of(context).push(
-                    //       MaterialPageRoute(
-                    //         builder: (context) => TokenizeBtcListScreen(),
-                    //       ),
-                    //     );
-                    //   },
-                    // )
-                  ],
-                );
-              case HomeButtonSection.security:
-                return Wrap(
-                  spacing: 12,
-                  runSpacing: 12,
-                  alignment: WrapAlignment.spaceEvenly,
-                  children: [
-                    EncryptWalletButton(),
-                    HdWalletButton(),
-                    if (widget.includeRestoreHd) RestoreHdWalletButton(),
-                    BackupButton(),
-                    ReserveAccountsButton(),
-                  ],
-                );
-              case HomeButtonSection.nft:
-                return Wrap(
-                  spacing: 12,
-                  runSpacing: 12,
-                  alignment: WrapAlignment.spaceEvenly,
-                  children: [
-                    VerifyNftOwnershipButton(),
-                    ImportMediaButton(),
-                    BackupButton(),
-                    AppButton(
-                      label: "Beacons",
-                      icon: Icons.satellite_alt,
-                      onPressed: () {
-                        tabsRouter.setActiveIndex(12);
-                      },
-                    ),
-                    AppButton(
-                      label: "Fungible Tokens",
-                      icon: Icons.toll,
-                      onPressed: () {
-                        tabsRouter.setActiveIndex(13);
-                      },
-                    ),
-                    // AppButton(
-                    //   label: "Token Voting",
-                    //   icon: Icons.gavel_outlined,
-                    //   onPressed: () {
-                    //     Toast.message("Coming Soon!");
-                    //   },
-                    // ),
-                  ],
-                );
+      Builder(
+        builder: (context) {
+          if (selection.isEmpty) {
+            return SizedBox();
+          }
 
-              case HomeButtonSection.validator:
-                return Wrap(
-                  spacing: 12,
-                  runSpacing: 12,
-                  alignment: WrapAlignment.spaceEvenly,
-                  children: [
-                    PrintValidatorsButton(),
-                    ValidatingCheckButton(),
-                    AppButton(
-                      label: "Validator Pool",
-                      icon: Icons.wifi,
-                      onPressed: () {
-                        tabsRouter.setActiveIndex(6);
-                      },
-                    ),
-                    AppButton(
-                      label: "Proposals & Voting",
-                      icon: Icons.how_to_vote,
-                      onPressed: () {
-                        tabsRouter.setActiveIndex(11);
-                      },
-                    ),
-                    MotherButton(),
-                  ],
-                );
-              case HomeButtonSection.diagnose:
-                return Wrap(
-                  spacing: 12,
-                  runSpacing: 12,
-                  alignment: WrapAlignment.spaceEvenly,
-                  children: [
-                    RestartCliButton(),
-                    const OpenDbFolderButton(),
-                    OpenLogButton(),
-                    ShowDebugDataButton(),
-                    ValidatingCheckButton(),
-                    AppButton(
-                      label: "Mempool",
-                      icon: Icons.info,
-                      onPressed: () async {
-                        final data = await BridgeService().getMempool();
-                        // if (data == null) {
-                        //   Toast.message("Your Mempool is currently empty.");
-                        //   return;
-                        // }
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return ModalContainer(
-                                withDecor: false,
-                                withClose: true,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                    child: Text(
-                                      "Mempool",
-                                      style: TextStyle(fontSize: 20),
-                                    ),
+          switch (selection.first) {
+            case HomeButtonSection.none:
+              return SizedBox.shrink();
+            case HomeButtonSection.general:
+              return Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                alignment: WrapAlignment.start,
+                children: [
+                  RestartCliButton(),
+                  PrintAdressesButton(),
+                  const OpenDbFolderButton(),
+                  ImportSnapshotButton(),
+                  // AppButton(
+                  //   label: "Tokenize BTC",
+                  //   variant: AppColorVariant.Btc,
+                  //   icon: FontAwesomeIcons.bitcoin,
+                  //   onPressed: () {
+                  //     Navigator.of(context).push(
+                  //       MaterialPageRoute(
+                  //         builder: (context) => TokenizeBtcListScreen(),
+                  //       ),
+                  //     );
+                  //   },
+                  // )
+                ],
+              );
+            case HomeButtonSection.security:
+              return Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                alignment: WrapAlignment.spaceEvenly,
+                children: [
+                  EncryptWalletButton(),
+                  HdWalletButton(),
+                  if (widget.includeRestoreHd) RestoreHdWalletButton(),
+                  BackupButton(),
+                  ReserveAccountsButton(),
+                ],
+              );
+            case HomeButtonSection.nft:
+              return Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                alignment: WrapAlignment.spaceEvenly,
+                children: [
+                  VerifyNftOwnershipButton(),
+                  ImportMediaButton(),
+                  BackupButton(),
+                  AppButton(
+                    label: "Beacons",
+                    icon: Icons.satellite_alt,
+                    onPressed: () {
+                      tabsRouter.setActiveIndex(12);
+                    },
+                  ),
+                  AppButton(
+                    label: "Fungible Tokens",
+                    icon: Icons.toll,
+                    onPressed: () {
+                      tabsRouter.setActiveIndex(13);
+                    },
+                  ),
+                  // AppButton(
+                  //   label: "Token Voting",
+                  //   icon: Icons.gavel_outlined,
+                  //   onPressed: () {
+                  //     Toast.message("Coming Soon!");
+                  //   },
+                  // ),
+                ],
+              );
+
+            case HomeButtonSection.validator:
+              return Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                alignment: WrapAlignment.spaceEvenly,
+                children: [
+                  PrintValidatorsButton(),
+                  ValidatingCheckButton(),
+                  AppButton(
+                    label: "Validator Pool",
+                    icon: Icons.wifi,
+                    onPressed: () {
+                      tabsRouter.setActiveIndex(6);
+                    },
+                  ),
+                  AppButton(
+                    label: "Proposals & Voting",
+                    icon: Icons.how_to_vote,
+                    onPressed: () {
+                      tabsRouter.setActiveIndex(11);
+                    },
+                  ),
+                  MotherButton(),
+                ],
+              );
+            case HomeButtonSection.diagnose:
+              return Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                alignment: WrapAlignment.spaceEvenly,
+                children: [
+                  RestartCliButton(),
+                  const OpenDbFolderButton(),
+                  OpenLogButton(),
+                  ShowDebugDataButton(),
+                  ValidatingCheckButton(),
+                  AppButton(
+                    label: "Mempool",
+                    icon: Icons.info,
+                    onPressed: () async {
+                      final data = await BridgeService().getMempool();
+                      // if (data == null) {
+                      //   Toast.message("Your Mempool is currently empty.");
+                      //   return;
+                      // }
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return ModalContainer(
+                              withDecor: false,
+                              withClose: true,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                  child: Text(
+                                    "Mempool",
+                                    style: TextStyle(fontSize: 20),
                                   ),
-                                  data == null
-                                      ? Text(
-                                          "Mempool is empty.",
-                                          style: TextStyle(fontFamily: "RobotoMono"),
-                                        )
-                                      : TextFormField(
-                                          minLines: 3,
-                                          maxLines: 8,
-                                          initialValue: data,
-                                          readOnly: true,
-                                          style: TextStyle(fontFamily: "RobotoMono"),
-                                        ),
-                                ],
-                              );
-                            });
-                      },
-                    ),
-                  ],
-                );
-            }
-          },
-        )
-      ],
-    );
+                                ),
+                                data == null
+                                    ? Text(
+                                        "Mempool is empty.",
+                                        style: TextStyle(fontFamily: "RobotoMono"),
+                                      )
+                                    : TextFormField(
+                                        minLines: 3,
+                                        maxLines: 8,
+                                        initialValue: data,
+                                        readOnly: true,
+                                        style: TextStyle(fontFamily: "RobotoMono"),
+                                      ),
+                              ],
+                            );
+                          });
+                    },
+                  ),
+                ],
+              );
+          }
+        },
+      )
+    ]);
   }
 }

@@ -10,8 +10,11 @@ import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/theme/colors.dart';
+import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
+import 'package:rbx_wallet/features/btc/providers/electrum_connected_provider.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
@@ -203,15 +206,167 @@ class _LayoutState extends State<_Layout> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
-                          child: AnimatedDefaultTextStyle(
-                            duration: Duration(milliseconds: 105),
-                            style: TextStyle(
-                              color: latestBlockIsHovering ? Colors.white : Colors.white.withOpacity(0.75),
-                              fontSize: 14,
-                            ),
-                            child: Text(
-                              "Block ${block.height}",
-                            ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              AnimatedDefaultTextStyle(
+                                duration: Duration(milliseconds: 105),
+                                style: TextStyle(
+                                  color: latestBlockIsHovering ? Colors.white : Colors.white.withOpacity(0.75),
+                                  fontSize: 14,
+                                ),
+                                child: Text(
+                                  "Block ${block.height}",
+                                ),
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Consumer(
+                                builder: (context, ref, _) {
+                                  late final Color color;
+                                  late final String message;
+                                  if (!ref.watch(sessionProvider).cliStarted) {
+                                    color = Theme.of(context).colorScheme.danger;
+                                    message = "CLI Inactive";
+                                  } else {
+                                    final status = ref.watch(statusProvider);
+
+                                    switch (status) {
+                                      case BridgeStatus.Loading:
+                                        color = Theme.of(context).colorScheme.warning;
+                                        message = "VFX CLI Loading";
+                                        break;
+                                      case BridgeStatus.Online:
+                                        color = Theme.of(context).colorScheme.success;
+                                        message = "VFX Online";
+                                        break;
+
+                                      case BridgeStatus.Offline:
+                                        color = Theme.of(context).colorScheme.danger;
+                                        message = "VFX CLI Offline";
+                                        break;
+                                    }
+                                  }
+
+                                  return Tooltip(
+                                    message: message,
+                                    child: Container(
+                                      width: 8,
+                                      height: 8,
+                                      decoration: BoxDecoration(
+                                        color: color,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+
+                              //btc status
+                              Consumer(
+                                builder: (context, ref, _) {
+                                  final sessionState = ref.watch(sessionProvider);
+
+                                  late final Color color;
+                                  late final String message;
+                                  if (!sessionState.cliStarted) {
+                                    color = Theme.of(context).colorScheme.danger;
+                                    message = "BTC Inactive";
+                                  } else {
+                                    final electrumConnected = ref.watch(electrumConnectedProvider);
+
+                                    switch (electrumConnected) {
+                                      case null:
+                                        color = Theme.of(context).colorScheme.warning;
+                                        message = "BTC Loading";
+                                        break;
+                                      case true:
+                                        color = Theme.of(context).colorScheme.success;
+                                        message = "BTC Online";
+                                        break;
+
+                                      case false:
+                                        color = Theme.of(context).colorScheme.danger;
+                                        message = "BTC Offline";
+                                        break;
+                                    }
+                                  }
+
+                                  return Tooltip(
+                                    message: message,
+                                    child: Container(
+                                      width: 8,
+                                      height: 8,
+                                      decoration: BoxDecoration(
+                                        color: color,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+
+                              //Sync Widget
+                              Consumer(
+                                builder: (context, ref, _) {
+                                  final walletInfo = ref.watch(walletInfoProvider);
+                                  final session = ref.watch(sessionProvider);
+
+                                  late final Color color;
+                                  late final String message;
+                                  bool isSynced = false;
+                                  if (!session.cliStarted) {
+                                    color = Theme.of(context).colorScheme.danger;
+                                    message = "CLI Inactive";
+                                  } else if (walletInfo == null) {
+                                    color = Theme.of(context).colorScheme.danger;
+                                    message = "Loading...";
+                                  } else if (walletInfo.isResyncing) {
+                                    color = Theme.of(context).colorScheme.danger;
+                                    message = "Resyncing...";
+                                  } else if (!walletInfo.isChainSynced) {
+                                    color = AppColors.getGold();
+                                    message = "Syncing...";
+                                  } else {
+                                    color = AppColors.getSpringGreen();
+                                    message = "Synced";
+                                    isSynced = true;
+                                  }
+
+                                  if (isSynced) {
+                                    return Tooltip(
+                                      message: message,
+                                      child: Container(
+                                        width: 8,
+                                        height: 8,
+                                        decoration: BoxDecoration(
+                                          color: color,
+                                          borderRadius: BorderRadius.circular(4),
+                                        ),
+                                      ),
+                                    );
+                                  }
+
+                                  return Tooltip(
+                                    message: message,
+                                    child: SizedBox(
+                                      width: 32,
+                                      child: LinearProgressIndicator(
+                                        value: isSynced ? 1 : null,
+                                        color: color,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ),
                       ),
