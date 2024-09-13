@@ -167,7 +167,7 @@ class GetVfxButton extends StatelessWidget {
           }
         } else if (type == "btc") {
           if (Env.isTestNet) {
-            launchUrlString("https://coinfaucet.eu/en/btc-testnet/");
+            launchUrlString("https://mempool.space/testnet4/faucet");
             return;
           }
 
