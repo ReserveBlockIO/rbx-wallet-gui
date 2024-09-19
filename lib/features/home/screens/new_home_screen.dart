@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
+import 'package:rbx_wallet/core/components/currency_segmented_button.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/theme/components.dart';
@@ -15,83 +16,66 @@ import 'package:rbx_wallet/features/btc/providers/btc_balance_provider.dart';
 import 'package:rbx_wallet/features/btc/providers/electrum_connected_provider.dart';
 import 'package:rbx_wallet/features/btc/providers/tokenized_bitcoin_list_provider.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons.dart';
+import 'package:rbx_wallet/features/home/components/vfx_summary.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 
 import '../../../core/theme/colors.dart';
+import '../../price/components/price_chart.dart';
 
 class NewHomeScreen extends BaseScreen {
   const NewHomeScreen({
     super.key,
     super.verticalPadding = 0,
     super.horizontalPadding = 0,
-    super.backgroundColor = Colors.black,
   });
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
-    return AppBar(
-      // title: const Text("VFX Dashboard"),
-      // backgroundColor: AppColors.getBlue(ColorShade.s50).withOpacity(0.1),
-      backgroundColor: Colors.transparent,
+    return null;
+    // return AppBar(
+    //   // title: const Text("VFX Dashboard"),
+    //   // backgroundColor: AppColors.getBlue(ColorShade.s50).withOpacity(0.1),
+    //   backgroundColor: Colors.transparent,
 
-      shadowColor: Colors.transparent,
-      centerTitle: true,
-      actions: const [WalletSelector()],
-    );
+    //   shadowColor: Colors.transparent,
+    //   centerTitle: true,
+    //   actions: const [WalletSelector()],
+    // );
   }
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    return SingleChildScrollView(
+    return Padding(
+      padding: const EdgeInsets.all(16.0).copyWith(top: 250),
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: AppCard(
-              fullWidth: true,
-              child: HomeButtons(
-                includeRestoreHd: ref.watch(walletListProvider).isEmpty,
-              ),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: CoinPriceSummary(
+                    type: CoinPriceSummaryType.vfx,
+                  ),
+                ),
+                SizedBox(
+                  width: 16,
+                ),
+                Expanded(
+                  child: CoinPriceSummary(
+                    type: CoinPriceSummaryType.btc,
+                  ),
+                ),
+              ],
             ),
-            // child: IntrinsicHeight(
-            //   child: Row(
-            //     crossAxisAlignment: CrossAxisAlignment.stretch,
-            //     children: [
-            //       Expanded(
-            //         child: AppCard(
-            //           fullWidth: true,
-            //           child: HomeButtons(
-            //             includeRestoreHd: ref.watch(walletListProvider).isEmpty,
-            //           ),
-            //         ),
-            //       ),
-            //       SizedBox(width: 16),
-            //       SyncingAndStatus()
-            //     ],
-            //   ),
-            // ),
-          ),
-          SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: _MainActions(),
-            // child: IntrinsicHeight(
-            //   child: Row(
-            //     crossAxisAlignment: CrossAxisAlignment.stretch,
-            //     children: [
-            //       _Balance(),
-            //       SizedBox(width: 16),
-            //       Expanded(child: _MainActions()),
-            //     ],
-            //   ),
-            // ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-            // child: _WalletList(),
-            child: _BalanceRow(),
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: CommonActions(),
+          ),
+          SizedBox(
+            height: 4,
           ),
         ],
       ),
@@ -99,313 +83,13 @@ class NewHomeScreen extends BaseScreen {
   }
 }
 
-class _BalanceRow extends BaseComponent {
-  const _BalanceRow({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final vfxBalance = ref.watch(sessionProvider).totalBalance;
-    final btcBalance = ref.watch(btcBalanceProvider);
-
-    final allVfxWallets = ref.watch(walletListProvider);
-    final vfxWallets = allVfxWallets.where((w) => !w.isReserved);
-    final raWallets = allVfxWallets.where((w) => w.isReserved);
-
-    final btcAccounts = ref.watch(btcAccountListProvider);
-
-    final vbtcTokens = ref.watch(tokenizedBitcoinListProvider);
-
-    double vBtcBalance = 0;
-    for (final a in vbtcTokens) {
-      vBtcBalance += a.myBalance;
-    }
-
-    return IntrinsicHeight(
-      child: Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: AppCard(
-                child: Column(
-                  children: [
-                    Text(
-                      vfxBalance != null ? "$vfxBalance VFX" : "0.0 VFX",
-                      style: TextStyle(
-                        color: AppColors.getBlue(),
-                        fontSize: 24,
-                      ),
-                    ),
-                    Text(
-                      raWallets.isNotEmpty && vfxWallets.isNotEmpty
-                          ? "${vfxWallets.length} Wallet${vfxWallets.length == 1 ? '' : 's'}   ${raWallets.length} Reserve Account${raWallets.length == 1 ? '' : 's'}"
-                          : "${allVfxWallets.length} Wallet${allVfxWallets.length == 1 ? '' : 's'}",
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                    SizedBox(height: 16),
-                    Wrap(
-                      children: [
-                        AppVerticalIconButton(
-                          onPressed: () {},
-                          icon: Icons.wallet,
-                          label: "View\nWallets",
-                          size: AppVerticalIconButtonSize.sm,
-                        ),
-                        AppVerticalIconButton(
-                          onPressed: () {},
-                          icon: Icons.add,
-                          label: "Add\nWallet",
-                          size: AppVerticalIconButtonSize.sm,
-                        ),
-                        AppVerticalIconButton(
-                          onPressed: () {},
-                          icon: FontAwesomeIcons.coins,
-                          iconScale: 0.75,
-                          label: "Get\nVFX",
-                          size: AppVerticalIconButtonSize.sm,
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: AppCard(
-                child: Column(
-                  children: [
-                    Text(
-                      "${btcBalance.toStringAsFixed(9)} BTC",
-                      style: TextStyle(
-                        color: AppColors.getBtc(),
-                        fontSize: 24,
-                      ),
-                    ),
-                    Text(
-                      "${btcAccounts.length} Wallet${btcAccounts.length == 1 ? '' : 's'}",
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                    SizedBox(height: 16),
-                    Wrap(
-                      children: [
-                        AppVerticalIconButton(
-                          onPressed: () {},
-                          icon: Icons.wallet,
-                          label: "View\nAccounts",
-                          size: AppVerticalIconButtonSize.sm,
-                        ),
-                        AppVerticalIconButton(
-                          onPressed: () {},
-                          icon: Icons.add,
-                          label: "Add\nWallet",
-                          size: AppVerticalIconButtonSize.sm,
-                        ),
-                        AppVerticalIconButton(
-                          onPressed: () {},
-                          icon: FontAwesomeIcons.btc,
-                          iconScale: 0.75,
-                          label: "Get\nBTC",
-                          size: AppVerticalIconButtonSize.sm,
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: AppCard(
-                child: Column(
-                  children: [
-                    Text(
-                      "$vBtcBalance vBTC",
-                      style: TextStyle(
-                        color: AppColors.getWhite(),
-                        fontSize: 24,
-                      ),
-                    ),
-                    Text(
-                      "${vbtcTokens.length} Token${vbtcTokens.length == 1 ? '' : 's'}",
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                    SizedBox(height: 16),
-                    Wrap(
-                      children: [
-                        AppVerticalIconButton(
-                          onPressed: () {},
-                          icon: Icons.wallet,
-                          label: "View\nAccounts",
-                          size: AppVerticalIconButtonSize.sm,
-                        ),
-                        AppVerticalIconButton(
-                          onPressed: () {},
-                          icon: FontAwesomeIcons.bitcoin,
-                          iconScale: 0.75,
-                          label: "Tokenize\nvBTC",
-                          size: AppVerticalIconButtonSize.sm,
-                        ),
-                        AppVerticalIconButton(
-                          onPressed: () {},
-                          icon: Icons.help_rounded,
-                          label: "What's\nvBTC",
-                          size: AppVerticalIconButtonSize.sm,
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Balance extends ConsumerWidget {
-  const _Balance({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final totalBalance = ref.watch(sessionProvider).totalBalance;
-    final btcBalance = ref.watch(btcBalanceProvider);
-
-    double vBtcBalance = 0;
-    for (final a in ref.watch(tokenizedBitcoinListProvider)) {
-      vBtcBalance += a.myBalance;
-    }
-
-    int highlight = 0;
-
-    return AppCard(
-      child: StatefulBuilder(builder: (context, setState) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "Total Balance",
-                style: TextStyle(
-                  color: AppColors.getWhite(
-                    ColorShade.s300,
-                  ),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              MouseRegion(
-                onHover: (_) {
-                  setState(() {
-                    highlight = 0;
-                  });
-                },
-                child: AnimatedScale(
-                  scale: highlight == 0 ? 1.25 : 1,
-                  duration: Duration(milliseconds: 100),
-                  child: Text(
-                    totalBalance != null ? "$totalBalance VFX" : "0.0 VFX",
-                    style: Theme.of(context).textTheme.caption!.copyWith(
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.getBlue(),
-                          fontSize: 18,
-                          height: 1.3,
-                        ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              MouseRegion(
-                onHover: (_) {
-                  setState(() {
-                    highlight = 1;
-                  });
-                },
-                child: AnimatedScale(
-                  scale: highlight == 1 ? 1.25 : 1,
-                  duration: Duration(milliseconds: 100),
-                  child: Text(
-                    "${btcBalance.toStringAsFixed(9)} BTC",
-                    style: Theme.of(context).textTheme.caption!.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.getBtcSubtle(),
-                          fontSize: 18,
-                          height: 1.3,
-                        ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              MouseRegion(
-                onHover: (_) {
-                  setState(() {
-                    highlight = 2;
-                  });
-                },
-                child: AnimatedScale(
-                  scale: highlight == 2 ? 1.25 : 1,
-                  duration: Duration(milliseconds: 100),
-                  child: RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      style: Theme.of(context).textTheme.caption!.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
-                            height: 1.3,
-                          ),
-                      children: [
-                        TextSpan(
-                          text: "$vBtcBalance",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        TextSpan(
-                          text: " ",
-                        ),
-                        TextSpan(
-                          text: "v",
-                          style: TextStyle(
-                            color: AppColors.getBlue(),
-                          ),
-                        ),
-                        TextSpan(
-                          text: "BTC",
-                          style: TextStyle(color: Colors.white70),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      }),
-    );
-  }
-}
-
-class _MainActions extends StatelessWidget {
-  const _MainActions({super.key});
+class CommonActions extends StatelessWidget {
+  const CommonActions({super.key});
 
   @override
   Widget build(BuildContext context) {
     return AppCard(
+      padding: 6,
       child: Center(
         child: Wrap(
           spacing: 8,
@@ -422,6 +106,13 @@ class _MainActions extends StatelessWidget {
             AppVerticalIconButton(
               label: "Send\nCoin",
               icon: Icons.arrow_upward,
+              onPressed: () {},
+              color: AppColors.getBlue(),
+              hoverColor: AppColors.getBlue(ColorShade.s50),
+            ),
+            AppVerticalIconButton(
+              label: "Receive\nCoin",
+              icon: Icons.arrow_downward,
               onPressed: () {},
               color: AppColors.getBlue(),
               hoverColor: AppColors.getBlue(ColorShade.s50),

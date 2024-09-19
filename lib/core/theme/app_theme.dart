@@ -6,7 +6,7 @@ import '../../utils/html_helpers.dart';
 
 // const _primaryColor = Color(0xFF031745);
 const _primaryColor = Color(0xFF303030);
-const _secondaryColor = Color(0xFF82e4fb);
+const _secondaryColor = Color(0xFF73c4fa);
 const _successColor = Color(0xFF43ae52);
 const _infoColor = Color(0xFFc4c4c4);
 const _warningColor = Color(0xFFd7bc23);

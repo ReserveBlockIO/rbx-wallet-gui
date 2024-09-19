@@ -24,7 +24,6 @@ import 'package:rbx_wallet/utils/toast.dart';
 import '../../../core/theme/colors.dart';
 
 enum HomeButtonSection {
-  none,
   general,
   security,
   nft,
@@ -41,107 +40,82 @@ class HomeButtons extends StatefulWidget {
 }
 
 class _HomeButtonsState extends State<HomeButtons> {
-  Set<HomeButtonSection> selection = {HomeButtonSection.none};
-
-  bool isExpanded = false;
+  Set<HomeButtonSection> selection = {HomeButtonSection.general};
 
   @override
   Widget build(BuildContext context) {
     final tabsRouter = AutoTabsRouter.of(context);
     return Column(mainAxisSize: MainAxisSize.min, children: [
-      Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            "Operations:",
-            style: TextStyle(
-              fontWeight: FontWeight.w300,
-              color: AppColors.getWhite(ColorShade.s300),
-              fontSize: 14,
+      SegmentedButton<HomeButtonSection>(
+        multiSelectionEnabled: false,
+        selectedIcon: null,
+        showSelectedIcon: false,
+        style: ButtonStyle(
+          side: MaterialStateProperty.all(
+            BorderSide(
+              width: 1,
+              color: Colors.white10,
             ),
           ),
-          SizedBox(
-            width: 10,
-          ),
-          SegmentedButton<HomeButtonSection>(
-            multiSelectionEnabled: false,
-            selectedIcon: null,
-            showSelectedIcon: false,
-            emptySelectionAllowed: true,
-            style: ButtonStyle(
-              side: MaterialStateProperty.all(
-                BorderSide(
-                  width: 1,
-                  color: Colors.white10,
-                ),
-              ),
-              splashFactory: NoSplash.splashFactory,
-              backgroundColor: MaterialStateProperty.resolveWith(
-                (states) {
-                  if (states.contains(MaterialState.selected)) {
-                    return AppColors.getGold(ColorShade.s100);
-                  }
-                  if (states.contains(MaterialState.hovered)) {
-                    return AppColors.getBlue(ColorShade.s400);
-                  }
-                  if (states.contains(MaterialState.pressed)) {
-                    return AppColors.getBlue(ColorShade.s300);
-                  }
-                  return AppColors.getGray(ColorShade.s100);
-                },
-              ),
-              foregroundColor: MaterialStateProperty.resolveWith(
-                (states) {
-                  if (states.contains(MaterialState.selected)) {
-                    return Colors.black;
-                  }
-                  return AppColors.getBlue(ColorShade.s50);
-                },
-              ),
-            ),
-            onSelectionChanged: (value) {
-              if (value == selection) {
-                setState(() {
-                  isExpanded = false;
-                  selection = {HomeButtonSection.none};
-                });
-                return;
+          splashFactory: NoSplash.splashFactory,
+          backgroundColor: MaterialStateProperty.resolveWith(
+            (states) {
+              if (states.contains(MaterialState.selected)) {
+                return AppColors.getGold(ColorShade.s100);
               }
-              setState(() {
-                isExpanded = true;
-                selection = value;
-              });
+              if (states.contains(MaterialState.hovered)) {
+                return AppColors.getBlue(ColorShade.s400);
+              }
+              if (states.contains(MaterialState.pressed)) {
+                return AppColors.getBlue(ColorShade.s300);
+              }
+              return AppColors.getGray(ColorShade.s100);
             },
-            segments: [
-              ButtonSegment(
-                label: Text("General"),
-                value: HomeButtonSection.general,
-              ),
-              ButtonSegment(
-                label: Text("Wallet Security"),
-                value: HomeButtonSection.security,
-              ),
-              ButtonSegment(
-                label: Text("Tokens / NFTs"),
-                value: HomeButtonSection.nft,
-              ),
-              ButtonSegment(
-                label: Text("Validator"),
-                value: HomeButtonSection.validator,
-              ),
-              ButtonSegment(
-                label: Text("Diagnose"),
-                value: HomeButtonSection.diagnose,
-              ),
-            ],
-            selected: selection,
+          ),
+          foregroundColor: MaterialStateProperty.resolveWith(
+            (states) {
+              if (states.contains(MaterialState.selected)) {
+                return Colors.black;
+              }
+              return AppColors.getBlue(ColorShade.s50);
+            },
+          ),
+        ),
+        onSelectionChanged: (value) {
+          if (value == selection) {
+            return;
+          }
+          setState(() {
+            selection = value;
+          });
+        },
+        segments: [
+          ButtonSegment(
+            label: Text("General"),
+            value: HomeButtonSection.general,
+          ),
+          ButtonSegment(
+            label: Text("Wallet Security"),
+            value: HomeButtonSection.security,
+          ),
+          ButtonSegment(
+            label: Text("Tokens / NFTs"),
+            value: HomeButtonSection.nft,
+          ),
+          ButtonSegment(
+            label: Text("Validator"),
+            value: HomeButtonSection.validator,
+          ),
+          ButtonSegment(
+            label: Text("Diagnose"),
+            value: HomeButtonSection.diagnose,
           ),
         ],
+        selected: selection,
       ),
-      if (isExpanded && selection.isNotEmpty)
-        SizedBox(
-          height: 16,
-        ),
+      SizedBox(
+        height: 16,
+      ),
       Builder(
         builder: (context) {
           if (selection.isEmpty) {
@@ -149,8 +123,6 @@ class _HomeButtonsState extends State<HomeButtons> {
           }
 
           switch (selection.first) {
-            case HomeButtonSection.none:
-              return SizedBox.shrink();
             case HomeButtonSection.general:
               return Wrap(
                 spacing: 12,

@@ -9,6 +9,7 @@ class AppCard extends StatelessWidget {
   final double glowOpacity;
   final double padding;
   final Duration? animationDuration;
+  final bool fullHeight;
   const AppCard({
     super.key,
     required this.child,
@@ -18,6 +19,7 @@ class AppCard extends StatelessWidget {
     this.padding = 20.0,
     this.borderColor,
     this.animationDuration,
+    this.fullHeight = false,
   });
 
   @override
@@ -25,6 +27,7 @@ class AppCard extends StatelessWidget {
     return AnimatedContainer(
       duration: animationDuration ?? Duration(milliseconds: 150),
       width: fullWidth ? double.infinity : null,
+      height: fullHeight ? double.infinity : null,
       decoration: BoxDecoration(
           color: color ?? AppColors.getGray(ColorShade.s200),
           borderRadius: BorderRadius.circular(12),

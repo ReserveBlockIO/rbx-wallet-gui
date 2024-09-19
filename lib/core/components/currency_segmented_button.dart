@@ -5,6 +5,7 @@ import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 
 import '../providers/currency_segmented_button_provider.dart';
+import '../theme/colors.dart';
 
 class CurrencySegementedButton extends BaseComponent {
   final Function(CurrencyType)? onChange;
@@ -41,7 +42,7 @@ class CurrencySegementedButton extends BaseComponent {
                 case CurrencyType.any:
                   return Colors.white;
                 case CurrencyType.vfx:
-                  return Theme.of(context).colorScheme.secondary;
+                  return AppColors.getBlue();
                 case CurrencyType.btc:
                   return Theme.of(context).colorScheme.btcOrange;
               }

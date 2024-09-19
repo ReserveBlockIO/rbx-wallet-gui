@@ -11,14 +11,11 @@ bool isNumber(String number) {
 }
 
 bool isValidEmail(String email) {
-  return RegExp(
-          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-      .hasMatch(email);
+  return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
 }
 
 bool isValidUrl(String url) {
-  var urlPattern =
-      r"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
+  var urlPattern = r"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
   return RegExp(urlPattern, caseSensitive: false).hasMatch(url);
 }
 
@@ -163,6 +160,9 @@ String? formValidatorRbxAddress(String? value, [bool allowAdnr = false]) {
     return null;
   }
 
+  print(value);
+  print("----");
+
   if (!isValidRbxAddress(value)) {
     return "Invalid Address.";
   }
@@ -231,7 +231,5 @@ String? formValidatorAlphaNumeric(String? value, String label) {
     return "$label is required.";
   }
 
-  return RegExp(r"^[a-zA-Z0-9]+$").hasMatch(value)
-      ? null
-      : "A DNR may only contain letters and numbers.";
+  return RegExp(r"^[a-zA-Z0-9]+$").hasMatch(value) ? null : "A DNR may only contain letters and numbers.";
 }

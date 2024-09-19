@@ -7,7 +7,7 @@ enum CurrencyType {
 }
 
 class CurrencySegementedButtonProvider extends StateNotifier<CurrencyType> {
-  CurrencySegementedButtonProvider() : super(CurrencyType.any);
+  CurrencySegementedButtonProvider() : super(CurrencyType.vfx);
 
   set(CurrencyType type) {
     state = type;

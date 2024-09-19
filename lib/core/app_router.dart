@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
 import 'package:rbx_wallet/features/btc/screens/tokenize_btc_screen.dart';
@@ -38,6 +39,7 @@ import '../features/datanode/screens/datanode_screen.dart';
 import '../features/dst/screens/create_listing_container_screen.dart';
 import '../features/dst/screens/listing_detail_screen.dart';
 import '../features/dst/screens/listing_auction_detail_screen.dart';
+import '../features/operations/screens/operations_screen.dart';
 
 import '../features/home/screens/home_screen.dart';
 import '../features/mother/screens/mother_dashboard_screen.dart';
@@ -234,6 +236,17 @@ const List<AutoRoute> appRoutes = [
           AutoRoute(path: "", page: TokenListScreen),
           AutoRoute(path: "create", page: TokenCreateScreen),
           AutoRoute(path: "create-topic/:scId/:address", page: CreateTokenTopicScreen)
+        ],
+      ),
+      AutoRoute(
+        path: "operations",
+        name: "OperationsTabRouter",
+        page: EmptyRouterPage,
+        children: [
+          AutoRoute(
+            path: "",
+            page: OperationsScreen,
+          ),
         ],
       ),
       // AutoRoute(

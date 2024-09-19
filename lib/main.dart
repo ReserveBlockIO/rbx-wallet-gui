@@ -30,8 +30,7 @@ void main() async {
   await initSingletons();
 
   if (!kIsWeb && Platform.isMacOS) {
-    await DesktopWindow.setWindowSize(
-        const Size(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+    await DesktopWindow.setWindowSize(const Size(DEFAULT_WIDTH, DEFAULT_HEIGHT));
     await DesktopWindow.setMinWindowSize(const Size(MIN_WIDTH, MIN_HEIGHT));
   }
 

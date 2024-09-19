@@ -288,18 +288,24 @@ class AppButton extends StatelessWidget {
         textDirection: iconTrails ? TextDirection.rtl : TextDirection.ltr,
         children: [
           processing
-              ? SizedBox(
-                  width: 12,
-                  height: 12,
-                  child: CircularProgressIndicator(
-                    color: _iconColor(context),
-                    strokeWidth: 2.0,
+              ? Transform.translate(
+                  offset: Offset(0, 3),
+                  child: SizedBox(
+                    width: 12,
+                    height: 12,
+                    child: CircularProgressIndicator(
+                      color: _iconColor(context),
+                      strokeWidth: 2.0,
+                    ),
                   ),
                 )
-              : Icon(
-                  icon,
-                  size: 16,
-                  color: _iconColor(context),
+              : Transform.translate(
+                  offset: Offset(0, 3),
+                  child: Icon(
+                    icon,
+                    size: 16,
+                    color: _iconColor(context),
+                  ),
                 ),
           const SizedBox(
             width: 6,

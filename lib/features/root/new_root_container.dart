@@ -2,23 +2,42 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/app.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/theme/colors.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
 import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
+import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
+import 'package:rbx_wallet/features/btc/providers/btc_balance_provider.dart';
 import 'package:rbx_wallet/features/btc/providers/electrum_connected_provider.dart';
+import 'package:rbx_wallet/features/btc/providers/tokenized_bitcoin_list_provider.dart';
+import 'package:rbx_wallet/features/encrypt/utils.dart';
+import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
+import 'package:rbx_wallet/features/wallet/components/bulk_import_wallet_modal.dart';
+import 'package:rbx_wallet/features/wallet/components/manage_wallet_bottom_sheet.dart';
+import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
+import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
+import 'package:rbx_wallet/utils/validation.dart';
 
+import '../../core/components/currency_segmented_button.dart';
 import '../block/latest_block.dart';
+import '../misc/providers/global_balances_expanded_provider.dart';
+import '../smart_contracts/components/sc_creator/common/modal_container.dart';
+import '../transactions/components/transaction_list_tile.dart';
 
 const TRANSITION_DURATION = Duration(milliseconds: 250);
 const TRANSITION_CURVE = Curves.ease;
@@ -47,6 +66,7 @@ class NewRootContainer extends BaseComponent {
       const TokenTabRouter(),
       const ReserveAccountsTabRouter(),
       const TokenizeBtcTabRouter(),
+      const OperationsTabRouter(),
     ];
 
     return AutoTabsScaffold(
@@ -79,121 +99,282 @@ class _LayoutState extends State<_Layout> {
 
   bool latestBlockIsHovering = false;
   bool latestBlockIsExpanded = false;
+  bool walletSelectorIsHovering = false;
+  bool walletSelectorIsExpanded = false;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 56.0),
-            child: AnimatedContainer(
-              duration: TRANSITION_DURATION,
-              width: sideNavExpanded ? SIDE_NAV_WIDTH_EXPANDED : SIDE_NAV_WIDTH_CONTRACTED,
-              curve: TRANSITION_CURVE,
-              child: _SideNav(
-                  isExpanded: sideNavExpanded,
-                  onToggleExpanded: () {
-                    setState(() {
-                      sideNavExpanded = !sideNavExpanded;
-                    });
-                  }),
+    return Consumer(builder: (context, ref, _) {
+      final tabsRouter = AutoTabsRouter.of(context);
+      final globalBalancesExpanded = ref.watch(globalBalancesExpandedProvider);
+
+      tabsRouter.addListener(() {
+        if (tabsRouter.current.name == "HomeTabRouter") {
+          if (!globalBalancesExpanded) {
+            ref.read(globalBalancesExpandedProvider.notifier).expand();
+          }
+        } else {
+          if (globalBalancesExpanded) {
+            ref.read(globalBalancesExpandedProvider.notifier).detract();
+          }
+        }
+      });
+
+      return Stack(
+        children: [
+          Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 56.0),
+              child: AnimatedContainer(
+                duration: TRANSITION_DURATION,
+                width: sideNavExpanded ? SIDE_NAV_WIDTH_EXPANDED : SIDE_NAV_WIDTH_CONTRACTED,
+                curve: TRANSITION_CURVE,
+                child: _SideNav(
+                    isExpanded: sideNavExpanded,
+                    onToggleExpanded: () {
+                      setState(() {
+                        sideNavExpanded = !sideNavExpanded;
+                      });
+                    }),
+              ),
             ),
           ),
-        ),
-        Align(
-          alignment: Alignment.topLeft,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 5, top: 8),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _RotatingCube(),
-                SizedBox(
-                  width: 6,
-                ),
-                AnimatedOpacity(
-                  duration: TRANSITION_DURATION,
-                  opacity: sideNavExpanded ? 1 : 0,
-                  child: Text(
-                    "Verified",
-                    style: TextStyle(
-                      color: AppColors.getWhite(ColorShade.s400),
-                      fontSize: 20,
-                      fontWeight: FontWeight.w300,
-                      fontFamily: 'Mukta',
-                      letterSpacing: 0,
-                    ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 5, top: 8),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _RotatingCube(),
+                  SizedBox(
+                    width: 6,
                   ),
-                ),
-                SizedBox(
-                  width: 1,
-                ),
-                AnimatedOpacity(
-                  duration: TRANSITION_DURATION * 2,
-                  opacity: sideNavExpanded ? 1 : 0,
-                  child: Consumer(builder: (context, ref, _) {
-                    return AnimatedDefaultTextStyle(
-                      duration: TRANSITION_DURATION,
+                  AnimatedOpacity(
+                    duration: TRANSITION_DURATION,
+                    opacity: sideNavExpanded ? 1 : 0,
+                    child: Text(
+                      "Verified",
                       style: TextStyle(
-                        color: ref.watch(sessionProvider).btcSelected ? AppColors.getBtc() : AppColors.getBlue(ColorShade.s100),
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
+                        color: AppColors.getWhite(ColorShade.s400),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w300,
                         fontFamily: 'Mukta',
                         letterSpacing: 0,
                       ),
-                      child: Text("X"),
-                    );
-                  }),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 1,
+                  ),
+                  AnimatedOpacity(
+                    duration: TRANSITION_DURATION * 2,
+                    opacity: sideNavExpanded ? 1 : 0,
+                    child: Consumer(builder: (context, ref, _) {
+                      return AnimatedDefaultTextStyle(
+                        duration: TRANSITION_DURATION,
+                        style: TextStyle(
+                          color: ref.watch(sessionProvider).btcSelected ? AppColors.getBtc() : AppColors.getBlue(ColorShade.s100),
+                          fontSize: 22,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Mukta',
+                          letterSpacing: 0,
+                        ),
+                        child: Text("X"),
+                      );
+                    }),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          AnimatedPadding(
+            duration: TRANSITION_DURATION,
+            curve: TRANSITION_CURVE,
+            padding: EdgeInsets.only(left: sideNavExpanded ? SIDE_NAV_WIDTH_EXPANDED : SIDE_NAV_WIDTH_CONTRACTED),
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 16),
+                    //   child: _BalanceRow(),
+                    // ),
+                    Container(
+                      height: 57,
+                    ),
+
+                    Expanded(
+                      child: widget.child,
+                    ),
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: _BalanceRow(),
+                  ),
                 ),
               ],
             ),
           ),
-        ),
-        AnimatedPadding(
-          duration: TRANSITION_DURATION,
-          curve: TRANSITION_CURVE,
-          padding: EdgeInsets.only(left: sideNavExpanded ? SIDE_NAV_WIDTH_EXPANDED : SIDE_NAV_WIDTH_CONTRACTED),
-          child: Container(
-            child: widget.child,
-          ),
-        ),
-        Consumer(builder: (context, ref, _) {
-          final block = ref.watch(walletInfoProvider)?.lastestBlock;
-          if (block == null) {
-            return SizedBox();
-          }
+          Consumer(
+            builder: (context, ref, _) {
+              const expandedHeight = 300.0;
+              final btcSelected = ref.watch(sessionProvider.select((value) => value.btcSelected));
+              final vfxWallet = btcSelected ? null : ref.watch(sessionProvider.select((value) => value.currentWallet));
+              final btcWallet = btcSelected ? ref.watch(sessionProvider.select((value) => value.currentBtcAccount)) : null;
 
-          return AnimatedPositioned(
-            right: 0,
-            bottom: latestBlockIsExpanded ? 0 : -320,
-            duration: TRANSITION_DURATION,
-            curve: TRANSITION_CURVE,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Transform.translate(
-                  offset: Offset(1, 2),
-                  child: MouseRegion(
-                    onHover: (_) {
-                      setState(() {
-                        latestBlockIsHovering = true;
-                      });
-                    },
-                    onExit: (_) {
-                      setState(() {
-                        latestBlockIsHovering = false;
-                      });
-                    },
-                    cursor: SystemMouseCursors.click,
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          latestBlockIsExpanded = !latestBlockIsExpanded;
-                        });
-                      },
+              return AnimatedPositioned(
+                left: 0,
+                bottom: walletSelectorIsExpanded ? 0 : -expandedHeight,
+                duration: TRANSITION_DURATION,
+                curve: TRANSITION_CURVE,
+                child: MouseRegion(
+                  onHover: (_) {
+                    setState(() {
+                      walletSelectorIsHovering = true;
+                    });
+                  },
+                  onExit: (_) {
+                    setState(() {
+                      walletSelectorIsHovering = false;
+                      walletSelectorIsExpanded = false;
+                    });
+                  },
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Transform.translate(
+                        offset: Offset(1, 2),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              walletSelectorIsExpanded = !walletSelectorIsExpanded;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.getGray(ColorShade.s300),
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(16),
+                              ),
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.15),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  AnimatedDefaultTextStyle(
+                                    duration: Duration(milliseconds: 105),
+                                    style: TextStyle(
+                                      color: walletSelectorIsHovering ? Colors.white : Colors.white.withOpacity(0.75),
+                                      fontSize: 14,
+                                    ),
+                                    child: Builder(builder: (context) {
+                                      if (vfxWallet != null) {
+                                        return Tooltip(
+                                          message: "Selected VFX Account",
+                                          child: Text(vfxWallet.address),
+                                        );
+                                      }
+
+                                      if (btcWallet != null) {
+                                        return Tooltip(
+                                          message: "Selected BTC Account",
+                                          child: Text(btcWallet.address),
+                                        );
+                                      }
+                                      return Text("Select Account");
+                                    }),
+                                  ),
+                                  Transform.translate(
+                                    offset: Offset(0, 1),
+                                    child: Icon(
+                                      Icons.arrow_drop_down,
+                                      color: walletSelectorIsHovering ? Colors.white : Colors.white.withOpacity(0.75),
+                                      size: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: expandedHeight,
+                        width: 600,
+                        decoration: BoxDecoration(
+                          color: AppColors.getGray(ColorShade.s300),
+                          // border: Border.all(
+                          //   color: Colors.white.withOpacity(0.15),
+                          // ),
+                          border: Border(
+                            top: BorderSide(
+                              color: Colors.white.withOpacity(0.15),
+                            ),
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 6,
+                            ),
+                            CurrencySegementedButton(
+                              includeAny: false,
+                            ),
+                            SizedBox(
+                              height: 6,
+                            ),
+                            Expanded(
+                              child: NewWalletSelectorList(),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+          Consumer(builder: (context, ref, _) {
+            final block = ref.watch(walletInfoProvider.select((v) => v?.lastestBlock));
+            if (block == null) {
+              return SizedBox();
+            }
+
+            return AnimatedPositioned(
+              right: 0,
+              bottom: latestBlockIsExpanded ? 0 : -320,
+              duration: TRANSITION_DURATION,
+              curve: TRANSITION_CURVE,
+              child: MouseRegion(
+                onHover: (_) {
+                  setState(() {
+                    latestBlockIsExpanded = true;
+                    latestBlockIsHovering = true;
+                  });
+                },
+                onExit: (_) {
+                  setState(() {
+                    latestBlockIsExpanded = false;
+                    latestBlockIsHovering = false;
+                  });
+                },
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Transform.translate(
+                      offset: Offset(1, 2),
                       child: Container(
                         decoration: BoxDecoration(
                           color: AppColors.getGray(ColorShade.s300),
@@ -335,7 +516,7 @@ class _LayoutState extends State<_Layout> {
                                     color = AppColors.getGold();
                                     message = "Syncing...";
                                   } else {
-                                    color = AppColors.getSpringGreen();
+                                    color = Theme.of(context).colorScheme.success;
                                     message = "Synced";
                                     isSynced = true;
                                   }
@@ -371,18 +552,172 @@ class _LayoutState extends State<_Layout> {
                         ),
                       ),
                     ),
-                  ),
+                    SizedBox(
+                      width: 240,
+                      height: 320,
+                      child: LatestBlock(),
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  width: 240,
-                  height: 320,
-                  child: LatestBlock(),
-                ),
-              ],
+              ),
+            );
+          }),
+        ],
+      );
+    });
+  }
+}
+
+class NewWalletSelectorList extends BaseComponent {
+  const NewWalletSelectorList({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final btcSelected = ref.watch(sessionProvider.select((value) => value.btcSelected));
+    final vfxWallets = ref.watch(walletListProvider);
+
+    final btcWallets = ref.watch(btcAccountListProvider);
+
+    final selectedVfxWallet = btcSelected ? null : ref.watch(sessionProvider.select((value) => value.currentWallet));
+    final selectedBtcWallet = btcSelected ? ref.watch(sessionProvider.select((value) => value.currentBtcAccount)) : null;
+
+    if (btcSelected) {
+      if (btcWallets.isEmpty) {
+        return Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "No BTC Accounts",
+                style: Theme.of(context).textTheme.caption,
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              AppButton(
+                label: "Add Account",
+                onPressed: () {},
+                variant: AppColorVariant.Btc,
+                icon: Icons.add,
+              )
+            ],
+          ),
+        );
+      }
+      return ListView.builder(
+        itemCount: btcWallets.length,
+        itemBuilder: (context, index) {
+          final account = btcWallets[index];
+          return Card(color: AppColors.getGray(ColorShade.s50), child: ManageWalletBtcListTile(account: account));
+        },
+      );
+    }
+
+    if (vfxWallets.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "No VFX Accounts",
+              style: Theme.of(context).textTheme.caption,
             ),
-          );
-        }),
-      ],
+            SizedBox(
+              height: 8,
+            ),
+            AppButton(
+              label: "Add Account",
+              onPressed: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return ModalContainer(
+                        children: [
+                          Card(
+                            color: AppColors.getGray(),
+                            child: ListTile(
+                              title: Text("Import Private Key"),
+                              leading: Icon(Icons.upload),
+                              onTap: () async {
+                                if (!await passwordRequiredGuard(context, ref)) return;
+                                if (!widgetGuardWalletIsNotResyncing(ref)) return;
+
+                                PromptModal.show(
+                                  title: "Import Private Key",
+                                  // titleTrailing: InkWell(
+                                  //   child: const Text(
+                                  //     "Bulk Import",
+                                  //     style: TextStyle(
+                                  //       fontSize: 12,
+                                  //       // decoration: TextDecoration.underline,
+                                  //       color: Colors.white70,
+                                  //     ),
+                                  //   ),
+                                  //   onTap: () {
+                                  //     Navigator.of(rootNavigatorKey.currentContext!).pop();
+
+                                  //     showModalBottomSheet(
+                                  //         context: rootNavigatorKey.currentContext!,
+                                  //         builder: (context) {
+                                  //           return const BulkImportWalletModal();
+                                  //         });
+                                  //   },
+                                  // ),
+                                  validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
+                                  labelText: "Private Key",
+                                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))],
+                                  lines: 4,
+
+                                  onValidSubmission: (value) async {
+                                    final resync = await ConfirmDialog.show(
+                                      title: "Rescan Blocks?",
+                                      body: "Would you like to rescan the chain to include any transactions relevant to this key?",
+                                      confirmText: "Yes",
+                                      cancelText: "No",
+                                    );
+
+                                    await ref.read(walletListProvider.notifier).import(value, false, resync == true);
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                          Card(
+                            color: AppColors.getGray(),
+                            child: ListTile(
+                              title: Text("Create New Account"),
+                              leading: Icon(Icons.add),
+                              onTap: () async {
+                                if (!await passwordRequiredGuard(context, ref)) return;
+
+                                await ref.read(walletListProvider.notifier).create();
+                              },
+                            ),
+                          )
+                        ],
+                      );
+                    });
+              },
+              variant: AppColorVariant.Secondary,
+              icon: Icons.add,
+            )
+          ],
+        ),
+      );
+    }
+
+    return ListView.builder(
+      itemCount: vfxWallets.length,
+      itemBuilder: (context, index) {
+        final w = vfxWallets[index];
+
+        return Card(
+          color: AppColors.getGray(ColorShade.s50),
+          child: ManageWalletListTile(wallet: w),
+        );
+      },
     );
   }
 }
@@ -560,7 +895,7 @@ class _SideNavList extends BaseComponent {
           isExpanded: isExpanded,
         ),
         _SideNavItem(
-          title: "VFX/BTC Domains",
+          title: "Domains",
           icon: Icons.link,
           onPressed: () {
             tabsRouter.setActiveIndex(10);
@@ -629,6 +964,19 @@ class _SideNavList extends BaseComponent {
             }
           },
           isActive: tabsRouter.activeIndex == 9,
+          isExpanded: isExpanded,
+        ),
+        _SideNavItem(
+          title: "Operations",
+          icon: Icons.bolt,
+          onPressed: () {
+            if (tabsRouter.activeIndex == 16) {
+              tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
+            } else {
+              tabsRouter.setActiveIndex(16);
+            }
+          },
+          isActive: tabsRouter.activeIndex == 16,
           isExpanded: isExpanded,
         ),
       ],
@@ -739,4 +1087,346 @@ class _RotatingCube extends BaseComponent {
             height: 42,
           );
   }
+}
+
+class _BalanceRow extends BaseComponent {
+  const _BalanceRow({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final vfxBalance = ref.watch(sessionProvider).totalBalance;
+    final btcBalance = ref.watch(btcBalanceProvider);
+
+    final allVfxWallets = ref.watch(walletListProvider);
+    final vfxWallets = allVfxWallets.where((w) => !w.isReserved);
+    final raWallets = allVfxWallets.where((w) => w.isReserved);
+
+    final btcAccounts = ref.watch(btcAccountListProvider);
+
+    final vbtcTokens = ref.watch(tokenizedBitcoinListProvider);
+
+    double vBtcBalance = 0;
+    for (final a in vbtcTokens) {
+      vBtcBalance += a.myBalance;
+    }
+
+    final vfxTxs = ref.watch(transactionListProvider(TransactionListType.All));
+
+    final latestVfxTx = vfxTxs.isEmpty ? null : vfxTxs.first;
+
+    final forceExpand = ref.watch(globalBalancesExpandedProvider);
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: _TopBalanceItem(
+            forceExpand: forceExpand,
+            heading: vfxBalance != null ? "$vfxBalance VFX" : "0.0 VFX",
+            headingColor: AppColors.getBlue(),
+            accountCount: raWallets.isNotEmpty && vfxWallets.isNotEmpty
+                ? "${vfxWallets.length} Wallet${vfxWallets.length == 1 ? '' : 's'}   ${raWallets.length} Reserve Account${raWallets.length == 1 ? '' : 's'}"
+                : "${allVfxWallets.length} Wallet${allVfxWallets.length == 1 ? '' : 's'}",
+            actions: [
+              AppVerticalIconButton(
+                onPressed: () {},
+                icon: Icons.wallet,
+                label: "View\nAccounts",
+                size: AppVerticalIconButtonSize.sm,
+              ),
+              AppVerticalIconButton(
+                onPressed: () {},
+                icon: Icons.add,
+                label: "Add\nAccount",
+                size: AppVerticalIconButtonSize.sm,
+              ),
+              AppVerticalIconButton(
+                onPressed: () {},
+                icon: FontAwesomeIcons.coins,
+                iconScale: 0.75,
+                label: "Get\nVFX",
+                size: AppVerticalIconButtonSize.sm,
+              ),
+            ],
+            latestTx: latestVfxTx != null
+                ? Builder(builder: (context) {
+                    final tx = latestVfxTx;
+                    return AppCard(
+                      padding: 12,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (tx.type == TxType.rbxTransfer)
+                            Text(
+                              "${tx.amount} VFX",
+                              style: TextStyle(
+                                color: tx.amount < 0 ? Colors.red.shade500 : Theme.of(context).colorScheme.success,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            )
+                          else
+                            Text(
+                              tx.typeLabel,
+                              style: TextStyle(
+                                color: AppColors.getBlue(),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          Text(
+                            "From: ${tx.fromAddress}\nTo: ${tx.toAddress}",
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.white.withOpacity(0.9),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    );
+                  })
+                : null,
+          ),
+        ),
+        _BalanceRowConnector(),
+        Expanded(
+          child: _TopBalanceItem(
+            forceExpand: forceExpand,
+            heading: "$vBtcBalance vBTC",
+            headingColor: AppColors.getWhite(),
+            accountCount: "${vbtcTokens.length} Token${vbtcTokens.length == 1 ? '' : 's'}",
+            actions: [
+              AppVerticalIconButton(
+                onPressed: () {},
+                icon: Icons.wallet,
+                label: "View\nAccounts",
+                size: AppVerticalIconButtonSize.sm,
+              ),
+              AppVerticalIconButton(
+                onPressed: () {},
+                icon: FontAwesomeIcons.bitcoin,
+                iconScale: 0.75,
+                label: "vBTC\nTokens",
+                size: AppVerticalIconButtonSize.sm,
+              ),
+              AppVerticalIconButton(
+                onPressed: () {},
+                icon: Icons.help_rounded,
+                label: "What's\nvBTC",
+                size: AppVerticalIconButtonSize.sm,
+              ),
+            ],
+          ),
+        ),
+        _BalanceRowConnector(),
+        Expanded(
+          child: _TopBalanceItem(
+            forceExpand: forceExpand,
+            heading: "$btcBalance BTC",
+            headingColor: AppColors.getBtc(),
+            accountCount: "${btcAccounts.length} Wallet${btcAccounts.length == 1 ? '' : 's'}",
+            actions: [
+              AppVerticalIconButton(
+                onPressed: () {},
+                icon: Icons.wallet,
+                label: "View\nAccounts",
+                size: AppVerticalIconButtonSize.sm,
+              ),
+              AppVerticalIconButton(
+                onPressed: () {},
+                icon: Icons.add,
+                label: "Add\nAccount",
+                size: AppVerticalIconButtonSize.sm,
+              ),
+              AppVerticalIconButton(
+                onPressed: () {},
+                icon: FontAwesomeIcons.btc,
+                iconScale: 0.75,
+                label: "Get\nBTC",
+                size: AppVerticalIconButtonSize.sm,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _BalanceRowConnector extends StatelessWidget {
+  const _BalanceRowConnector({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 24.0),
+      child: Container(
+        width: 16,
+        height: 10,
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.03),
+          border: Border.symmetric(
+            horizontal: BorderSide(
+              color: Colors.white.withOpacity(0.075),
+              width: 2,
+            ),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.getBlue().withOpacity(0.2),
+              blurRadius: 12,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _TopBalanceItem extends StatefulWidget {
+  final String heading;
+  final Color headingColor;
+  final String accountCount;
+  final List<Widget> actions;
+  final Widget? latestTx;
+  final bool forceExpand;
+
+  const _TopBalanceItem({
+    super.key,
+    required this.heading,
+    required this.headingColor,
+    required this.accountCount,
+    this.actions = const [],
+    this.latestTx,
+    required this.forceExpand,
+  });
+
+  @override
+  State<_TopBalanceItem> createState() => _TopBalanceItemState();
+}
+
+class _TopBalanceItemState extends State<_TopBalanceItem> {
+  bool isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onExit: (_) {
+        setState(() {
+          isExpanded = false;
+        });
+      },
+      onEnter: (_) {
+        setState(() {
+          isExpanded = true;
+        });
+      },
+      child: GestureDetector(
+        onTap: () {},
+        child: AppCard(
+          padding: 6,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedContainer(
+                duration: TRANSITION_DURATION,
+                curve: Curves.easeInCubic,
+                height: widget.forceExpand || isExpanded ? 240 : 0,
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(),
+                child: ScrollConfiguration(
+                  behavior: NoThumbScrollBehavior().copyWith(
+                    scrollbars: false,
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          widget.accountCount,
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                        SizedBox(
+                          width: 250,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Latest TX:",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13,
+                                  color: Colors.white.withOpacity(0.9),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  "View All Txs",
+                                  style: TextStyle(
+                                    color: widget.headingColor.withOpacity(0.65),
+                                    fontSize: 13,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 110,
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              child: widget.latestTx ??
+                                  SizedBox(
+                                    width: 250,
+                                    height: 100,
+                                    child: AppCard(
+                                      child: Center(
+                                        child: Text(
+                                          "No Transactions",
+                                          style: Theme.of(context).textTheme.caption,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                            ),
+                          ),
+                        ),
+                        Wrap(
+                          children: widget.actions,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Text(
+                widget.heading,
+                style: TextStyle(
+                  fontSize: 24,
+                  color: widget.headingColor,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class NoThumbScrollBehavior extends ScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+        PointerDeviceKind.stylus,
+        PointerDeviceKind.trackpad,
+      };
 }
