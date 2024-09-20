@@ -16,7 +16,7 @@ import 'package:rbx_wallet/features/btc/providers/btc_balance_provider.dart';
 import 'package:rbx_wallet/features/btc/providers/electrum_connected_provider.dart';
 import 'package:rbx_wallet/features/btc/providers/tokenized_bitcoin_list_provider.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons.dart';
-import 'package:rbx_wallet/features/home/components/vfx_summary.dart';
+import 'package:rbx_wallet/features/price/components/coin_price_summary.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';

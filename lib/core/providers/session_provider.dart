@@ -17,6 +17,7 @@ import 'package:rbx_wallet/features/reserve/providers/ra_auto_activate_provider.
 import 'package:rbx_wallet/features/token/providers/auto_mint_provider.dart';
 import '../../features/btc/providers/electrum_connected_provider.dart';
 import '../../features/btc/providers/tokenized_bitcoin_list_provider.dart';
+import '../../features/price/providers/price_detail_providers.dart';
 import '../../features/token/providers/token_list_provider.dart';
 
 import '../../features/btc/models/btc_account.dart';
@@ -954,6 +955,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
     ref.read(tokenizedBitcoinListProvider.notifier).refresh();
 
     ref.read(electrumConnectedProvider.notifier).checkStatus();
+
+    ref.invalidate(vfxPriceDataDetailProvider);
+    ref.invalidate(btcPriceDataDetailProvider);
 
     if (inLoop) {
       await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS_BTC));

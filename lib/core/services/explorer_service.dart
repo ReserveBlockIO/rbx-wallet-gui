@@ -78,9 +78,13 @@ class ExplorerService extends BaseService {
   }
 
   Future<PriceData?> retrievePriceData(String cointype) async {
+    print("Fetching price....");
     try {
-      final data = await getJson('/cmc-price/$cointype');
-      return PriceData.fromJson(data);
+      final result = await getJson('/cmc-price/$cointype');
+      if (result.containsKey('success') && result['success'] == true) {
+        return PriceData.fromJson(result['data']);
+      }
+      return null;
     } catch (e) {
       print(e);
       return null;

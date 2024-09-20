@@ -80,8 +80,6 @@ class AppContainer extends ConsumerWidget {
       ),
       // routerDelegate: router.delegate(),
       builder: (context, widget) {
-        print(MediaQuery.of(context).size);
-        print("!!!");
         if (!ref.watch(readyProvider)) {
           if (kIsWeb) {
             return const CenteredLoader();
