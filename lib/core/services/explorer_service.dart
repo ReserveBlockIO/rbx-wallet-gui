@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:rbx_wallet/features/explorer/models/explorer_data.dart';
 import '../app_constants.dart';
 import '../../features/adnr/models/adnr_response.dart';
 import '../../features/nft/models/web_nft.dart';
@@ -70,6 +71,16 @@ class ExplorerService extends BaseService {
     try {
       final data = await getJson('/transaction/$hash');
       return WebTransaction.fromJson(data);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<ExplorerData?> retrieveExplorerData(String cointype) async {
+    try {
+      final data = await getJson('/cmc-price/$cointype');
+      return ExplorerData.fromJson(data);
     } catch (e) {
       print(e);
       return null;
