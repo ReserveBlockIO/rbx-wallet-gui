@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:rbx_wallet/features/explorer/models/explorer_data.dart';
+import 'package:rbx_wallet/features/price/models/price_data.dart';
 import '../app_constants.dart';
 import '../../features/adnr/models/adnr_response.dart';
 import '../../features/nft/models/web_nft.dart';
@@ -77,10 +77,10 @@ class ExplorerService extends BaseService {
     }
   }
 
-  Future<ExplorerData?> retrieveExplorerData(String cointype) async {
+  Future<PriceData?> retrievePriceData(String cointype) async {
     try {
       final data = await getJson('/cmc-price/$cointype');
-      return ExplorerData.fromJson(data);
+      return PriceData.fromJson(data);
     } catch (e) {
       print(e);
       return null;

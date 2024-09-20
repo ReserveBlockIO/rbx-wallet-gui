@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'explorer_data.dart';
+part of 'price_data.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-ExplorerData _$ExplorerDataFromJson(Map<String, dynamic> json) {
-  return _ExplorerData.fromJson(json);
+PriceData _$PriceDataFromJson(Map<String, dynamic> json) {
+  return _PriceData.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ExplorerData {
+mixin _$PriceData {
   @JsonKey(name: 'coin_type')
   String get coinType => throw _privateConstructorUsedError;
   @JsonKey(name: 'usdt_price')
@@ -43,15 +43,14 @@ mixin _$ExplorerData {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ExplorerDataCopyWith<ExplorerData> get copyWith =>
+  $PriceDataCopyWith<PriceData> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ExplorerDataCopyWith<$Res> {
-  factory $ExplorerDataCopyWith(
-          ExplorerData value, $Res Function(ExplorerData) then) =
-      _$ExplorerDataCopyWithImpl<$Res, ExplorerData>;
+abstract class $PriceDataCopyWith<$Res> {
+  factory $PriceDataCopyWith(PriceData value, $Res Function(PriceData) then) =
+      _$PriceDataCopyWithImpl<$Res, PriceData>;
   @useResult
   $Res call(
       {@JsonKey(name: 'coin_type') String coinType,
@@ -67,9 +66,9 @@ abstract class $ExplorerDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ExplorerDataCopyWithImpl<$Res, $Val extends ExplorerData>
-    implements $ExplorerDataCopyWith<$Res> {
-  _$ExplorerDataCopyWithImpl(this._value, this._then);
+class _$PriceDataCopyWithImpl<$Res, $Val extends PriceData>
+    implements $PriceDataCopyWith<$Res> {
+  _$PriceDataCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -136,11 +135,10 @@ class _$ExplorerDataCopyWithImpl<$Res, $Val extends ExplorerData>
 }
 
 /// @nodoc
-abstract class _$$_ExplorerDataCopyWith<$Res>
-    implements $ExplorerDataCopyWith<$Res> {
-  factory _$$_ExplorerDataCopyWith(
-          _$_ExplorerData value, $Res Function(_$_ExplorerData) then) =
-      __$$_ExplorerDataCopyWithImpl<$Res>;
+abstract class _$$_PriceDataCopyWith<$Res> implements $PriceDataCopyWith<$Res> {
+  factory _$$_PriceDataCopyWith(
+          _$_PriceData value, $Res Function(_$_PriceData) then) =
+      __$$_PriceDataCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -157,11 +155,11 @@ abstract class _$$_ExplorerDataCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ExplorerDataCopyWithImpl<$Res>
-    extends _$ExplorerDataCopyWithImpl<$Res, _$_ExplorerData>
-    implements _$$_ExplorerDataCopyWith<$Res> {
-  __$$_ExplorerDataCopyWithImpl(
-      _$_ExplorerData _value, $Res Function(_$_ExplorerData) _then)
+class __$$_PriceDataCopyWithImpl<$Res>
+    extends _$PriceDataCopyWithImpl<$Res, _$_PriceData>
+    implements _$$_PriceDataCopyWith<$Res> {
+  __$$_PriceDataCopyWithImpl(
+      _$_PriceData _value, $Res Function(_$_PriceData) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -178,7 +176,7 @@ class __$$_ExplorerDataCopyWithImpl<$Res>
     Object? percentChange90d = null,
     Object? lastUpdated = null,
   }) {
-    return _then(_$_ExplorerData(
+    return _then(_$_PriceData(
       coinType: null == coinType
           ? _value.coinType
           : coinType // ignore: cast_nullable_to_non_nullable
@@ -225,8 +223,8 @@ class __$$_ExplorerDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ExplorerData extends _ExplorerData {
-  _$_ExplorerData(
+class _$_PriceData extends _PriceData {
+  _$_PriceData(
       {@JsonKey(name: 'coin_type') required this.coinType,
       @JsonKey(name: 'usdt_price') required this.usdtPrice,
       @JsonKey(name: 'volume_24h') required this.volume24h,
@@ -239,8 +237,8 @@ class _$_ExplorerData extends _ExplorerData {
       @JsonKey(name: 'last_updated') required this.lastUpdated})
       : super._();
 
-  factory _$_ExplorerData.fromJson(Map<String, dynamic> json) =>
-      _$$_ExplorerDataFromJson(json);
+  factory _$_PriceData.fromJson(Map<String, dynamic> json) =>
+      _$$_PriceDataFromJson(json);
 
   @override
   @JsonKey(name: 'coin_type')
@@ -275,14 +273,14 @@ class _$_ExplorerData extends _ExplorerData {
 
   @override
   String toString() {
-    return 'ExplorerData(coinType: $coinType, usdtPrice: $usdtPrice, volume24h: $volume24h, percentChange1h: $percentChange1h, percentChange24h: $percentChange24h, percentChange7d: $percentChange7d, percentChange30d: $percentChange30d, percentChange60d: $percentChange60d, percentChange90d: $percentChange90d, lastUpdated: $lastUpdated)';
+    return 'PriceData(coinType: $coinType, usdtPrice: $usdtPrice, volume24h: $volume24h, percentChange1h: $percentChange1h, percentChange24h: $percentChange24h, percentChange7d: $percentChange7d, percentChange30d: $percentChange30d, percentChange60d: $percentChange60d, percentChange90d: $percentChange90d, lastUpdated: $lastUpdated)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ExplorerData &&
+            other is _$_PriceData &&
             (identical(other.coinType, coinType) ||
                 other.coinType == coinType) &&
             (identical(other.usdtPrice, usdtPrice) ||
@@ -323,19 +321,19 @@ class _$_ExplorerData extends _ExplorerData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ExplorerDataCopyWith<_$_ExplorerData> get copyWith =>
-      __$$_ExplorerDataCopyWithImpl<_$_ExplorerData>(this, _$identity);
+  _$$_PriceDataCopyWith<_$_PriceData> get copyWith =>
+      __$$_PriceDataCopyWithImpl<_$_PriceData>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ExplorerDataToJson(
+    return _$$_PriceDataToJson(
       this,
     );
   }
 }
 
-abstract class _ExplorerData extends ExplorerData {
-  factory _ExplorerData(
+abstract class _PriceData extends PriceData {
+  factory _PriceData(
       {@JsonKey(name: 'coin_type')
           required final String coinType,
       @JsonKey(name: 'usdt_price')
@@ -355,11 +353,11 @@ abstract class _ExplorerData extends ExplorerData {
       @JsonKey(name: 'percent_change_90d')
           required final double percentChange90d,
       @JsonKey(name: 'last_updated')
-          required final DateTime lastUpdated}) = _$_ExplorerData;
-  _ExplorerData._() : super._();
+          required final DateTime lastUpdated}) = _$_PriceData;
+  _PriceData._() : super._();
 
-  factory _ExplorerData.fromJson(Map<String, dynamic> json) =
-      _$_ExplorerData.fromJson;
+  factory _PriceData.fromJson(Map<String, dynamic> json) =
+      _$_PriceData.fromJson;
 
   @override
   @JsonKey(name: 'coin_type')
@@ -393,6 +391,6 @@ abstract class _ExplorerData extends ExplorerData {
   DateTime get lastUpdated;
   @override
   @JsonKey(ignore: true)
-  _$$_ExplorerDataCopyWith<_$_ExplorerData> get copyWith =>
+  _$$_PriceDataCopyWith<_$_PriceData> get copyWith =>
       throw _privateConstructorUsedError;
 }

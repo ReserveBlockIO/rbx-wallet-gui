@@ -1334,7 +1334,7 @@ class _TopBalanceItemState extends State<_TopBalanceItem> {
             children: [
               AnimatedContainer(
                 duration: TRANSITION_DURATION,
-                curve: Curves.easeInCubic,
+                curve: Curves.easeInOut,
                 height: widget.forceExpand || isExpanded ? 240 : 0,
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(),

@@ -1,12 +1,13 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'explorer_data.freezed.dart';
+part 'price_data.freezed.dart';
+part 'price_data.g.dart';
 
 @freezed
-class ExplorerData with _$ExplorerData {
-  const ExplorerData._();
+class PriceData with _$PriceData {
+  const PriceData._();
 
-  factory ExplorerData({
+  factory PriceData({
     @JsonKey(name: 'coin_type') required String coinType,
     @JsonKey(name: 'usdt_price') required double usdtPrice,
     @JsonKey(name: 'volume_24h') required double volume24h,
@@ -17,7 +18,7 @@ class ExplorerData with _$ExplorerData {
     @JsonKey(name: 'percent_change_60d') required double percentChange60d,
     @JsonKey(name: 'percent_change_90d') required double percentChange90d,
     @JsonKey(name: 'last_updated') required DateTime lastUpdated,
-  }) = _ExplorerData;
+  }) = _PriceData;
 
-  factory ExplorerData.fromJson(Map<String, dynamic> json) => _$_ExplorerData.fromJson(json);
+  factory PriceData.fromJson(Map<String, dynamic> json) => _$PriceDataFromJson(json);
 }
