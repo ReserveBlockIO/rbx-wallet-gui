@@ -34,6 +34,7 @@ class CoinPriceSummary extends BaseComponent {
 
     return AppCard(
       fullHeight: true,
+      padding: 4,
       child: Center(
         // child: _CoinPriceSummaryContent(type: type),
         child: data.when(

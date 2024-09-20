@@ -100,12 +100,14 @@ class CommonActions extends StatelessWidget {
               label: "Add\nWallet",
               icon: Icons.add,
               onPressed: () {},
+              size: AppVerticalIconButtonSize.sm,
               color: AppColors.getBlue(),
               hoverColor: AppColors.getBlue(ColorShade.s50),
             ),
             AppVerticalIconButton(
               label: "Send\nCoin",
               icon: Icons.arrow_upward,
+              size: AppVerticalIconButtonSize.sm,
               onPressed: () {},
               color: AppColors.getBlue(),
               hoverColor: AppColors.getBlue(ColorShade.s50),
@@ -113,6 +115,7 @@ class CommonActions extends StatelessWidget {
             AppVerticalIconButton(
               label: "Receive\nCoin",
               icon: Icons.arrow_downward,
+              size: AppVerticalIconButtonSize.sm,
               onPressed: () {},
               color: AppColors.getBlue(),
               hoverColor: AppColors.getBlue(ColorShade.s50),
@@ -120,6 +123,7 @@ class CommonActions extends StatelessWidget {
             AppVerticalIconButton(
               label: "TX\nHistory",
               icon: Icons.history,
+              size: AppVerticalIconButtonSize.sm,
               onPressed: () {},
               color: AppColors.getBlue(),
               hoverColor: AppColors.getBlue(ColorShade.s50),
@@ -127,6 +131,7 @@ class CommonActions extends StatelessWidget {
             AppVerticalIconButton(
               label: "Tokenize\nBTC",
               icon: FontAwesomeIcons.bitcoin,
+              size: AppVerticalIconButtonSize.sm,
               onPressed: () {},
               color: AppColors.getBlue(),
               hoverColor: AppColors.getBlue(ColorShade.s50),
@@ -134,6 +139,7 @@ class CommonActions extends StatelessWidget {
             AppVerticalIconButton(
               label: "Mint\nNFT",
               icon: Icons.lightbulb_outline,
+              size: AppVerticalIconButtonSize.sm,
               onPressed: () {},
               color: AppColors.getBlue(),
               hoverColor: AppColors.getBlue(ColorShade.s50),
