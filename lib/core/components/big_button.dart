@@ -49,7 +49,7 @@ class BigButton extends StatelessWidget {
                 children: [
                   Icon(
                     iconData,
-                    size: isMobile ? 28 : 48,
+                    size: isMobile ? 20 : 20,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -60,7 +60,7 @@ class BigButton extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               )
-                          : Theme.of(context).textTheme.headline3,
+                          : Theme.of(context).textTheme.headline4!.copyWith(color: Colors.white),
                       textAlign: TextAlign.center,
                     ),
                   ),

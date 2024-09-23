@@ -5,7 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/core/theme/colors.dart';
 import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
+import '../../../../core/theme/components.dart';
 import '../../../sc_property/components/properties_manager.dart';
 
 import '../../../../core/app_constants.dart';
@@ -298,11 +300,9 @@ class SmartContractCreatorMain extends BaseComponent {
             ),
           ),
         ),
-        Container(
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            color: Color(0xFF040f26),
-          ),
+        AppCard(
+          padding: 0,
+          color: AppColors.getGray(ColorShade.s300),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Center(child: buildCompileButton(ref, _model, context)),
@@ -316,45 +316,47 @@ class SmartContractCreatorMain extends BaseComponent {
   Widget desktopBody(BuildContext context, WidgetRef ref) {
     final _model = ref.watch(createSmartContractProvider);
 
-    return Column(
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const BasicPropertiesFormGroup(),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Expanded(child: PropertiesManager()),
-                    const Expanded(child: PrimaryAssetFormGroup()),
-                  ],
-                ),
-                const FeaturesFormGroup(),
-              ],
+    return AppCard(
+      margin: EdgeInsets.all(16),
+      child: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const BasicPropertiesFormGroup(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Expanded(child: PropertiesManager()),
+                      const Expanded(child: PrimaryAssetFormGroup()),
+                    ],
+                  ),
+                  const FeaturesFormGroup(),
+                ],
+              ),
             ),
           ),
-        ),
-        Container(
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            color: Color(0xFF040f26),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                // buildSaveButton(_model, ref),
-                buildCompileButton(ref, _model, context),
-                // if (!_model.isCompiled) buildDeleteButton(_model, context, ref),
-              ],
+          AppCard(
+            padding: 0,
+            color: AppColors.getGray(ColorShade.s300),
+            fullWidth: true,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  // buildSaveButton(_model, ref),
+                  buildCompileButton(ref, _model, context),
+                  // if (!_model.isCompiled) buildDeleteButton(_model, context, ref),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

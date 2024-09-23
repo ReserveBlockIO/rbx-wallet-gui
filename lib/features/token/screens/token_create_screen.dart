@@ -9,7 +9,6 @@ class TokenCreateScreen extends BaseScreen {
   const TokenCreateScreen({super.key})
       : super(
           backgroundColor: Colors.black87,
-          horizontalPadding: 0,
           verticalPadding: 0,
         );
 
@@ -18,9 +17,6 @@ class TokenCreateScreen extends BaseScreen {
     return AppBar(
       backgroundColor: Colors.black54,
       title: Text("Create Fungible Token"),
-      actions: [
-        WalletSelector(),
-      ],
     );
   }
 

@@ -5,6 +5,7 @@ import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/core/theme/colors.dart';
 import 'package:rbx_wallet/features/token/components/manage_token_grid.dart';
 import 'package:rbx_wallet/features/token/components/token_list.dart';
 import 'package:rbx_wallet/core/components/back_to_home_button.dart';
@@ -47,7 +48,8 @@ class TokenListScreen extends BaseScreen {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const TabBar(
+            TabBar(
+              indicatorColor: AppColors.getBlue(),
               tabs: [
                 Tab(
                   child: Text("Tokens with Supply"),

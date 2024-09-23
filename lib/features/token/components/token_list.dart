@@ -48,10 +48,11 @@ class TokenList extends BaseComponent {
                 AutoRouter.of(context).push(TokenCreateScreenRoute());
               },
             ),
-            SizedBox(height: 8),
+            SizedBox(height: 16),
             if (handleManage != null)
               AppButton(
                 label: "Manage Tokens",
+                underlined: true,
                 type: AppButtonType.Text,
                 variant: AppColorVariant.Light,
                 onPressed: () {

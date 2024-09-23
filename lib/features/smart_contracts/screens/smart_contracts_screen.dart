@@ -72,7 +72,7 @@ class SmartContractsScreen extends BaseScreen {
                 // ),
                 BigButton(
                   title: "Create a Smart Contract & Mint",
-                  iconData: Icons.create,
+                  iconData: Icons.receipt_long,
                   body: "Start with a baseline smart contract and add customized features",
                   onPressed: () async {
                     if (!kDebugMode) {

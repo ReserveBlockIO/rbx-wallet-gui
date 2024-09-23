@@ -296,7 +296,7 @@ class _LayoutState extends State<_Layout> {
                                                 style: TextStyle(
                                                   fontSize: 10,
                                                   fontWeight: FontWeight.bold,
-                                                  color: AppColors.getBlue(),
+                                                  color: vfxWallet.isReserved ? AppColors.getReserve() : AppColors.getBlue(),
                                                 ),
                                               ),
                                               SizedBox(

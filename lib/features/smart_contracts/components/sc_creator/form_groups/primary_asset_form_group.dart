@@ -4,6 +4,7 @@ import 'package:rbx_wallet/core/theme/components.dart';
 
 import '../../../../../core/base_component.dart';
 import '../../../../../core/theme/app_theme.dart';
+import '../../../../../core/theme/colors.dart';
 import '../../../providers/create_smart_contract_provider.dart';
 import '../common/file_selector.dart';
 import '../common/form_group_container.dart';
@@ -21,6 +22,7 @@ class PrimaryAssetFormGroup extends BaseComponent {
     return FormGroupContainer(
       child: AppCard(
         padding: 4,
+        color: AppColors.getGray(ColorShade.s300),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,

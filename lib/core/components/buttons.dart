@@ -62,6 +62,10 @@ class AppButton extends StatelessWidget {
           primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.secondaryButtonBg,
           onPrimary: Theme.of(context).colorScheme.secondaryButtonFg,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          textStyle: TextStyle(
+            fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
+            fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+          ),
           splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Info:
@@ -70,6 +74,10 @@ class AppButton extends StatelessWidget {
           onPrimary: Theme.of(context).colorScheme.infoButtonFg,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
+          textStyle: TextStyle(
+            fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
+            fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+          ),
         );
       case AppColorVariant.Danger:
         return ElevatedButton.styleFrom(
@@ -77,6 +85,10 @@ class AppButton extends StatelessWidget {
           onPrimary: Theme.of(context).colorScheme.dangerButtonFg,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
+          textStyle: TextStyle(
+            fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
+            fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+          ),
         );
       case AppColorVariant.Success:
         return ElevatedButton.styleFrom(
@@ -84,6 +96,10 @@ class AppButton extends StatelessWidget {
           onPrimary: Theme.of(context).colorScheme.successButtonFg,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
+          textStyle: TextStyle(
+            fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
+            fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+          ),
         );
       case AppColorVariant.Warning:
         return ElevatedButton.styleFrom(
@@ -91,6 +107,10 @@ class AppButton extends StatelessWidget {
           onPrimary: Theme.of(context).colorScheme.warningButtonFg,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
+          textStyle: TextStyle(
+            fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
+            fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+          ),
         );
       case AppColorVariant.Light:
         return ElevatedButton.styleFrom(
@@ -98,6 +118,10 @@ class AppButton extends StatelessWidget {
           onPrimary: Theme.of(context).colorScheme.lightButtonFg,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
+          textStyle: TextStyle(
+            fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
+            fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+          ),
         );
       case AppColorVariant.Dark:
         return ElevatedButton.styleFrom(
@@ -105,6 +129,10 @@ class AppButton extends StatelessWidget {
           onPrimary: Theme.of(context).colorScheme.lightButtonFg,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
+          textStyle: TextStyle(
+            fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
+            fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+          ),
         );
       case AppColorVariant.Btc:
         return ElevatedButton.styleFrom(
@@ -112,6 +140,10 @@ class AppButton extends StatelessWidget {
           onPrimary: Theme.of(context).colorScheme.onBtcOrange,
           splashFactory: NoSplash.splashFactory,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          textStyle: TextStyle(
+            fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
+            fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+          ),
         );
       case AppColorVariant.Reserve:
         return ElevatedButton.styleFrom(
@@ -119,6 +151,10 @@ class AppButton extends StatelessWidget {
           onPrimary: Theme.of(context).colorScheme.onReserve,
           splashFactory: NoSplash.splashFactory,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          textStyle: TextStyle(
+            fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
+            fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+          ),
         );
       case AppColorVariant.Vbtc:
         return ElevatedButton.styleFrom(
@@ -126,6 +162,10 @@ class AppButton extends StatelessWidget {
           onPrimary: Theme.of(context).colorScheme.onVbtc,
           splashFactory: NoSplash.splashFactory,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          textStyle: TextStyle(
+            fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
+            fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+          ),
         );
     }
   }
