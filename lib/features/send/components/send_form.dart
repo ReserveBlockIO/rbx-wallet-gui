@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dart';
+import 'package:rbx_wallet/core/theme/colors.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/models/web_session_model.dart';
 import '../../btc/models/btc_account.dart';
@@ -149,10 +151,10 @@ class SendForm extends BaseComponent {
 
     return Form(
       key: formProvider.formKey,
-      child: Container(
-        decoration: BoxDecoration(boxShadow: glowingBox),
-        child: Card(
-          color: Colors.black87,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: AppCard(
+          padding: 0,
           child: Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Column(

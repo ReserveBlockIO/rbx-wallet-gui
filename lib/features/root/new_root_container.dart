@@ -281,14 +281,50 @@ class _LayoutState extends State<_Layout> {
                                       if (vfxWallet != null) {
                                         return Tooltip(
                                           message: "Selected VFX Account",
-                                          child: Text(vfxWallet.address),
+                                          child: Row(
+                                            children: [
+                                              Text(vfxWallet.address),
+                                              SizedBox(
+                                                width: 8,
+                                              ),
+                                              Text(
+                                                "[${vfxWallet.balanceLabel}]",
+                                                style: TextStyle(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: AppColors.getBlue(),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 3,
+                                              ),
+                                            ],
+                                          ),
                                         );
                                       }
 
                                       if (btcWallet != null) {
                                         return Tooltip(
                                           message: "Selected BTC Account",
-                                          child: Text(btcWallet.address),
+                                          child: Row(
+                                            children: [
+                                              Text(btcWallet.address),
+                                              SizedBox(
+                                                width: 8,
+                                              ),
+                                              Text(
+                                                "[${btcWallet.balance} BTC]",
+                                                style: TextStyle(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: AppColors.getBtc(),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 3,
+                                              ),
+                                            ],
+                                          ),
                                         );
                                       }
                                       return Text("Select Account");
@@ -324,14 +360,22 @@ class _LayoutState extends State<_Layout> {
                         ),
                         child: Column(
                           children: [
-                            SizedBox(
-                              height: 6,
-                            ),
-                            CurrencySegementedButton(
-                              includeAny: false,
-                            ),
-                            SizedBox(
-                              height: 6,
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CurrencySegementedButton(
+                                    includeAny: false,
+                                  ),
+                                  AppButton(
+                                    label: "Add Account",
+                                    onPressed: () {},
+                                    icon: Icons.add,
+                                    variant: btcSelected ? AppColorVariant.Btc : AppColorVariant.Secondary,
+                                  ),
+                                ],
+                              ),
                             ),
                             Expanded(
                               child: NewWalletSelectorList(),
@@ -610,7 +654,10 @@ class NewWalletSelectorList extends BaseComponent {
         itemCount: btcWallets.length,
         itemBuilder: (context, index) {
           final account = btcWallets[index];
-          return Card(color: AppColors.getGray(ColorShade.s50), child: ManageWalletBtcListTile(account: account));
+          return Card(
+            color: AppColors.getGray(ColorShade.s50),
+            child: ManageWalletBtcListTile(account: account),
+          );
         },
       );
     }

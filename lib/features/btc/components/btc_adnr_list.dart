@@ -6,6 +6,7 @@ import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
 import 'package:rbx_wallet/features/adnr/providers/adnr_pending_provider.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
@@ -36,148 +37,143 @@ class BtcAdnrList extends BaseComponent {
         final isPendingTransfer = ref.watch(adnrPendingProvider).contains("${account.address}.transfer.${account.adnr ?? 'null'}");
         return Padding(
           padding: const EdgeInsets.only(bottom: 6.0),
-          child: Container(
-            decoration: BoxDecoration(
-              boxShadow: glowingBoxBtc,
-              color: Colors.black,
-            ),
-            child: Card(
-              color: Colors.black,
-              child: ListTile(
-                title: Text(account.address),
-                subtitle: account.adnr != null && !isPendingCreate
-                    ? Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 2.0),
-                            child: AppBadge(
-                              label: account.adnr!,
-                              variant: AppColorVariant.Btc,
-                            ),
+          child: AppCard(
+            padding: 4,
+            child: ListTile(
+              title: Text(account.address),
+              leading: Icon(account.adnr != null ? Icons.link : Icons.link_off),
+              subtitle: account.adnr != null && !isPendingCreate
+                  ? Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2.0),
+                          child: AppBadge(
+                            label: account.adnr!,
+                            variant: AppColorVariant.Btc,
                           ),
-                          SizedBox(
-                            width: 6,
-                          ),
-                          if (account.adnrOwnerAddress != null)
-                            Text(
-                              "Controlled by: ${account.adnrOwnerAddress!}",
-                              style: Theme.of(context).textTheme.bodySmall,
-                            )
-                        ],
-                      )
-                    : null,
-                trailing: Builder(builder: (context) {
-                  if (isPendingTransfer) {
-                    return AppBadge(
-                      label: "Transfer Pending",
-                      variant: AppColorVariant.Btc,
-                    );
-                  }
+                        ),
+                        SizedBox(
+                          width: 6,
+                        ),
+                        if (account.adnrOwnerAddress != null)
+                          Text(
+                            "Controlled by: ${account.adnrOwnerAddress!}",
+                            style: Theme.of(context).textTheme.bodySmall,
+                          )
+                      ],
+                    )
+                  : Text("No Domain"),
+              trailing: Builder(builder: (context) {
+                if (isPendingTransfer) {
+                  return AppBadge(
+                    label: "Transfer Pending",
+                    variant: AppColorVariant.Btc,
+                  );
+                }
 
-                  if (isPendingBurn) {
-                    return AppBadge(
-                      label: "Delete Pending",
-                      variant: AppColorVariant.Btc,
-                    );
-                  }
-                  if (isPendingCreate) {
-                    return AppBadge(
-                      label: "Creation Pending",
-                      variant: AppColorVariant.Btc,
-                    );
-                  }
-                  if (account.adnr == null) {
-                    return AppButton(
-                      label: "Create Domain",
-                      variant: AppColorVariant.Btc,
+                if (isPendingBurn) {
+                  return AppBadge(
+                    label: "Delete Pending",
+                    variant: AppColorVariant.Btc,
+                  );
+                }
+                if (isPendingCreate) {
+                  return AppBadge(
+                    label: "Creation Pending",
+                    variant: AppColorVariant.Btc,
+                  );
+                }
+                if (account.adnr == null) {
+                  return AppButton(
+                    label: "Create Domain",
+                    variant: AppColorVariant.Btc,
+                    onPressed: () async {
+                      if (!await passwordRequiredGuard(context, ref)) return;
+                      if (!widgetGuardWalletIsSynced(ref)) {
+                        return;
+                      }
+
+                      if (ref.read(walletListProvider).isEmpty) {
+                        Toast.error("An VFX wallet is required for this functionality.");
+                        return;
+                      }
+
+                      ref.read(btcAdnrCreateFormProvider.notifier).initWithData(
+                            btcAddress: account.address,
+                          );
+
+                      final initialWallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.balance >= ADNR_COST + MIN_RBX_FOR_SC_ACTION);
+                      if (initialWallet != null) {
+                        ref.read(btcAdnrCreateFormProvider.notifier).setSelectedAddress(initialWallet.address);
+                      }
+
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return CreateBtcAdnrModal();
+                        },
+                      );
+                    },
+                  );
+                }
+
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AppButton(
+                      label: "Transfer",
                       onPressed: () async {
                         if (!await passwordRequiredGuard(context, ref)) return;
                         if (!widgetGuardWalletIsSynced(ref)) {
                           return;
                         }
 
-                        if (ref.read(walletListProvider).isEmpty) {
-                          Toast.error("An VFX wallet is required for this functionality.");
+                        ref
+                            .read(btcAdnrTransferFormProvider.notifier)
+                            .initWithFromBtcAddress(fromBtcAddress: account.address, domainName: account.adnr);
+
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return TransferBtcAdnrModal();
+                            });
+                      },
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    AppButton(
+                      label: "Delete",
+                      onPressed: () async {
+                        final confirmed = await ConfirmDialog.show(
+                          title: "Delete BTC Domain?",
+                          body:
+                              "Are you sure you want to delete this BTC Domain?\n${ADNR_DELETE_COST == 0 ? 'There is no cost to delete and VFX Domain (aside from the TX fee).' : 'There is a cost of $ADNR_DELETE_COST VFX to delete an RBX Domain.'}\n\nOnce deleted, this ADNR will no longer be able to receive any transactions.",
+                          destructive: true,
+                          cancelText: "Cancel",
+                          confirmText: "Delete",
+                        );
+
+                        if (confirmed != true) {
                           return;
                         }
 
-                        ref.read(btcAdnrCreateFormProvider.notifier).initWithData(
-                              btcAddress: account.address,
-                            );
-
-                        final initialWallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.balance >= ADNR_COST + MIN_RBX_FOR_SC_ACTION);
-                        if (initialWallet != null) {
-                          ref.read(btcAdnrCreateFormProvider.notifier).setSelectedAddress(initialWallet.address);
+                        final hash = await BtcService().deleteAdnr(btcAddress: account.address);
+                        if (hash != null) {
+                          ref.read(adnrPendingProvider.notifier).addId(account.address, "burn", account.adnr!);
+                          Toast.message("TX broadcasted with hash of $hash");
+                          ref.read(logProvider.notifier).append(
+                                LogEntry(message: "BTC Domain Delete TX Sent: $hash", textToCopy: hash, variant: AppColorVariant.Btc),
+                              );
+                          return;
                         }
-
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return CreateBtcAdnrModal();
-                          },
-                        );
                       },
-                    );
-                  }
-
-                  return Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      AppButton(
-                        label: "Transfer",
-                        onPressed: () async {
-                          if (!await passwordRequiredGuard(context, ref)) return;
-                          if (!widgetGuardWalletIsSynced(ref)) {
-                            return;
-                          }
-
-                          ref
-                              .read(btcAdnrTransferFormProvider.notifier)
-                              .initWithFromBtcAddress(fromBtcAddress: account.address, domainName: account.adnr);
-
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (context) {
-                                return TransferBtcAdnrModal();
-                              });
-                        },
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      AppButton(
-                        label: "Delete",
-                        onPressed: () async {
-                          final confirmed = await ConfirmDialog.show(
-                            title: "Delete BTC Domain?",
-                            body:
-                                "Are you sure you want to delete this BTC Domain?\n${ADNR_DELETE_COST == 0 ? 'There is no cost to delete and VFX Domain (aside from the TX fee).' : 'There is a cost of $ADNR_DELETE_COST VFX to delete an RBX Domain.'}\n\nOnce deleted, this ADNR will no longer be able to receive any transactions.",
-                            destructive: true,
-                            cancelText: "Cancel",
-                            confirmText: "Delete",
-                          );
-
-                          if (confirmed != true) {
-                            return;
-                          }
-
-                          final hash = await BtcService().deleteAdnr(btcAddress: account.address);
-                          if (hash != null) {
-                            ref.read(adnrPendingProvider.notifier).addId(account.address, "burn", account.adnr!);
-                            Toast.message("TX broadcasted with hash of $hash");
-                            ref.read(logProvider.notifier).append(
-                                  LogEntry(message: "BTC Domain Delete TX Sent: $hash", textToCopy: hash, variant: AppColorVariant.Btc),
-                                );
-                            return;
-                          }
-                        },
-                        variant: AppColorVariant.Danger,
-                      ),
-                    ],
-                  );
-                }),
-              ),
+                      variant: AppColorVariant.Danger,
+                    ),
+                  ],
+                );
+              }),
             ),
           ),
         );

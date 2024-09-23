@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:rbx_wallet/core/theme/colors.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/html_helpers.dart';
@@ -88,26 +89,26 @@ class AppTheme {
     required this.themeData,
   });
 
-  factory AppTheme.light() {
-    final _themeData = ThemeData(
-      colorScheme: ColorScheme.fromSwatch(
-        brightness: Brightness.light,
-        primarySwatch: createMaterialColor(_primaryColor),
-        accentColor: _secondaryColor,
-      ),
-      inputDecorationTheme: const InputDecorationTheme(
-        labelStyle: TextStyle(color: _secondaryColor),
-        floatingLabelStyle: TextStyle(
-          color: _secondaryColor,
-        ),
-      ),
-      splashFactory: NoSplash.splashFactory,
-      textTheme: _textTheme(),
-      fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : null,
-    );
+  // factory AppTheme.light() {
+  //   final _themeData = ThemeData(
+  //     colorScheme: ColorScheme.fromSwatch(
+  //       brightness: Brightness.light,
+  //       primarySwatch: createMaterialColor(_primaryColor),
+  //       accentColor: _secondaryColor,
+  //     ),
+  //     inputDecorationTheme: const InputDecorationTheme(
+  //       labelStyle: TextStyle(color: _secondaryColor),
+  //       floatingLabelStyle: TextStyle(
+  //         color: _secondaryColor,
+  //       ),
+  //     ),
+  //     splashFactory: NoSplash.splashFactory,
+  //     textTheme: _textTheme(),
+  //     fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : null,
+  //   );
 
-    return AppTheme(themeData: _themeData);
-  }
+  //   return AppTheme(themeData: _themeData);
+  // }
 
   factory AppTheme.dark() {
     final _themeData = ThemeData(
@@ -128,14 +129,17 @@ class AppTheme {
       splashFactory: NoSplash.splashFactory,
       scaffoldBackgroundColor: Colors.black,
       dialogTheme: DialogTheme(
-          backgroundColor: Color(0xff070707),
-          shadowColor: _secondaryColor.withOpacity(0.3),
-          elevation: 4,
-          titleTextStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          )),
+        backgroundColor: AppColors.getGray(ColorShade.s200),
+        shadowColor: AppColors.getBlue().withOpacity(0.2),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        titleTextStyle: TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
       appBarTheme: AppBarTheme(
           titleTextStyle: TextStyle(
         fontFamily: "Mukta",

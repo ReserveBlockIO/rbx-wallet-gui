@@ -246,10 +246,10 @@ class ManageWalletListTile extends BaseComponent {
     return ListTile(
       dense: true,
       onTap: isSelected
-          ? () {
+          ? null
+          : () {
               ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
-            }
-          : null,
+            },
       // leading: Icon(Icons.account_balance_wallet_outlined, color: color),
       leading: isSelected ? Icon(Icons.check_box_rounded, color: color) : Icon(Icons.check_box_outline_blank_outlined, color: color),
       title: Row(

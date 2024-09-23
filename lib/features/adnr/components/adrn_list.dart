@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
 import '../services/adnr_service.dart';
 import '../../raw/raw_service.dart';
 
@@ -43,17 +44,15 @@ class AdnrList extends BaseComponent {
 
         final isPendingTransfer = ref.watch(adnrPendingProvider).contains("${wallet.address}.transfer.${wallet.adnr ?? 'null'}");
 
-        return Container(
-          decoration: BoxDecoration(
-            boxShadow: glowingBox,
-          ),
-          child: Card(
-            color: Colors.black,
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 16.0),
+          child: AppCard(
+            padding: 4,
             child: ListTile(
-              leading: const Icon(Icons.wallet),
+              leading: Icon(wallet.adnr != null ? Icons.link : Icons.link_off),
               title: SelectableText(wallet.address),
-              subtitle: Text("$adnrLabel\n${wallet.balance} VFX"),
-              isThreeLine: true,
+              subtitle: Text(adnrLabel),
+              isThreeLine: false,
               trailing: Builder(
                 builder: (context) {
                   if (isPendingBurn) {

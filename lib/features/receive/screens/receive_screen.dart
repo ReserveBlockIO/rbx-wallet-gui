@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/components/currency_segmented_button.dart';
+import 'package:rbx_wallet/core/theme/colors.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
 import 'package:rbx_wallet/features/btc/models/btc_address_type.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
 import '../../../core/components/badges.dart';
@@ -70,21 +72,27 @@ class ReceiveScreen extends BaseScreen {
                         variant: AppColorVariant.Danger,
                       ),
                     ),
-                  Container(
-                    decoration: BoxDecoration(
-                      boxShadow: glowingBox,
-                      color: Colors.black,
-                    ),
+                  AppCard(
+                    padding: 8,
                     child: ListTile(
                       leading: const Icon(Icons.account_balance_wallet),
-                      subtitle: Text(currentWallet.friendlyName ?? ""),
-                      title: TextFormField(
-                        initialValue: currentWallet.address,
-                        decoration: const InputDecoration(
-                          label: Text("Wallet Address"),
+                      subtitle: Text(
+                        "Your Selected VFX Address",
+                        style: TextStyle(
+                          color: AppColors.getBlue(),
                         ),
-                        style: const TextStyle(fontSize: 13),
-                        readOnly: true,
+                      ),
+                      // subtitle: currentWallet.friendlyName != null ? Text(currentWallet.friendlyName!) : null,
+                      // title: TextFormField(
+                      //   initialValue: currentWallet.address,
+                      //   decoration: const InputDecoration(
+                      //     label: Text("Wallet Address"),
+                      //   ),
+                      //   style: const TextStyle(fontSize: 13),
+                      //   readOnly: true,
+                      // ),
+                      title: SelectableText(
+                        currentWallet.address,
                       ),
                       trailing: IconButton(
                         icon: const Icon(Icons.copy),
@@ -101,30 +109,27 @@ class ReceiveScreen extends BaseScreen {
                   const SizedBox(
                     height: 24,
                   ),
-                  const Divider(),
-                  const SizedBox(
-                    height: 24,
-                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      AppButton(
-                        label: "Copy Address",
+                      AppVerticalIconButton(
+                        label: "Copy\nAddress",
                         icon: Icons.copy,
+                        iconScale: 0.7,
                         onPressed: () {
                           _handleCopyAddress(currentWallet.address);
                         },
                       ),
-                      AppButton(
-                        label: "New Address",
+                      AppVerticalIconButton(
+                        label: "New\nAccount",
                         icon: Icons.add,
                         onPressed: () async {
                           if (!await passwordRequiredGuard(context, ref)) return;
                           await ref.read(walletListProvider.notifier).create();
                         },
                       ),
-                      AppButton(
-                        label: "Import Private Key",
+                      AppVerticalIconButton(
+                        label: "Import\nKey",
                         icon: Icons.upload,
                         onPressed: () async {
                           if (!await passwordRequiredGuard(context, ref)) return;
@@ -157,24 +162,18 @@ class ReceiveScreen extends BaseScreen {
                 key: Key("BTC"),
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      boxShadow: glowingBoxBtc,
-                      color: Colors.black,
-                    ),
+                  AppCard(
+                    padding: 8,
                     child: ListTile(
                       leading: const Icon(Icons.account_balance_wallet),
-                      subtitle: Text(""),
-                      title: TextFormField(
-                        initialValue: btcAccount.address,
-                        decoration: InputDecoration(
-                          label: Text(
-                            "BTC Address",
-                            style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
-                          ),
+                      subtitle: Text(
+                        "Your Selected BTC Address",
+                        style: TextStyle(
+                          color: AppColors.getBtc(),
                         ),
-                        style: const TextStyle(fontSize: 13),
-                        readOnly: true,
+                      ),
+                      title: SelectableText(
+                        btcAccount.address,
                       ),
                       trailing: IconButton(
                         icon: const Icon(Icons.copy),
@@ -194,18 +193,17 @@ class ReceiveScreen extends BaseScreen {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      AppButton(
-                        label: "Copy Address",
+                      AppVerticalIconButton(
+                        label: "Copy\nAddress",
                         icon: Icons.copy,
-                        variant: AppColorVariant.Btc,
+                        iconScale: .7,
                         onPressed: () {
                           _handleCopyAddress(btcAccount.address);
                         },
                       ),
-                      AppButton(
-                        label: "New Address",
+                      AppVerticalIconButton(
+                        label: "New\nAccount",
                         icon: Icons.add,
-                        variant: AppColorVariant.Btc,
                         onPressed: () async {
                           if (!await passwordRequiredGuard(context, ref)) return;
 
@@ -280,10 +278,9 @@ class ReceiveScreen extends BaseScreen {
                           );
                         },
                       ),
-                      AppButton(
-                        label: "Import Private Key",
+                      AppVerticalIconButton(
+                        label: "Import\nKey",
                         icon: Icons.upload,
-                        variant: AppColorVariant.Btc,
                         onPressed: () async {
                           if (!await passwordRequiredGuard(context, ref)) return;
                           final privateKeyController = TextEditingController();
