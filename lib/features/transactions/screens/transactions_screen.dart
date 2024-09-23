@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/components/currency_segmented_button.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/core/theme/colors.dart';
 import 'package:rbx_wallet/features/btc/components/btc_utxo_list.dart';
 import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 
@@ -26,7 +27,17 @@ class TransactionsScreen extends BaseScreen {
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       leading: BackToHomeButton(),
-      actions: const [WalletSelector()],
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 16.0),
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: CurrencySegementedButton(
+              includeAny: false,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -37,12 +48,6 @@ class TransactionsScreen extends BaseScreen {
 
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 16.0),
-          child: CurrencySegementedButton(
-            includeAny: false,
-          ),
-        ),
         Expanded(
           child: Builder(
             builder: (context) {
@@ -78,10 +83,11 @@ class TransactionsScreen extends BaseScreen {
               }
 
               return DefaultTabController(
-                length: 6,
+                length: 5,
                 child: Column(
                   children: [
-                    const TabBar(
+                    TabBar(
+                      indicatorColor: AppColors.getBlue(),
                       tabs: [
                         const Tab(
                           child: const Text("All"),
@@ -98,21 +104,24 @@ class TransactionsScreen extends BaseScreen {
                         const Tab(
                           child: const Text("Reserve"),
                         ),
-                        const Tab(
-                          child: const Text("Mined"),
-                        ),
+                        // const Tab(
+                        //   child: const Text("Mined"),
+                        // ),
                       ],
                     ),
                     Expanded(
-                      child: TabBarView(
-                        children: [
-                          TransactionListType.All,
-                          TransactionListType.Pending,
-                          TransactionListType.Success,
-                          TransactionListType.Failed,
-                          TransactionListType.Reserved,
-                          TransactionListType.Mined,
-                        ].map((type) => TransactionList(type: type)).toList(),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: TabBarView(
+                          children: [
+                            TransactionListType.All,
+                            TransactionListType.Pending,
+                            TransactionListType.Success,
+                            TransactionListType.Failed,
+                            TransactionListType.Reserved,
+                            // TransactionListType.Mined,
+                          ].map((type) => TransactionList(type: type)).toList(),
+                        ),
                       ),
                     ),
                   ],

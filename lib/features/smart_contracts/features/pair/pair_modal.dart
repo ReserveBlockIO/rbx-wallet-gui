@@ -24,7 +24,6 @@ class PairModal extends BaseComponent {
       child: ModalContainer(children: [
         const FormGroupHeader(
           "Pair/Wrap with Existing NFT",
-          withBg: false,
         ),
         Row(
           children: [
@@ -32,9 +31,7 @@ class PairModal extends BaseComponent {
                 label: "Network",
                 selectedValue: _model.network,
                 selectedLabel: _model.network,
-                options: _provider.networkOptions
-                    .map((o) => AppDropdownOption<String>(label: o, value: o))
-                    .toList(),
+                options: _provider.networkOptions.map((o) => AppDropdownOption<String>(label: o, value: o)).toList(),
                 onChange: (val) {
                   _provider.setNetwork(val);
                 }),
@@ -43,8 +40,7 @@ class PairModal extends BaseComponent {
             ),
             Expanded(
               child: TextFormField(
-                decoration: InputDecoration(
-                    label: Text("${_model.network} Contract Address")),
+                decoration: InputDecoration(label: Text("${_model.network} Contract Address")),
                 validator: _provider.nftAddressValidator,
                 controller: _provider.nftAddressController,
               ),
@@ -55,8 +51,7 @@ class PairModal extends BaseComponent {
               ),
               Expanded(
                 child: TextFormField(
-                  decoration:
-                      const InputDecoration(label: Text("Token ID (Optional)")),
+                  decoration: const InputDecoration(label: Text("Token ID (Optional)")),
                   // validator: _provider.descriptionValidator,
                   // controller: _provider.descriptionController,
                 ),
@@ -66,8 +61,7 @@ class PairModal extends BaseComponent {
               ),
               Expanded(
                 child: TextFormField(
-                  decoration: const InputDecoration(
-                      label: Text("Token Standard (Optional)")),
+                  decoration: const InputDecoration(label: Text("Token Standard (Optional)")),
                   // validator: _provider.descriptionValidator,
                   // controller: _provider.descriptionController,
                 ),
@@ -83,8 +77,7 @@ class PairModal extends BaseComponent {
           maxLines: 6,
         ),
         TextFormField(
-          decoration:
-              const InputDecoration(label: Text("Reason for Pairing/Wrapping")),
+          decoration: const InputDecoration(label: Text("Reason for Pairing/Wrapping")),
           validator: _provider.reasonValidator,
           controller: _provider.reasonController,
           minLines: 3,

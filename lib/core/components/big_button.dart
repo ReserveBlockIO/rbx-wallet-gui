@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rbx_wallet/core/theme/colors.dart';
 import '../breakpoints.dart';
 
 class BigButton extends StatelessWidget {
@@ -23,12 +24,15 @@ class BigButton extends StatelessWidget {
       child: Container(
         width: 600,
         decoration: BoxDecoration(
-          // color: Theme.of(context).colorScheme.primary,
-          color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
+          color: AppColors.getBlue(ColorShade.s400),
           borderRadius: BorderRadius.circular(10.0),
-          border: Border.all(color: Theme.of(context).colorScheme.secondary.withOpacity(0.1), width: 3),
-          boxShadow: const [
-            BoxShadow(blurRadius: 12.0, color: Colors.white12),
+          border: Border.all(color: AppColors.getBlue(ColorShade.s50).withOpacity(0.75), width: 1),
+          boxShadow: [
+            BoxShadow(
+                blurRadius: 12.0,
+                color: AppColors.getBlue(
+                  ColorShade.s300,
+                )),
           ],
         ),
         child: Material(

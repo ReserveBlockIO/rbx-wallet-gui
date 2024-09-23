@@ -11,6 +11,7 @@ import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/components/back_to_home_button.dart';
+import 'package:rbx_wallet/core/theme/colors.dart';
 import 'package:rbx_wallet/features/btc/models/tokenized_bitcoin.dart';
 import 'package:rbx_wallet/features/btc/providers/tokenized_btc_onboard_provider.dart';
 
@@ -25,6 +26,7 @@ import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:collection/collection.dart';
 
+import '../../../core/theme/components.dart';
 import '../providers/btc_pending_tokenized_address_list_provider.dart';
 import '../providers/tokenize_btc_form_provider.dart';
 import '../providers/tokenized_bitcoin_list_provider.dart';
@@ -38,7 +40,6 @@ class TokenizeBtcListScreen extends BaseScreen {
     return AppBar(
       backgroundColor: Colors.black,
       title: Text("Tokenized Bitcoin (vBTC)"),
-      actions: [WalletSelector()],
       leading: BackToHomeButton(),
 
       // Padding(
@@ -67,134 +68,139 @@ class TokenizeBtcListScreen extends BaseScreen {
 
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
+        AppCard(
+          fullWidth: true,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                "This wallet provides a specific smart contract that enables tokenizing actual Bitcoin! This will allow you to lock any denomination of Bitcoin you choose into a smart contract with or without media / documents.\n\nOnce minted, you will then hold a Verified Bitcoin Token that you may send to any other person at any time in whole or in part without moving it across the BTC network and without paying any BTC fees. Only you or the holder of a vBTC token may unlock the underlying BTC from the smart contract. You may also add additional BTC to your token at anytime without creating an additional one should you choose.\n\nAny and all vBTC tokens may also be stored in your registered Reserve (Protected) Account feature enabling full on-chain recovery and call-back options providing incredibly secure self-custodial vaulting.",
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(
-                height: 12,
-              ),
-              Text(
-                "Welcome to true on-chain utility for your BTC!",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppButton(
+                  label: "Create a Verified BTC Token",
+                  variant: AppColorVariant.Vbtc,
+                  icon: FontAwesomeIcons.bitcoin,
+                  onPressed: () async {
+                    Wallet? wallet = ref.read(walletListProvider).firstWhereOrNull((a) => a.balance > MIN_RBX_FOR_SC_ACTION && !a.isReserved);
+
+                    if (wallet == null) {
+                      final confirmContinue = await ConfirmDialog.show(
+                        title: "VFX Address with Balance Required",
+                        body: "A VFX address with a balance is required to proceed. Would you like to set this up now?",
+                        confirmText: "Yes",
+                        cancelText: "No",
+                      );
+                      if (confirmContinue != true) {
+                        return;
+                      }
+
+                      ref.read(vBtcOnboardProvider.notifier).reset();
+
+                      final token = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => TokenizeBtcOnboardingScreen()));
+                      if (token == null) {
+                        return;
+                      }
+
+                      if (token is TokenizedBitcoin) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => TokenizedBtcDetailScreen(tokenId: token.id),
+                          ),
+                        );
+                        return;
+                      }
+
+                      wallet = ref.read(walletListProvider).firstWhereOrNull((a) => a.balance > MIN_RBX_FOR_SC_ACTION && !a.isReserved);
+
+                      if (wallet == null) {
+                        InfoDialog.show(
+                          title: "VFX Address with Balance Required",
+                          body: "A VFX address with a balance is required to proceed.",
+                        );
+                        return;
+                      }
+                    }
+
+                    ref.read(tokenizeBtcFormProvider.notifier).setAddress(wallet.address);
+
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => TokenizeBtcScreen(),
+                      ),
+                    );
+                  },
                 ),
-                textAlign: TextAlign.center,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppButton(
+                  label: "Use Wizard",
+                  type: AppButtonType.Text,
+                  onPressed: () async {
+                    ref.read(vBtcOnboardProvider.notifier).reset();
+
+                    final token = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => TokenizeBtcOnboardingScreen()));
+                    if (token == null) {
+                      return;
+                    }
+
+                    if (token is TokenizedBitcoin) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => TokenizedBtcDetailScreen(tokenId: token.id),
+                        ),
+                      );
+                      return;
+                    }
+                  },
+                  variant: AppColorVariant.Light,
+                  underlined: true,
+                ),
+              ),
+              TextButton.icon(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: _vBTCInfo(),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              "Close",
+                              style: TextStyle(color: AppColors.getVbtc()),
+                            ),
+                          )
+                        ],
+                      );
+                    },
+                  );
+                },
+                icon: Icon(
+                  Icons.help,
+                  size: 16,
+                  color: AppColors.getVbtc(),
+                ),
+                label: Text(
+                  "What is vBTC?",
+                  style: TextStyle(
+                    color: AppColors.getVbtc(),
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
               ),
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: AppButton(
-            label: "Create a Verified BTC Token",
-            variant: AppColorVariant.Btc,
-            icon: FontAwesomeIcons.bitcoin,
-            onPressed: () async {
-              Wallet? wallet = ref.read(walletListProvider).firstWhereOrNull((a) => a.balance > MIN_RBX_FOR_SC_ACTION && !a.isReserved);
-
-              if (wallet == null) {
-                final confirmContinue = await ConfirmDialog.show(
-                  title: "VFX Address with Balance Required",
-                  body: "A VFX address with a balance is required to proceed. Would you like to set this up now?",
-                  confirmText: "Yes",
-                  cancelText: "No",
-                );
-                if (confirmContinue != true) {
-                  return;
-                }
-
-                ref.read(vBtcOnboardProvider.notifier).reset();
-
-                final token = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => TokenizeBtcOnboardingScreen()));
-                if (token == null) {
-                  return;
-                }
-
-                if (token is TokenizedBitcoin) {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => TokenizedBtcDetailScreen(tokenId: token.id),
-                    ),
-                  );
-                  return;
-                }
-
-                wallet = ref.read(walletListProvider).firstWhereOrNull((a) => a.balance > MIN_RBX_FOR_SC_ACTION && !a.isReserved);
-
-                if (wallet == null) {
-                  InfoDialog.show(
-                    title: "VFX Address with Balance Required",
-                    body: "A VFX address with a balance is required to proceed.",
-                  );
-                  return;
-                }
-              }
-
-              ref.read(tokenizeBtcFormProvider.notifier).setAddress(wallet.address);
-
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => TokenizeBtcScreen(),
-                ),
-              );
-            },
-          ),
+        SizedBox(
+          height: 16,
         ),
-        if (Env.isTestNet)
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: AppButton(
-              label: "Use Wizard",
-              type: AppButtonType.Text,
-              onPressed: () async {
-                ref.read(vBtcOnboardProvider.notifier).reset();
-
-                final token = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => TokenizeBtcOnboardingScreen()));
-                if (token == null) {
-                  return;
-                }
-
-                if (token is TokenizedBitcoin) {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => TokenizedBtcDetailScreen(tokenId: token.id),
-                    ),
-                  );
-                  return;
-                }
-              },
-              variant: AppColorVariant.Light,
-              underlined: true,
-            ),
-          ),
-        // Text(
-        //   "Need VFX?",
-        //   style: TextStyle(fontSize: 12),
-        // ),
-        // AppButton(
-        //   label: "Claim Now!",
-        //   type: AppButtonType.Text,
-        //   variant: AppColorVariant.Secondary,
-        //   underlined: true,
-        //   onPressed: () {
-        //     Navigator.of(context).push(
-        //       MaterialPageRoute(
-        //         builder: (context) => FaucetScreen(),
-        //       ),
-        //     );
-        //   },
-        // ),
-        Divider(),
         Expanded(
           child: tokens.isEmpty
-              ? Center(
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Text("No Tokenized Bitcoin found in wallet."),
                 )
               : ListView.builder(
@@ -216,6 +222,36 @@ class TokenizeBtcListScreen extends BaseScreen {
                     );
                   },
                 ),
+        ),
+      ],
+    );
+  }
+}
+
+class _vBTCInfo extends StatelessWidget {
+  const _vBTCInfo({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          "This wallet provides a specific smart contract that enables tokenizing actual Bitcoin! This will allow you to lock any denomination of Bitcoin you choose into a smart contract with or without media / documents.\n\nOnce minted, you will then hold a Verified Bitcoin Token that you may send to any other person at any time in whole or in part without moving it across the BTC network and without paying any BTC fees. Only you or the holder of a vBTC token may unlock the underlying BTC from the smart contract. You may also add additional BTC to your token at anytime without creating an additional one should you choose.\n\nAny and all vBTC tokens may also be stored in your registered Reserve (Protected) Account feature enabling full on-chain recovery and call-back options providing incredibly secure self-custodial vaulting.",
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(
+          height: 12,
+        ),
+        Text(
+          "Welcome to true on-chain utility for your BTC!",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+          textAlign: TextAlign.center,
         ),
       ],
     );

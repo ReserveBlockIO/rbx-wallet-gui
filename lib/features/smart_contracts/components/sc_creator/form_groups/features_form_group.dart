@@ -7,6 +7,7 @@ import '../../../../../core/base_component.dart';
 import '../../../../../core/components/buttons.dart';
 import '../../../../../core/dialogs.dart';
 import '../../../../../core/theme/app_theme.dart';
+import '../../../../../core/theme/components.dart';
 import '../../../features/evolve/evolve.dart';
 import '../../../features/evolve/evolve_form_provider.dart';
 import '../../../features/evolve/evolve_modal.dart';
@@ -136,131 +137,127 @@ class _FeatureCard extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      decoration: BoxDecoration(
-        boxShadow: glowingBox,
-      ),
-      child: Card(
-        color: Colors.black,
-        child: ListTile(
-          leading: Icon(feature.icon),
-          title: Text(feature.nameLabel),
-          subtitle: Text(
-            feature.description,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (feature.canEdit)
-                AppButton(
-                  label: "Edit",
-                  icon: Icons.edit,
-                  onPressed: readOnly
-                      ? null
-                      : () {
-                          switch (feature.type) {
-                            case FeatureType.royalty:
-                              final royalty = Royalty.fromJson(feature.data);
-                              ref.read(royaltyFormProvider.notifier).setRoyalty(royalty);
-                              showEditModal(const RoyaltyModal());
-                              break;
-                            case FeatureType.evolution:
-                              final evolve = Evolve.fromJson(feature.data);
-                              ref.read(evolveFormProvider.notifier).setEvolve(evolve);
-                              showEditModal(const EvolveModal());
-                              break;
-                            case FeatureType.ticket:
-                              final ticket = Ticket.fromJson(feature.data);
-                              ref.read(ticketFormProvider.notifier).setTicket(ticket);
-                              showEditModal(const TicketModal());
-                              break;
-                            case FeatureType.multiAsset:
-                              final multiAsset = MultiAsset.fromJson(feature.data);
-                              ref.read(multiAssetFormProvider.notifier).setMultiAsset(multiAsset);
-                              showEditModal(const MultiAssetModal());
-                              break;
-                            case FeatureType.tokenization:
-                              final tokenization = Tokenization.fromJson(feature.data);
-                              ref.read(tokenizationFormProvider.notifier).setTokenization(tokenization);
-                              showEditModal(const TokenizationModal());
-                              break;
-                            case FeatureType.fractionalization:
-                              final fractional = Fractional.fromJson(feature.data);
-                              ref.read(fractionalFormProvider.notifier).setFractional(fractional);
-                              showEditModal(const FractionalModal());
-                              break;
-                            case FeatureType.pair:
-                              final pair = Pair.fromJson(feature.data);
-                              ref.read(pairFormProvider.notifier).setPair(pair);
-                              showEditModal(const PairModal());
-                              break;
-                            case FeatureType.soulBound:
-                              final soulBound = SoulBound.fromJson(feature.data);
-                              ref.read(soulBoundFormProvider.notifier).setSoulBound(soulBound);
-                              showEditModal(const SoulBoundModal());
-                              break;
-                            default:
-                              print("Not implemented");
-                              break;
-                          }
-                        },
-                ),
-              const SizedBox(width: 6),
+    return AppCard(
+      padding: 6,
+      child: ListTile(
+        leading: Icon(feature.icon),
+        title: Text(feature.nameLabel),
+        subtitle: Text(
+          feature.description,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (feature.canEdit)
               AppButton(
-                label: "Remove",
-                icon: Icons.delete,
-                variant: AppColorVariant.Danger,
+                type: AppButtonType.Outlined,
+                variant: AppColorVariant.Secondary,
+                label: "Edit",
                 onPressed: readOnly
                     ? null
-                    : () async {
-                        final confirmed = await ConfirmDialog.show(
-                            title: "Delete?", body: "Are you sure you want to delete this?", confirmText: "Delete", destructive: true);
-
-                        if (confirmed != true) return;
-
+                    : () {
                         switch (feature.type) {
                           case FeatureType.royalty:
                             final royalty = Royalty.fromJson(feature.data);
-                            ref.read(createSmartContractProvider.notifier).removeRoyalty(royalty);
+                            ref.read(royaltyFormProvider.notifier).setRoyalty(royalty);
+                            showEditModal(const RoyaltyModal());
                             break;
                           case FeatureType.evolution:
                             final evolve = Evolve.fromJson(feature.data);
-                            ref.read(createSmartContractProvider.notifier).removeEvolve(evolve);
+                            ref.read(evolveFormProvider.notifier).setEvolve(evolve);
+                            showEditModal(const EvolveModal());
+                            break;
+                          case FeatureType.ticket:
+                            final ticket = Ticket.fromJson(feature.data);
+                            ref.read(ticketFormProvider.notifier).setTicket(ticket);
+                            showEditModal(const TicketModal());
                             break;
                           case FeatureType.multiAsset:
                             final multiAsset = MultiAsset.fromJson(feature.data);
-                            ref.read(createSmartContractProvider.notifier).removeMultiAsset(multiAsset);
+                            ref.read(multiAssetFormProvider.notifier).setMultiAsset(multiAsset);
+                            showEditModal(const MultiAssetModal());
                             break;
                           case FeatureType.tokenization:
                             final tokenization = Tokenization.fromJson(feature.data);
-                            ref.read(createSmartContractProvider.notifier).removeTokenization(tokenization);
+                            ref.read(tokenizationFormProvider.notifier).setTokenization(tokenization);
+                            showEditModal(const TokenizationModal());
                             break;
                           case FeatureType.fractionalization:
                             final fractional = Fractional.fromJson(feature.data);
-                            ref.read(createSmartContractProvider.notifier).removeFractional(fractional);
+                            ref.read(fractionalFormProvider.notifier).setFractional(fractional);
+                            showEditModal(const FractionalModal());
                             break;
                           case FeatureType.pair:
                             final pair = Pair.fromJson(feature.data);
-                            ref.read(createSmartContractProvider.notifier).removePair(pair);
+                            ref.read(pairFormProvider.notifier).setPair(pair);
+                            showEditModal(const PairModal());
                             break;
                           case FeatureType.soulBound:
                             final soulBound = SoulBound.fromJson(feature.data);
-                            ref.read(createSmartContractProvider.notifier).removeSoulBound(soulBound);
+                            ref.read(soulBoundFormProvider.notifier).setSoulBound(soulBound);
+                            showEditModal(const SoulBoundModal());
                             break;
-                          case FeatureType.btcTokenization:
-                            ref.read(createSmartContractProvider.notifier).removeBtcTokenization();
-                            break;
-
                           default:
                             print("Not implemented");
                             break;
                         }
                       },
               ),
-            ],
-          ),
+            const SizedBox(width: 6),
+            AppButton(
+              label: "Remove",
+              variant: AppColorVariant.Danger,
+              type: AppButtonType.Outlined,
+              onPressed: readOnly
+                  ? null
+                  : () async {
+                      final confirmed = await ConfirmDialog.show(
+                          title: "Delete?", body: "Are you sure you want to delete this?", confirmText: "Delete", destructive: true);
+
+                      if (confirmed != true) return;
+
+                      switch (feature.type) {
+                        case FeatureType.royalty:
+                          final royalty = Royalty.fromJson(feature.data);
+                          ref.read(createSmartContractProvider.notifier).removeRoyalty(royalty);
+                          break;
+                        case FeatureType.evolution:
+                          final evolve = Evolve.fromJson(feature.data);
+                          ref.read(createSmartContractProvider.notifier).removeEvolve(evolve);
+                          break;
+                        case FeatureType.multiAsset:
+                          final multiAsset = MultiAsset.fromJson(feature.data);
+                          ref.read(createSmartContractProvider.notifier).removeMultiAsset(multiAsset);
+                          break;
+                        case FeatureType.tokenization:
+                          final tokenization = Tokenization.fromJson(feature.data);
+                          ref.read(createSmartContractProvider.notifier).removeTokenization(tokenization);
+                          break;
+                        case FeatureType.fractionalization:
+                          final fractional = Fractional.fromJson(feature.data);
+                          ref.read(createSmartContractProvider.notifier).removeFractional(fractional);
+                          break;
+                        case FeatureType.pair:
+                          final pair = Pair.fromJson(feature.data);
+                          ref.read(createSmartContractProvider.notifier).removePair(pair);
+                          break;
+                        case FeatureType.soulBound:
+                          final soulBound = SoulBound.fromJson(feature.data);
+                          ref.read(createSmartContractProvider.notifier).removeSoulBound(soulBound);
+                          break;
+                        case FeatureType.btcTokenization:
+                          ref.read(createSmartContractProvider.notifier).removeBtcTokenization();
+                          break;
+
+                        default:
+                          print("Not implemented");
+                          break;
+                      }
+                    },
+            ),
+          ],
         ),
       ),
     );

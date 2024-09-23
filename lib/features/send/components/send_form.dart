@@ -151,171 +151,206 @@ class SendForm extends BaseComponent {
 
     return Form(
       key: formProvider.formKey,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: AppCard(
-          padding: 0,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 72,
-                        child: Text("From:"),
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (!isBtc && wallet!.isReserved && !wallet!.isNetworkProtected)
-                              AppBadge(
-                                label: 'Not Activated',
-                                variant: AppColorVariant.Danger,
-                              ),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                if (isWeb)
-                                  Flexible(
-                                    child: Builder(builder: (context) {
-                                      String address = "";
-                                      switch (ref.watch(webSessionProvider).selectedWalletType) {
-                                        case WalletType.rbx:
-                                          address = keypair!.address;
-                                          break;
-                                        case WalletType.ra:
-                                          address = raKeypair!.address;
-                                          break;
-                                        case WalletType.btc:
-                                          address = btcWebAccount!.address;
-                                      }
-
-                                      return Text(
-                                        address,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(color: color, fontSize: 16),
-                                      );
-                                    }),
-                                  ),
-                                if (!isWeb)
-                                  PopupMenuButton(
-                                    color: Color(0xFF080808),
-                                    constraints: BoxConstraints(maxWidth: 500),
-                                    itemBuilder: (context) {
-                                      final currentWallet = ref.watch(sessionProvider).currentWallet;
-                                      final allWallets = ref.watch(walletListProvider);
-                                      final allBtcAccounts = ref.watch(btcAccountListProvider);
-
-                                      final currencyType = ref.watch(currencySegementedButtonProvider);
-
-                                      final list = <PopupMenuEntry<int>>[];
-                                      if (currencyType != CurrencyType.btc) {
-                                        for (final wallet in allWallets) {
-                                          final isSelected = !isBtc && currentWallet != null && wallet.address == currentWallet.address;
-
-                                          final color =
-                                              wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color!;
-
-                                          list.add(
-                                            PopupMenuItem(
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  if (isSelected)
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(right: 4.0),
-                                                      child: Icon(Icons.check),
-                                                    ),
-                                                  Text(
-                                                    wallet.labelWithoutTruncation,
-                                                    style: TextStyle(color: color),
-                                                  ),
-                                                ],
-                                              ),
-                                              onTap: () {
-                                                ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
-                                              },
-                                            ),
-                                          );
-                                        }
-                                      }
-
-                                      if (currencyType != CurrencyType.vfx) {
-                                        for (final account in allBtcAccounts) {
-                                          final isSelected = isBtc && btcAccount != null && btcAccount!.address == account.address;
-
-                                          final color = btcColor;
-                                          list.add(
-                                            PopupMenuItem(
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  if (isSelected)
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(right: 4.0),
-                                                      child: Icon(Icons.check),
-                                                    ),
-                                                  Text(
-                                                    account.address,
-                                                    style: TextStyle(color: color),
-                                                  ),
-                                                ],
-                                              ),
-                                              onTap: () {
-                                                ref.read(sessionProvider.notifier).setCurrentBtcAccount(account);
-                                              },
-                                            ),
-                                          );
-                                        }
-                                      }
-                                      return list;
-                                    },
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          isBtc ? btcAccount!.address : wallet!.address,
-                                          style: TextStyle(color: color, fontSize: 16),
-                                        ),
-                                        Icon(
-                                          Icons.arrow_drop_down,
-                                          size: 24,
-                                          color: isBtc
-                                              ? btcColor
-                                              : wallet!.isReserved
-                                                  ? Colors.deepPurple.shade200
-                                                  : Theme.of(context).textTheme.bodyText1!.color!,
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                              ],
+      child: AppCard(
+        padding: 0,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 72,
+                      child: Text("From:"),
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (!isBtc && wallet!.isReserved && !wallet!.isNetworkProtected)
+                            AppBadge(
+                              label: 'Not Activated',
+                              variant: AppColorVariant.Danger,
                             ),
-                          ],
-                        ),
-                      ),
-                      !isBtc && (wallet!.lockedBalance == 0 || wallet!.isReserved)
-                          ? Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                if (wallet!.lockedBalance == 0.0)
-                                  AppBadge(
-                                    label: "$balance VFX",
-                                    variant: AppColorVariant.Light,
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (isWeb)
+                                Flexible(
+                                  child: Builder(builder: (context) {
+                                    String address = "";
+                                    switch (ref.watch(webSessionProvider).selectedWalletType) {
+                                      case WalletType.rbx:
+                                        address = keypair!.address;
+                                        break;
+                                      case WalletType.ra:
+                                        address = raKeypair!.address;
+                                        break;
+                                      case WalletType.btc:
+                                        address = btcWebAccount!.address;
+                                    }
+
+                                    return Text(
+                                      address,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(color: color, fontSize: 16),
+                                    );
+                                  }),
+                                ),
+                              if (!isWeb)
+                                PopupMenuButton(
+                                  color: Color(0xFF080808),
+                                  constraints: BoxConstraints(maxWidth: 500),
+                                  itemBuilder: (context) {
+                                    final currentWallet = ref.watch(sessionProvider).currentWallet;
+                                    final allWallets = ref.watch(walletListProvider);
+                                    final allBtcAccounts = ref.watch(btcAccountListProvider);
+
+                                    final currencyType = ref.watch(currencySegementedButtonProvider);
+
+                                    final list = <PopupMenuEntry<int>>[];
+                                    if (currencyType != CurrencyType.btc) {
+                                      for (final wallet in allWallets) {
+                                        final isSelected = !isBtc && currentWallet != null && wallet.address == currentWallet.address;
+
+                                        final color = wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color!;
+
+                                        list.add(
+                                          PopupMenuItem(
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                if (isSelected)
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right: 4.0),
+                                                    child: Icon(Icons.check),
+                                                  ),
+                                                Text(
+                                                  wallet.labelWithoutTruncation,
+                                                  style: TextStyle(color: color),
+                                                ),
+                                              ],
+                                            ),
+                                            onTap: () {
+                                              ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
+                                            },
+                                          ),
+                                        );
+                                      }
+                                    }
+
+                                    if (currencyType != CurrencyType.vfx) {
+                                      for (final account in allBtcAccounts) {
+                                        final isSelected = isBtc && btcAccount != null && btcAccount!.address == account.address;
+
+                                        final color = btcColor;
+                                        list.add(
+                                          PopupMenuItem(
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                if (isSelected)
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right: 4.0),
+                                                    child: Icon(Icons.check),
+                                                  ),
+                                                Text(
+                                                  account.address,
+                                                  style: TextStyle(color: color),
+                                                ),
+                                              ],
+                                            ),
+                                            onTap: () {
+                                              ref.read(sessionProvider.notifier).setCurrentBtcAccount(account);
+                                            },
+                                          ),
+                                        );
+                                      }
+                                    }
+                                    return list;
+                                  },
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        isBtc ? btcAccount!.address : wallet!.address,
+                                        style: TextStyle(color: color, fontSize: 16),
+                                      ),
+                                      Icon(
+                                        Icons.arrow_drop_down,
+                                        size: 24,
+                                        color: isBtc
+                                            ? btcColor
+                                            : wallet!.isReserved
+                                                ? Colors.deepPurple.shade200
+                                                : Theme.of(context).textTheme.bodyText1!.color!,
+                                      ),
+                                    ],
                                   ),
-                                if (wallet!.lockedBalance > 0) ...[
+                                )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    !isBtc && (wallet!.lockedBalance == 0 || wallet!.isReserved)
+                        ? Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              if (wallet!.lockedBalance == 0.0)
+                                AppBadge(
+                                  label: "$balance VFX",
+                                  variant: AppColorVariant.Light,
+                                ),
+                              if (wallet!.lockedBalance > 0) ...[
+                                BalanceIndicator(
+                                  label: "Available",
+                                  value: wallet!.balance,
+                                  bgColor: Colors.white,
+                                  fgColor: Colors.black,
+                                ),
+                                BalanceIndicator(
+                                  label: "Locked",
+                                  value: wallet!.lockedBalance,
+                                  bgColor: Colors.red.shade700,
+                                  fgColor: Colors.white,
+                                ),
+                                BalanceIndicator(
+                                  label: "Total",
+                                  value: wallet!.balance + wallet!.lockedBalance,
+                                  bgColor: Colors.green.shade700,
+                                  fgColor: Colors.white,
+                                ),
+                              ]
+                            ],
+                          )
+                        : isBtc
+                            ? Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  AppBadge(
+                                    label: kIsWeb
+                                        ? "${ref.watch(webSessionProvider).btcBalanceInfo?.btcFinalBalance ?? 0} BTC"
+                                        : "${btcAccount!.balance} BTC",
+                                    variant: AppColorVariant.Btc,
+                                  ),
+                                ],
+                              )
+                            : Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
                                   BalanceIndicator(
                                     label: "Available",
                                     value: wallet!.balance,
-                                    bgColor: Colors.white,
-                                    fgColor: Colors.black,
+                                    bgColor: Colors.deepPurple.shade400,
+                                    fgColor: Colors.white,
                                   ),
                                   BalanceIndicator(
                                     label: "Locked",
@@ -329,256 +364,217 @@ class SendForm extends BaseComponent {
                                     bgColor: Colors.green.shade700,
                                     fgColor: Colors.white,
                                   ),
-                                ]
-                              ],
-                            )
-                          : isBtc
-                              ? Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    AppBadge(
-                                      label: kIsWeb
-                                          ? "${ref.watch(webSessionProvider).btcBalanceInfo?.btcFinalBalance ?? 0} BTC"
-                                          : "${btcAccount!.balance} BTC",
-                                      variant: AppColorVariant.Btc,
-                                    ),
-                                  ],
-                                )
-                              : Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    BalanceIndicator(
-                                      label: "Available",
-                                      value: wallet!.balance,
-                                      bgColor: Colors.deepPurple.shade400,
-                                      fgColor: Colors.white,
-                                    ),
-                                    BalanceIndicator(
-                                      label: "Locked",
-                                      value: wallet!.lockedBalance,
-                                      bgColor: Colors.red.shade700,
-                                      fgColor: Colors.white,
-                                    ),
-                                    BalanceIndicator(
-                                      label: "Total",
-                                      value: wallet!.balance + wallet!.lockedBalance,
-                                      bgColor: Colors.green.shade700,
-                                      fgColor: Colors.white,
-                                    ),
-                                  ],
-                                ),
+                                ],
+                              ),
+                  ],
+                ),
+              ),
+              ListTile(
+                leading: isMobile ? null : const SizedBox(width: leadingWidth, child: Text("To:")),
+                title: TextFormField(
+                  controller: formProvider.addressController,
+                  validator: formProvider.addressValidator,
+                  decoration: const InputDecoration(hintText: "Recipient's Wallet Address"),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9.]')),
+                  ],
+                ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 3),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(pasteMessage),
+                      InkWell(
+                        onTap: () {
+                          _pasteAddress(formProvider);
+                        },
+                        child: Text(
+                          "here",
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                        ),
+                      ),
+                      const Text("."),
                     ],
                   ),
                 ),
-                ListTile(
-                  leading: isMobile ? null : const SizedBox(width: leadingWidth, child: Text("To:")),
-                  title: TextFormField(
-                    controller: formProvider.addressController,
-                    validator: formProvider.addressValidator,
-                    decoration: const InputDecoration(hintText: "Recipient's Wallet Address"),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9.]')),
-                    ],
-                  ),
-                  subtitle: Padding(
-                    padding: const EdgeInsets.only(top: 3),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(pasteMessage),
-                        InkWell(
-                          onTap: () {
-                            _pasteAddress(formProvider);
-                          },
-                          child: Text(
-                            "here",
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
+                trailing: isMobile
+                    ? null
+                    : Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.paste),
+                            onPressed: () {
+                              _pasteAddress(formProvider);
+                            },
                           ),
-                        ),
-                        const Text("."),
-                      ],
-                    ),
-                  ),
-                  trailing: isMobile
-                      ? null
-                      : Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
+                          if (!kIsWeb)
                             IconButton(
-                              icon: const Icon(Icons.paste),
+                              icon: const Icon(
+                                FontAwesomeIcons.folderOpen,
+                                size: 18,
+                              ),
                               onPressed: () {
-                                _pasteAddress(formProvider);
+                                // _pasteAddress(formProvider);
+                                chooseAddress(context, ref, formProvider);
                               },
                             ),
-                            if (!kIsWeb)
-                              IconButton(
-                                icon: const Icon(
-                                  FontAwesomeIcons.folderOpen,
-                                  size: 18,
+                        ],
+                      ),
+              ),
+              ListTile(
+                leading: isMobile ? null : const SizedBox(width: leadingWidth, child: Text("Amount:")),
+                title: TextFormField(
+                  controller: formProvider.amountController,
+                  validator: formProvider.amountValidator,
+                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
+                  decoration: InputDecoration(hintText: "Amount of ${isBtc ? 'BTC' : 'VFX'} to send"),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                ),
+              ),
+              if (isBtc && !kIsWeb)
+                Consumer(builder: (context, ref, _) {
+                  final recommendedFees = ref.watch(sessionProvider).btcRecommendedFees ?? BtcRecommendedFees.fallback();
+
+                  int fee = 0;
+
+                  switch (formState.btcFeeRatePreset) {
+                    case BtcFeeRatePreset.custom:
+                      fee = 0;
+                      break;
+                    case BtcFeeRatePreset.minimum:
+                      fee = recommendedFees.minimumFee;
+                      break;
+                    case BtcFeeRatePreset.economy:
+                      fee = recommendedFees.economyFee;
+                      break;
+                    case BtcFeeRatePreset.hour:
+                      fee = recommendedFees.hourFee;
+                      break;
+                    case BtcFeeRatePreset.halfHour:
+                      fee = recommendedFees.halfHourFee;
+                      break;
+                    case BtcFeeRatePreset.fastest:
+                      fee = recommendedFees.fastestFee;
+                      break;
+                  }
+
+                  final feeBtc = satashiToBtcLabel(fee);
+                  final feeEstimate = satashiTxFeeEstimate(fee);
+                  final feeEstimateBtc = btcTxFeeEstimateLabel(fee);
+
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListTile(
+                        leading: const SizedBox(width: leadingWidth, child: Text("Fee Rate:")),
+                        title: Row(
+                          children: [
+                            PopupMenuButton<BtcFeeRatePreset>(
+                              color: Color(0xFF080808),
+                              onSelected: (value) {
+                                formProvider.setBtcFeeRatePreset(value);
+                              },
+                              itemBuilder: (context) {
+                                return BtcFeeRatePreset.values.map((preset) {
+                                  return PopupMenuItem(
+                                    value: preset,
+                                    child: Text(preset.label),
+                                  );
+                                }).toList();
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    formState.btcFeeRatePreset.label,
+                                    style: TextStyle(fontSize: 16, color: btcColor),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_drop_down,
+                                    size: 24,
+                                    color: btcColor,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            if (formState.btcFeeRatePreset == BtcFeeRatePreset.custom)
+                              Expanded(
+                                child: TextFormField(
+                                  controller: formProvider.btcCustomFeeRateController,
+                                  validator: formProvider.btcCustomFeeRateValidator,
+                                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9]"))],
+                                  decoration: InputDecoration(hintText: "Fee rate in satoshis"),
+                                  keyboardType: const TextInputType.numberWithOptions(decimal: false),
                                 ),
-                                onPressed: () {
-                                  // _pasteAddress(formProvider);
-                                  chooseAddress(context, ref, formProvider);
-                                },
                               ),
                           ],
                         ),
-                ),
-                ListTile(
-                  leading: isMobile ? null : const SizedBox(width: leadingWidth, child: Text("Amount:")),
-                  title: TextFormField(
-                    controller: formProvider.amountController,
-                    validator: formProvider.amountValidator,
-                    inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
-                    decoration: InputDecoration(hintText: "Amount of ${isBtc ? 'BTC' : 'VFX'} to send"),
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                  ),
-                ),
-                if (isBtc && !kIsWeb)
-                  Consumer(builder: (context, ref, _) {
-                    final recommendedFees = ref.watch(sessionProvider).btcRecommendedFees ?? BtcRecommendedFees.fallback();
-
-                    int fee = 0;
-
-                    switch (formState.btcFeeRatePreset) {
-                      case BtcFeeRatePreset.custom:
-                        fee = 0;
-                        break;
-                      case BtcFeeRatePreset.minimum:
-                        fee = recommendedFees.minimumFee;
-                        break;
-                      case BtcFeeRatePreset.economy:
-                        fee = recommendedFees.economyFee;
-                        break;
-                      case BtcFeeRatePreset.hour:
-                        fee = recommendedFees.hourFee;
-                        break;
-                      case BtcFeeRatePreset.halfHour:
-                        fee = recommendedFees.halfHourFee;
-                        break;
-                      case BtcFeeRatePreset.fastest:
-                        fee = recommendedFees.fastestFee;
-                        break;
-                    }
-
-                    final feeBtc = satashiToBtcLabel(fee);
-                    final feeEstimate = satashiTxFeeEstimate(fee);
-                    final feeEstimateBtc = btcTxFeeEstimateLabel(fee);
-
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ListTile(
-                          leading: const SizedBox(width: leadingWidth, child: Text("Fee Rate:")),
-                          title: Row(
-                            children: [
-                              PopupMenuButton<BtcFeeRatePreset>(
-                                color: Color(0xFF080808),
-                                onSelected: (value) {
-                                  formProvider.setBtcFeeRatePreset(value);
-                                },
-                                itemBuilder: (context) {
-                                  return BtcFeeRatePreset.values.map((preset) {
-                                    return PopupMenuItem(
-                                      value: preset,
-                                      child: Text(preset.label),
-                                    );
-                                  }).toList();
-                                },
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      formState.btcFeeRatePreset.label,
-                                      style: TextStyle(fontSize: 16, color: btcColor),
-                                    ),
-                                    Icon(
-                                      Icons.arrow_drop_down,
-                                      size: 24,
-                                      color: btcColor,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              if (formState.btcFeeRatePreset == BtcFeeRatePreset.custom)
-                                Expanded(
-                                  child: TextFormField(
-                                    controller: formProvider.btcCustomFeeRateController,
-                                    validator: formProvider.btcCustomFeeRateValidator,
-                                    inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9]"))],
-                                    decoration: InputDecoration(hintText: "Fee rate in satoshis"),
-                                    keyboardType: const TextInputType.numberWithOptions(decimal: false),
-                                  ),
-                                ),
-                            ],
+                      ),
+                      if (formState.btcFeeRatePreset != BtcFeeRatePreset.custom)
+                        Padding(
+                          padding: const EdgeInsets.only(left: leadingWidth + 30),
+                          child: Text(
+                            "Fee Rate: $fee SATS /byte [$feeBtc BTC /byte]\nFee Estimate: ~$feeEstimate SATS [~$feeEstimateBtc BTC]    ",
+                            style: Theme.of(context).textTheme.caption,
                           ),
                         ),
-                        if (formState.btcFeeRatePreset != BtcFeeRatePreset.custom)
-                          Padding(
-                            padding: const EdgeInsets.only(left: leadingWidth + 30),
-                            child: Text(
-                              "Fee Rate: $fee SATS /byte [$feeBtc BTC /byte]\nFee Estimate: ~$feeEstimate SATS [~$feeEstimateBtc BTC]    ",
-                              style: Theme.of(context).textTheme.caption,
-                            ),
+                      if (formState.btcFeeRatePreset == BtcFeeRatePreset.custom)
+                        Padding(
+                          padding: const EdgeInsets.only(left: leadingWidth + 30),
+                          child: Text(
+                            "Fee Rate: ${formState.btcCustomFeeRate} SATS /byte [${(formState.btcCustomFeeRate * BTC_SATOSHI_MULTIPLIER).toStringAsFixed(9)} BTC /byte]\nFee Estimate: ${(formState.btcCustomFeeRate * BTC_TX_EXPECTED_BYTES)} SATS [~${(formState.btcCustomFeeRate * BTC_TX_EXPECTED_BYTES * BTC_SATOSHI_MULTIPLIER).toStringAsFixed(9)} BTC]",
+                            style: Theme.of(context).textTheme.caption,
                           ),
-                        if (formState.btcFeeRatePreset == BtcFeeRatePreset.custom)
-                          Padding(
-                            padding: const EdgeInsets.only(left: leadingWidth + 30),
-                            child: Text(
-                              "Fee Rate: ${formState.btcCustomFeeRate} SATS /byte [${(formState.btcCustomFeeRate * BTC_SATOSHI_MULTIPLIER).toStringAsFixed(9)} BTC /byte]\nFee Estimate: ${(formState.btcCustomFeeRate * BTC_TX_EXPECTED_BYTES)} SATS [~${(formState.btcCustomFeeRate * BTC_TX_EXPECTED_BYTES * BTC_SATOSHI_MULTIPLIER).toStringAsFixed(9)} BTC]",
-                              style: Theme.of(context).textTheme.caption,
-                            ),
-                          ),
-                      ],
-                    );
-                  }),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  child: Divider(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0).copyWith(right: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      AppButton(
-                        label: "Clear",
-                        type: AppButtonType.Text,
-                        variant: AppColorVariant.Info,
-                        onPressed: () {
-                          formProvider.formKey.currentState!.reset();
-                          formProvider.clear();
-                        },
-                      ),
-                      Consumer(builder: (context, ref, _) {
-                        return AppButton(
-                          label: "Send",
-                          type: AppButtonType.Elevated,
-                          variant: isBtc ? AppColorVariant.Btc : AppColorVariant.Primary,
-                          processing: formState.isProcessing,
-                          disabled: !isBtc && (wallet!.isReserved && !wallet!.isNetworkProtected),
-                          onPressed: () async {
-                            if (!await passwordRequiredGuard(context, ref)) return;
-
-                            if (!formProvider.formKey.currentState!.validate()) {
-                              return;
-                            }
-
-                            formProvider.submit();
-                          },
-                        );
-                      }),
+                        ),
                     ],
-                  ),
-                )
-              ],
-            ),
+                  );
+                }),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: Divider(),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0).copyWith(right: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    AppButton(
+                      label: "Clear",
+                      type: AppButtonType.Text,
+                      variant: AppColorVariant.Info,
+                      onPressed: () {
+                        formProvider.formKey.currentState!.reset();
+                        formProvider.clear();
+                      },
+                    ),
+                    Consumer(builder: (context, ref, _) {
+                      return AppButton(
+                        label: "Send",
+                        type: AppButtonType.Elevated,
+                        variant: isBtc ? AppColorVariant.Btc : AppColorVariant.Primary,
+                        processing: formState.isProcessing,
+                        disabled: !isBtc && (wallet!.isReserved && !wallet!.isNetworkProtected),
+                        onPressed: () async {
+                          if (!await passwordRequiredGuard(context, ref)) return;
+
+                          if (!formProvider.formKey.currentState!.validate()) {
+                            return;
+                          }
+
+                          formProvider.submit();
+                        },
+                      );
+                    }),
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       ),

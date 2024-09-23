@@ -10,6 +10,7 @@ class AppCard extends StatelessWidget {
   final double padding;
   final Duration? animationDuration;
   final bool fullHeight;
+  final EdgeInsets? margin;
   const AppCard({
     super.key,
     required this.child,
@@ -20,11 +21,13 @@ class AppCard extends StatelessWidget {
     this.borderColor,
     this.animationDuration,
     this.fullHeight = false,
+    this.margin,
   });
 
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
+      margin: margin ?? EdgeInsets.zero,
       duration: animationDuration ?? Duration(milliseconds: 150),
       width: fullWidth ? double.infinity : null,
       height: fullHeight ? double.infinity : null,

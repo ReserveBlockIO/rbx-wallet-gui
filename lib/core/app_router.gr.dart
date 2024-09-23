@@ -15,10 +15,10 @@ import 'package:auto_route/auto_route.dart' as _i54;
 import 'package:auto_route/empty_router_widgets.dart' as _i12;
 import 'package:flutter/material.dart' as _i55;
 import 'package:rbx_wallet/features/adjudicator/adjudicator_screen.dart'
-    as _i19;
-import 'package:rbx_wallet/features/adnr/screens/adnr_screen.dart' as _i34;
+    as _i18;
+import 'package:rbx_wallet/features/adnr/screens/adnr_screen.dart' as _i33;
 import 'package:rbx_wallet/features/beacon/screens/beacon_list_screen.dart'
-    as _i38;
+    as _i37;
 import 'package:rbx_wallet/features/btc/screens/tokenized_btc_list_screen.dart'
     as _i40;
 import 'package:rbx_wallet/features/chat/screens/buyer_chat_thread_list_screen.dart'
@@ -26,41 +26,41 @@ import 'package:rbx_wallet/features/chat/screens/buyer_chat_thread_list_screen.d
 import 'package:rbx_wallet/features/chat/screens/seller_chat_screen.dart'
     as _i10;
 import 'package:rbx_wallet/features/chat/screens/seller_chat_thread_list_screen.dart'
-    as _i25;
+    as _i24;
 import 'package:rbx_wallet/features/chat/screens/shop_chat_screen.dart' as _i11;
 import 'package:rbx_wallet/features/chat/screens/web_seller_chat_screen.dart'
-    as _i26;
+    as _i25;
 import 'package:rbx_wallet/features/chat/screens/web_shop_chat_screen.dart'
     as _i51;
 import 'package:rbx_wallet/features/config/screens/config_container_screen.dart'
     as _i6;
 import 'package:rbx_wallet/features/datanode/screens/datanode_screen.dart'
-    as _i21;
+    as _i20;
 import 'package:rbx_wallet/features/dst/screens/create_collection_container_screen.dart'
-    as _i29;
-import 'package:rbx_wallet/features/dst/screens/create_dec_shop_container_screen.dart'
-    as _i30;
-import 'package:rbx_wallet/features/dst/screens/create_listing_container_screen.dart'
-    as _i33;
-import 'package:rbx_wallet/features/dst/screens/dst_landing_screen.dart'
-    as _i24;
-import 'package:rbx_wallet/features/dst/screens/listing_auction_detail_screen.dart'
-    as _i32;
-import 'package:rbx_wallet/features/dst/screens/listing_detail_screen.dart'
-    as _i31;
-import 'package:rbx_wallet/features/dst/screens/my_collection_detail_screen.dart'
     as _i28;
-import 'package:rbx_wallet/features/dst/screens/my_collection_list_screen.dart'
+import 'package:rbx_wallet/features/dst/screens/create_dec_shop_container_screen.dart'
+    as _i29;
+import 'package:rbx_wallet/features/dst/screens/create_listing_container_screen.dart'
+    as _i32;
+import 'package:rbx_wallet/features/dst/screens/dst_landing_screen.dart'
+    as _i23;
+import 'package:rbx_wallet/features/dst/screens/listing_auction_detail_screen.dart'
+    as _i31;
+import 'package:rbx_wallet/features/dst/screens/listing_detail_screen.dart'
+    as _i30;
+import 'package:rbx_wallet/features/dst/screens/my_collection_detail_screen.dart'
     as _i27;
+import 'package:rbx_wallet/features/dst/screens/my_collection_list_screen.dart'
+    as _i26;
 import 'package:rbx_wallet/features/home/screens/new_home_screen.dart' as _i13;
 import 'package:rbx_wallet/features/mother/screens/mother_dashboard_screen.dart'
     as _i8;
-import 'package:rbx_wallet/features/nft/screens/nft_list_screen.dart' as _i22;
-import 'package:rbx_wallet/features/node/screens/node_list_screen.dart' as _i20;
+import 'package:rbx_wallet/features/nft/screens/nft_list_screen.dart' as _i21;
+import 'package:rbx_wallet/features/node/screens/node_list_screen.dart' as _i19;
 import 'package:rbx_wallet/features/operations/screens/operations_screen.dart'
     as _i44;
 import 'package:rbx_wallet/features/receive/screens/receive_screen.dart'
-    as _i16;
+    as _i15;
 import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_collection_screen.dart'
     as _i49;
 import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_container_screen.dart'
@@ -70,9 +70,9 @@ import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_detail_scree
 import 'package:rbx_wallet/features/reserve/screens/manage_reserve_accounts_screen.dart'
     as _i39;
 import 'package:rbx_wallet/features/reserve/screens/reserve_account_overview_screen.dart'
-    as _i14;
+    as _i38;
 import 'package:rbx_wallet/features/root/new_root_container.dart' as _i1;
-import 'package:rbx_wallet/features/send/screens/send_screen.dart' as _i15;
+import 'package:rbx_wallet/features/send/screens/send_screen.dart' as _i14;
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/smart_contract_creator_main.dart'
     as _i45;
 import 'package:rbx_wallet/features/smart_contracts/screens/bulk_create_screen.dart'
@@ -84,7 +84,7 @@ import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_creat
 import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_drafts_screen.dart'
     as _i3;
 import 'package:rbx_wallet/features/smart_contracts/screens/smart_contracts_screen.dart'
-    as _i23;
+    as _i22;
 import 'package:rbx_wallet/features/smart_contracts/screens/template_chooser_screen.dart'
     as _i4;
 import 'package:rbx_wallet/features/token/screens/token_create_screen.dart'
@@ -94,15 +94,15 @@ import 'package:rbx_wallet/features/token/screens/token_list_screen.dart'
 import 'package:rbx_wallet/features/token/screens/token_topic_create_screen.dart'
     as _i43;
 import 'package:rbx_wallet/features/transactions/screens/transactions_screen.dart'
-    as _i17;
+    as _i16;
 import 'package:rbx_wallet/features/validator/screens/validator_screen.dart'
-    as _i18;
+    as _i17;
 import 'package:rbx_wallet/features/voting/screens/create_topic_screen.dart'
-    as _i37;
-import 'package:rbx_wallet/features/voting/screens/topic_detail_screen.dart'
     as _i36;
-import 'package:rbx_wallet/features/voting/screens/topic_list_screen.dart'
+import 'package:rbx_wallet/features/voting/screens/topic_detail_screen.dart'
     as _i35;
+import 'package:rbx_wallet/features/voting/screens/topic_list_screen.dart'
+    as _i34;
 import 'package:rbx_wallet/features/web_shop/screens/web_collection_detail_screen.dart'
     as _i52;
 import 'package:rbx_wallet/features/web_shop/screens/web_listing_detail_screen.dart'
@@ -318,76 +318,70 @@ class AppRouter extends _i54.RootStackRouter {
         ),
       );
     },
-    ReserveAccountOverviewScreenRoute.name: (routeData) {
-      return _i54.AdaptivePage<dynamic>(
-        routeData: routeData,
-        child: const _i14.ReserveAccountOverviewScreen(),
-      );
-    },
     SendScreenRoute.name: (routeData) {
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i15.SendScreen(),
+        child: const _i14.SendScreen(),
       );
     },
     ReceiveScreenRoute.name: (routeData) {
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i16.ReceiveScreen(),
+        child: const _i15.ReceiveScreen(),
       );
     },
     TransactionsScreenRoute.name: (routeData) {
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i17.TransactionsScreen(),
+        child: const _i16.TransactionsScreen(),
       );
     },
     ValidatorScreenRoute.name: (routeData) {
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i18.ValidatorScreen(),
+        child: const _i17.ValidatorScreen(),
       );
     },
     AdjudicatorScreenRoute.name: (routeData) {
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i19.AdjudicatorScreen(),
+        child: const _i18.AdjudicatorScreen(),
       );
     },
     NodeListScreenRoute.name: (routeData) {
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i20.NodeListScreen(),
+        child: const _i19.NodeListScreen(),
       );
     },
     DataNodeScreenRoute.name: (routeData) {
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i21.DataNodeScreen(),
+        child: const _i20.DataNodeScreen(),
       );
     },
     NftListScreenRoute.name: (routeData) {
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i22.NftListScreen(),
+        child: const _i21.NftListScreen(),
       );
     },
     SmartContractsScreenRoute.name: (routeData) {
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i23.SmartContractsScreen(),
+        child: const _i22.SmartContractsScreen(),
       );
     },
     DstLandingScreenRoute.name: (routeData) {
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i24.DstLandingScreen(),
+        child: const _i23.DstLandingScreen(),
       );
     },
     SellerChatThreadListScreenRoute.name: (routeData) {
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i25.SellerChatThreadListScreen(),
+        child: const _i24.SellerChatThreadListScreen(),
       );
     },
     WebSellerChatScreenRoute.name: (routeData) {
@@ -399,7 +393,7 @@ class AppRouter extends _i54.RootStackRouter {
               ));
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i26.WebSellerChatScreen(
+        child: _i25.WebSellerChatScreen(
           key: args.key,
           address: args.address,
           shopId: args.shopId,
@@ -409,7 +403,7 @@ class AppRouter extends _i54.RootStackRouter {
     MyCollectionsListScreenRoute.name: (routeData) {
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i27.MyCollectionsListScreen(),
+        child: const _i26.MyCollectionsListScreen(),
       );
     },
     MyCollectionDetailScreenRoute.name: (routeData) {
@@ -419,7 +413,7 @@ class AppRouter extends _i54.RootStackRouter {
               collectionId: pathParams.getInt('collectionId')));
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i28.MyCollectionDetailScreen(
+        child: _i27.MyCollectionDetailScreen(
           key: args.key,
           collectionId: args.collectionId,
         ),
@@ -428,13 +422,13 @@ class AppRouter extends _i54.RootStackRouter {
     CreateCollectionContainerScreenRoute.name: (routeData) {
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i29.CreateCollectionContainerScreen(),
+        child: const _i28.CreateCollectionContainerScreen(),
       );
     },
     CreateDecShopContainerScreenRoute.name: (routeData) {
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i30.CreateDecShopContainerScreen(),
+        child: const _i29.CreateDecShopContainerScreen(),
       );
     },
     ListingDetailScreenRoute.name: (routeData) {
@@ -444,7 +438,7 @@ class AppRouter extends _i54.RootStackRouter {
               listingId: pathParams.getInt('listingId')));
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i31.ListingDetailScreen(
+        child: _i30.ListingDetailScreen(
           key: args.key,
           listingId: args.listingId,
         ),
@@ -457,7 +451,7 @@ class AppRouter extends _i54.RootStackRouter {
               listingId: pathParams.getInt('listingId')));
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i32.ListingAuctionDetailScreen(
+        child: _i31.ListingAuctionDetailScreen(
           key: args.key,
           listingId: args.listingId,
         ),
@@ -470,7 +464,7 @@ class AppRouter extends _i54.RootStackRouter {
               collectionId: pathParams.getInt('collectionId')));
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i33.CreateListingContainerScreen(
+        child: _i32.CreateListingContainerScreen(
           args.collectionId,
           key: args.key,
         ),
@@ -479,13 +473,13 @@ class AppRouter extends _i54.RootStackRouter {
     AdnrScreenRoute.name: (routeData) {
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i34.AdnrScreen(),
+        child: const _i33.AdnrScreen(),
       );
     },
     TopicListScreenRoute.name: (routeData) {
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i35.TopicListScreen(),
+        child: const _i34.TopicListScreen(),
       );
     },
     TopicDetailScreenRoute.name: (routeData) {
@@ -495,7 +489,7 @@ class AppRouter extends _i54.RootStackRouter {
               topicUid: pathParams.getString('uid')));
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i36.TopicDetailScreen(
+        child: _i35.TopicDetailScreen(
           key: args.key,
           topicUid: args.topicUid,
         ),
@@ -504,19 +498,19 @@ class AppRouter extends _i54.RootStackRouter {
     CreateTopicScreenRoute.name: (routeData) {
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i37.CreateTopicScreen(),
+        child: const _i36.CreateTopicScreen(),
       );
     },
     BeaconListScreenRoute.name: (routeData) {
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i38.BeaconListScreen(),
+        child: const _i37.BeaconListScreen(),
       );
     },
-    ReserveAccountOverviewScreenTab.name: (routeData) {
+    ReserveAccountOverviewScreenRoute.name: (routeData) {
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i14.ReserveAccountOverviewScreen(),
+        child: const _i38.ReserveAccountOverviewScreen(),
       );
     },
     ManageReserveAccountsScreenRoute.name: (routeData) {
@@ -689,12 +683,7 @@ class AppRouter extends _i54.RootStackRouter {
                   NewHomeScreenRoute.name,
                   path: '',
                   parent: HomeTabRouter.name,
-                ),
-                _i54.RouteConfig(
-                  ReserveAccountOverviewScreenRoute.name,
-                  path: 'reserve-accounts',
-                  parent: HomeTabRouter.name,
-                ),
+                )
               ],
             ),
             _i54.RouteConfig(
@@ -914,7 +903,7 @@ class AppRouter extends _i54.RootStackRouter {
               parent: NewRootContainerRoute.name,
               children: [
                 _i54.RouteConfig(
-                  ReserveAccountOverviewScreenTab.name,
+                  ReserveAccountOverviewScreenRoute.name,
                   path: '',
                   parent: ReserveAccountsTabRouter.name,
                 ),
@@ -1538,19 +1527,7 @@ class NewHomeScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i14.ReserveAccountOverviewScreen]
-class ReserveAccountOverviewScreenRoute extends _i54.PageRouteInfo<void> {
-  const ReserveAccountOverviewScreenRoute()
-      : super(
-          ReserveAccountOverviewScreenRoute.name,
-          path: 'reserve-accounts',
-        );
-
-  static const String name = 'ReserveAccountOverviewScreenRoute';
-}
-
-/// generated route for
-/// [_i15.SendScreen]
+/// [_i14.SendScreen]
 class SendScreenRoute extends _i54.PageRouteInfo<void> {
   const SendScreenRoute()
       : super(
@@ -1562,7 +1539,7 @@ class SendScreenRoute extends _i54.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i16.ReceiveScreen]
+/// [_i15.ReceiveScreen]
 class ReceiveScreenRoute extends _i54.PageRouteInfo<void> {
   const ReceiveScreenRoute()
       : super(
@@ -1574,7 +1551,7 @@ class ReceiveScreenRoute extends _i54.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i17.TransactionsScreen]
+/// [_i16.TransactionsScreen]
 class TransactionsScreenRoute extends _i54.PageRouteInfo<void> {
   const TransactionsScreenRoute()
       : super(
@@ -1586,7 +1563,7 @@ class TransactionsScreenRoute extends _i54.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i18.ValidatorScreen]
+/// [_i17.ValidatorScreen]
 class ValidatorScreenRoute extends _i54.PageRouteInfo<void> {
   const ValidatorScreenRoute()
       : super(
@@ -1598,7 +1575,7 @@ class ValidatorScreenRoute extends _i54.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i19.AdjudicatorScreen]
+/// [_i18.AdjudicatorScreen]
 class AdjudicatorScreenRoute extends _i54.PageRouteInfo<void> {
   const AdjudicatorScreenRoute()
       : super(
@@ -1610,7 +1587,7 @@ class AdjudicatorScreenRoute extends _i54.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i20.NodeListScreen]
+/// [_i19.NodeListScreen]
 class NodeListScreenRoute extends _i54.PageRouteInfo<void> {
   const NodeListScreenRoute()
       : super(
@@ -1622,7 +1599,7 @@ class NodeListScreenRoute extends _i54.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i21.DataNodeScreen]
+/// [_i20.DataNodeScreen]
 class DataNodeScreenRoute extends _i54.PageRouteInfo<void> {
   const DataNodeScreenRoute()
       : super(
@@ -1634,7 +1611,7 @@ class DataNodeScreenRoute extends _i54.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i22.NftListScreen]
+/// [_i21.NftListScreen]
 class NftListScreenRoute extends _i54.PageRouteInfo<void> {
   const NftListScreenRoute()
       : super(
@@ -1646,7 +1623,7 @@ class NftListScreenRoute extends _i54.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i23.SmartContractsScreen]
+/// [_i22.SmartContractsScreen]
 class SmartContractsScreenRoute extends _i54.PageRouteInfo<void> {
   const SmartContractsScreenRoute()
       : super(
@@ -1658,7 +1635,7 @@ class SmartContractsScreenRoute extends _i54.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i24.DstLandingScreen]
+/// [_i23.DstLandingScreen]
 class DstLandingScreenRoute extends _i54.PageRouteInfo<void> {
   const DstLandingScreenRoute()
       : super(
@@ -1670,7 +1647,7 @@ class DstLandingScreenRoute extends _i54.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i25.SellerChatThreadListScreen]
+/// [_i24.SellerChatThreadListScreen]
 class SellerChatThreadListScreenRoute extends _i54.PageRouteInfo<void> {
   const SellerChatThreadListScreenRoute()
       : super(
@@ -1682,7 +1659,7 @@ class SellerChatThreadListScreenRoute extends _i54.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i26.WebSellerChatScreen]
+/// [_i25.WebSellerChatScreen]
 class WebSellerChatScreenRoute
     extends _i54.PageRouteInfo<WebSellerChatScreenRouteArgs> {
   WebSellerChatScreenRoute({
@@ -1726,7 +1703,7 @@ class WebSellerChatScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i27.MyCollectionsListScreen]
+/// [_i26.MyCollectionsListScreen]
 class MyCollectionsListScreenRoute extends _i54.PageRouteInfo<void> {
   const MyCollectionsListScreenRoute()
       : super(
@@ -1738,7 +1715,7 @@ class MyCollectionsListScreenRoute extends _i54.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i28.MyCollectionDetailScreen]
+/// [_i27.MyCollectionDetailScreen]
 class MyCollectionDetailScreenRoute
     extends _i54.PageRouteInfo<MyCollectionDetailScreenRouteArgs> {
   MyCollectionDetailScreenRoute({
@@ -1774,7 +1751,7 @@ class MyCollectionDetailScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i29.CreateCollectionContainerScreen]
+/// [_i28.CreateCollectionContainerScreen]
 class CreateCollectionContainerScreenRoute extends _i54.PageRouteInfo<void> {
   const CreateCollectionContainerScreenRoute()
       : super(
@@ -1786,7 +1763,7 @@ class CreateCollectionContainerScreenRoute extends _i54.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i30.CreateDecShopContainerScreen]
+/// [_i29.CreateDecShopContainerScreen]
 class CreateDecShopContainerScreenRoute extends _i54.PageRouteInfo<void> {
   const CreateDecShopContainerScreenRoute()
       : super(
@@ -1798,7 +1775,7 @@ class CreateDecShopContainerScreenRoute extends _i54.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i31.ListingDetailScreen]
+/// [_i30.ListingDetailScreen]
 class ListingDetailScreenRoute
     extends _i54.PageRouteInfo<ListingDetailScreenRouteArgs> {
   ListingDetailScreenRoute({
@@ -1834,7 +1811,7 @@ class ListingDetailScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i32.ListingAuctionDetailScreen]
+/// [_i31.ListingAuctionDetailScreen]
 class ListingAuctionDetailScreenRoute
     extends _i54.PageRouteInfo<ListingAuctionDetailScreenRouteArgs> {
   ListingAuctionDetailScreenRoute({
@@ -1870,7 +1847,7 @@ class ListingAuctionDetailScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i33.CreateListingContainerScreen]
+/// [_i32.CreateListingContainerScreen]
 class CreateListingContainerScreenRoute
     extends _i54.PageRouteInfo<CreateListingContainerScreenRouteArgs> {
   CreateListingContainerScreenRoute({
@@ -1906,7 +1883,7 @@ class CreateListingContainerScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i34.AdnrScreen]
+/// [_i33.AdnrScreen]
 class AdnrScreenRoute extends _i54.PageRouteInfo<void> {
   const AdnrScreenRoute()
       : super(
@@ -1918,7 +1895,7 @@ class AdnrScreenRoute extends _i54.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i35.TopicListScreen]
+/// [_i34.TopicListScreen]
 class TopicListScreenRoute extends _i54.PageRouteInfo<void> {
   const TopicListScreenRoute()
       : super(
@@ -1930,7 +1907,7 @@ class TopicListScreenRoute extends _i54.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i36.TopicDetailScreen]
+/// [_i35.TopicDetailScreen]
 class TopicDetailScreenRoute
     extends _i54.PageRouteInfo<TopicDetailScreenRouteArgs> {
   TopicDetailScreenRoute({
@@ -1966,7 +1943,7 @@ class TopicDetailScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i37.CreateTopicScreen]
+/// [_i36.CreateTopicScreen]
 class CreateTopicScreenRoute extends _i54.PageRouteInfo<void> {
   const CreateTopicScreenRoute()
       : super(
@@ -1978,7 +1955,7 @@ class CreateTopicScreenRoute extends _i54.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i38.BeaconListScreen]
+/// [_i37.BeaconListScreen]
 class BeaconListScreenRoute extends _i54.PageRouteInfo<void> {
   const BeaconListScreenRoute()
       : super(
@@ -1990,15 +1967,15 @@ class BeaconListScreenRoute extends _i54.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i14.ReserveAccountOverviewScreen]
-class ReserveAccountOverviewScreenTab extends _i54.PageRouteInfo<void> {
-  const ReserveAccountOverviewScreenTab()
+/// [_i38.ReserveAccountOverviewScreen]
+class ReserveAccountOverviewScreenRoute extends _i54.PageRouteInfo<void> {
+  const ReserveAccountOverviewScreenRoute()
       : super(
-          ReserveAccountOverviewScreenTab.name,
+          ReserveAccountOverviewScreenRoute.name,
           path: '',
         );
 
-  static const String name = 'ReserveAccountOverviewScreenTab';
+  static const String name = 'ReserveAccountOverviewScreenRoute';
 }
 
 /// generated route for

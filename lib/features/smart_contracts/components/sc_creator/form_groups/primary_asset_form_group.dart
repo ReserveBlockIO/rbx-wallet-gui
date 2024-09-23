@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
 
 import '../../../../../core/base_component.dart';
 import '../../../../../core/theme/app_theme.dart';
@@ -18,15 +19,18 @@ class PrimaryAssetFormGroup extends BaseComponent {
     final _model = ref.watch(createSmartContractProvider);
 
     return FormGroupContainer(
-      child: Container(
-        decoration: BoxDecoration(boxShadow: glowingBox, color: Colors.black),
+      child: AppCard(
+        padding: 4,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const FormGroupHeader(
-              "Asset",
-              helpType: HelpType.primaryAsset,
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0),
+              child: const FormGroupHeader(
+                "Asset",
+                helpType: HelpType.primaryAsset,
+              ),
             ),
             SizedBox(
               height: 10,
@@ -36,6 +40,7 @@ class PrimaryAssetFormGroup extends BaseComponent {
               asset: _model.primaryAsset,
               onChange: _provider.setPrimaryAsset,
               title: "Asset",
+              transparentBackground: true,
 
               // withAuthorName: true,
             ),

@@ -77,7 +77,7 @@ const List<AutoRoute> appRoutes = [
         page: EmptyRouterPage,
         children: [
           AutoRoute(path: "", page: NewHomeScreen),
-          AutoRoute(path: "reserve-accounts", page: ReserveAccountOverviewScreen),
+          // AutoRoute(path: "reserve-accounts", page: ReserveAccountOverviewScreen),
         ],
       ),
       AutoRoute(
@@ -208,7 +208,7 @@ const List<AutoRoute> appRoutes = [
         children: [
           AutoRoute(
             path: "",
-            name: "ReserveAccountOverviewScreenTab",
+            // name: "ReserveAccountOverviewScreenTab",
             page: ReserveAccountOverviewScreen,
           ),
           AutoRoute(

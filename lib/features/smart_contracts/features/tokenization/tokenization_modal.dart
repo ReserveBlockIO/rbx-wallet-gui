@@ -23,7 +23,6 @@ class TokenizationModal extends BaseComponent {
       child: ModalContainer(children: [
         const FormGroupHeader(
           "Tokenization",
-          withBg: false,
         ),
         TextFormField(
           decoration: const InputDecoration(label: Text("Physical/Digital Good Name")),

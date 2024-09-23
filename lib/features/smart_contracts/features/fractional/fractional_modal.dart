@@ -20,7 +20,6 @@ class FractionalModal extends BaseComponent {
       child: ModalContainer(children: [
         const FormGroupHeader(
           "Fractionalization",
-          withBg: false,
         ),
         Row(
           children: [

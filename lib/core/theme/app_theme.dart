@@ -30,6 +30,8 @@ enum AppColorVariant {
   Light,
   Dark,
   Btc,
+  Reserve,
+  Vbtc,
 }
 
 enum AppSizeVariant {
@@ -80,6 +82,12 @@ extension CustomColorScheme on ColorScheme {
 
   Color get btcOrange => _btc;
   Color get onBtcOrange => Colors.black;
+
+  Color get reserve => Colors.deepPurple.shade200;
+  Color get onReserve => Colors.black;
+
+  Color get vbtc => Colors.pinkAccent.shade400;
+  Color get onVbtc => Colors.white;
 }
 
 class AppTheme {
@@ -125,6 +133,9 @@ class AppTheme {
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: _infoColor),
         ),
+      ),
+      tabBarTheme: TabBarTheme(
+        indicatorColor: AppColors.getBlue(),
       ),
       splashFactory: NoSplash.splashFactory,
       scaffoldBackgroundColor: Colors.black,
@@ -216,6 +227,10 @@ class AppTheme {
         return _colors.dark;
       case AppColorVariant.Btc:
         return _colors.btcOrange;
+      case AppColorVariant.Reserve:
+        return _colors.reserve;
+      case AppColorVariant.Vbtc:
+        return _colors.vbtc;
     }
   }
 }

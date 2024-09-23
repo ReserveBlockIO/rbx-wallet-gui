@@ -115,7 +115,6 @@ class SoulBoundModal extends BaseComponent {
   FormGroupHeader buildHeader() {
     return const FormGroupHeader(
       "Soul Bound",
-      withBg: false,
     );
   }
 

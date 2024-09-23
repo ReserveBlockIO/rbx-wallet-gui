@@ -33,7 +33,6 @@ class ValidatorScreen extends BaseScreen {
       title: const Text("Validator"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      actions: const [WalletSelector()],
       leading: BackToHomeButton(),
     );
   }

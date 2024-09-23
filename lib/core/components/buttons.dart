@@ -113,6 +113,20 @@ class AppButton extends StatelessWidget {
           splashFactory: NoSplash.splashFactory,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
         );
+      case AppColorVariant.Reserve:
+        return ElevatedButton.styleFrom(
+          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.reserve,
+          onPrimary: Theme.of(context).colorScheme.onReserve,
+          splashFactory: NoSplash.splashFactory,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+        );
+      case AppColorVariant.Vbtc:
+        return ElevatedButton.styleFrom(
+          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.vbtc,
+          onPrimary: Theme.of(context).colorScheme.onVbtc,
+          splashFactory: NoSplash.splashFactory,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+        );
     }
   }
 
@@ -174,6 +188,18 @@ class AppButton extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
         );
+      case AppColorVariant.Reserve:
+        return OutlinedButton.styleFrom(
+          primary: _colorScheme.reserve,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          splashFactory: NoSplash.splashFactory,
+        );
+      case AppColorVariant.Vbtc:
+        return OutlinedButton.styleFrom(
+          primary: _colorScheme.vbtc,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          splashFactory: NoSplash.splashFactory,
+        );
     }
   }
 
@@ -225,6 +251,16 @@ class AppButton extends StatelessWidget {
           splashFactory: NoSplash.splashFactory,
           primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.btcOrange,
         );
+      case AppColorVariant.Reserve:
+        return OutlinedButton.styleFrom(
+          splashFactory: NoSplash.splashFactory,
+          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.reserve,
+        );
+      case AppColorVariant.Vbtc:
+        return OutlinedButton.styleFrom(
+          splashFactory: NoSplash.splashFactory,
+          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.vbtc,
+        );
     }
   }
 
@@ -256,6 +292,10 @@ class AppButton extends StatelessWidget {
             return _colorScheme.darkButtonFg;
           case AppColorVariant.Btc:
             return _colorScheme.onBtcOrange;
+          case AppColorVariant.Reserve:
+            return _colorScheme.onReserve;
+          case AppColorVariant.Vbtc:
+            return _colorScheme.onVbtc;
         }
       case AppButtonType.Text:
       case AppButtonType.Outlined:
@@ -278,6 +318,10 @@ class AppButton extends StatelessWidget {
             return _colorScheme.darkButtonBg;
           case AppColorVariant.Btc:
             return _colorScheme.btcOrange;
+          case AppColorVariant.Reserve:
+            return _colorScheme.reserve;
+          case AppColorVariant.Vbtc:
+            return _colorScheme.vbtc;
         }
     }
   }
@@ -300,7 +344,7 @@ class AppButton extends StatelessWidget {
                   ),
                 )
               : Transform.translate(
-                  offset: Offset(0, 3),
+                  offset: Offset(0, 0),
                   child: Icon(
                     icon,
                     size: 16,

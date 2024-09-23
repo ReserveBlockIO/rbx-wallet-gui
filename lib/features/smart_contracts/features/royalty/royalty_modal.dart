@@ -52,9 +52,7 @@ class RoyaltyModal extends BaseComponent {
                       },
                       child: Text(
                         w.fullLabel,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            decoration: TextDecoration.underline),
+                        style: const TextStyle(color: Colors.white, decoration: TextDecoration.underline),
                       ),
                     ),
                   )
@@ -131,12 +129,10 @@ class RoyaltyModal extends BaseComponent {
   FormGroupHeader buildHeader() {
     return const FormGroupHeader(
       "Royalty",
-      withBg: false,
     );
   }
 
-  ModalBottomActions buildBottomActions(GlobalKey<FormState> _formKey,
-      RoyaltyFormProvider _provider, BuildContext context) {
+  ModalBottomActions buildBottomActions(GlobalKey<FormState> _formKey, RoyaltyFormProvider _provider, BuildContext context) {
     return ModalBottomActions(
       onConfirm: () {
         if (!_formKey.currentState!.validate()) return;
@@ -147,8 +143,7 @@ class RoyaltyModal extends BaseComponent {
     );
   }
 
-  TextFormField buildAddress(
-      RoyaltyFormProvider _provider, WidgetRef ref, BuildContext context) {
+  TextFormField buildAddress(RoyaltyFormProvider _provider, WidgetRef ref, BuildContext context) {
     return TextFormField(
       controller: _provider.addressController,
       decoration: InputDecoration(
@@ -161,8 +156,7 @@ class RoyaltyModal extends BaseComponent {
                   type: AppButtonType.Text,
                   underlined: true,
                   onPressed: () {
-                    final address =
-                        ref.read(webSessionProvider).keypair?.address;
+                    final address = ref.read(webSessionProvider).keypair?.address;
 
                     if (address != null) {
                       _provider.addressController.text = address;
@@ -191,18 +185,13 @@ class RoyaltyModal extends BaseComponent {
           label: const Text("Percentage"),
           labelStyle: const TextStyle(color: Colors.white),
           suffix: Text(_model.type == RoyaltyType.percent ? "%" : "VFX"),
-          prefixIcon: HelpButton(
-              _model.type == RoyaltyType.percent
-                  ? HelpType.royaltyPercent
-                  : HelpType.royaltyFlat,
-              subtle: true)),
+          prefixIcon: HelpButton(_model.type == RoyaltyType.percent ? HelpType.royaltyPercent : HelpType.royaltyFlat, subtle: true)),
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
       validator: _provider.amountValidator,
     );
   }
 
-  AppDropdown<RoyaltyType> buildRoyaltyType(
-      Royalty _model, RoyaltyFormProvider _provider) {
+  AppDropdown<RoyaltyType> buildRoyaltyType(Royalty _model, RoyaltyFormProvider _provider) {
     return AppDropdown<RoyaltyType>(
       label: "Royalty Type",
       selectedValue: _model.type,

@@ -176,7 +176,6 @@ class EvolveModal extends BaseComponent {
       children: const [
         FormGroupHeader(
           "Evolve",
-          withBg: false,
         ),
       ],
     );

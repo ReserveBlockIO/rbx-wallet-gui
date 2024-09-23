@@ -26,7 +26,6 @@ class SendScreen extends BaseScreen {
       title: Text("Send ${isBtc ? 'BTC' : 'VFX'}"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      actions: const [WalletSelector()],
       leading: BackToHomeButton(),
     );
   }

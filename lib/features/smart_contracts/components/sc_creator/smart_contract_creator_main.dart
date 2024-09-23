@@ -287,7 +287,6 @@ class SmartContractCreatorMain extends BaseComponent {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const BasicPropertiesFormGroup(),
                 Row(
                   children: const [
                     Expanded(child: PrimaryAssetFormGroup()),

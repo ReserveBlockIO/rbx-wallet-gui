@@ -206,7 +206,11 @@ class _LayoutState extends State<_Layout> {
                     ),
 
                     Expanded(
-                      child: widget.child,
+                      child: Container(
+                        decoration: BoxDecoration(),
+                        clipBehavior: Clip.antiAlias,
+                        child: widget.child,
+                      ),
                     ),
                   ],
                 ),

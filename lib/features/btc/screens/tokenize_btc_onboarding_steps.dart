@@ -353,18 +353,18 @@ class _CreateOrImportVfxWalletStep extends BaseComponent {
             height: 16,
           ),
           Text("Or use one of your existing VFX Wallets:"),
+          SizedBox(
+            height: 8,
+          ),
           ...existingWallets
-              .map((w) => Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: InkWell(
-                        onTap: () {
-                          provider.setVfxWallet(w);
-                        },
-                        child: Text(
-                          w.address,
-                          style: TextStyle(fontSize: 16, color: Colors.white, decoration: TextDecoration.underline),
-                        )),
-                  ))
+              .map((w) => InkWell(
+                  onTap: () {
+                    provider.setVfxWallet(w);
+                  },
+                  child: Text(
+                    w.address,
+                    style: TextStyle(fontSize: 16, color: Colors.white, decoration: TextDecoration.underline),
+                  )))
               .toList(),
         ]
       ],
@@ -629,18 +629,18 @@ class _CreateOrImportBtcAccountStep extends BaseComponent {
             height: 16,
           ),
           Text("Or use one of your existing BTC Wallets:"),
+          SizedBox(
+            height: 8,
+          ),
           ...existingAccounts
-              .map((a) => Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: InkWell(
-                        onTap: () {
-                          provider.setBtcAccount(a);
-                        },
-                        child: Text(
-                          a.address,
-                          style: TextStyle(fontSize: 16, color: Colors.white, decoration: TextDecoration.underline),
-                        )),
-                  ))
+              .map((a) => InkWell(
+                  onTap: () {
+                    provider.setBtcAccount(a);
+                  },
+                  child: Text(
+                    a.address,
+                    style: TextStyle(fontSize: 16, color: Colors.white, decoration: TextDecoration.underline),
+                  )))
               .toList(),
         ]
       ],

@@ -12,6 +12,12 @@ class BtcTransactionList extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     final transactions = ref.watch(btcTransactionListProvider);
 
+    if (transactions.isEmpty) {
+      return Center(
+        child: Text("No Outgoing Transactions"),
+      );
+    }
+
     return ListView.builder(
       itemCount: transactions.length,
       itemBuilder: (context, index) {

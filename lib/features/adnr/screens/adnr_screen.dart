@@ -22,7 +22,6 @@ class AdnrScreen extends BaseScreen {
       title: Text(isBtc ? "BTC Domain Service" : "VFX Domain Service"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      actions: const [WalletSelector()],
       leading: BackToHomeButton(),
     );
   }

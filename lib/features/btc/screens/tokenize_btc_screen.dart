@@ -8,6 +8,7 @@ import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/core/theme/colors.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/file_selector.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
@@ -23,7 +24,6 @@ class TokenizeBtcScreen extends BaseScreen {
     return AppBar(
       backgroundColor: Colors.black,
       title: Text("Tokenize BTC (vBTC)"),
-      actions: [WalletSelector()],
     );
   }
 
@@ -59,10 +59,13 @@ class TokenizeBtcForm extends BaseComponent {
           TextFormField(
             controller: formProvider.tokenNameController,
             decoration: InputDecoration(
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: AppColors.getVbtc()),
+              ),
               label: Text(
                 "Token Name (Optional)",
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.btcOrange,
+                  color: Theme.of(context).colorScheme.vbtc,
                 ),
               ),
               hintText: "vBTC Token",
@@ -71,10 +74,13 @@ class TokenizeBtcForm extends BaseComponent {
           TextFormField(
             controller: formProvider.tokenDescriptionController,
             decoration: InputDecoration(
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: AppColors.getVbtc()),
+              ),
               label: Text(
                 "Token Description (Optional)",
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.btcOrange,
+                  color: Theme.of(context).colorScheme.vbtc,
                 ),
               ),
               hintText: "vBTC Token",
@@ -89,7 +95,7 @@ class TokenizeBtcForm extends BaseComponent {
             "Token Image (Optional)",
             style: TextStyle(
               fontSize: 16,
-              color: Theme.of(context).colorScheme.btcOrange,
+              color: Theme.of(context).colorScheme.vbtc,
             ),
           ),
           FileSelector(
@@ -107,7 +113,7 @@ class TokenizeBtcForm extends BaseComponent {
             "Media (Optional)",
             style: TextStyle(
               fontSize: 16,
-              color: Theme.of(context).colorScheme.btcOrange,
+              color: Theme.of(context).colorScheme.vbtc,
             ),
           ),
           ListView.builder(
@@ -134,12 +140,14 @@ class TokenizeBtcForm extends BaseComponent {
               }
             },
           ),
-          Divider(),
+          SizedBox(
+            height: 16,
+          ),
           Center(
             child: AppButton(
               processing: formState.isProcessing,
               label: "Compile & Mint",
-              variant: AppColorVariant.Btc,
+              variant: AppColorVariant.Vbtc,
               onPressed: () async {
                 if (formState.vfxAddress == null) {
                   Toast.error("A VFX address is required");

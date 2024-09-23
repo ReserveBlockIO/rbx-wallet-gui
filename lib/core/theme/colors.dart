@@ -132,6 +132,10 @@ class AppColors {
     return Colors.deepPurple.shade200;
   }
 
+  static Color getVbtc() {
+    return Colors.pinkAccent.shade400;
+  }
+
   static Color colorVariantToColor(AppColorVariant variant, [ColorShade shade = ColorShade.s100]) {
     switch (variant) {
       case AppColorVariant.Primary:
@@ -159,6 +163,10 @@ class AppColors {
 
       case AppColorVariant.Btc:
         return Color(0xfff7931a).withOpacity(0.7);
+      case AppColorVariant.Reserve:
+        return getReserve();
+      case AppColorVariant.Vbtc:
+        return getVbtc();
     }
   }
 
@@ -189,6 +197,11 @@ class AppColors {
 
       case AppColorVariant.Btc:
         return Colors.white;
+
+      case AppColorVariant.Reserve:
+        return Colors.black;
+      case AppColorVariant.Vbtc:
+        return Colors.black;
     }
   }
 }

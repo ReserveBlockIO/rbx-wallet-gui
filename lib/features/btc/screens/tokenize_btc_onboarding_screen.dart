@@ -130,7 +130,7 @@ class TokenizeBtcOnboardingScreen extends BaseScreen {
                 ],
               ),
               ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 500),
+                constraints: BoxConstraints(maxWidth: 800),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
@@ -145,7 +145,7 @@ class TokenizeBtcOnboardingScreen extends BaseScreen {
                 ),
               ),
               SizedBox(
-                height: 32,
+                height: 12,
               ),
               if (state.processingState == VBtcProcessingState.ready)
                 Builder(

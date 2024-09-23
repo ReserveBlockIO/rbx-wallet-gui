@@ -30,7 +30,6 @@ class ReceiveScreen extends BaseScreen {
       title: const Text("Receive VFX"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      actions: const [WalletSelector()],
       leading: BackToHomeButton(),
     );
   }
@@ -74,85 +73,91 @@ class ReceiveScreen extends BaseScreen {
                     ),
                   AppCard(
                     padding: 8,
-                    child: ListTile(
-                      leading: const Icon(Icons.account_balance_wallet),
-                      subtitle: Text(
-                        "Your Selected VFX Address",
-                        style: TextStyle(
-                          color: AppColors.getBlue(),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          leading: const Icon(Icons.account_balance_wallet),
+                          subtitle: Text(
+                            "Your Selected VFX Address",
+                            style: TextStyle(
+                              color: AppColors.getBlue(),
+                            ),
+                          ),
+                          // subtitle: currentWallet.friendlyName != null ? Text(currentWallet.friendlyName!) : null,
+                          // title: TextFormField(
+                          //   initialValue: currentWallet.address,
+                          //   decoration: const InputDecoration(
+                          //     label: Text("Wallet Address"),
+                          //   ),
+                          //   style: const TextStyle(fontSize: 13),
+                          //   readOnly: true,
+                          // ),
+                          title: SelectableText(
+                            currentWallet.address,
+                          ),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.copy),
+                            onPressed: () async {
+                              if (currentWallet.isReserved && !currentWallet.isNetworkProtected) {
+                                Toast.error("This Reserve Account has not been activated yet.");
+                                return;
+                              }
+                              _handleCopyAddress(currentWallet.address);
+                            },
+                          ),
                         ),
-                      ),
-                      // subtitle: currentWallet.friendlyName != null ? Text(currentWallet.friendlyName!) : null,
-                      // title: TextFormField(
-                      //   initialValue: currentWallet.address,
-                      //   decoration: const InputDecoration(
-                      //     label: Text("Wallet Address"),
-                      //   ),
-                      //   style: const TextStyle(fontSize: 13),
-                      //   readOnly: true,
-                      // ),
-                      title: SelectableText(
-                        currentWallet.address,
-                      ),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.copy),
-                        onPressed: () async {
-                          if (currentWallet.isReserved && !currentWallet.isNetworkProtected) {
-                            Toast.error("This Reserve Account has not been activated yet.");
-                            return;
-                          }
-                          _handleCopyAddress(currentWallet.address);
-                        },
-                      ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: Divider(),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            AppVerticalIconButton(
+                              label: "Copy\nAddress",
+                              icon: Icons.copy,
+                              iconScale: 0.7,
+                              onPressed: () {
+                                _handleCopyAddress(currentWallet.address);
+                              },
+                            ),
+                            AppVerticalIconButton(
+                              label: "New\nAccount",
+                              icon: Icons.add,
+                              onPressed: () async {
+                                if (!await passwordRequiredGuard(context, ref)) return;
+                                await ref.read(walletListProvider.notifier).create();
+                              },
+                            ),
+                            AppVerticalIconButton(
+                              label: "Import\nKey",
+                              icon: Icons.upload,
+                              onPressed: () async {
+                                if (!await passwordRequiredGuard(context, ref)) return;
+
+                                PromptModal.show(
+                                  title: "Import Wallet",
+                                  validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
+                                  labelText: "Private Key",
+                                  onValidSubmission: (value) async {
+                                    final resync = await ConfirmDialog.show(
+                                      title: "Rescan Blocks?",
+                                      body: "Would you like to rescan the chain to include any transactions relevant to this key?",
+                                      confirmText: "Yes",
+                                      cancelText: "No",
+                                    );
+
+                                    await ref.read(walletListProvider.notifier).import(value, false, resync == true);
+                                  },
+                                );
+                              },
+                            ),
+                          ],
+                        )
+                      ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      AppVerticalIconButton(
-                        label: "Copy\nAddress",
-                        icon: Icons.copy,
-                        iconScale: 0.7,
-                        onPressed: () {
-                          _handleCopyAddress(currentWallet.address);
-                        },
-                      ),
-                      AppVerticalIconButton(
-                        label: "New\nAccount",
-                        icon: Icons.add,
-                        onPressed: () async {
-                          if (!await passwordRequiredGuard(context, ref)) return;
-                          await ref.read(walletListProvider.notifier).create();
-                        },
-                      ),
-                      AppVerticalIconButton(
-                        label: "Import\nKey",
-                        icon: Icons.upload,
-                        onPressed: () async {
-                          if (!await passwordRequiredGuard(context, ref)) return;
-
-                          PromptModal.show(
-                            title: "Import Wallet",
-                            validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
-                            labelText: "Private Key",
-                            onValidSubmission: (value) async {
-                              final resync = await ConfirmDialog.show(
-                                title: "Rescan Blocks?",
-                                body: "Would you like to rescan the chain to include any transactions relevant to this key?",
-                                confirmText: "Yes",
-                                cancelText: "No",
-                              );
-
-                              await ref.read(walletListProvider.notifier).import(value, false, resync == true);
-                            },
-                          );
-                        },
-                      ),
-                    ],
-                  )
                 ],
               );
             }
