@@ -77,6 +77,7 @@ class TokenizeBtcListScreen extends BaseScreen {
                 padding: const EdgeInsets.all(8.0),
                 child: AppButton(
                   label: "Create a Verified BTC Token",
+                  // iconOffset: Offset(0, 3),
                   variant: AppColorVariant.Vbtc,
                   icon: FontAwesomeIcons.bitcoin,
                   onPressed: () async {

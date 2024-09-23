@@ -327,6 +327,7 @@ class AppButton extends StatelessWidget {
   }
 
   Widget _child(BuildContext context) {
+    print(icon?.fontPackage);
     if (icon != null || processing) {
       return Wrap(
         textDirection: iconTrails ? TextDirection.rtl : TextDirection.ltr,
@@ -344,7 +345,7 @@ class AppButton extends StatelessWidget {
                   ),
                 )
               : Transform.translate(
-                  offset: Offset(0, 0),
+                  offset: Offset(0, (icon?.fontPackage).toString().contains("font_awesome_flutter") ? 3 : 0),
                   child: Icon(
                     icon,
                     size: 16,

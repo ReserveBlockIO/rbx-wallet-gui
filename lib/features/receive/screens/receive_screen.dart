@@ -117,7 +117,6 @@ class ReceiveScreen extends BaseScreen {
                             AppVerticalIconButton(
                               label: "Copy\nAddress",
                               icon: Icons.copy,
-                              iconScale: 0.7,
                               onPressed: () {
                                 _handleCopyAddress(currentWallet.address);
                               },
@@ -201,7 +200,6 @@ class ReceiveScreen extends BaseScreen {
                       AppVerticalIconButton(
                         label: "Copy\nAddress",
                         icon: Icons.copy,
-                        iconScale: .7,
                         onPressed: () {
                           _handleCopyAddress(btcAccount.address);
                         },

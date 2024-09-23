@@ -76,7 +76,6 @@ class AppVerticalIconButton extends StatefulWidget {
   final Color? color;
   final Color? hoverColor;
   final AppVerticalIconButtonSize size;
-  final double iconScale;
   const AppVerticalIconButton({
     super.key,
     required this.onPressed,
@@ -85,7 +84,6 @@ class AppVerticalIconButton extends StatefulWidget {
     this.color,
     this.hoverColor,
     this.size = AppVerticalIconButtonSize.md,
-    this.iconScale = 1.0,
   });
 
   @override
@@ -97,6 +95,8 @@ class _AppVerticalIconButtonState extends State<AppVerticalIconButton> {
 
   @override
   Widget build(BuildContext context) {
+    final isFontAwesome = widget.icon.fontPackage.toString().contains("font_awesome_flutter");
+
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       onEnter: (_) {
@@ -130,7 +130,7 @@ class _AppVerticalIconButtonState extends State<AppVerticalIconButton> {
                     ),
                     child: Center(
                       child: Transform.scale(
-                        scale: widget.iconScale,
+                        scale: isFontAwesome ? 0.7 : 1,
                         child: Icon(
                           widget.icon,
                           color: Colors.black,

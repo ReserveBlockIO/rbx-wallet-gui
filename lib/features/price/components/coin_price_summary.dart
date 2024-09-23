@@ -143,19 +143,16 @@ class _CoinPriceSummaryContent extends StatelessWidget {
                 onPressed: () {},
                 icon: FontAwesomeIcons.chartLine,
                 label: "View\nChart",
-                iconScale: 0.8,
               ),
               AppVerticalIconButton(
                 onPressed: () {},
                 icon: FontAwesomeIcons.store,
                 label: "View\nTrades",
-                iconScale: 0.8,
               ),
               AppVerticalIconButton(
                 onPressed: () {},
                 icon: FontAwesomeIcons.coins,
                 label: "Get\nVFX",
-                iconScale: 0.8,
               ),
             ],
           )

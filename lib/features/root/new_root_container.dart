@@ -1196,7 +1196,6 @@ class _BalanceRow extends BaseComponent {
               AppVerticalIconButton(
                 onPressed: () {},
                 icon: FontAwesomeIcons.coins,
-                iconScale: 0.75,
                 label: "Get\nVFX",
                 size: AppVerticalIconButtonSize.sm,
               ),
@@ -1257,7 +1256,6 @@ class _BalanceRow extends BaseComponent {
               AppVerticalIconButton(
                 onPressed: () {},
                 icon: FontAwesomeIcons.bitcoin,
-                iconScale: 0.75,
                 label: "vBTC\nTokens",
                 size: AppVerticalIconButtonSize.sm,
               ),
@@ -1293,7 +1291,6 @@ class _BalanceRow extends BaseComponent {
               AppVerticalIconButton(
                 onPressed: () {},
                 icon: FontAwesomeIcons.btc,
-                iconScale: 0.75,
                 label: "Get\nBTC",
                 size: AppVerticalIconButtonSize.sm,
               ),
