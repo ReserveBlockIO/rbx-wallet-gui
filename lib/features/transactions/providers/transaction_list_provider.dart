@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 
 import '../models/transaction.dart';
 import '../services/local_transaction_service.dart';
@@ -61,8 +62,13 @@ class TransactionListProvider extends StateNotifier<List<Transaction>> {
 
     if (type == TransactionListType.Success) {
       final recentTimestamp = (DateTime.now().millisecondsSinceEpoch / 1000).round() - (5 * 60); // 5 min
-      final recentTransactions = transactions.where((t) => t.timestamp > recentTimestamp).toList();
-      ref.read(transactionSignalProvider.notifier).insertAll(recentTransactions);
+      final currentBlockHeight = ref.read(walletInfoProvider)?.blockHeight;
+
+      if (currentBlockHeight != null) {
+        final recentTransactions = transactions.where((t) => t.timestamp > recentTimestamp && t.height > currentBlockHeight).toList();
+
+        ref.read(transactionSignalProvider.notifier).insertAll(recentTransactions);
+      }
     }
   }
 }

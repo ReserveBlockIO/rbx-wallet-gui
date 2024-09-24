@@ -125,7 +125,7 @@ class AppContainer extends ConsumerWidget {
                                 text: TextSpan(
                                   style: TextStyle(
                                     fontFamily: "Mukta",
-                                    color: Colors.white70,
+                                    color: Colors.white.withOpacity(.85),
                                     letterSpacing: 0.75,
                                     height: 1,
                                   ),
@@ -135,10 +135,23 @@ class AppContainer extends ConsumerWidget {
                                       style: TextStyle(
                                         color: AppColors.getBlue(ColorShade.s100),
                                         fontWeight: FontWeight.w600,
+                                        shadows: [
+                                          Shadow(
+                                            color: Colors.white.withOpacity(0.4),
+                                            blurRadius: 8,
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                    TextSpan(text: " "),
-                                    TextSpan(text: "Switchblade", style: TextStyle()),
+                                    TextSpan(
+                                      text: " | ",
+                                      style: TextStyle(
+                                        color: Colors.white.withOpacity(0.25),
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: "Switchblade",
+                                    ),
                                   ],
                                 ),
                               )),
