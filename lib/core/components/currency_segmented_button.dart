@@ -83,7 +83,7 @@ class CurrencySegementedButton extends BaseComponent {
       segments: [
         if (includeAny)
           ButtonSegment(
-            label: Text("Any"),
+            label: Text("All"),
             value: CurrencyType.any,
           ),
         ButtonSegment(

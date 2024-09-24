@@ -46,6 +46,15 @@ class RootContainerSideNavList extends BaseComponent {
           isExpanded: isExpanded,
         ),
         RootContainerSideNavItem(
+          title: "Domains",
+          icon: Icons.link,
+          onPressed: () {
+            tabsRouter.setActiveIndex(10);
+          },
+          isActive: tabsRouter.activeIndex == 10,
+          isExpanded: isExpanded,
+        ),
+        RootContainerSideNavItem(
           title: "Send",
           icon: Icons.outbox,
           onPressed: () {
@@ -73,30 +82,25 @@ class RootContainerSideNavList extends BaseComponent {
           isExpanded: isExpanded,
         ),
         RootContainerSideNavItem(
-          title: "Validator",
-          icon: Icons.check_circle,
-          onPressed: () {
-            tabsRouter.setActiveIndex(4);
-          },
-          isActive: tabsRouter.activeIndex == 4,
-          isExpanded: isExpanded,
-        ),
-        RootContainerSideNavItem(
-          title: "Domains",
-          icon: Icons.link,
-          onPressed: () {
-            tabsRouter.setActiveIndex(10);
-          },
-          isActive: tabsRouter.activeIndex == 10,
-          isExpanded: isExpanded,
-        ),
-        RootContainerSideNavItem(
-          title: "Tokenize Bitcoin",
+          title: "Tokenize BTC",
           icon: FontAwesomeIcons.bitcoin,
           onPressed: () {
             tabsRouter.setActiveIndex(15);
           },
           isActive: tabsRouter.activeIndex == 15,
+          isExpanded: isExpanded,
+        ),
+        RootContainerSideNavItem(
+          title: "Fungible Tokens",
+          icon: Icons.toll,
+          onPressed: () {
+            if (tabsRouter.activeIndex == 13) {
+              tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
+            } else {
+              tabsRouter.setActiveIndex(13);
+            }
+          },
+          isActive: tabsRouter.activeIndex == 13,
           isExpanded: isExpanded,
         ),
         RootContainerSideNavItem(
@@ -114,20 +118,7 @@ class RootContainerSideNavList extends BaseComponent {
           isExpanded: isExpanded,
         ),
         RootContainerSideNavItem(
-          title: "Fungible Tokens",
-          icon: Icons.toll,
-          onPressed: () {
-            if (tabsRouter.activeIndex == 13) {
-              tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
-            } else {
-              tabsRouter.setActiveIndex(13);
-            }
-          },
-          isActive: tabsRouter.activeIndex == 13,
-          isExpanded: isExpanded,
-        ),
-        RootContainerSideNavItem(
-          title: "NFTs",
+          title: "Manage NFTs",
           icon: Icons.lightbulb_outline,
           onPressed: () {
             if (ref.read(sessionProvider).currentWallet == null) {
@@ -151,6 +142,15 @@ class RootContainerSideNavList extends BaseComponent {
             }
           },
           isActive: tabsRouter.activeIndex == 9,
+          isExpanded: isExpanded,
+        ),
+        RootContainerSideNavItem(
+          title: "Validator",
+          icon: Icons.check_circle,
+          onPressed: () {
+            tabsRouter.setActiveIndex(4);
+          },
+          isActive: tabsRouter.activeIndex == 4,
           isExpanded: isExpanded,
         ),
         RootContainerSideNavItem(
