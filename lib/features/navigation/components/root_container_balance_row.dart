@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/navigation/components/root_container_balance_item.dart';
 import 'package:rbx_wallet/features/navigation/components/root_container_balance_row_conector.dart';
 
 import '../../../core/app_constants.dart';
@@ -51,7 +52,7 @@ class RootContainerBalanceRow extends BaseComponent {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: RootContainerTopBalanceItem(
+          child: RootContainerBalanceItem(
             forceExpand: forceExpand,
             heading: vfxBalance != null ? "$vfxBalance VFX" : "0.0 VFX",
             headingColor: AppColors.getBlue(),
@@ -119,7 +120,7 @@ class RootContainerBalanceRow extends BaseComponent {
         ),
         RootContainerBalanceRowConnector(),
         Expanded(
-          child: RootContainerTopBalanceItem(
+          child: RootContainerBalanceItem(
             forceExpand: forceExpand,
             heading: "$vBtcBalance vBTC",
             headingColor: AppColors.getWhite(),
@@ -148,7 +149,7 @@ class RootContainerBalanceRow extends BaseComponent {
         ),
         RootContainerBalanceRowConnector(),
         Expanded(
-          child: RootContainerTopBalanceItem(
+          child: RootContainerBalanceItem(
             forceExpand: forceExpand,
             heading: "$btcBalance BTC",
             headingColor: AppColors.getBtc(),
