@@ -21,8 +21,8 @@ import 'components/root_container_rotating_cube.dart';
 import 'components/root_container_side_nav.dart';
 import 'components/root_container_wallet_selector_list.dart';
 
-const TRANSITION_DURATION = Duration(milliseconds: 250);
-const TRANSITION_CURVE = Curves.ease;
+const ROOT_CONTAINER_TRANSITION_DURATION = Duration(milliseconds: 250);
+const ROOT_CONTAINER_TRANSITION_CURVE = Curves.ease;
 const SIDE_NAV_WIDTH_EXPANDED = 180.0;
 const SIDE_NAV_WIDTH_CONTRACTED = 50.0;
 
@@ -84,6 +84,8 @@ class _LayoutState extends State<_Layout> {
   bool walletSelectorIsHovering = false;
   bool walletSelectorIsExpanded = false;
 
+  bool isHoveringTopBalance = false;
+
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
@@ -109,9 +111,9 @@ class _LayoutState extends State<_Layout> {
             child: Padding(
               padding: const EdgeInsets.only(top: 56.0),
               child: AnimatedContainer(
-                duration: TRANSITION_DURATION,
+                duration: ROOT_CONTAINER_TRANSITION_DURATION,
                 width: sideNavExpanded ? SIDE_NAV_WIDTH_EXPANDED : SIDE_NAV_WIDTH_CONTRACTED,
-                curve: TRANSITION_CURVE,
+                curve: ROOT_CONTAINER_TRANSITION_CURVE,
                 child: RootContainerSideNav(
                     isExpanded: sideNavExpanded,
                     onToggleExpanded: () {
@@ -134,7 +136,7 @@ class _LayoutState extends State<_Layout> {
                     width: 6,
                   ),
                   AnimatedOpacity(
-                    duration: TRANSITION_DURATION,
+                    duration: ROOT_CONTAINER_TRANSITION_DURATION,
                     opacity: sideNavExpanded ? 1 : 0,
                     child: Text(
                       "Verified",
@@ -151,11 +153,11 @@ class _LayoutState extends State<_Layout> {
                     width: 1,
                   ),
                   AnimatedOpacity(
-                    duration: TRANSITION_DURATION * 2,
+                    duration: ROOT_CONTAINER_TRANSITION_DURATION * 2,
                     opacity: sideNavExpanded ? 1 : 0,
                     child: Consumer(builder: (context, ref, _) {
                       return AnimatedDefaultTextStyle(
-                        duration: TRANSITION_DURATION,
+                        duration: ROOT_CONTAINER_TRANSITION_DURATION,
                         style: TextStyle(
                           color: ref.watch(sessionProvider).btcSelected ? AppColors.getBtc() : AppColors.getBlue(ColorShade.s100),
                           fontSize: 22,
@@ -172,8 +174,8 @@ class _LayoutState extends State<_Layout> {
             ),
           ),
           AnimatedPadding(
-            duration: TRANSITION_DURATION,
-            curve: TRANSITION_CURVE,
+            duration: ROOT_CONTAINER_TRANSITION_DURATION,
+            curve: ROOT_CONTAINER_TRANSITION_CURVE,
             padding: EdgeInsets.only(left: sideNavExpanded ? SIDE_NAV_WIDTH_EXPANDED : SIDE_NAV_WIDTH_CONTRACTED),
             child: Stack(
               children: [
@@ -200,7 +202,18 @@ class _LayoutState extends State<_Layout> {
                   alignment: Alignment.topLeft,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: RootContainerBalanceRow(),
+                    child: MouseRegion(
+                        onHover: (_) {
+                          setState(() {
+                            isHoveringTopBalance = true;
+                          });
+                        },
+                        onExit: (_) {
+                          setState(() {
+                            isHoveringTopBalance = false;
+                          });
+                        },
+                        child: RootContainerBalanceRow(isHovering: isHoveringTopBalance)),
                   ),
                 ),
               ],
@@ -216,8 +229,8 @@ class _LayoutState extends State<_Layout> {
               return AnimatedPositioned(
                 left: 0,
                 bottom: walletSelectorIsExpanded ? 0 : -expandedHeight,
-                duration: TRANSITION_DURATION,
-                curve: TRANSITION_CURVE,
+                duration: ROOT_CONTAINER_TRANSITION_DURATION,
+                curve: ROOT_CONTAINER_TRANSITION_CURVE,
                 child: MouseRegion(
                   onHover: (_) {
                     setState(() {
@@ -384,8 +397,8 @@ class _LayoutState extends State<_Layout> {
             return AnimatedPositioned(
               right: 0,
               bottom: latestBlockIsExpanded ? 0 : -320,
-              duration: TRANSITION_DURATION,
-              curve: TRANSITION_CURVE,
+              duration: ROOT_CONTAINER_TRANSITION_DURATION,
+              curve: ROOT_CONTAINER_TRANSITION_CURVE,
               child: MouseRegion(
                 onHover: (_) {
                   setState(() {

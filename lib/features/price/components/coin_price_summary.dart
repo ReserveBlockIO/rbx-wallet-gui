@@ -22,10 +22,11 @@ enum CoinPriceSummaryType {
 
 class CoinPriceSummary extends BaseComponent {
   final CoinPriceSummaryType type;
-
+  final List<Widget> actions;
   const CoinPriceSummary({
     super.key,
     required this.type,
+    required this.actions,
   });
 
   @override
@@ -45,6 +46,7 @@ class CoinPriceSummary extends BaseComponent {
             return _CoinPriceSummaryContent(
               type: type,
               data: priceData,
+              actions: actions,
             );
           },
           error: (e, _) => Text("Error Loading Data"),
@@ -57,10 +59,12 @@ class CoinPriceSummary extends BaseComponent {
 
 class _CoinPriceSummaryContent extends StatelessWidget {
   final PriceData data;
+  final List<Widget> actions;
   const _CoinPriceSummaryContent({
     super.key,
     required this.type,
     required this.data,
+    required this.actions,
   });
 
   final CoinPriceSummaryType type;
@@ -77,15 +81,15 @@ class _CoinPriceSummaryContent extends StatelessWidget {
     if (isUp) {
       changeIconData = Icons.arrow_drop_up;
       changeColor = AppColors.getSpringGreen();
-      changeTooltip = "Up ${data.percentChange1h}% this hour";
+      changeTooltip = "${data.percentChange1h.toStringAsFixed(2)}% (1h)";
     } else if (isDown) {
       changeIconData = Icons.arrow_drop_down;
-      changeColor = Theme.of(context).colorScheme.danger;
-      changeTooltip = "Down ${data.percentChange1h * -1}% this hour";
+      changeColor = Colors.red.shade700;
+      changeTooltip = "${(-data.percentChange1h).toStringAsFixed(2)}% (1h)";
     } else {
       changeIconData = Icons.refresh;
       changeColor = Theme.of(context).colorScheme.warning;
-      changeTooltip = "No change in past hour";
+      changeTooltip = "0% (1h)";
     }
 
     return SingleChildScrollView(
@@ -97,64 +101,83 @@ class _CoinPriceSummaryContent extends StatelessWidget {
             style: TextStyle(
               fontSize: 28,
               color: type.color,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 2,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.symmetric(vertical: 4),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
                   changeIconData,
                   color: Colors.transparent,
-                  size: 64,
+                  size: 48,
+                ),
+                Opacity(
+                  opacity: 0,
+                  child: Transform.translate(
+                    offset: Offset(-6, 0),
+                    child: Text(
+                      changeTooltip,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: changeColor,
+                        fontWeight: FontWeight.w600,
+                        shadows: [
+                          Shadow(
+                            color: Colors.white24,
+                            blurRadius: 24,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Text(
-                    "${data.usdtPrice.toStringAsFixed(4)} USDT",
+                    "\$${data.usdtPrice.toStringAsFixed(4)}",
                     style: TextStyle(
-                      fontSize: 36,
+                      fontSize: 32,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
-                Tooltip(
-                  message: changeTooltip,
-                  child: Icon(
-                    changeIconData,
-                    color: changeColor,
-                    size: 64,
-                    shadows: [
-                      Shadow(
-                        color: Colors.white38,
-                        blurRadius: 24,
-                      )
-                    ],
+                Icon(
+                  changeIconData,
+                  color: changeColor,
+                  size: 48,
+                  shadows: [
+                    Shadow(
+                      color: Colors.white38,
+                      blurRadius: 32,
+                    )
+                  ],
+                ),
+                Transform.translate(
+                  offset: Offset(-6, 0),
+                  child: Text(
+                    changeTooltip,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: changeColor,
+                      fontWeight: FontWeight.w600,
+                      shadows: [
+                        Shadow(
+                          color: Colors.white24,
+                          blurRadius: 24,
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
           ),
           Wrap(
-            children: [
-              AppVerticalIconButton(
-                onPressed: () {},
-                icon: FontAwesomeIcons.chartLine,
-                label: "View\nChart",
-              ),
-              AppVerticalIconButton(
-                onPressed: () {},
-                icon: FontAwesomeIcons.store,
-                label: "View\nTrades",
-              ),
-              AppVerticalIconButton(
-                onPressed: () {},
-                icon: FontAwesomeIcons.coins,
-                label: "Get\nVFX",
-              ),
-            ],
+            children: actions,
           )
         ],
       ),

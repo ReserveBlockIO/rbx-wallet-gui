@@ -44,8 +44,8 @@ class RootContainerExpander extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 6),
                 child: AnimatedRotation(
-                  duration: TRANSITION_DURATION,
-                  curve: TRANSITION_CURVE,
+                  duration: ROOT_CONTAINER_TRANSITION_DURATION,
+                  curve: ROOT_CONTAINER_TRANSITION_CURVE,
                   turns: isExpanded ? 0.5 : 0,
                   child: Icon(
                     Icons.double_arrow,

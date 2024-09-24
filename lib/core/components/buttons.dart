@@ -367,7 +367,6 @@ class AppButton extends StatelessWidget {
   }
 
   Widget _child(BuildContext context) {
-    print(icon?.fontPackage);
     if (icon != null || processing) {
       return Wrap(
         textDirection: iconTrails ? TextDirection.rtl : TextDirection.ltr,

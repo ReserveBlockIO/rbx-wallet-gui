@@ -16,6 +16,7 @@ import 'package:rbx_wallet/features/btc/providers/btc_balance_provider.dart';
 import 'package:rbx_wallet/features/btc/providers/electrum_connected_provider.dart';
 import 'package:rbx_wallet/features/btc/providers/tokenized_bitcoin_list_provider.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons.dart';
+import 'package:rbx_wallet/features/navigation/constants.dart';
 import 'package:rbx_wallet/features/price/components/coin_price_summary.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
@@ -48,7 +49,7 @@ class NewHomeScreen extends BaseScreen {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     return Padding(
-      padding: const EdgeInsets.all(16.0).copyWith(top: 250),
+      padding: const EdgeInsets.all(16.0).copyWith(top: ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT + 16),
       child: Column(
         children: [
           Expanded(
@@ -57,6 +58,26 @@ class NewHomeScreen extends BaseScreen {
                 Expanded(
                   child: CoinPriceSummary(
                     type: CoinPriceSummaryType.vfx,
+                    actions: [
+                      AppVerticalIconButton(
+                        onPressed: () {},
+                        icon: FontAwesomeIcons.chartLine,
+                        label: "View\nChart",
+                        size: AppVerticalIconButtonSize.sm,
+                      ),
+                      AppVerticalIconButton(
+                        onPressed: () {},
+                        icon: FontAwesomeIcons.store,
+                        label: "View\nTrades",
+                        size: AppVerticalIconButtonSize.sm,
+                      ),
+                      AppVerticalIconButton(
+                        onPressed: () {},
+                        icon: FontAwesomeIcons.coins,
+                        label: "Get\nVFX",
+                        size: AppVerticalIconButtonSize.sm,
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(
@@ -65,6 +86,26 @@ class NewHomeScreen extends BaseScreen {
                 Expanded(
                   child: CoinPriceSummary(
                     type: CoinPriceSummaryType.btc,
+                    actions: [
+                      AppVerticalIconButton(
+                        onPressed: () {},
+                        icon: FontAwesomeIcons.chartLine,
+                        label: "View\nChart",
+                        size: AppVerticalIconButtonSize.sm,
+                      ),
+                      AppVerticalIconButton(
+                        onPressed: () {},
+                        icon: FontAwesomeIcons.store,
+                        label: "View\nTrades",
+                        size: AppVerticalIconButtonSize.sm,
+                      ),
+                      AppVerticalIconButton(
+                        onPressed: () {},
+                        icon: FontAwesomeIcons.coins,
+                        label: "Get\nBTC",
+                        size: AppVerticalIconButtonSize.sm,
+                      ),
+                    ],
                   ),
                 ),
               ],

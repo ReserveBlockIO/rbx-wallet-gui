@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/components.dart';
+import '../constants.dart';
 import '../root_container.dart';
 
 class RootContainerBalanceItem extends StatefulWidget {
@@ -50,9 +51,9 @@ class RootContainerBalanceItemState extends State<RootContainerBalanceItem> {
             mainAxisSize: MainAxisSize.min,
             children: [
               AnimatedContainer(
-                duration: TRANSITION_DURATION,
+                duration: ROOT_CONTAINER_TRANSITION_DURATION,
                 curve: Curves.easeInOut,
-                height: widget.forceExpand || isExpanded ? 240 : 0,
+                height: widget.forceExpand || isExpanded ? ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT : 0,
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(),
                 child: ScrollConfiguration(
@@ -114,6 +115,9 @@ class RootContainerBalanceItemState extends State<RootContainerBalanceItem> {
                                   ),
                             ),
                           ),
+                        ),
+                        SizedBox(
+                          height: 28,
                         ),
                         Wrap(
                           children: widget.actions,

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/navigation/components/root_container_expander.dart';
 import 'package:rbx_wallet/features/navigation/root_container.dart';
 
 import '../../../core/base_component.dart';
@@ -16,15 +17,15 @@ class RootContainerSideNav extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     final tabsRouter = AutoTabsRouter.of(context);
 
-    return Padding(
-      padding: const EdgeInsets.only(left: 2.0),
-      child: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 2.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             AnimatedContainer(
-              duration: TRANSITION_DURATION,
-              curve: TRANSITION_CURVE,
+              duration: ROOT_CONTAINER_TRANSITION_DURATION,
+              curve: ROOT_CONTAINER_TRANSITION_CURVE,
               width: isExpanded ? SIDE_NAV_WIDTH_EXPANDED : SIDE_NAV_WIDTH_CONTRACTED,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
@@ -40,7 +41,7 @@ class RootContainerSideNav extends BaseComponent {
             ),
             Align(
               alignment: Alignment.centerLeft,
-              child: RootContainerSideNav(onToggleExpanded: onToggleExpanded, isExpanded: isExpanded),
+              child: RootContainerExpander(onToggleExpanded: onToggleExpanded, isExpanded: isExpanded),
             )
           ],
         ),

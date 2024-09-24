@@ -25,12 +25,12 @@ class RootContainerSideNavItem extends StatelessWidget {
       child: GestureDetector(
         onTap: onPressed,
         child: AnimatedContainer(
-          duration: TRANSITION_DURATION,
+          duration: ROOT_CONTAINER_TRANSITION_DURATION,
           decoration: BoxDecoration(color: isActive ? AppColors.getBlue() : Colors.white30),
           child: Padding(
             padding: const EdgeInsets.only(left: 2),
             child: AnimatedContainer(
-              duration: TRANSITION_DURATION,
+              duration: ROOT_CONTAINER_TRANSITION_DURATION,
               decoration: BoxDecoration(
                   color: isActive ? AppColors.getGray(ColorShade.s50) : AppColors.getGray(ColorShade.s200),
                   border: Border(
@@ -46,7 +46,7 @@ class RootContainerSideNavItem extends StatelessWidget {
                 child: Row(
                   children: [
                     AnimatedContainer(
-                      duration: TRANSITION_DURATION,
+                      duration: ROOT_CONTAINER_TRANSITION_DURATION,
                       decoration: BoxDecoration(
                         color: AppColors.getIndigo(),
                       ),
@@ -62,7 +62,7 @@ class RootContainerSideNavItem extends StatelessWidget {
                     ),
                     Flexible(
                       child: AnimatedOpacity(
-                        duration: TRANSITION_DURATION,
+                        duration: ROOT_CONTAINER_TRANSITION_DURATION,
                         opacity: isExpanded ? 1 : 0,
                         child: Text(
                           title,
