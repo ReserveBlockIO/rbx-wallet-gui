@@ -113,6 +113,46 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.6"
+  bitsdojo_window:
+    dependency: "direct main"
+    description:
+      name: bitsdojo_window
+      sha256: "69afdbea4273d984ef8064be967f8cdc303a79909879867afecbbf56f5ebc35f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
+  bitsdojo_window_linux:
+    dependency: transitive
+    description:
+      name: bitsdojo_window_linux
+      sha256: "3f0eeb07e1af0c7dca08d684b83a375d690cfc13908028bce2ab4a37eb27dd92"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
+  bitsdojo_window_macos:
+    dependency: transitive
+    description:
+      name: bitsdojo_window_macos
+      sha256: fd2a3068662167bad33ddd2789d1a15c6f6f8d5920bd4f386f5f225385c6a908
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
+  bitsdojo_window_platform_interface:
+    dependency: transitive
+    description:
+      name: bitsdojo_window_platform_interface
+      sha256: "65daa015a0c6dba749bdd35a0f092e7a8ba8b0766aa0480eb3ef808086f6e27c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
+  bitsdojo_window_windows:
+    dependency: transitive
+    description:
+      name: bitsdojo_window_windows
+      sha256: f4157f8c72013f7169ac62cb15f3d0845f021fb4f6e9a68c4793672c67dc00c1
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
   boolean_selector:
     dependency: transitive
     description:

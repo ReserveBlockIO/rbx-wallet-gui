@@ -152,13 +152,14 @@ class AppTheme {
         ),
       ),
       appBarTheme: AppBarTheme(
-          titleTextStyle: TextStyle(
-        fontFamily: "Mukta",
-        fontSize: 20,
-        letterSpacing: 1,
-        fontWeight: FontWeight.w300,
-        color: Colors.white.withOpacity(0.8),
-      )),
+        titleTextStyle: TextStyle(
+          fontFamily: "Mukta",
+          fontSize: 20,
+          letterSpacing: 1,
+          fontWeight: FontWeight.w300,
+          color: Colors.white.withOpacity(0.8),
+        ),
+      ),
       textTheme: _textTheme(true),
       fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : "Mukta",
       colorScheme: ColorScheme.fromSwatch(

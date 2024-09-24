@@ -54,7 +54,6 @@ class RootContainerBalanceRow extends BaseComponent {
 
     return LayoutBuilder(builder: (context, constraints) {
       final availableWidth = constraints.maxWidth;
-      print(availableWidth);
 
       final connector1Left = (availableWidth / 3) - 10;
       final connector2Left = (availableWidth / 3) + (availableWidth / 3) - 5;

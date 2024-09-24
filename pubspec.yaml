@@ -71,6 +71,7 @@ dependencies:
   riverpod_generator: ^2.1.5
   js: ^0.6.5
   candlesticks: ^2.1.0
+  bitsdojo_window: ^0.1.2
 
 
 

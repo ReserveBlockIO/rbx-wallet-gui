@@ -1,7 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/theme/colors.dart';
+import 'package:rbx_wallet/main.dart';
 import 'features/chat/providers/chat_notification_provider.dart';
 import 'features/remote_shop/providers/shop_loading_provider.dart';
 import 'features/transactions/providers/web_transaction_list_provider.dart';
@@ -91,91 +94,152 @@ class AppContainer extends ConsumerWidget {
           );
         }
 
-        return Stack(
-          children: [
-            ContextMenuOverlay(
-              child: widget!,
-            ),
-            const Align(
-              alignment: Alignment.topRight,
-              child: NotificationOverlay(),
-            ),
-            if (ref.watch(globalLoadingProvider))
-              Container(
-                color: Colors.black54,
-                child: Center(
-                  child: Text(
-                    "Loading...",
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+        return Scaffold(
+          body: WindowBorder(
+            width: 1,
+            color: Colors.red,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (!kIsWeb)
+                  GestureDetector(
+                    onTapDown: (_) {
+                      rootAppWindow.startDragging();
+                    },
+                    child: WindowTitleBarBox(
+                      child: Container(
+                        width: double.infinity,
+                        height: 28,
+                        decoration: BoxDecoration(
+                            color: AppColors.getGray(),
+                            border: Border(
+                                bottom: BorderSide(
+                              color: Colors.white.withOpacity(0.05),
+                              width: 1,
+                            ))),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                              padding: const EdgeInsets.only(left: 72.0, top: 4),
+                              child: RichText(
+                                text: TextSpan(
+                                  style: TextStyle(
+                                    fontFamily: "Mukta",
+                                    color: Colors.white70,
+                                    letterSpacing: 0.75,
+                                    height: 1,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: "VFX",
+                                      style: TextStyle(
+                                        color: AppColors.getBlue(ColorShade.s100),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    TextSpan(text: " "),
+                                    TextSpan(text: "Switchblade", style: TextStyle()),
+                                  ],
+                                ),
+                              )),
                         ),
-                  ),
-                ),
-              ),
-            if (ref.watch(shopLoadingProvider) != null)
-              Container(
-                color: Colors.black54,
-                child: Stack(
-                  children: [
-                    Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: 120,
-                            height: 120,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: Colors.black,
-                            ),
-                            child: Center(
-                              child: SizedBox(
-                                width: 100,
-                                height: 100,
-                                child: Image.asset(
-                                  Assets.images.animatedCube.path,
-                                  scale: 1,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          Text(
-                            ref.watch(shopLoadingProvider)!,
-                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                          ),
-                        ],
                       ),
                     ),
-                    Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 72.0),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: () => ref.read(shopLoadingProvider.notifier).complete(),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "[CLOSE]",
-                                  style: Theme.of(context).textTheme.caption,
-                                ),
-                              ),
+                  ),
+                SizedBox(
+                  height: 4,
+                ),
+                Expanded(
+                  child: Stack(
+                    children: [
+                      ContextMenuOverlay(
+                        child: widget!,
+                      ),
+                      const Align(
+                        alignment: Alignment.topRight,
+                        child: NotificationOverlay(),
+                      ),
+                      if (ref.watch(globalLoadingProvider))
+                        Container(
+                          color: Colors.black54,
+                          child: Center(
+                            child: Text(
+                              "Loading...",
+                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                             ),
                           ),
-                        ))
-                  ],
+                        ),
+                      if (ref.watch(shopLoadingProvider) != null)
+                        Container(
+                          color: Colors.black54,
+                          child: Stack(
+                            children: [
+                              Center(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      width: 120,
+                                      height: 120,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(16),
+                                        color: Colors.black,
+                                      ),
+                                      child: Center(
+                                        child: SizedBox(
+                                          width: 100,
+                                          height: 100,
+                                          child: Image.asset(
+                                            Assets.images.animatedCube.path,
+                                            scale: 1,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    Text(
+                                      ref.watch(shopLoadingProvider)!,
+                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 72.0),
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        onTap: () => ref.read(shopLoadingProvider.notifier).complete(),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            "[CLOSE]",
+                                            style: Theme.of(context).textTheme.caption,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ))
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
-              ),
-          ],
+              ],
+            ),
+          ),
         );
       },
       title: 'VFX Wallet',
