@@ -133,7 +133,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         if (address != null && password != null) {
           ReserveAccountService().publish(address: address, password: password).then((success) {
             if (success) {
-              Toast.message("Reserve Account Auto Activation process initiated");
+              Toast.message("Vault Account Auto Activation process initiated");
             }
           });
         }

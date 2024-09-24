@@ -100,7 +100,7 @@ class ReceiveScreen extends BaseScreen {
                             icon: const Icon(Icons.copy),
                             onPressed: () async {
                               if (currentWallet.isReserved && !currentWallet.isNetworkProtected) {
-                                Toast.error("This Reserve Account has not been activated yet.");
+                                Toast.error("This Vault Account has not been activated yet.");
                                 return;
                               }
                               _handleCopyAddress(currentWallet.address);

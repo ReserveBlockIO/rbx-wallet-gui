@@ -24,8 +24,7 @@ import '../../web/components/web_latest_block.dart';
 import '../../web/components/web_wallet_details.dart';
 import '../../payment/payment_utils.dart';
 
-import '../../payment/components/payment_iframe_container.dart'
-    if (dart.library.io) '../../payment/components/payment_iframe_container_mock.dart';
+import '../../payment/components/payment_iframe_container.dart' if (dart.library.io) '../../payment/components/payment_iframe_container_mock.dart';
 
 class WebHomeScreen extends BaseScreen {
   const WebHomeScreen({Key? key})
@@ -61,8 +60,7 @@ class WebHomeScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     return SingleChildScrollView(
       child: ConstrainedBox(
-        constraints:
-            BoxConstraints(minHeight: MediaQuery.of(context).size.height - 60),
+        constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height - 60),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -276,11 +274,10 @@ class _Actions extends BaseComponent {
                   },
                 ),
                 AppButton(
-                  label: "Reserve Account",
+                  label: "Vault Account",
                   icon: Icons.security,
                   onPressed: () {
-                    AutoRouter.of(context)
-                        .push(WebReserveAccountOverviewScreenRoute());
+                    AutoRouter.of(context).push(WebReserveAccountOverviewScreenRoute());
                   },
                 ),
                 AppButton(
@@ -298,8 +295,7 @@ class _Actions extends BaseComponent {
                     onPressed: () async {
                       final confirmed = await ConfirmDialog.show(
                         title: "Logout",
-                        body:
-                            "Are you sure you want to logout of the VFX Web Wallet?",
+                        body: "Are you sure you want to logout of the VFX Web Wallet?",
                         destructive: true,
                         confirmText: "Logout",
                         cancelText: "Cancel",
@@ -327,15 +323,11 @@ class _Actions extends BaseComponent {
 
                     // await btcWebService.listTransactions("tb1qh0nx4epkftfz3gmztkg9qmcyez604q36snzg0n");
 
-                    const senderWif =
-                        "cPQ5kbnuj8YmBoCaFmsPsZENVykN1GGmF18mg6sEZsJPX2np6PRa";
-                    const senderAddress =
-                        "tb1qh0nx4epkftfz3gmztkg9qmcyez604q36snzg0n";
-                    const recipientAddress =
-                        "tb1q4lahda9feljf695q473z4m8m7xhgzv35n6226q";
+                    const senderWif = "cPQ5kbnuj8YmBoCaFmsPsZENVykN1GGmF18mg6sEZsJPX2np6PRa";
+                    const senderAddress = "tb1qh0nx4epkftfz3gmztkg9qmcyez604q36snzg0n";
+                    const recipientAddress = "tb1q4lahda9feljf695q473z4m8m7xhgzv35n6226q";
                     const amount = 0.000002;
-                    await btcWebService.sendTransaction(
-                        senderWif, senderAddress, recipientAddress, amount);
+                    await btcWebService.sendTransaction(senderWif, senderAddress, recipientAddress, amount);
                   },
                 ),
               ],

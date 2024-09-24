@@ -31,7 +31,7 @@ class TokenCreateScreen extends BaseScreen {
     }
     if (currentWallet.isReserved) {
       return Center(
-        child: Text("Reserve Accounts can not mint tokens"),
+        child: Text("Vault Accounts can not mint tokens"),
       );
     }
     return const SingleChildScrollView(

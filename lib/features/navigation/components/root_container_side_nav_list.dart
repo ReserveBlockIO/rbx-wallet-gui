@@ -37,7 +37,7 @@ class RootContainerSideNavList extends BaseComponent {
           isExpanded: isExpanded,
         ),
         RootContainerSideNavItem(
-          title: "Reserve Accounts",
+          title: "Vault Accounts",
           icon: Icons.security,
           onPressed: () {
             tabsRouter.setActiveIndex(14);

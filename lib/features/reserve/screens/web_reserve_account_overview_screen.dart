@@ -35,7 +35,7 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("Your Reserve Account"),
+      title: Text("Your Vault Account"),
       backgroundColor: Colors.black,
       actions: [],
     );
@@ -79,8 +79,7 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
                         leading: IconButton(
                           icon: Icon(Icons.copy),
                           onPressed: () async {
-                            await Clipboard.setData(
-                                ClipboardData(text: keypair.address));
+                            await Clipboard.setData(ClipboardData(text: keypair.address));
                             Toast.message("Address copied to clipboard");
                           },
                         ),
@@ -89,8 +88,7 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
                           onPressed: () async {
                             final confirmed = await ConfirmDialog.show(
                               title: "Reveal Private Key?",
-                              body:
-                                  "Are you sure you want to reveal your private key for your Reserve Account?",
+                              body: "Are you sure you want to reveal your private key for your Vault Account?",
                               confirmText: "Reveal",
                               cancelText: "Cancel",
                             );
@@ -110,9 +108,7 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
                     padding: const EdgeInsets.all(8.0),
                     child: Builder(
                       builder: (context) {
-                        final hasRecovered = ref
-                            .watch(webRaPendingRecoveryProvider)
-                            .contains(keypair.address);
+                        final hasRecovered = ref.watch(webRaPendingRecoveryProvider).contains(keypair.address);
 
                         if (hasRecovered) {
                           return Column(
@@ -120,10 +116,7 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
                             children: [
                               Text(
                                 "Recovery In Progress",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineMedium!
-                                    .copyWith(color: Colors.white),
+                                style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
                               ),
                               SizedBox(
                                 height: 8,
@@ -165,8 +158,7 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
 
                         if (balance == 0) {
                           return Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.02)),
+                            decoration: BoxDecoration(color: Colors.white.withOpacity(0.02)),
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Column(
@@ -174,44 +166,28 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
                                 children: [
                                   Text(
                                     "Awaiting Funds",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600),
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(
                                     height: 8,
                                   ),
-                                  Text(
-                                      "To activate, you must first transfer 5.0 VFX to this address."),
+                                  Text("To activate, you must first transfer 5.0 VFX to this address."),
                                   SizedBox(
                                     height: 16,
                                   ),
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      if ((ref
-                                                      .watch(webSessionProvider)
-                                                      .balance ??
-                                                  0) >
-                                              5 &&
-                                          ref
-                                                  .watch(webSessionProvider)
-                                                  .keypair !=
-                                              null &&
-                                          ref
-                                                  .read(webSessionProvider)
-                                                  .raKeypair !=
-                                              null)
+                                      if ((ref.watch(webSessionProvider).balance ?? 0) > 5 &&
+                                          ref.watch(webSessionProvider).keypair != null &&
+                                          ref.read(webSessionProvider).raKeypair != null)
                                         WebFundRaAccountButton(),
                                       AppButton(
                                         label: "Copy Address",
                                         icon: Icons.copy,
                                         onPressed: () async {
-                                          await Clipboard.setData(ClipboardData(
-                                              text: keypair.address));
-                                          Toast.message(
-                                              "Address copied to clipboard");
+                                          await Clipboard.setData(ClipboardData(text: keypair.address));
+                                          Toast.message("Address copied to clipboard");
                                         },
                                       ),
                                     ],
@@ -276,26 +252,20 @@ class _Top extends BaseComponent {
                           color: Theme.of(context).colorScheme.secondary,
                         )),
                     TextSpan(
-                      text:
-                          "] is a Cold Storage and On-Chain Escrow Feature to keep your VFX Funds and your Digital Assets Safe.\n\n",
+                      text: "] is a Cold Storage and On-Chain Escrow Feature to keep your VFX Funds and your Digital Assets Safe.\n\n",
                     ),
                     TextSpan(
-                      style: TextStyle(
-                          fontSize: 15, fontWeight: FontWeight.normal),
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
                       text:
-                          "This feature is separate from your VFX instant settlement address and enables both recovery and call-back on-chain escrow features that allows you to be able to recover funds and assets back to your Reserve Account in the event of theft, misplacement, or from a recipient that requires trustless escrow within 24 hours of occurrence or within a user pre-set defined time.\n\n",
+                          "This feature is separate from your VFX instant settlement address and enables both recovery and call-back on-chain escrow features that allows you to be able to recover funds and assets back to your Vault Account in the event of theft, misplacement, or from a recipient that requires trustless escrow within 24 hours of occurrence or within a user pre-set defined time.\n\n",
                     ),
                     TextSpan(
-                      text:
-                          "These features are all on-chain and all peers are aware of their current state.\n",
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                      text: "These features are all on-chain and all peers are aware of their current state.\n",
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     TextSpan(
-                      text:
-                          "Note: Activating this feature requires a 5 VFX deposit, 4 of which will be burned upon activation.",
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                      text: "Note: Activating this feature requires a 5 VFX deposit, 4 of which will be burned upon activation.",
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),

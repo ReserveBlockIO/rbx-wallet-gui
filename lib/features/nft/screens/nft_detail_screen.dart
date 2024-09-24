@@ -563,7 +563,7 @@ class NftDetailScreen extends BaseScreen {
                           }
 
                           if (wallet.isReserved) {
-                            Toast.error("Reserve Accounts can not sell NFTs.");
+                            Toast.error("Vault Accounts can not sell NFTs.");
                             return;
                           }
 
@@ -739,12 +739,12 @@ class NftDetailScreen extends BaseScreen {
 
                               if (kIsWeb) {
                                 if (ref.read(webSessionProvider).usingRa) {
-                                  Toast.error("Reserve Accounts cannot burn NFTs");
+                                  Toast.error("Vault Accounts cannot burn NFTs");
                                   return;
                                 }
                               } else {
                                 if (ref.read(sessionProvider).currentWallet?.isReserved == true) {
-                                  Toast.error("Reserve Accounts cannot burn NFTs");
+                                  Toast.error("Vault Accounts cannot burn NFTs");
                                   return;
                                 }
                               }

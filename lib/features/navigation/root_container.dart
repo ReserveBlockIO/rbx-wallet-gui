@@ -127,7 +127,7 @@ class _LayoutState extends State<_Layout> {
           Align(
             alignment: Alignment.topLeft,
             child: Padding(
-              padding: const EdgeInsets.only(left: 5, top: 8),
+              padding: const EdgeInsets.only(left: 5, top: 5),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [

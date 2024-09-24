@@ -68,7 +68,7 @@ class RootContainerBalanceRow extends BaseComponent {
                   heading: vfxBalance != null ? "$vfxBalance VFX" : "0.0 VFX",
                   headingColor: AppColors.getBlue(),
                   accountCount: raWallets.isNotEmpty && vfxWallets.isNotEmpty
-                      ? "${vfxWallets.length} Wallet${vfxWallets.length == 1 ? '' : 's'}   ${raWallets.length} Reserve Account${raWallets.length == 1 ? '' : 's'}"
+                      ? "${vfxWallets.length} Wallet${vfxWallets.length == 1 ? '' : 's'}   ${raWallets.length} Vault Account${raWallets.length == 1 ? '' : 's'}"
                       : "${allVfxWallets.length} Wallet${allVfxWallets.length == 1 ? '' : 's'}",
                   actions: [
                     AppVerticalIconButton(

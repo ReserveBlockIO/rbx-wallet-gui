@@ -81,18 +81,14 @@ class WebMenu extends BaseComponent {
           title: Text(
             "Dashboard",
             style: TextStyle(
-              color: tabsRouter.activeIndex == WebRouteIndex.home
-                  ? activeColor
-                  : color,
+              color: tabsRouter.activeIndex == WebRouteIndex.home ? activeColor : color,
             ),
           ),
           leading: const Icon(Icons.dashboard),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
             if (tabsRouter.activeIndex == WebRouteIndex.home) {
-              tabsRouter
-                  .stackRouterOfIndex(tabsRouter.activeIndex)!
-                  .popUntilRoot();
+              tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
             } else {
               tabsRouter.setActiveIndex(WebRouteIndex.home);
             }
@@ -106,9 +102,7 @@ class WebMenu extends BaseComponent {
           title: Text(
             "Send",
             style: TextStyle(
-              color: tabsRouter.activeIndex == WebRouteIndex.send
-                  ? activeColor
-                  : color,
+              color: tabsRouter.activeIndex == WebRouteIndex.send ? activeColor : color,
             ),
           ),
           leading: const Icon(Icons.outbox),
@@ -124,9 +118,7 @@ class WebMenu extends BaseComponent {
           title: Text(
             "Receive",
             style: TextStyle(
-              color: tabsRouter.activeIndex == WebRouteIndex.recieve
-                  ? activeColor
-                  : color,
+              color: tabsRouter.activeIndex == WebRouteIndex.recieve ? activeColor : color,
             ),
           ),
           leading: const Icon(Icons.move_to_inbox),
@@ -142,18 +134,14 @@ class WebMenu extends BaseComponent {
           title: Text(
             "Transactions",
             style: TextStyle(
-              color: tabsRouter.activeIndex == WebRouteIndex.transactions
-                  ? activeColor
-                  : color,
+              color: tabsRouter.activeIndex == WebRouteIndex.transactions ? activeColor : color,
             ),
           ),
           leading: const Icon(Icons.paid),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
             if (tabsRouter.activeIndex == WebRouteIndex.transactions) {
-              tabsRouter
-                  .stackRouterOfIndex(WebRouteIndex.transactions)!
-                  .popUntilRoot();
+              tabsRouter.stackRouterOfIndex(WebRouteIndex.transactions)!.popUntilRoot();
             } else {
               tabsRouter.setActiveIndex(WebRouteIndex.transactions);
             }
@@ -167,16 +155,14 @@ class WebMenu extends BaseComponent {
           title: Text(
             "VFX Domains",
             style: TextStyle(
-              color: tabsRouter.activeIndex == WebRouteIndex.adnrs
-                  ? activeColor
-                  : color,
+              color: tabsRouter.activeIndex == WebRouteIndex.adnrs ? activeColor : color,
             ),
           ),
           leading: const Icon(Icons.link),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
             if (ref.read(webSessionProvider).usingRa) {
-              Toast.error("Reserve Accounts can not create domains.");
+              Toast.error("Vault Accounts can not create domains.");
               return;
             }
 
@@ -190,18 +176,14 @@ class WebMenu extends BaseComponent {
           title: Text(
             "Smart Contracts",
             style: TextStyle(
-              color: tabsRouter.activeIndex == WebRouteIndex.smartContracts
-                  ? activeColor
-                  : color,
+              color: tabsRouter.activeIndex == WebRouteIndex.smartContracts ? activeColor : color,
             ),
           ),
           leading: const Icon(Icons.receipt_long),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
             if (tabsRouter.activeIndex == WebRouteIndex.smartContracts) {
-              tabsRouter
-                  .stackRouterOfIndex(tabsRouter.activeIndex)!
-                  .popUntilRoot();
+              tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
             } else {
               tabsRouter.setActiveIndex(WebRouteIndex.smartContracts);
             }
@@ -214,18 +196,14 @@ class WebMenu extends BaseComponent {
           title: Text(
             "NFTs",
             style: TextStyle(
-              color: tabsRouter.activeIndex == WebRouteIndex.nfts
-                  ? activeColor
-                  : color,
+              color: tabsRouter.activeIndex == WebRouteIndex.nfts ? activeColor : color,
             ),
           ),
           leading: const Icon(Icons.lightbulb_outline),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
             if (tabsRouter.activeIndex == WebRouteIndex.nfts) {
-              tabsRouter
-                  .stackRouterOfIndex(tabsRouter.activeIndex)!
-                  .popUntilRoot();
+              tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
             } else {
               tabsRouter.setActiveIndex(WebRouteIndex.nfts);
             }
@@ -238,23 +216,19 @@ class WebMenu extends BaseComponent {
           title: Text(
             "P2P Auctions",
             style: TextStyle(
-              color: tabsRouter.activeIndex == WebRouteIndex.shop
-                  ? activeColor
-                  : color,
+              color: tabsRouter.activeIndex == WebRouteIndex.shop ? activeColor : color,
             ),
           ),
           leading: const Icon(Icons.leak_add),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
             if (ref.read(webSessionProvider).usingRa) {
-              Toast.error("Reserve Accounts can not create auction houses.");
+              Toast.error("Vault Accounts can not create auction houses.");
               return;
             }
 
             if (tabsRouter.activeIndex == WebRouteIndex.shop) {
-              tabsRouter
-                  .stackRouterOfIndex(tabsRouter.activeIndex)!
-                  .popUntilRoot();
+              tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
             } else {
               tabsRouter.setActiveIndex(WebRouteIndex.shop);
             }

@@ -108,7 +108,7 @@ Future<dynamic> initTransferNftProcess(
     }
     if (wallet.isReserved) {
       reservePassword = await PromptModal.show(
-        title: "Reserve Account Password",
+        title: "Vault Account Password",
         validator: (_) => null,
         labelText: "Password",
         lines: 1,

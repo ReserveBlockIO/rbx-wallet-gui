@@ -189,7 +189,7 @@ class MainMenu extends BaseComponent {
                     isActive: tabsRouter.activeIndex == 0,
                   ),
                   _NavButton(
-                    title: "Reserve Accounts",
+                    title: "Vault Accounts",
                     icon: Icons.security,
                     onPressed: () {
                       tabsRouter.setActiveIndex(14);

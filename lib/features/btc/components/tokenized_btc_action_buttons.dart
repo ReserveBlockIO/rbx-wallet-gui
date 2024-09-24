@@ -534,7 +534,7 @@ class TokenizedBtcActionButtons extends BaseComponent {
 
                   if (forWithdrawl) {
                     if (isRa) {
-                      Toast.error("Reserve Accounts can not withdrawl. Please transfer vBTC to a standard VFX address");
+                      Toast.error("Vault Accounts can not withdrawl. Please transfer vBTC to a standard VFX address");
                       return;
                     }
                   }
@@ -616,7 +616,7 @@ class TokenizedBtcActionButtons extends BaseComponent {
 
                   final wallets = ref.read(walletListProvider).where((w) => w.isReserved).toList();
                   if (wallets.isEmpty) {
-                    Toast.error("You don't have any Reserve Accounts in this wallet");
+                    Toast.error("You don't have any Vault Accounts in this wallet");
                     return;
                   }
 
@@ -625,7 +625,7 @@ class TokenizedBtcActionButtons extends BaseComponent {
                       builder: (context) {
                         return ModalContainer(
                           children: [
-                            Text("Choose Reserve Account"),
+                            Text("Choose Vault Account"),
                             ...wallets
                                 .map(
                                   (w) => Container(

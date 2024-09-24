@@ -405,7 +405,7 @@ Future<void> showKeys(
                   },
                 ),
               ),
-           
+
             ListTile(
               leading: isMobile ? null : const Icon(Icons.security),
               title: TextFormField(
@@ -463,7 +463,7 @@ Future<void> showRaKeys(
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        title: Text("Reserve Account Details"),
+        title: Text("Vault Account Details"),
         content: ConstrainedBox(
           constraints: BoxConstraints(maxWidth: 700),
           child: Column(
@@ -471,7 +471,7 @@ Future<void> showRaKeys(
             children: [
               const Align(
                 alignment: Alignment.centerLeft,
-                child: Text("Here are your Reserve Account wallet details. Please ensure to back up your private key in a safe place."),
+                child: Text("Here are your Vault Account wallet details. Please ensure to back up your private key in a safe place."),
               ),
 
               ListTile(
@@ -575,7 +575,7 @@ Future<void> showRaKeys(
                     icon: Icons.copy,
                     onPressed: () async {
                       await Clipboard.setData(ClipboardData(text: keypair.backupContents));
-                      Toast.message("Reserve Account Data copied to clipboard");
+                      Toast.message("Vault Account Data copied to clipboard");
                     },
                   ),
                   SizedBox(

@@ -109,7 +109,7 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
-              "Since this is a Reserve Account you'll need to authorize the download.",
+              "Since this is a Vault Account you'll need to authorize the download.",
               style: TextStyle(color: Colors.deepPurple.shade200),
             ),
             const SizedBox(
@@ -119,7 +119,7 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
               label: "Authorize Now",
               onPressed: () async {
                 final password = await PromptModal.show(
-                  title: "Reserve Account Password",
+                  title: "Vault Account Password",
                   validator: (_) => null,
                   labelText: "Password",
                   lines: 1,

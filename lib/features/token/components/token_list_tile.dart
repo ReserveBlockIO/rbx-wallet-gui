@@ -37,8 +37,8 @@ class TokenListTile extends BaseComponent {
 
   void showRaErrorMessage() {
     InfoDialog.show(
-      title: "Not Supported by Reserve Account",
-      body: "Reserve Account owned tokens can not perform this action.",
+      title: "Not Supported by Vault Account",
+      body: "Vault Account owned tokens can not perform this action.",
     );
   }
 

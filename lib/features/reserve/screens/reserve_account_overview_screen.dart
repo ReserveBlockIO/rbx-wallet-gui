@@ -30,14 +30,14 @@ class ReserveAccountOverviewScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("Reserve Accounts"),
+      title: Text("Vault Accounts"),
       backgroundColor: Colors.black,
       leading: BackToHomeButton(),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 16.0),
           child: AppButton(
-            label: "Manage Reserve Accounts",
+            label: "Manage Vault Accounts",
             variant: AppColorVariant.Reserve,
             onPressed: () {
               AutoRouter.of(context).push(const ManageReserveAccountsScreenRoute());
@@ -100,7 +100,7 @@ class ReserveAccountOverviewScreen extends BaseScreen {
                 ),
               ),
               AppButton(
-                label: "Manage Reserve Accounts",
+                label: "Manage Vault Accounts",
                 variant: AppColorVariant.Secondary,
                 onPressed: () {
                   AutoRouter.of(context).push(const ManageReserveAccountsScreenRoute());
@@ -256,7 +256,7 @@ class _Top extends BaseComponent {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AppButton(
-            label: "Restore Reserve Account",
+            label: "Restore Vault Account",
             icon: Icons.refresh,
             type: AppButtonType.Text,
             variant: AppColorVariant.Light,
@@ -297,7 +297,7 @@ class _Top extends BaseComponent {
           color: AppColors.getReserve(),
         ),
         label: Text(
-          "What are Reserve Accounts?",
+          "What are Vault Accounts?",
           style: TextStyle(
             color: AppColors.getReserve(),
             decoration: TextDecoration.underline,
@@ -310,7 +310,7 @@ class _Top extends BaseComponent {
         style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
       ),
       SizedBox(height: 3),
-      if (wallets.isEmpty) Text("No Reserve Accounts")
+      if (wallets.isEmpty) Text("No Vault Accounts")
     ]);
   }
 }
@@ -334,7 +334,7 @@ class _RaInfo extends StatelessWidget {
           ),
           children: [
             TextSpan(
-              text: "Reserve (Protected) Accounts [",
+              text: "Vault Accounts [",
             ),
             TextSpan(
                 text: "xRBX",
@@ -348,7 +348,7 @@ class _RaInfo extends StatelessWidget {
             TextSpan(
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
               text:
-                  "This feature is separate from your VFX instant settlement address and enables both recovery and call-back on-chain escrow features that allows you to be able to recover funds and assets back to your Reserve Account in the event of theft, misplacement, or from a recipient that requires trustless escrow within 24 hours of occurrence or within a user pre-set defined time.\n\n",
+                  "This feature is separate from your VFX instant settlement address and enables both recovery and call-back on-chain escrow features that allows you to be able to recover funds and assets back to your Vault Account in the event of theft, misplacement, or from a recipient that requires trustless escrow within 24 hours of occurrence or within a user pre-set defined time.\n\n",
             ),
             TextSpan(
               text: "These features are all on-chain and all peers are aware of their current state.\n",

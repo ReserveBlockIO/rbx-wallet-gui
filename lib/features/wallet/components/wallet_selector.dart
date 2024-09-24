@@ -209,7 +209,7 @@ class WalletSelector extends BaseComponent {
               //       children: const [
               //         Icon(Icons.security, size: 16),
               //         SizedBox(width: 8),
-              //         Text("Reserve Accounts"),
+              //         Text("Vault Accounts"),
               //       ],
               //     ),
               //     onTap: () async {
@@ -536,7 +536,7 @@ class ReserveAccountDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(
-        "Reserve Account Created",
+        "Vault Account Created",
         style: TextStyle(
           color: Colors.white,
         ),
@@ -589,7 +589,7 @@ class ReserveAccountDetails extends StatelessWidget {
                   variant: AppColorVariant.Success,
                   onPressed: () async {
                     await Clipboard.setData(ClipboardData(text: account.backupContents));
-                    Toast.message("Reserve Account Data copied to clipboard");
+                    Toast.message("Vault Account Data copied to clipboard");
                   },
                 ),
                 AppButton(
@@ -603,21 +603,21 @@ class ReserveAccountDetails extends StatelessWidget {
                       final d = "${date.year}-${date.month}-${date.day}";
                       if (Platform.isMacOS) {
                         await FileSaver.instance
-                            .saveAs(name: "xRBX Reserve Account Backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
+                            .saveAs(name: "xRBX Vault Account Backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
                       } else {
                         final data = await FileSaver.instance
-                            .saveFile(name: "xRBX Reserve Account Backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
+                            .saveFile(name: "xRBX Vault Account Backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
 
                         Toast.message("Saved to $data");
                       }
 
                       // if (Platform.isMacOS) {
-                      //   await FileSaver.instance.saveAs("xRBX Reserve Account Backup-$d", Uint8List.fromList(bytes), 'txt', MimeType.TEXT);
-                      //   Toast.message("Reserve Account Data saved");
+                      //   await FileSaver.instance.saveAs("xRBX Vault Account Backup-$d", Uint8List.fromList(bytes), 'txt', MimeType.TEXT);
+                      //   Toast.message("Vault Account Data saved");
                       // } else {
                       //   final data = await FileSaver.instance
-                      //       .saveFile("xRBX Reserve Account Backup-$d", Uint8List.fromList(bytes), 'txt', mimeType: MimeType.TEXT);
-                      //   Toast.message("Reserve Account Data saved to $data");
+                      //       .saveFile("xRBX Vault Account Backup-$d", Uint8List.fromList(bytes), 'txt', mimeType: MimeType.TEXT);
+                      //   Toast.message("Vault Account Data saved to $data");
                       // }
                     }),
               ],

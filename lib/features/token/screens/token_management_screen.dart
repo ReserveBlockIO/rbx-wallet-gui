@@ -164,8 +164,8 @@ class TokenManagementScreen extends BaseScreen {
 
   void showRaErrorMessage() {
     InfoDialog.show(
-      title: "Not Supported by Reserve Account",
-      body: "Reserve Account owned tokens can not perform this action. Please change hte ownership to a standard VFX wallet to continue.",
+      title: "Not Supported by Vault Account",
+      body: "Vault Account owned tokens can not perform this action. Please change hte ownership to a standard VFX wallet to continue.",
     );
   }
 

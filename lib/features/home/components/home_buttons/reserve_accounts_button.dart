@@ -19,7 +19,7 @@ class ReserveAccountsButton extends BaseComponent {
     final cliStarted = ref.watch(sessionProvider).cliStarted;
 
     return AppButton(
-      label: "Reserve Accounts",
+      label: "Vault Accounts",
       icon: Icons.security,
       onPressed: !cliStarted
           ? null

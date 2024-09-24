@@ -521,7 +521,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
       }
 
       if (currentWallet.isReserved && currentWallet.isNetworkProtected == false) {
-        Toast.error("You must activate your Reserve Account before proceeding.");
+        Toast.error("You must activate your Vault Account before proceeding.");
         return;
       }
 
@@ -588,7 +588,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     if (!kIsWeb && currentWallet != null) {
       if (currentWallet.isReserved) {
         final password = await PromptModal.show(
-          title: "Reserve Account Password",
+          title: "Vault Account Password",
           validator: (_) => null,
           labelText: "Password",
           lines: 1,
