@@ -15,6 +15,7 @@ import '../../encrypt/utils.dart';
 import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
 import '../../wallet/components/manage_wallet_bottom_sheet.dart';
 import '../../wallet/providers/wallet_list_provider.dart';
+import '../../wallet/utils.dart';
 
 class RootContainerWalletSelectorList extends BaseComponent {
   const RootContainerWalletSelectorList({
@@ -46,7 +47,9 @@ class RootContainerWalletSelectorList extends BaseComponent {
               ),
               AppButton(
                 label: "Add Account",
-                onPressed: () {},
+                onPressed: () {
+                  AccountUtils.promptBtcNewOrImport(context, ref);
+                },
                 variant: AppColorVariant.Btc,
                 icon: Icons.add,
               )
@@ -81,75 +84,7 @@ class RootContainerWalletSelectorList extends BaseComponent {
             AppButton(
               label: "Add Account",
               onPressed: () {
-                showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return ModalContainer(
-                        children: [
-                          Card(
-                            color: AppColors.getGray(),
-                            child: ListTile(
-                              title: Text("Import Private Key"),
-                              leading: Icon(Icons.upload),
-                              onTap: () async {
-                                if (!await passwordRequiredGuard(context, ref)) return;
-                                if (!widgetGuardWalletIsNotResyncing(ref)) return;
-
-                                PromptModal.show(
-                                  title: "Import Private Key",
-                                  // titleTrailing: InkWell(
-                                  //   child: const Text(
-                                  //     "Bulk Import",
-                                  //     style: TextStyle(
-                                  //       fontSize: 12,
-                                  //       // decoration: TextDecoration.underline,
-                                  //       color: Colors.white70,
-                                  //     ),
-                                  //   ),
-                                  //   onTap: () {
-                                  //     Navigator.of(rootNavigatorKey.currentContext!).pop();
-
-                                  //     showModalBottomSheet(
-                                  //         context: rootNavigatorKey.currentContext!,
-                                  //         builder: (context) {
-                                  //           return const BulkImportWalletModal();
-                                  //         });
-                                  //   },
-                                  // ),
-                                  validator: (String? value) => formValidatorNotEmpty(value, "Private Key"),
-                                  labelText: "Private Key",
-                                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))],
-                                  lines: 4,
-
-                                  onValidSubmission: (value) async {
-                                    final resync = await ConfirmDialog.show(
-                                      title: "Rescan Blocks?",
-                                      body: "Would you like to rescan the chain to include any transactions relevant to this key?",
-                                      confirmText: "Yes",
-                                      cancelText: "No",
-                                    );
-
-                                    await ref.read(walletListProvider.notifier).import(value, false, resync == true);
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                          Card(
-                            color: AppColors.getGray(),
-                            child: ListTile(
-                              title: Text("Create New Account"),
-                              leading: Icon(Icons.add),
-                              onTap: () async {
-                                if (!await passwordRequiredGuard(context, ref)) return;
-
-                                await ref.read(walletListProvider.notifier).create();
-                              },
-                            ),
-                          )
-                        ],
-                      );
-                    });
+                AccountUtils.promptVfxNewOrImport(context, ref);
               },
               variant: AppColorVariant.Secondary,
               icon: Icons.add,

@@ -371,7 +371,11 @@ class _LayoutState extends State<_Layout> {
                                   AppButton(
                                     label: "Add Account",
                                     onPressed: () {
-                                      AccountUtils.promptVfxNewOrImport(context, ref);
+                                      if (btcSelected) {
+                                        AccountUtils.promptBtcNewOrImport(context, ref);
+                                      } else {
+                                        AccountUtils.promptVfxNewOrImport(context, ref);
+                                      }
                                     },
                                     icon: Icons.add,
                                     variant: btcSelected ? AppColorVariant.Btc : AppColorVariant.Secondary,
