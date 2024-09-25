@@ -60,12 +60,12 @@ class TokenizeBtcForm extends BaseComponent {
             controller: formProvider.tokenNameController,
             decoration: InputDecoration(
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: AppColors.getVbtc()),
+                borderSide: BorderSide(color: AppColors.getWhite()),
               ),
               label: Text(
                 "Token Name (Optional)",
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.vbtc,
+                  color: Colors.white,
                 ),
               ),
               hintText: "vBTC Token",
@@ -75,12 +75,12 @@ class TokenizeBtcForm extends BaseComponent {
             controller: formProvider.tokenDescriptionController,
             decoration: InputDecoration(
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: AppColors.getVbtc()),
+                borderSide: BorderSide(color: AppColors.getWhite()),
               ),
               label: Text(
                 "Token Description (Optional)",
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.vbtc,
+                  color: Colors.white,
                 ),
               ),
               hintText: "vBTC Token",
@@ -95,7 +95,7 @@ class TokenizeBtcForm extends BaseComponent {
             "Token Image (Optional)",
             style: TextStyle(
               fontSize: 16,
-              color: Theme.of(context).colorScheme.vbtc,
+              color: Colors.white,
             ),
           ),
           FileSelector(
@@ -113,7 +113,7 @@ class TokenizeBtcForm extends BaseComponent {
             "Media (Optional)",
             style: TextStyle(
               fontSize: 16,
-              color: Theme.of(context).colorScheme.vbtc,
+              color: Colors.white,
             ),
           ),
           ListView.builder(
@@ -147,7 +147,7 @@ class TokenizeBtcForm extends BaseComponent {
             child: AppButton(
               processing: formState.isProcessing,
               label: "Compile & Mint",
-              variant: AppColorVariant.Vbtc,
+              variant: AppColorVariant.Light,
               onPressed: () async {
                 if (formState.vfxAddress == null) {
                   Toast.error("A VFX address is required");

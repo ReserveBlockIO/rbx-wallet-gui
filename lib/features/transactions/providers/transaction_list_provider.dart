@@ -11,7 +11,7 @@ enum TransactionListType {
   Success,
   Failed,
   Pending,
-  Mined,
+  Validated,
   Reserved,
 }
 
@@ -50,7 +50,7 @@ class TransactionListProvider extends StateNotifier<List<Transaction>> {
       case TransactionListType.Pending:
         transactions = await LocalTransactionService().transactionsPending();
         break;
-      case TransactionListType.Mined:
+      case TransactionListType.Validated:
         transactions = await LocalTransactionService().transactionsMined();
         break;
       case TransactionListType.Reserved:

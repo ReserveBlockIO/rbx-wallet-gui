@@ -73,63 +73,58 @@ class TokenizeBtcListScreen extends BaseScreen {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: AppButton(
-                  label: "Create a Verified BTC Token",
-                  // iconOffset: Offset(0, 3),
-                  variant: AppColorVariant.Vbtc,
-                  icon: FontAwesomeIcons.bitcoin,
-                  onPressed: () async {
-                    Wallet? wallet = ref.read(walletListProvider).firstWhereOrNull((a) => a.balance > MIN_RBX_FOR_SC_ACTION && !a.isReserved);
+              VBtcButton(
+                label: "Create Verified BTC Token",
+                icon: FontAwesomeIcons.bitcoin,
+                onPressed: () async {
+                  Wallet? wallet = ref.read(walletListProvider).firstWhereOrNull((a) => a.balance > MIN_RBX_FOR_SC_ACTION && !a.isReserved);
 
-                    if (wallet == null) {
-                      final confirmContinue = await ConfirmDialog.show(
-                        title: "VFX Address with Balance Required",
-                        body: "A VFX address with a balance is required to proceed. Would you like to set this up now?",
-                        confirmText: "Yes",
-                        cancelText: "No",
-                      );
-                      if (confirmContinue != true) {
-                        return;
-                      }
-
-                      ref.read(vBtcOnboardProvider.notifier).reset();
-
-                      final token = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => TokenizeBtcOnboardingScreen()));
-                      if (token == null) {
-                        return;
-                      }
-
-                      if (token is TokenizedBitcoin) {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => TokenizedBtcDetailScreen(tokenId: token.id),
-                          ),
-                        );
-                        return;
-                      }
-
-                      wallet = ref.read(walletListProvider).firstWhereOrNull((a) => a.balance > MIN_RBX_FOR_SC_ACTION && !a.isReserved);
-
-                      if (wallet == null) {
-                        InfoDialog.show(
-                          title: "VFX Address with Balance Required",
-                          body: "A VFX address with a balance is required to proceed.",
-                        );
-                        return;
-                      }
+                  if (wallet == null) {
+                    final confirmContinue = await ConfirmDialog.show(
+                      title: "VFX Address with Balance Required",
+                      body: "A VFX address with a balance is required to proceed. Would you like to set this up now?",
+                      confirmText: "Yes",
+                      cancelText: "No",
+                    );
+                    if (confirmContinue != true) {
+                      return;
                     }
 
-                    ref.read(tokenizeBtcFormProvider.notifier).setAddress(wallet.address);
+                    ref.read(vBtcOnboardProvider.notifier).reset();
 
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => TokenizeBtcScreen(),
-                      ),
-                    );
-                  },
-                ),
+                    final token = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => TokenizeBtcOnboardingScreen()));
+                    if (token == null) {
+                      return;
+                    }
+
+                    if (token is TokenizedBitcoin) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => TokenizedBtcDetailScreen(tokenId: token.id),
+                        ),
+                      );
+                      return;
+                    }
+
+                    wallet = ref.read(walletListProvider).firstWhereOrNull((a) => a.balance > MIN_RBX_FOR_SC_ACTION && !a.isReserved);
+
+                    if (wallet == null) {
+                      InfoDialog.show(
+                        title: "VFX Address with Balance Required",
+                        body: "A VFX address with a balance is required to proceed.",
+                      );
+                      return;
+                    }
+                  }
+
+                  ref.read(tokenizeBtcFormProvider.notifier).setAddress(wallet.address);
+
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => TokenizeBtcScreen(),
+                    ),
+                  );
+                },
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -171,7 +166,7 @@ class TokenizeBtcListScreen extends BaseScreen {
                             },
                             child: Text(
                               "Close",
-                              style: TextStyle(color: AppColors.getVbtc()),
+                              style: TextStyle(color: Colors.white),
                             ),
                           )
                         ],
@@ -182,12 +177,12 @@ class TokenizeBtcListScreen extends BaseScreen {
                 icon: Icon(
                   Icons.help,
                   size: 16,
-                  color: AppColors.getVbtc(),
+                  color: AppColors.getWhite(),
                 ),
                 label: Text(
                   "What is vBTC?",
                   style: TextStyle(
-                    color: AppColors.getVbtc(),
+                    color: AppColors.getWhite(),
                     decoration: TextDecoration.underline,
                   ),
                 ),

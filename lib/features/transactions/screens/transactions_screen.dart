@@ -83,7 +83,7 @@ class TransactionsScreen extends BaseScreen {
               }
 
               return DefaultTabController(
-                length: 5,
+                length: 6,
                 child: Column(
                   children: [
                     TabBar(
@@ -104,9 +104,9 @@ class TransactionsScreen extends BaseScreen {
                         const Tab(
                           child: const Text("Reserve"),
                         ),
-                        // const Tab(
-                        //   child: const Text("Mined"),
-                        // ),
+                        const Tab(
+                          child: const Text("Validated"),
+                        ),
                       ],
                     ),
                     Expanded(
@@ -119,7 +119,7 @@ class TransactionsScreen extends BaseScreen {
                             TransactionListType.Success,
                             TransactionListType.Failed,
                             TransactionListType.Reserved,
-                            // TransactionListType.Mined,
+                            TransactionListType.Validated,
                           ].map((type) => TransactionList(type: type)).toList(),
                         ),
                       ),
