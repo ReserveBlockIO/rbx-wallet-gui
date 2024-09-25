@@ -212,7 +212,7 @@ class TokenizedBtcDetailScreen extends BaseScreen {
           ),
           Builder(builder: (context) {
             final transactions =
-                ref.watch(btcTransactionListProvider).where((tx) => tx.toAddress == token.btcAddress || tx.fromAddress == token.btcAddress);
+                ref.watch(btcTransactionListProvider).where((tx) => tx.toAddress == token.btcAddress || tx.fromAddress == token.btcAddress).toList();
             return Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -236,10 +236,14 @@ class TokenizedBtcDetailScreen extends BaseScreen {
                   height: 8,
                 ),
                 if (token.btcAddress != null)
-                  ...transactions.map((tx) {
-                    return BtcTransactionListTile(
-                      address: token.btcAddress!,
-                      transaction: tx,
+                  ...transactions.asMap().entries.map((entry) {
+                    final index = entry.key;
+                    final tx = entry.value;
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: index + 1 == transactions.length ? 36 : 12.0),
+                      child: BtcTransactionListTile(
+                        transaction: tx,
+                      ),
                     );
                   }).toList()
               ],

@@ -36,12 +36,15 @@ class TokenCard extends BaseComponent {
           final updatedNft = await NftService().retrieve(nft.id);
 
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (_) => TokenManagementScreen(
-                    tokenAccount,
-                    tokenFeature,
-                    updatedNft?.id ?? nft.id,
-                    updatedNft?.currentOwner ?? nft.currentOwner,
+              builder: (_) => TokenManagementScreenContainer(
+                    address: updatedNft?.currentOwner ?? nft.currentOwner,
+                    nftId: updatedNft?.id ?? nft.id,
+                    tokenAccount: tokenAccount,
+                    tokenFeature: tokenFeature,
+                    ref: ref,
+                    nft: updatedNft ?? nft,
                   )));
+
           return;
         }
       },

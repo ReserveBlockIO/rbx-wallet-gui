@@ -40,7 +40,10 @@ class TransactionList extends BaseComponent {
 
     return ListView.builder(
       itemCount: transactions.length,
-      itemBuilder: (context, index) => TransactionListTile(transactions[index]),
+      itemBuilder: (context, index) => Padding(
+        padding: EdgeInsets.only(bottom: index + 1 == transactions.length ? 36 : 12.0),
+        child: TransactionListTile(transactions[index]),
+      ),
     );
   }
 }
