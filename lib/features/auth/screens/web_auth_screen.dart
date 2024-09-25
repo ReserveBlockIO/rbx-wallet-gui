@@ -139,7 +139,7 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   AppButton(
-                    label: "Create Wallet",
+                    label: "Create account",
                     icon: Icons.add,
                     onPressed: () {
                       // AuthModal.show(
@@ -163,7 +163,7 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                           return AuthTypeModal(
                             handleMneumonic: () async {
                               final success =
-                                  await ConfirmDialog.show(title: 'Mneumonic', body: 'Are you sure you want to create a Mneumonic wallet?');
+                                  await ConfirmDialog.show(title: 'Mneumonic', body: 'Are you sure you want to create a Mneumonic account?');
                               if (success == true) {
                                 await handleCreateWithMnemonic(context, ref);
                                 if (ref.read(webSessionProvider).isAuthenticated) {

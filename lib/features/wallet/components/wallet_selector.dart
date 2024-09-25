@@ -110,7 +110,7 @@ class WalletSelector extends BaseComponent {
                             ? truncatedLabel
                                 ? currentWallet.label
                                 : currentWallet.labelWithoutTruncation
-                            : "VFX/BTC Wallet Addresses",
+                            : "VFX/BTC Account Addresses",
                         style: TextStyle(color: color),
                       ),
                     if (btcSelected)
@@ -119,7 +119,7 @@ class WalletSelector extends BaseComponent {
                             ? truncatedLabel
                                 ? currentBtcAccount.label
                                 : currentBtcAccount.address
-                            : "VFX/BTC Wallet Addresses",
+                            : "VFX/BTC Account Addresses",
                         style: TextStyle(color: btcOrange),
                       ),
                     Icon(
@@ -195,7 +195,7 @@ class WalletSelector extends BaseComponent {
                     children: const [
                       Icon(Icons.add, size: 16),
                       SizedBox(width: 8),
-                      Text("New Wallet"),
+                      Text("New Account"),
                     ],
                   ),
                   onTap: () async {
@@ -318,7 +318,7 @@ class WalletSelector extends BaseComponent {
                       Icon(Icons.add, size: 16, color: btcOrange),
                       SizedBox(width: 8),
                       Text(
-                        "New BTC Wallet",
+                        "New BTC Account",
                         style: TextStyle(color: btcOrange),
                       ),
                     ],
@@ -336,13 +336,13 @@ class WalletSelector extends BaseComponent {
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          title: const Text("BTC Wallet Created"),
+                          title: const Text("BTC Account Created"),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               const Align(
                                 alignment: Alignment.centerLeft,
-                                child: Text("Here are your BTC wallet details. Please ensure to back up your private key in a safe place."),
+                                child: Text("Here are your BTC account details. Please ensure to back up your private key in a safe place."),
                               ),
                               ListTile(
                                 leading: const Icon(Icons.account_balance_wallet),
@@ -406,7 +406,7 @@ class WalletSelector extends BaseComponent {
                     children: const [
                       Icon(Icons.wallet, size: 16),
                       SizedBox(width: 8),
-                      Text("Manage Wallets"),
+                      Text("Manage Accounts"),
                     ],
                   ),
                   onTap: () async {

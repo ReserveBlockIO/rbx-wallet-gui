@@ -47,7 +47,7 @@ class AdjudicatorScreen extends BaseScreen {
     final currentWallet = ref.watch(sessionProvider).currentWallet;
 
     if (currentWallet == null) {
-      return const InvalidWallet(message: "No wallet selected");
+      return const InvalidWallet(message: "No account selected");
     }
 
     // final validator = ref.watch(currentValidatorProvider);

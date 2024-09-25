@@ -113,7 +113,7 @@ class TokenizeBtcFormProvider extends StateNotifier<TokenizeBtcFormState> {
     }
 
     if (state.vfxAddress == null) {
-      Toast.error("A VFX Wallet with a balance is required to proceed.");
+      Toast.error("A VFX account with a balance is required to proceed.");
       return null;
     }
 

@@ -74,7 +74,7 @@ class WebBtcAdnrContent extends BaseComponent {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text(
-                      "Create a BTC Domain as an alias to your wallet's address for receiving funds.",
+                      "Create a BTC Domain as an alias to your account's address for receiving funds.",
                       style: TextStyle(
                         fontSize: 17,
                       ),
@@ -93,7 +93,7 @@ class WebBtcAdnrContent extends BaseComponent {
                       variant: AppColorVariant.Btc,
                       onPressed: () async {
                         if (rbxBalance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
-                          Toast.error("Not enough VFX in your wallet to create a VFX domain. $ADNR_COST RBX required (plus TX fee).");
+                          Toast.error("Not enough VFX in your account to create a VFX domain. $ADNR_COST RBX required (plus TX fee).");
                           return;
                         }
 

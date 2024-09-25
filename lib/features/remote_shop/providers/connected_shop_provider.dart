@@ -135,7 +135,7 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
   Future<void> loadShop(BuildContext context, WidgetRef ref, String url) async {
     final address = ref.read(sessionProvider).currentWallet?.address;
     if (address == null) {
-      Toast.error("No wallet selected");
+      Toast.error("No account selected");
       return;
     }
 

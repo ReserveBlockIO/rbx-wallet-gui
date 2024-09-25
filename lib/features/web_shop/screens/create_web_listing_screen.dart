@@ -61,7 +61,7 @@ class CreateWebListingScreen extends BaseScreen {
 
     if (address == null) {
       return const Center(
-        child: Text("No Wallet"),
+        child: Text("No Account"),
       );
     }
     return Center(

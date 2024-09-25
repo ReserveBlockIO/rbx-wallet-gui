@@ -243,13 +243,13 @@ class AccountUtils {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("BTC Wallet Created"),
+          title: const Text("BTC Account Created"),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               const Align(
                 alignment: Alignment.centerLeft,
-                child: Text("Here are your BTC wallet details. Please ensure to back up your private key in a safe place."),
+                child: Text("Here are your BTC account details. Please ensure to back up your private key in a safe place."),
               ),
               ListTile(
                 leading: const Icon(Icons.account_balance_wallet),

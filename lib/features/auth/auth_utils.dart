@@ -336,7 +336,7 @@ Future<void> showKeys(
           children: [
             Align(
               alignment: Alignment.centerLeft,
-              child: Text("Here are your${isBtc ? ' BTC' : ''} wallet details. Please ensure to back up your private key in a safe place."),
+              child: Text("Here are your${isBtc ? ' BTC' : ''} account details. Please ensure to back up your private key in a safe place."),
             ),
             if (keypair.mneumonic != null)
               ListTile(
@@ -471,7 +471,7 @@ Future<void> showRaKeys(
             children: [
               const Align(
                 alignment: Alignment.centerLeft,
-                child: Text("Here are your Vault Account wallet details. Please ensure to back up your private key in a safe place."),
+                child: Text("Here are your Vault Account details. Please ensure to back up your private key in a safe place."),
               ),
 
               ListTile(

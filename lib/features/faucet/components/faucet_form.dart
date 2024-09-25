@@ -17,7 +17,7 @@ class FaucetForm extends BaseComponent {
     final address = ref.watch(sessionProvider).currentWallet?.address;
     if (address == null) {
       return Center(
-        child: Text("Please choose a VFX wallet to continue"),
+        child: Text("Please choose a VFX account to continue"),
       );
     }
 

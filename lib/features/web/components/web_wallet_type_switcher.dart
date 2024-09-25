@@ -197,7 +197,7 @@ class WebWalletTypeSwitcher extends BaseComponent {
                     SizedBox(width: 6),
                     Expanded(
                       child: Text(
-                        "Add BTC Wallet",
+                        "Add BTC Account",
                         style: TextStyle(color: Color(0xfff7931a), fontSize: fontSize),
                       ),
                     ),
@@ -259,7 +259,7 @@ class WebWalletTypeSwitcher extends BaseComponent {
 
                     ref.watch(webSessionProvider.notifier).updateBtcKeypair(account, true);
 
-                    Toast.message("BTC Wallet Imported");
+                    Toast.message("BTC Account Imported");
                   }
                 },
               ));

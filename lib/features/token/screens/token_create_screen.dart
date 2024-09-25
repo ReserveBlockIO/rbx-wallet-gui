@@ -26,7 +26,7 @@ class TokenCreateScreen extends BaseScreen {
 
     if (currentWallet == null) {
       return Center(
-        child: Text("No Wallet Selected"),
+        child: Text("No account selected"),
       );
     }
     if (currentWallet.isReserved) {

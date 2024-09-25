@@ -22,11 +22,7 @@ class BidListProvider extends StateNotifier<List<Bid>> {
   late final int collectionId;
 
   BidListProvider(this.ref, this.identifier) : super([]) {
-    final parts = identifier
-        .split("_")
-        .map((p) => int.tryParse(p))
-        .where((p) => p != null)
-        .toList();
+    final parts = identifier.split("_").map((p) => int.tryParse(p)).where((p) => p != null).toList();
 
     if (parts.length != 2) {
       print("Invalid identifier $identifier");
@@ -56,9 +52,7 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     final bids = [...myBids];
 
     for (final b in globalBids) {
-      final exists =
-          bids.firstWhereOrNull((bid) => bid.bidSignature == b.bidSignature) !=
-              null;
+      final exists = bids.firstWhereOrNull((bid) => bid.bidSignature == b.bidSignature) != null;
       if (!exists) {
         bids.add(b);
       }
@@ -76,7 +70,7 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     final wallet = ref.read(sessionProvider).currentWallet;
 
     if (wallet == null) {
-      Toast.error("No wallet selected");
+      Toast.error("No account selected");
       return false;
     }
 
@@ -86,8 +80,7 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     }
 
     if (wallet.isValidating) {
-      if (wallet.balance <
-          (amount + MIN_RBX_FOR_SC_ACTION + ASSURED_AMOUNT_TO_VALIDATE)) {
+      if (wallet.balance < (amount + MIN_RBX_FOR_SC_ACTION + ASSURED_AMOUNT_TO_VALIDATE)) {
         Toast.error("Not enough balance since you are validating.");
         return false;
       }
@@ -155,12 +148,11 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     final wallet = ref.read(sessionProvider).currentWallet;
 
     if (wallet == null) {
-      Toast.error("No wallet selected");
+      Toast.error("No account selected");
       return null;
     }
 
-    final minimumBid =
-        listing.auction!.currentBidPrice + listing.auction!.incrementAmount;
+    final minimumBid = listing.auction!.currentBidPrice + listing.auction!.incrementAmount;
 
     final amountStr = await PromptModal.show(
       title: "Place Bid",
@@ -182,13 +174,11 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     }
 
     if (amount <= listing.auction!.currentBidPrice) {
-      Toast.error(
-          "Your bid must be greater than the current highest bid (${listing.auction!.currentBidPrice} VFX)");
+      Toast.error("Your bid must be greater than the current highest bid (${listing.auction!.currentBidPrice} VFX)");
       return null;
     }
 
-    if (amount <=
-        listing.auction!.currentBidPrice + listing.auction!.incrementAmount) {
+    if (amount <= listing.auction!.currentBidPrice + listing.auction!.incrementAmount) {
       Toast.error(
           "The minimum increment amount is ${listing.auction!.incrementAmount} VFX. A bid grater than ${listing.auction!.currentBidPrice + listing.auction!.incrementAmount} VFX is required.");
       return null;
@@ -223,8 +213,7 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     final confirmed = await ConfirmDialog.show(
       context: context,
       title: "Place Bid",
-      body:
-          "Are you sure you want to place a bid of $amount VFX${amount != maxAmount ? ' with a max bid of $maxAmount VFX' : ''}?",
+      body: "Are you sure you want to place a bid of $amount VFX${amount != maxAmount ? ' with a max bid of $maxAmount VFX' : ''}?",
       confirmText: "Place Bid",
       cancelText: "Cancel",
     );
@@ -259,8 +248,6 @@ class BidListProvider extends StateNotifier<List<Bid>> {
   }
 }
 
-final bidListProvider =
-    StateNotifierProvider.family<BidListProvider, List<Bid>, String>(
-        (ref, identifier) {
+final bidListProvider = StateNotifierProvider.family<BidListProvider, List<Bid>, String>((ref, identifier) {
   return BidListProvider(ref, identifier);
 });

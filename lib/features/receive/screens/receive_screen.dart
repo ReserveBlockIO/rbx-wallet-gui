@@ -47,7 +47,7 @@ class ReceiveScreen extends BaseScreen {
     final btcAccount = session.btcSelected ? session.currentBtcAccount : null;
 
     if (currentWallet == null && btcAccount == null) {
-      return const InvalidWallet(message: "No wallet selected");
+      return const InvalidWallet(message: "No account selected");
     }
 
     return Column(
@@ -219,14 +219,14 @@ class ReceiveScreen extends BaseScreen {
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
-                                      title: const Text("BTC Wallet Created"),
+                                      title: const Text("BTC Account Created"),
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           const Align(
                                             alignment: Alignment.centerLeft,
                                             child:
-                                                Text("Here are your BTC wallet details. Please ensure to back up your private key in a safe place."),
+                                                Text("Here are your BTC account details. Please ensure to back up your private key in a safe place."),
                                           ),
                                           ListTile(
                                             leading: const Icon(Icons.account_balance_wallet),
@@ -367,7 +367,7 @@ class ReceiveScreen extends BaseScreen {
               );
             }
 
-            return const InvalidWallet(message: "No wallet selected");
+            return const InvalidWallet(message: "No account selected");
           },
         ),
       ],

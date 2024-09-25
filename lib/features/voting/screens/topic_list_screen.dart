@@ -44,7 +44,7 @@ class TopicListScreen extends BaseScreen {
               variant: AppColorVariant.Light,
               onPressed: () async {
                 if (!currentWalletIsValidating(ref)) {
-                  Toast.error("Your active wallet must be a validator to create a topic.");
+                  Toast.error("Your active account must be a validator to create a topic.");
                   return;
                 }
 

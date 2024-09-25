@@ -69,8 +69,8 @@ class RootContainerBalanceRow extends BaseComponent {
                   heading: vfxBalance != null ? "$vfxBalance VFX" : "0.0 VFX",
                   headingColor: AppColors.getBlue(),
                   accountCount: raWallets.isNotEmpty && vfxWallets.isNotEmpty
-                      ? "${vfxWallets.length} Wallet${vfxWallets.length == 1 ? '' : 's'}   ${raWallets.length} Vault Account${raWallets.length == 1 ? '' : 's'}"
-                      : "${allVfxWallets.length} Wallet${allVfxWallets.length == 1 ? '' : 's'}",
+                      ? "${vfxWallets.length} Account${vfxWallets.length == 1 ? '' : 's'}   ${raWallets.length} Vault Account${raWallets.length == 1 ? '' : 's'}"
+                      : "${allVfxWallets.length} Account${allVfxWallets.length == 1 ? '' : 's'}",
                   actions: [
                     AppVerticalIconButton(
                       onPressed: () {},
@@ -187,7 +187,7 @@ class RootContainerBalanceRow extends BaseComponent {
                   forceExpand: forceExpand,
                   heading: "$btcBalance BTC",
                   headingColor: AppColors.getBtc(),
-                  accountCount: "${btcAccounts.length} Wallet${btcAccounts.length == 1 ? '' : 's'}",
+                  accountCount: "${btcAccounts.length} Account${btcAccounts.length == 1 ? '' : 's'}",
                   actions: [
                     AppVerticalIconButton(
                       onPressed: () {},

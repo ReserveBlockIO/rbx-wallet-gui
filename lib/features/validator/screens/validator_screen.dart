@@ -52,7 +52,7 @@ class ValidatorScreen extends BaseScreen {
     final currentWallet = ref.watch(sessionProvider).currentWallet;
 
     if (currentWallet == null) {
-      return const InvalidWallet(message: "No wallet selected");
+      return const InvalidWallet(message: "No account selected");
     }
 
     // final validator = ref.watch(currentValidatorProvider);
@@ -85,7 +85,7 @@ class ValidatorScreen extends BaseScreen {
               const SizedBox(
                 height: 8,
               ),
-              const Text("You can only validate with one wallet."),
+              const Text("You can only validate with one account."),
             ],
           ),
         );

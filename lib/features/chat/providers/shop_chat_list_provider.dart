@@ -34,7 +34,7 @@ class ShopChatListProvider extends ChatListProviderInterface {
 
     final fromAddress = ref.read(sessionProvider).currentWallet?.address;
     if (fromAddress == null) {
-      Toast.error("No wallet selected");
+      Toast.error("No account selected");
       return;
     }
 

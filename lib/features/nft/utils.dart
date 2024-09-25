@@ -87,7 +87,7 @@ Future<dynamic> initTransferNftProcess(
 
     Wallet? wallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.address == nft.currentOwner);
     if (wallet == null) {
-      Toast.error("No wallet selected");
+      Toast.error("No account selected");
       return;
     }
 

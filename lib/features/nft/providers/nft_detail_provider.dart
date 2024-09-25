@@ -176,7 +176,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     final public = !usingRa ? keyPair?.public : raKeypair?.public;
 
     if (address == null || private == null || public == null) {
-      Toast.error("No wallet");
+      Toast.error("No account");
       return null;
     }
 

@@ -82,7 +82,7 @@ class SmartContractsScreen extends BaseScreen {
                     }
 
                     if (ref.read(sessionProvider).btcSelected) {
-                      Toast.error("Please choose a VFX wallet to begin creating a smart contract.");
+                      Toast.error("Please choose a VFX account to begin creating a smart contract.");
                       return;
                     }
 

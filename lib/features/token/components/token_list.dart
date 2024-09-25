@@ -39,7 +39,7 @@ class TokenList extends BaseComponent {
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 8),
-            Text("You have no fungible tokens with supply in any of your wallets."),
+            Text("You have no fungible tokens with supply in any of your accounts."),
             SizedBox(height: 16),
             AppButton(
               label: "Create Token",

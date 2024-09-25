@@ -62,8 +62,7 @@ class AddBeaconModal extends BaseComponent {
                 width: 240,
                 child: TextFormField(
                   controller: provider.portController,
-                  decoration: const InputDecoration(
-                      label: Text("Port (leave blank for default)")),
+                  decoration: const InputDecoration(label: Text("Port (leave blank for default)")),
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 ),
               ),

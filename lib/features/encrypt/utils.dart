@@ -61,7 +61,7 @@ Future<bool> passwordRequiredGuardV2(
   }
 
   final password = await PromptModal.show(
-    title: "Unlock Wallet",
+    title: "Unlock Account",
     contextOverride: context,
     validator: (value) => formValidatorNotEmpty(value, "Password"),
     labelText: "Password",
@@ -85,7 +85,7 @@ Future<bool> passwordRequiredGuardV2(
 
 Future<bool?> promptForPassword(BuildContext context, WidgetRef ref, [bool forValidating = false]) async {
   final password = await PromptModal.show(
-    title: "Unlock Wallet",
+    title: "Unlock Account",
     contextOverride: context,
     validator: (value) => formValidatorNotEmpty(value, "Password"),
     labelText: "Password",
@@ -101,9 +101,9 @@ Future<bool?> promptForPassword(BuildContext context, WidgetRef ref, [bool forVa
     final success = await ref.read(passwordRequiredProvider.notifier).unlock(password);
     if (success) {
       if (forValidating) {
-        Toast.message("Wallet unlocked.");
+        Toast.message("Account unlocked.");
       } else {
-        Toast.message("Wallet unlocked for 10 minutes.");
+        Toast.message("Account unlocked for 10 minutes.");
       }
       return true;
     }

@@ -70,21 +70,11 @@ class HelpButton extends StatelessWidget {
       visualDensity: mini ? VisualDensity.compact : VisualDensity.standard,
       icon: Icon(
         Icons.help,
-        color: color != null
-            ? color!
-            : Theme.of(context)
-                .colorScheme
-                .secondary
-                .withOpacity(subtle ? 0.7 : 1),
+        color: color != null ? color! : Theme.of(context).colorScheme.secondary.withOpacity(subtle ? 0.7 : 1),
         size: subtle ? 16 : 22,
       ),
       onPressed: () {
-        InfoDialog.show(
-            title: _title,
-            body: _body,
-            closeText: "Close",
-            icon: Icons.help,
-            headerColor: Theme.of(context).colorScheme.secondary);
+        InfoDialog.show(title: _title, body: _body, closeText: "Close", icon: Icons.help, headerColor: Theme.of(context).colorScheme.secondary);
       },
     );
   }
@@ -156,7 +146,7 @@ class HelpButton extends StatelessWidget {
       case HelpType.apiCallUrl:
         return "Api Call Url";
       case HelpType.walletUnlockTime:
-        return "Wallet Unlock Time";
+        return "Account Unlock Time";
       case HelpType.nftTimeout:
         return "Nft Timeout";
       case HelpType.passwordClearTime:
@@ -189,11 +179,11 @@ class HelpButton extends StatelessWidget {
       case HelpType.smartContractName:
         return "Name your smart contract. This field is required and is publicly visible.";
       case HelpType.ownerAddress:
-        return "This should be the wallet address that will be used to compile and mint the smart contract.";
+        return "This should be the account address that will be used to compile and mint the smart contract.";
       case HelpType.description:
         return "Provide a text-based description of your smart contract/NFT. This field is required and will be publicly visible.";
       case HelpType.baselineProperties:
-        return "Fill out the baseline info required by all smart contracts. Choose a name, the minter's name (optional), and the wallet you want to use. Then, give your smart contract/NFT a detailed description.";
+        return "Fill out the baseline info required by all smart contracts. Choose a name, the minter's name (optional), and the account you want to use. Then, give your smart contract/NFT a detailed description.";
       case HelpType.minterName:
         return "This field is optional but will be displayed publicly if set. This can be your name/persona, or just leave it blank.";
       case HelpType.primaryAsset:
@@ -233,7 +223,7 @@ class HelpButton extends StatelessWidget {
       case HelpType.burn:
         return "Burn (destroy) this NFT permanently.";
       case HelpType.transfer:
-        return "Transfer this NFT to another wallet.";
+        return "Transfer this NFT to another account.";
       case HelpType.minting:
         return "This action occurs after you have successfully compiled and minted but requires the transaction to be authenticated by the network which takes approximately 30 seconds for finality as well as your wallet to be synced with the block that includes this transaction.";
       case HelpType.setEvolution:

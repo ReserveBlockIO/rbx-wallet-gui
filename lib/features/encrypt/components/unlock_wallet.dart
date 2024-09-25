@@ -25,12 +25,12 @@ class _UnlockWalletState extends State<UnlockWallet> {
   Future<void> submit() async {
     final success = await widget.ref.read(passwordRequiredProvider.notifier).unlock(password);
     if (success == true) {
-      Toast.message("Wallet unlocked!");
+      Toast.message("Account unlocked!");
       widget.ref.read(startupPasswordRequiredProvider.notifier).set(false);
       widget.ref.read(sessionProvider.notifier).finishSetup(true);
       await widget.ref.read(sessionProvider.notifier).loadWallets();
     } else {
-      Toast.error("Incorrect wallet decryption password");
+      Toast.error("Incorrect account decryption password");
     }
   }
 
@@ -104,7 +104,7 @@ class _UnlockWalletState extends State<UnlockWallet> {
                   child: TextFormField(
                     obscureText: true,
                     decoration: const InputDecoration(
-                      hintText: "Wallet Password",
+                      hintText: "Account Password",
                       border: InputBorder.none,
                       errorBorder: InputBorder.none,
                       focusedBorder: InputBorder.none,

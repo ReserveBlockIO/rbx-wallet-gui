@@ -101,7 +101,7 @@ class WebAdnrScreen extends BaseScreen {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text(
-                      "Create a VFX Domain as an alias to your wallet's address for receiving funds.",
+                      "Create a VFX Domain as an alias to your account's address for receiving funds.",
                       style: TextStyle(
                         fontSize: 17,
                       ),
@@ -120,7 +120,7 @@ class WebAdnrScreen extends BaseScreen {
                       variant: AppColorVariant.Success,
                       onPressed: () async {
                         if (balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
-                          Toast.error("Not enough VFX in this wallet to create a VFX domain. $ADNR_COST RBX required (plus TX fee).");
+                          Toast.error("Not enough VFX in this account to create a VFX domain. $ADNR_COST RBX required (plus TX fee).");
                           return;
                         }
 
@@ -177,7 +177,7 @@ class WebAdnrScreen extends BaseScreen {
                         label: "Transfer",
                         onPressed: () async {
                           if (balance < (ADNR_TRANSFER_COST + MIN_RBX_FOR_SC_ACTION)) {
-                            Toast.error("Not enough VFX in this wallet to create a transaction.");
+                            Toast.error("Not enough VFX in this account to create a transaction.");
                             return;
                           }
 
@@ -247,7 +247,7 @@ class WebAdnrScreen extends BaseScreen {
                         variant: AppColorVariant.Danger,
                         onPressed: () async {
                           if (balance < (ADNR_DELETE_COST + MIN_RBX_FOR_SC_ACTION)) {
-                            Toast.error("Not enough VFX in this wallet to create a transaction.");
+                            Toast.error("Not enough VFX in this account to create a transaction.");
                             return;
                           }
 

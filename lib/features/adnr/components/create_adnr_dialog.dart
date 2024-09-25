@@ -53,14 +53,11 @@ class CreateAdnrDialog extends BaseComponent {
               ),
               TextFormField(
                 controller: controller,
-                validator: (value) =>
-                    formValidatorAlphaNumeric(value, "Domain Name"),
+                validator: (value) => formValidatorAlphaNumeric(value, "Domain Name"),
                 decoration: const InputDecoration(
                   label: Text("Domain Name"),
                 ),
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))
-                ],
+                inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))],
               ),
             ],
           ),
@@ -90,7 +87,7 @@ class CreateAdnrDialog extends BaseComponent {
             if (kIsWeb) {
               final keyPair = ref.read(webSessionProvider).keypair;
               if (keyPair == null) {
-                Toast.error("No wallet");
+                Toast.error("No account");
                 return;
               }
 
@@ -103,13 +100,10 @@ class CreateAdnrDialog extends BaseComponent {
 
               if (!available) {
                 ref.read(globalLoadingProvider.notifier).complete();
-                Toast.error(
-                    "This ${isBtc ? 'BTC' : 'VFX'} Domain already exists");
+                Toast.error("This ${isBtc ? 'BTC' : 'VFX'} Domain already exists");
                 return;
               }
-              final btcAddress = isBtc
-                  ? ref.read(webSessionProvider).btcKeypair?.address
-                  : null;
+              final btcAddress = isBtc ? ref.read(webSessionProvider).btcKeypair?.address : null;
               if (isBtc && btcAddress == null) {
                 Toast.error("No BTC Address Found");
                 return;
@@ -125,11 +119,8 @@ class CreateAdnrDialog extends BaseComponent {
 
               if (isBtc) {
                 // btcMessage = "1711996047";
-                btcMessage = (DateTime.now().millisecondsSinceEpoch / 1000)
-                    .round()
-                    .toString();
-                btcSignature = await BtcWebService().signMessage(
-                    ref.read(webSessionProvider).btcKeypair!.wif, btcMessage);
+                btcMessage = (DateTime.now().millisecondsSinceEpoch / 1000).round().toString();
+                btcSignature = await BtcWebService().signMessage(ref.read(webSessionProvider).btcKeypair!.wif, btcMessage);
                 print("SIGNATURE: $btcSignature");
               }
 
@@ -174,16 +165,12 @@ class CreateAdnrDialog extends BaseComponent {
               }
               ref.read(globalLoadingProvider.notifier).start();
 
-              final tx = await RawService().sendTransaction(
-                  transactionData: txData, execute: true, widgetRef: ref);
+              final tx = await RawService().sendTransaction(transactionData: txData, execute: true, widgetRef: ref);
               ref.read(globalLoadingProvider.notifier).complete();
 
               if (tx != null && tx['Result'] == "Success") {
-                ref
-                    .read(adnrPendingProvider.notifier)
-                    .addId(address, "create", "null");
-                Toast.message(
-                    "${isBtc ? 'BTC' : 'VFX'} Domain Transaction has been broadcasted. See log for hash.");
+                ref.read(adnrPendingProvider.notifier).addId(address, "create", "null");
+                Toast.message("${isBtc ? 'BTC' : 'VFX'} Domain Transaction has been broadcasted. See log for hash.");
                 Navigator.of(context).pop();
 
                 return;
@@ -192,25 +179,20 @@ class CreateAdnrDialog extends BaseComponent {
               Toast.error();
             } else {
               ref.read(globalLoadingProvider.notifier).start();
-              final result =
-                  await AdnrService().createAdnr(address, controller.text);
+              final result = await AdnrService().createAdnr(address, controller.text);
               ref.read(globalLoadingProvider.notifier).complete();
 
               if (result.success) {
-                Toast.message(
-                    "VFX Domain Transaction has been broadcasted. See log for hash.");
+                Toast.message("VFX Domain Transaction has been broadcasted. See log for hash.");
                 if (result.hash != null) {
                   ref.read(logProvider.notifier).append(
                         LogEntry(
-                            message:
-                                "ADNR create transaction broadcasted. Tx Hash: ${result.hash}",
+                            message: "ADNR create transaction broadcasted. Tx Hash: ${result.hash}",
                             textToCopy: result.hash,
                             variant: AppColorVariant.Success),
                       );
 
-                  ref
-                      .read(adnrPendingProvider.notifier)
-                      .addId(address, "create", adnr ?? "null");
+                  ref.read(adnrPendingProvider.notifier).addId(address, "create", adnr ?? "null");
                 }
 
                 Navigator.of(context).pop();

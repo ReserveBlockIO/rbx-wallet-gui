@@ -66,7 +66,7 @@ class DstLandingScreen extends BaseScreen {
                 BigButton(
                   title: "Manage my Auction House",
                   iconData: Icons.house,
-                  body: "Manage your wallet's auction house and trade NFTs.",
+                  body: "Manage your account's auction house and trade NFTs.",
                   onPressed: () async {
                     AutoRouter.of(context).push(MyCollectionsListScreenRoute());
                   },

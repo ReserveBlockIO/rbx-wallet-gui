@@ -107,7 +107,7 @@ class VBtcOnboardState {
   String get stepTitle {
     switch (step) {
       case VBtcOnboardStep.createVfxWallet:
-        return "Create VFX Wallet";
+        return "Create VFX Account";
 
       case VBtcOnboardStep.faucetWithdrawl:
         return "Get VFX";

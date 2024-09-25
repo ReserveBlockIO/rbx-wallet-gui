@@ -197,7 +197,7 @@ class TokenizeBtcListScreen extends BaseScreen {
           child: tokens.isEmpty
               ? Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text("No Tokenized Bitcoin found in wallet."),
+                  child: Text("No Tokenized Bitcoin found in account."),
                 )
               : ListView.builder(
                   itemCount: tokens.length,
