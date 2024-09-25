@@ -27,11 +27,15 @@ class WalletSelector extends BaseComponent {
   final bool truncatedLabel;
   final bool withOptions;
   final bool headerHasCopy;
+  final bool includeRbx;
+  final bool includeBtc;
   const WalletSelector({
     Key? key,
     this.truncatedLabel = true,
     this.withOptions = true,
     this.headerHasCopy = true,
+    this.includeRbx = true,
+    this.includeBtc = true,
   }) : super(key: key);
 
   @override
@@ -424,6 +428,9 @@ class WalletSelector extends BaseComponent {
             }
 
             for (final wallet in allWallets) {
+              if (!includeRbx) {
+                break;
+              }
               final isSelected = currentWallet != null && wallet.address == currentWallet.address;
 
               final color = wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color;
@@ -465,11 +472,14 @@ class WalletSelector extends BaseComponent {
               );
             }
 
-            if (btcAccounts.isNotEmpty) {
+            if (btcAccounts.isNotEmpty && includeBtc) {
               list.add(const PopupMenuDivider());
             }
 
             for (final account in btcAccounts) {
+              if (!includeBtc) {
+                break;
+              }
               final isSelected = currentBtcAccount?.address == account.address;
 
               list.add(

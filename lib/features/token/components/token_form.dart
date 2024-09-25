@@ -272,6 +272,11 @@ class TokenForm extends BaseComponent {
                       return null;
                     }
 
+                    if (model.imageBase64 == null) {
+                      Toast.error("Icon Image Required");
+                      return;
+                    }
+
                     final confirmed = await ConfirmDialog.show(
                       title: "Compile & Mint Token Smart Contract?",
                       body:

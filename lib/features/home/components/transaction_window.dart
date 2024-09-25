@@ -61,7 +61,10 @@ class TransactionWindow extends BaseComponent {
                         itemCount: recentBtcTranscations.length,
                         itemBuilder: (context, index) {
                           final tx = recentBtcTranscations[index];
-                          return BtcTransactionListTile(address: tx.fromAddress, transaction: tx);
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: index + 1 == recentBtcTranscations.length ? 36 : 12.0),
+                            child: BtcTransactionListTile(transaction: tx),
+                          );
                         },
                       ),
               )

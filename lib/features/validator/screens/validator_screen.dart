@@ -3,7 +3,13 @@ import 'dart:math' as math;
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/base_component.dart';
+import 'package:rbx_wallet/utils/formatting.dart';
 import '../../../core/app_constants.dart';
+import '../../../core/theme/colors.dart';
+import '../../../core/theme/components.dart';
+import '../../block/latest_block.dart';
+import '../../block/validated_blocks_provider.dart';
 import '../providers/validating_status_provider.dart';
 import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 
@@ -49,13 +55,13 @@ class ValidatorScreen extends BaseScreen {
       return const InvalidWallet(message: "No account selected");
     }
 
-    final validator = ref.watch(currentValidatorProvider);
+    // final validator = ref.watch(currentValidatorProvider);
 
-    if (validator == null) {
-      return InvalidWallet(
-        message: "${currentWallet.address} is not eligable to be a validator",
-      );
-    }
+    // if (validator == null) {
+    //   return InvalidWallet(
+    //     message: "${currentWallet.address} is not eligable to be a validator",
+    //   );
+    // }
 
     if (!currentWallet.isValidating) {
       final wallets = ref.watch(walletListProvider);
@@ -87,62 +93,107 @@ class ValidatorScreen extends BaseScreen {
 
       final port = Env.validatorPort;
 
+      if (currentWallet.balance < ASSURED_AMOUNT_TO_VALIDATE) {
+        return Center(
+          child: AppCard(
+              padding: 8,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Validating requires ${formatIntWithCommas(ASSURED_AMOUNT_TO_VALIDATE.round())} VFX.",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.warning,
+                      fontSize: 18,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    "Please choose another account:",
+                    style: TextStyle(
+                      height: 1.2,
+                      color: Colors.white,
+                      fontSize: 13,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  WalletSelector(
+                    truncatedLabel: false,
+                    withOptions: false,
+                    includeBtc: false,
+                  ),
+                  SizedBox(width: 380, child: Divider()),
+                  SelectableText(
+                    "Or transfer ${formatIntWithCommas((ASSURED_AMOUNT_TO_VALIDATE - currentWallet.balance).ceil())} VFX to ${currentWallet.address}.",
+                    style: TextStyle(
+                      height: 1.2,
+                      color: Colors.white.withOpacity(.8),
+                      fontSize: 12,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              )),
+        );
+      }
+
       return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text("You must have port $port and port ${Env.validatorSecondaryPort} open to external networks in order to validate."),
-            const SizedBox(
-              height: 40,
-            ),
-            AppButton(
-              label: "Start Validating",
-              icon: Icons.star,
-              variant: AppColorVariant.Success,
-              onPressed: () async {
-                if (!widgetGuardWalletIsSynced(ref)) return;
-                if (!widgetGuardWalletIsNotResyncing(ref)) return;
-                if (!await passwordRequiredGuard(context, ref, true, true)) return;
+        child: AppCard(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                  "You must have port $port and port ${Env.validatorSecondaryPort} open to external networks with a balance of ${formatIntWithCommas(ASSURED_AMOUNT_TO_VALIDATE.round())} VFX in order to validate."),
+              const SizedBox(
+                height: 16,
+              ),
+              AppButton(
+                label: "Start Validating",
+                icon: Icons.star,
+                variant: AppColorVariant.Success,
+                onPressed: () async {
+                  if (!widgetGuardWalletIsSynced(ref)) return;
+                  if (!widgetGuardWalletIsNotResyncing(ref)) return;
+                  if (!await passwordRequiredGuard(context, ref, true, true)) return;
 
-                if (currentWallet.balance < ASSURED_AMOUNT_TO_VALIDATE) {
-                  Toast.error("Balance not currently sufficient to validate. $ASSURED_AMOUNT_TO_VALIDATE VFX required.");
-                  return;
-                }
+                  if (currentWallet.balance < ASSURED_AMOUNT_TO_VALIDATE) {
+                    Toast.error("Balance not currently sufficient to validate. $ASSURED_AMOUNT_TO_VALIDATE VFX required.");
+                    return;
+                  }
 
-                ref.read(globalLoadingProvider.notifier).start();
+                  final res = await BridgeService().turnOnValidator(currentWallet.address);
 
-                final res = await BridgeService().turnOnValidator(currentWallet.address);
+                  if (res != null) {
+                    Toast.message(res);
+                    await ref.read(sessionProvider.notifier).mainLoop(false);
+                    return;
+                  }
 
-                ref.read(globalLoadingProvider.notifier).complete();
+                  PromptModal.show(
+                      title: "Name your validator",
+                      validator: (value) => formValidatorNotEmpty(value, "Validator Name"),
+                      labelText: "Validator Name",
+                      lines: 1,
+                      onValidSubmission: (name) async {
+                        ref.read(globalLoadingProvider.notifier).start();
 
-                if (res != null) {
-                  Toast.message(res);
-                  await ref.read(sessionProvider.notifier).mainLoop(false);
-                  return;
-                }
+                        final success = await ref.read(currentValidatorProvider.notifier).startValidating(name.trim().replaceAll("\n", ""));
+                        ref.read(globalLoadingProvider.notifier).complete();
 
-                PromptModal.show(
-                    title: "Name your validator",
-                    validator: (value) => formValidatorNotEmpty(value, "Validator Name"),
-                    labelText: "Validator Name",
-                    lines: 1,
-                    onValidSubmission: (name) async {
-                      ref.read(globalLoadingProvider.notifier).start();
-
-                      final success = await ref.read(currentValidatorProvider.notifier).startValidating(name.trim().replaceAll("\n", ""));
-                      ref.read(globalLoadingProvider.notifier).complete();
-
-                      if (success) {
-                        Toast.message("$name [${currentWallet.label}] is now validating.");
-                        ref.read(validatingStatusProvider.notifier).check(false);
-                        await ref.read(sessionProvider.notifier).mainLoop(false);
-                      } else {
-                        Toast.error();
-                      }
-                    });
-              },
-            ),
-          ],
+                        if (success) {
+                          Toast.message("$name [${currentWallet.label}] is now validating.");
+                          ref.read(validatingStatusProvider.notifier).check(false);
+                          await ref.read(sessionProvider.notifier).mainLoop(false);
+                        } else {
+                          Toast.error();
+                        }
+                      });
+                },
+              ),
+            ],
+          ),
         ),
       );
     }
@@ -168,87 +219,263 @@ class ValidatorScreen extends BaseScreen {
       );
     }
 
-    return Center(
-        child: Column(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          "${currentWallet.labelWithoutTruncation} is Validating...",
-          style: Theme.of(context).textTheme.headline5,
-        ),
-        FutureBuilder(
-            future: _validatorName(currentWallet.address),
-            builder: (context, AsyncSnapshot<String?> snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data != null) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 6.0),
-                    child: Text("[${snapshot.data!}]"),
-                  );
-                }
-              }
-              return const SizedBox();
-            }),
-        const Padding(
-          padding: EdgeInsets.all(32),
-          child: RotatingGear(),
-        ),
-        AppButton(
-          label: "Stop Validating",
-          variant: AppColorVariant.Danger,
-          onPressed: () async {
-            ref.read(globalLoadingProvider.notifier).start();
+        AppCard(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(8),
+                    child: RotatingGear(
+                      size: 32,
+                      color: AppColors.getBlue(),
+                    ),
+                  ),
+                  Text(
+                    "Validating...",
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: AppColors.getBlue(),
+                      fontWeight: FontWeight.w300,
+                      letterSpacing: 1,
+                    ),
+                  ),
+                ],
+              ),
+              Text(
+                "Address: ${currentWallet.labelWithoutTruncation}",
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.8),
+                  fontSize: 12,
+                ),
+              ),
+              FutureBuilder(
+                future: _validatorName(currentWallet.address),
+                builder: (context, AsyncSnapshot<String?> snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data != null) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 6.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IgnorePointer(
+                              ignoring: true,
+                              child: Opacity(
+                                opacity: 0,
+                                child: IconButton(
+                                  onPressed: null,
+                                  icon: Icon(Icons.edit),
+                                  iconSize: 14,
+                                  color: AppColors.getBlue(ColorShade.s50),
+                                ),
+                              ),
+                            ),
+                            Text(
+                              "[${snapshot.data!}]",
+                              style: TextStyle(
+                                color: AppColors.getBlue(ColorShade.s50),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Tooltip(
+                              message: "Rename Validator",
+                              child: IconButton(
+                                onPressed: () async {
+                                  final name = await PromptModal.show(
+                                    title: "Validator Name",
+                                    validator: (val) => formValidatorNotEmpty(val, "Name"),
+                                    labelText: "New Validator Name",
+                                    lines: 1,
+                                  );
 
-            final success = await ref.read(currentValidatorProvider.notifier).stopValidating();
+                                  if (name != null && name.isNotEmpty) {
+                                    final success = await BridgeService().renameValidator(name.trim().replaceAll("\n", ""));
+                                    if (success) {
+                                      Toast.message("Validator name changed to $name.");
 
-            if (success) {
-              Toast.message("${currentWallet.label} hast stopped validating.");
+                                      final confirmed = await ConfirmDialog.show(
+                                        title: "Restart CLI",
+                                        body: "In order for the name to be reflected,\na restart of the CLI is required.\n\nRestart now?",
+                                        confirmText: "Restart",
+                                        cancelText: "Cancel",
+                                      );
 
-              ref.read(validatingStatusProvider.notifier).check(false);
-              await ref.read(sessionProvider.notifier).mainLoop(false);
-            } else {
-              Toast.error();
-            }
-            ref.read(globalLoadingProvider.notifier).complete();
-          },
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        AppButton(
-            label: "Rename Validator",
-            variant: AppColorVariant.Primary,
-            onPressed: () async {
-              final name = await PromptModal.show(
-                title: "Validator Name",
-                validator: (val) => formValidatorNotEmpty(val, "Name"),
-                labelText: "New Validator Name",
-                lines: 1,
-              );
-
-              if (name != null && name.isNotEmpty) {
-                final success = await BridgeService().renameValidator(name.trim().replaceAll("\n", ""));
-                if (success) {
-                  Toast.message("Validator name changed to $name.");
-
-                  final confirmed = await ConfirmDialog.show(
-                    title: "Restart CLI",
-                    body: "In order for the name to be reflected,\na restart of the CLI is required.\n\nRestart now?",
-                    confirmText: "Restart",
-                    cancelText: "Cancel",
-                  );
-
-                  if (confirmed == true) {
-                    ref.read(sessionProvider.notifier).restartCli();
-                    Toast.message("Restarting CLI...");
+                                      if (confirmed == true) {
+                                        ref.read(sessionProvider.notifier).restartCli();
+                                        Toast.message("Restarting CLI...");
+                                      }
+                                    } else {
+                                      Toast.error();
+                                    }
+                                  }
+                                },
+                                icon: Icon(Icons.edit),
+                                iconSize: 14,
+                                color: AppColors.getBlue(ColorShade.s50),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    }
                   }
-                } else {
-                  Toast.error();
-                }
-              }
-            }),
+                  return const SizedBox();
+                },
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              AppButton(
+                label: "Stop Validating",
+                icon: Icons.stop,
+                variant: AppColorVariant.Danger,
+                onPressed: () async {
+                  final confirmed = await ConfirmDialog.show(
+                    title: "Stop Validating",
+                    body: "Are you sure you want to stop validating?",
+                    confirmText: "Stop",
+                    cancelText: "Cancel",
+                    destructive: true,
+                  );
+
+                  if (confirmed != true) {
+                    return;
+                  }
+                  ref.read(globalLoadingProvider.notifier).start();
+
+                  final success = await ref.read(currentValidatorProvider.notifier).stopValidating();
+
+                  if (success) {
+                    Toast.message("${currentWallet.label} has stopped validating.");
+                    ref.read(validatingStatusProvider.notifier).check(false);
+                    await ref.read(sessionProvider.notifier).mainLoop(false);
+                  } else {
+                    Toast.error();
+                  }
+                  ref.read(globalLoadingProvider.notifier).complete();
+                },
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 16,
+        ),
+        Divider(),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: Text(
+            "Blocks Validated (${ref.watch(validatedBlocksProvider).length})",
+            style: TextStyle(
+              fontSize: 13,
+              decoration: TextDecoration.underline,
+            ),
+          ),
+        ),
+        ValidatedBlocksList()
       ],
-    ));
+    );
+  }
+}
+
+class ValidatedBlocksList extends BaseComponent {
+  ValidatedBlocksList({
+    super.key,
+  });
+
+  final scrollController = ScrollController();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final blocks = ref.watch(validatedBlocksProvider);
+    if (blocks.isEmpty) {
+      return Text("No Validated Blocks");
+    }
+    return SizedBox(
+      height: 106,
+      child: Scrollbar(
+        controller: scrollController,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 16.0),
+          child: ListView.builder(
+              controller: scrollController,
+              itemCount: blocks.length,
+              scrollDirection: Axis.horizontal,
+              itemExtent: 106,
+              itemBuilder: (context, index) {
+                final block = blocks[index];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: SizedBox(
+                    width: 90,
+                    height: 90,
+                    child: _BlockPreview(block: block),
+                  ),
+                );
+              }),
+        ),
+      ),
+    );
+  }
+}
+
+class _BlockPreview extends StatelessWidget {
+  const _BlockPreview({
+    super.key,
+    required this.block,
+  });
+
+  final ValidatedBlock block;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: () async {
+          final blockInfo = await BridgeService().blockInfo(block.height, null);
+          if (blockInfo != null) {
+            SpecialDialog<void>().show(
+              context,
+              title: "Block ${block.height}",
+              maxWidth: 300,
+              content: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                child: LatestBlockContent(
+                  latestBlock: blockInfo,
+                ),
+              ),
+            );
+          }
+        },
+        child: AppCard(
+          padding: 8,
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  formatIntWithCommas(block.height),
+                  style: TextStyle(
+                    color: AppColors.getBlue(),
+                  ),
+                ),
+                Text(
+                  block.parseTimeStamp,
+                  style: TextStyle(fontSize: 8, color: Colors.white54),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -269,10 +496,16 @@ class RotatingGearState extends State<RotatingGear> with SingleTickerProviderSta
   late final AnimationController _controller = AnimationController(vsync: this, duration: const Duration(seconds: 4))..repeat();
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 24,
-      height: 24,
+      width: widget.size,
+      height: widget.size,
       child: AnimatedBuilder(
         animation: _controller,
         builder: (_, child) {

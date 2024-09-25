@@ -94,11 +94,6 @@ class TokenFormProvider extends StateNotifier<TokenScFeature> {
       return null;
     }
 
-    if (state.imageBase64 == null) {
-      Toast.error("Icon Image Required");
-      return null;
-    }
-
     final token = state.copyWith(
       name: nameController.text,
       ticker: tickerController.text.toUpperCase(),

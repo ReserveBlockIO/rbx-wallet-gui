@@ -36,7 +36,7 @@ class ManageReserveAccountsScreen extends BaseScreen {
     return AppBar(
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
-      title: Text("Manage Vault Accounts"),
+      title: Text("Manage Reserve Accounts"),
     );
   }
 
@@ -66,7 +66,7 @@ class ManageReserveAccountsScreen extends BaseScreen {
                 height: 6,
               ),
               AppButton(
-                label: "Restore Vault Account",
+                label: "Restore Reserve Account",
                 icon: Icons.refresh,
                 type: AppButtonType.Text,
                 variant: AppColorVariant.Light,
@@ -80,7 +80,7 @@ class ManageReserveAccountsScreen extends BaseScreen {
         Expanded(
           child: accounts.isEmpty
               ? Center(
-                  child: Text("No Vault Accounts"),
+                  child: Text("No Reserve Accounts"),
                 )
               : ListView.builder(
                   itemCount: accounts.length,
@@ -346,8 +346,14 @@ class ManageReserveAccountsScreen extends BaseScreen {
                                                                           final tokenFeature = TokenScFeature.fromNft(n);
                                                                           if (tokenAccount != null && tokenFeature != null) {
                                                                             Navigator.of(context).push(MaterialPageRoute(
-                                                                                builder: (_) => TokenManagementScreen(
-                                                                                    tokenAccount, tokenFeature, nft.id, ra.address)));
+                                                                                builder: (_) => TokenManagementScreenContainer(
+                                                                                      address: ra.address,
+                                                                                      nftId: nft.id,
+                                                                                      tokenAccount: tokenAccount,
+                                                                                      tokenFeature: tokenFeature,
+                                                                                      ref: ref,
+                                                                                      nft: nft,
+                                                                                    )));
                                                                             return;
                                                                           }
                                                                           // }

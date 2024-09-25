@@ -13,66 +13,113 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i54;
 import 'package:auto_route/empty_router_widgets.dart' as _i12;
+import 'package:flutter/foundation.dart' as _i56;
 import 'package:flutter/material.dart' as _i55;
-import 'package:rbx_wallet/features/adjudicator/adjudicator_screen.dart' as _i18;
+import 'package:rbx_wallet/features/adjudicator/adjudicator_screen.dart'
+    as _i18;
 import 'package:rbx_wallet/features/adnr/screens/adnr_screen.dart' as _i33;
-import 'package:rbx_wallet/features/beacon/screens/beacon_list_screen.dart' as _i37;
-import 'package:rbx_wallet/features/btc/screens/tokenized_btc_list_screen.dart' as _i40;
-import 'package:rbx_wallet/features/chat/screens/buyer_chat_thread_list_screen.dart' as _i47;
-import 'package:rbx_wallet/features/chat/screens/seller_chat_screen.dart' as _i10;
-import 'package:rbx_wallet/features/chat/screens/seller_chat_thread_list_screen.dart' as _i24;
+import 'package:rbx_wallet/features/beacon/screens/beacon_list_screen.dart'
+    as _i37;
+import 'package:rbx_wallet/features/btc/screens/tokenized_btc_list_screen.dart'
+    as _i40;
+import 'package:rbx_wallet/features/chat/screens/buyer_chat_thread_list_screen.dart'
+    as _i47;
+import 'package:rbx_wallet/features/chat/screens/seller_chat_screen.dart'
+    as _i10;
+import 'package:rbx_wallet/features/chat/screens/seller_chat_thread_list_screen.dart'
+    as _i24;
 import 'package:rbx_wallet/features/chat/screens/shop_chat_screen.dart' as _i11;
-import 'package:rbx_wallet/features/chat/screens/web_seller_chat_screen.dart' as _i25;
-import 'package:rbx_wallet/features/chat/screens/web_shop_chat_screen.dart' as _i51;
-import 'package:rbx_wallet/features/config/screens/config_container_screen.dart' as _i6;
-import 'package:rbx_wallet/features/datanode/screens/datanode_screen.dart' as _i20;
-import 'package:rbx_wallet/features/dst/screens/create_collection_container_screen.dart' as _i28;
-import 'package:rbx_wallet/features/dst/screens/create_dec_shop_container_screen.dart' as _i29;
-import 'package:rbx_wallet/features/dst/screens/create_listing_container_screen.dart' as _i32;
-import 'package:rbx_wallet/features/dst/screens/dst_landing_screen.dart' as _i23;
-import 'package:rbx_wallet/features/dst/screens/listing_auction_detail_screen.dart' as _i31;
-import 'package:rbx_wallet/features/dst/screens/listing_detail_screen.dart' as _i30;
-import 'package:rbx_wallet/features/dst/screens/my_collection_detail_screen.dart' as _i27;
-import 'package:rbx_wallet/features/dst/screens/my_collection_list_screen.dart' as _i26;
+import 'package:rbx_wallet/features/chat/screens/web_seller_chat_screen.dart'
+    as _i25;
+import 'package:rbx_wallet/features/chat/screens/web_shop_chat_screen.dart'
+    as _i51;
+import 'package:rbx_wallet/features/config/screens/config_container_screen.dart'
+    as _i6;
+import 'package:rbx_wallet/features/datanode/screens/datanode_screen.dart'
+    as _i20;
+import 'package:rbx_wallet/features/dst/screens/create_collection_container_screen.dart'
+    as _i28;
+import 'package:rbx_wallet/features/dst/screens/create_dec_shop_container_screen.dart'
+    as _i29;
+import 'package:rbx_wallet/features/dst/screens/create_listing_container_screen.dart'
+    as _i32;
+import 'package:rbx_wallet/features/dst/screens/dst_landing_screen.dart'
+    as _i23;
+import 'package:rbx_wallet/features/dst/screens/listing_auction_detail_screen.dart'
+    as _i31;
+import 'package:rbx_wallet/features/dst/screens/listing_detail_screen.dart'
+    as _i30;
+import 'package:rbx_wallet/features/dst/screens/my_collection_detail_screen.dart'
+    as _i27;
+import 'package:rbx_wallet/features/dst/screens/my_collection_list_screen.dart'
+    as _i26;
 import 'package:rbx_wallet/features/home/screens/new_home_screen.dart' as _i13;
-import 'package:rbx_wallet/features/mother/screens/mother_dashboard_screen.dart' as _i8;
+import 'package:rbx_wallet/features/mother/screens/mother_dashboard_screen.dart'
+    as _i8;
+import 'package:rbx_wallet/features/navigation/root_container.dart' as _i1;
 import 'package:rbx_wallet/features/nft/screens/nft_list_screen.dart' as _i21;
 import 'package:rbx_wallet/features/node/screens/node_list_screen.dart' as _i19;
-import 'package:rbx_wallet/features/operations/screens/operations_screen.dart' as _i44;
-import 'package:rbx_wallet/features/receive/screens/receive_screen.dart' as _i15;
-import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_collection_screen.dart' as _i49;
-import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_container_screen.dart' as _i9;
-import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_detail_screen.dart' as _i48;
-import 'package:rbx_wallet/features/reserve/screens/manage_reserve_accounts_screen.dart' as _i39;
-import 'package:rbx_wallet/features/reserve/screens/reserve_account_overview_screen.dart' as _i38;
-import 'package:rbx_wallet/features/navigation/root_container.dart' as _i1;
+import 'package:rbx_wallet/features/operations/screens/operations_screen.dart'
+    as _i44;
+import 'package:rbx_wallet/features/receive/screens/receive_screen.dart'
+    as _i15;
+import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_collection_screen.dart'
+    as _i49;
+import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_container_screen.dart'
+    as _i9;
+import 'package:rbx_wallet/features/remote_shop/screens/remote_shop_detail_screen.dart'
+    as _i48;
+import 'package:rbx_wallet/features/reserve/screens/manage_reserve_accounts_screen.dart'
+    as _i39;
+import 'package:rbx_wallet/features/reserve/screens/reserve_account_overview_screen.dart'
+    as _i38;
 import 'package:rbx_wallet/features/send/screens/send_screen.dart' as _i14;
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/smart_contract_creator_main.dart' as _i45;
-import 'package:rbx_wallet/features/smart_contracts/screens/bulk_create_screen.dart' as _i5;
-import 'package:rbx_wallet/features/smart_contracts/screens/my_smart_contracts_screen.dart' as _i2;
-import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_creator_container_screen.dart' as _i7;
-import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_drafts_screen.dart' as _i3;
-import 'package:rbx_wallet/features/smart_contracts/screens/smart_contracts_screen.dart' as _i22;
-import 'package:rbx_wallet/features/smart_contracts/screens/template_chooser_screen.dart' as _i4;
-import 'package:rbx_wallet/features/token/screens/token_create_screen.dart' as _i42;
-import 'package:rbx_wallet/features/token/screens/token_list_screen.dart' as _i41;
-import 'package:rbx_wallet/features/token/screens/token_topic_create_screen.dart' as _i43;
-import 'package:rbx_wallet/features/transactions/screens/transactions_screen.dart' as _i16;
-import 'package:rbx_wallet/features/validator/screens/validator_screen.dart' as _i17;
-import 'package:rbx_wallet/features/voting/screens/create_topic_screen.dart' as _i36;
-import 'package:rbx_wallet/features/voting/screens/topic_detail_screen.dart' as _i35;
-import 'package:rbx_wallet/features/voting/screens/topic_list_screen.dart' as _i34;
-import 'package:rbx_wallet/features/web_shop/screens/web_collection_detail_screen.dart' as _i52;
-import 'package:rbx_wallet/features/web_shop/screens/web_listing_detail_screen.dart' as _i53;
-import 'package:rbx_wallet/features/web_shop/screens/web_shop_detail_screen.dart' as _i50;
-import 'package:rbx_wallet/features/web_shop/screens/web_shop_list_screen.dart' as _i46;
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/smart_contract_creator_main.dart'
+    as _i45;
+import 'package:rbx_wallet/features/smart_contracts/screens/bulk_create_screen.dart'
+    as _i5;
+import 'package:rbx_wallet/features/smart_contracts/screens/my_smart_contracts_screen.dart'
+    as _i2;
+import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_creator_container_screen.dart'
+    as _i7;
+import 'package:rbx_wallet/features/smart_contracts/screens/smart_contract_drafts_screen.dart'
+    as _i3;
+import 'package:rbx_wallet/features/smart_contracts/screens/smart_contracts_screen.dart'
+    as _i22;
+import 'package:rbx_wallet/features/smart_contracts/screens/template_chooser_screen.dart'
+    as _i4;
+import 'package:rbx_wallet/features/token/screens/token_create_screen.dart'
+    as _i42;
+import 'package:rbx_wallet/features/token/screens/token_list_screen.dart'
+    as _i41;
+import 'package:rbx_wallet/features/token/screens/token_topic_create_screen.dart'
+    as _i43;
+import 'package:rbx_wallet/features/transactions/screens/transactions_screen.dart'
+    as _i16;
+import 'package:rbx_wallet/features/validator/screens/validator_screen.dart'
+    as _i17;
+import 'package:rbx_wallet/features/voting/screens/create_topic_screen.dart'
+    as _i36;
+import 'package:rbx_wallet/features/voting/screens/topic_detail_screen.dart'
+    as _i35;
+import 'package:rbx_wallet/features/voting/screens/topic_list_screen.dart'
+    as _i34;
+import 'package:rbx_wallet/features/web_shop/screens/web_collection_detail_screen.dart'
+    as _i52;
+import 'package:rbx_wallet/features/web_shop/screens/web_listing_detail_screen.dart'
+    as _i53;
+import 'package:rbx_wallet/features/web_shop/screens/web_shop_detail_screen.dart'
+    as _i50;
+import 'package:rbx_wallet/features/web_shop/screens/web_shop_list_screen.dart'
+    as _i46;
 
 class AppRouter extends _i54.RootStackRouter {
-  AppRouter([_i55.GlobalKey<_i55.NavigatorState>? navigatorKey]) : super(navigatorKey);
+  AppRouter([_i55.GlobalKey<_i55.NavigatorState>? navigatorKey])
+      : super(navigatorKey);
 
   @override
   final Map<String, _i54.PageFactory> pagesMap = {
-    NewRootContainerRoute.name: (routeData) {
+    RootContainerRoute.name: (routeData) {
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i1.RootContainer(),
@@ -128,7 +175,9 @@ class AppRouter extends _i54.RootStackRouter {
     },
     SellerChatScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<SellerChatScreenRouteArgs>(orElse: () => SellerChatScreenRouteArgs(address: pathParams.getString('address')));
+      final args = routeData.argsAs<SellerChatScreenRouteArgs>(
+          orElse: () => SellerChatScreenRouteArgs(
+              address: pathParams.getString('address')));
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i10.SellerChatScreen(
@@ -139,7 +188,9 @@ class AppRouter extends _i54.RootStackRouter {
     },
     ShopChatScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<ShopChatScreenRouteArgs>(orElse: () => ShopChatScreenRouteArgs(url: pathParams.getString('url')));
+      final args = routeData.argsAs<ShopChatScreenRouteArgs>(
+          orElse: () =>
+              ShopChatScreenRouteArgs(url: pathParams.getString('url')));
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i11.ShopChatScreen(
@@ -257,7 +308,8 @@ class AppRouter extends _i54.RootStackRouter {
       );
     },
     NewHomeScreenRoute.name: (routeData) {
-      final args = routeData.argsAs<NewHomeScreenRouteArgs>(orElse: () => const NewHomeScreenRouteArgs());
+      final args = routeData.argsAs<NewHomeScreenRouteArgs>(
+          orElse: () => const NewHomeScreenRouteArgs());
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i13.NewHomeScreen(
@@ -358,7 +410,8 @@ class AppRouter extends _i54.RootStackRouter {
     MyCollectionDetailScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<MyCollectionDetailScreenRouteArgs>(
-          orElse: () => MyCollectionDetailScreenRouteArgs(collectionId: pathParams.getInt('collectionId')));
+          orElse: () => MyCollectionDetailScreenRouteArgs(
+              collectionId: pathParams.getInt('collectionId')));
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i27.MyCollectionDetailScreen(
@@ -381,8 +434,9 @@ class AppRouter extends _i54.RootStackRouter {
     },
     ListingDetailScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
-      final args =
-          routeData.argsAs<ListingDetailScreenRouteArgs>(orElse: () => ListingDetailScreenRouteArgs(listingId: pathParams.getInt('listingId')));
+      final args = routeData.argsAs<ListingDetailScreenRouteArgs>(
+          orElse: () => ListingDetailScreenRouteArgs(
+              listingId: pathParams.getInt('listingId')));
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i30.ListingDetailScreen(
@@ -394,7 +448,8 @@ class AppRouter extends _i54.RootStackRouter {
     ListingAuctionDetailScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<ListingAuctionDetailScreenRouteArgs>(
-          orElse: () => ListingAuctionDetailScreenRouteArgs(listingId: pathParams.getInt('listingId')));
+          orElse: () => ListingAuctionDetailScreenRouteArgs(
+              listingId: pathParams.getInt('listingId')));
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i31.ListingAuctionDetailScreen(
@@ -406,7 +461,8 @@ class AppRouter extends _i54.RootStackRouter {
     CreateListingContainerScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<CreateListingContainerScreenRouteArgs>(
-          orElse: () => CreateListingContainerScreenRouteArgs(collectionId: pathParams.getInt('collectionId')));
+          orElse: () => CreateListingContainerScreenRouteArgs(
+              collectionId: pathParams.getInt('collectionId')));
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i32.CreateListingContainerScreen(
@@ -429,7 +485,9 @@ class AppRouter extends _i54.RootStackRouter {
     },
     TopicDetailScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<TopicDetailScreenRouteArgs>(orElse: () => TopicDetailScreenRouteArgs(topicUid: pathParams.getString('uid')));
+      final args = routeData.argsAs<TopicDetailScreenRouteArgs>(
+          orElse: () => TopicDetailScreenRouteArgs(
+              topicUid: pathParams.getString('uid')));
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i35.TopicDetailScreen(
@@ -522,8 +580,9 @@ class AppRouter extends _i54.RootStackRouter {
     },
     RemoteShopDetailScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
-      final args =
-          routeData.argsAs<RemoteShopDetailScreenRouteArgs>(orElse: () => RemoteShopDetailScreenRouteArgs(shopUrl: pathParams.getString('url')));
+      final args = routeData.argsAs<RemoteShopDetailScreenRouteArgs>(
+          orElse: () => RemoteShopDetailScreenRouteArgs(
+              shopUrl: pathParams.getString('url')));
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i48.RemoteShopDetailScreen(
@@ -550,7 +609,9 @@ class AppRouter extends _i54.RootStackRouter {
     },
     WebShopDetailScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<WebShopDetailScreenRouteArgs>(orElse: () => WebShopDetailScreenRouteArgs(shopId: pathParams.getInt('shopId')));
+      final args = routeData.argsAs<WebShopDetailScreenRouteArgs>(
+          orElse: () => WebShopDetailScreenRouteArgs(
+              shopId: pathParams.getInt('shopId')));
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i50.WebShopDetailScreen(
@@ -561,8 +622,9 @@ class AppRouter extends _i54.RootStackRouter {
     },
     WebShopChatScreenRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
-      final args =
-          routeData.argsAs<WebShopChatScreenRouteArgs>(orElse: () => WebShopChatScreenRouteArgs(identifier: pathParams.getString('identifier')));
+      final args = routeData.argsAs<WebShopChatScreenRouteArgs>(
+          orElse: () => WebShopChatScreenRouteArgs(
+              identifier: pathParams.getString('identifier')));
       return _i54.AdaptivePage<dynamic>(
         routeData: routeData,
         child: _i51.WebShopChatScreen(
@@ -610,13 +672,13 @@ class AppRouter extends _i54.RootStackRouter {
   @override
   List<_i54.RouteConfig> get routes => [
         _i54.RouteConfig(
-          NewRootContainerRoute.name,
+          RootContainerRoute.name,
           path: '/',
           children: [
             _i54.RouteConfig(
               HomeTabRouter.name,
               path: 'home',
-              parent: NewRootContainerRoute.name,
+              parent: RootContainerRoute.name,
               children: [
                 _i54.RouteConfig(
                   NewHomeScreenRoute.name,
@@ -628,7 +690,7 @@ class AppRouter extends _i54.RootStackRouter {
             _i54.RouteConfig(
               SendTabRouter.name,
               path: 'send',
-              parent: NewRootContainerRoute.name,
+              parent: RootContainerRoute.name,
               children: [
                 _i54.RouteConfig(
                   SendScreenRoute.name,
@@ -640,7 +702,7 @@ class AppRouter extends _i54.RootStackRouter {
             _i54.RouteConfig(
               ReceiveTabRouter.name,
               path: 'receive',
-              parent: NewRootContainerRoute.name,
+              parent: RootContainerRoute.name,
               children: [
                 _i54.RouteConfig(
                   ReceiveScreenRoute.name,
@@ -652,7 +714,7 @@ class AppRouter extends _i54.RootStackRouter {
             _i54.RouteConfig(
               TransactionsTabRouter.name,
               path: 'transactions',
-              parent: NewRootContainerRoute.name,
+              parent: RootContainerRoute.name,
               children: [
                 _i54.RouteConfig(
                   TransactionsScreenRoute.name,
@@ -664,7 +726,7 @@ class AppRouter extends _i54.RootStackRouter {
             _i54.RouteConfig(
               ValidatorTabRouter.name,
               path: 'validator',
-              parent: NewRootContainerRoute.name,
+              parent: RootContainerRoute.name,
               children: [
                 _i54.RouteConfig(
                   ValidatorScreenRoute.name,
@@ -676,7 +738,7 @@ class AppRouter extends _i54.RootStackRouter {
             _i54.RouteConfig(
               AdjudicatorTabRouter.name,
               path: 'adjudicator',
-              parent: NewRootContainerRoute.name,
+              parent: RootContainerRoute.name,
               children: [
                 _i54.RouteConfig(
                   AdjudicatorScreenRoute.name,
@@ -688,7 +750,7 @@ class AppRouter extends _i54.RootStackRouter {
             _i54.RouteConfig(
               NodesTabsRouter.name,
               path: 'nodes',
-              parent: NewRootContainerRoute.name,
+              parent: RootContainerRoute.name,
               children: [
                 _i54.RouteConfig(
                   NodeListScreenRoute.name,
@@ -700,7 +762,7 @@ class AppRouter extends _i54.RootStackRouter {
             _i54.RouteConfig(
               DatanodeTabRouter.name,
               path: 'datanode',
-              parent: NewRootContainerRoute.name,
+              parent: RootContainerRoute.name,
               children: [
                 _i54.RouteConfig(
                   DataNodeScreenRoute.name,
@@ -712,7 +774,7 @@ class AppRouter extends _i54.RootStackRouter {
             _i54.RouteConfig(
               NftTabRouter.name,
               path: 'nft',
-              parent: NewRootContainerRoute.name,
+              parent: RootContainerRoute.name,
               children: [
                 _i54.RouteConfig(
                   NftListScreenRoute.name,
@@ -724,7 +786,7 @@ class AppRouter extends _i54.RootStackRouter {
             _i54.RouteConfig(
               SmartContractsTabRouter.name,
               path: 'smart-contracts',
-              parent: NewRootContainerRoute.name,
+              parent: RootContainerRoute.name,
               children: [
                 _i54.RouteConfig(
                   SmartContractsScreenRoute.name,
@@ -736,7 +798,7 @@ class AppRouter extends _i54.RootStackRouter {
             _i54.RouteConfig(
               DstsTabRouter.name,
               path: 'dsts',
-              parent: NewRootContainerRoute.name,
+              parent: RootContainerRoute.name,
               children: [
                 _i54.RouteConfig(
                   DstLandingScreenRoute.name,
@@ -793,7 +855,7 @@ class AppRouter extends _i54.RootStackRouter {
             _i54.RouteConfig(
               AdnrTabRouter.name,
               path: 'adnr',
-              parent: NewRootContainerRoute.name,
+              parent: RootContainerRoute.name,
               children: [
                 _i54.RouteConfig(
                   AdnrScreenRoute.name,
@@ -805,7 +867,7 @@ class AppRouter extends _i54.RootStackRouter {
             _i54.RouteConfig(
               VotingTabRouter.name,
               path: 'voting',
-              parent: NewRootContainerRoute.name,
+              parent: RootContainerRoute.name,
               children: [
                 _i54.RouteConfig(
                   TopicListScreenRoute.name,
@@ -827,7 +889,7 @@ class AppRouter extends _i54.RootStackRouter {
             _i54.RouteConfig(
               BeaconTabRouter.name,
               path: 'beacons',
-              parent: NewRootContainerRoute.name,
+              parent: RootContainerRoute.name,
               children: [
                 _i54.RouteConfig(
                   BeaconListScreenRoute.name,
@@ -839,7 +901,7 @@ class AppRouter extends _i54.RootStackRouter {
             _i54.RouteConfig(
               ReserveAccountsTabRouter.name,
               path: 'reserve-accounts',
-              parent: NewRootContainerRoute.name,
+              parent: RootContainerRoute.name,
               children: [
                 _i54.RouteConfig(
                   ReserveAccountOverviewScreenRoute.name,
@@ -856,7 +918,7 @@ class AppRouter extends _i54.RootStackRouter {
             _i54.RouteConfig(
               TokenizeBtcTabRouter.name,
               path: 'tokenize-btc',
-              parent: NewRootContainerRoute.name,
+              parent: RootContainerRoute.name,
               children: [
                 _i54.RouteConfig(
                   TokenizeBtcListScreenRoute.name,
@@ -868,7 +930,7 @@ class AppRouter extends _i54.RootStackRouter {
             _i54.RouteConfig(
               TokenTabRouter.name,
               path: 'tokens',
-              parent: NewRootContainerRoute.name,
+              parent: RootContainerRoute.name,
               children: [
                 _i54.RouteConfig(
                   TokenListScreenRoute.name,
@@ -890,7 +952,7 @@ class AppRouter extends _i54.RootStackRouter {
             _i54.RouteConfig(
               OperationsTabRouter.name,
               path: 'operations',
-              parent: NewRootContainerRoute.name,
+              parent: RootContainerRoute.name,
               children: [
                 _i54.RouteConfig(
                   OperationsScreenRoute.name,
@@ -991,7 +1053,8 @@ class AppRouter extends _i54.RootStackRouter {
             ),
             _i54.RouteConfig(
               WebListingDetailScreenRoute.name,
-              path: 'third-party/shop/:shopId/collection/:collectionId/listing/:listingId',
+              path:
+                  'third-party/shop/:shopId/collection/:collectionId/listing/:listingId',
               parent: RemoteShopContainerScreenRoute.name,
             ),
           ],
@@ -1009,15 +1072,15 @@ class AppRouter extends _i54.RootStackRouter {
 
 /// generated route for
 /// [_i1.RootContainer]
-class NewRootContainerRoute extends _i54.PageRouteInfo<void> {
-  const NewRootContainerRoute({List<_i54.PageRouteInfo>? children})
+class RootContainerRoute extends _i54.PageRouteInfo<void> {
+  const RootContainerRoute({List<_i54.PageRouteInfo>? children})
       : super(
-          NewRootContainerRoute.name,
+          RootContainerRoute.name,
           path: '/',
           initialChildren: children,
         );
 
-  static const String name = 'NewRootContainerRoute';
+  static const String name = 'RootContainerRoute';
 }
 
 /// generated route for
@@ -1082,8 +1145,10 @@ class ConfigContainerScreenRoute extends _i54.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i7.SmartContractCreatorContainerScreen]
-class SmartContractCreatorContainerScreenRoute extends _i54.PageRouteInfo<void> {
-  const SmartContractCreatorContainerScreenRoute({List<_i54.PageRouteInfo>? children})
+class SmartContractCreatorContainerScreenRoute
+    extends _i54.PageRouteInfo<void> {
+  const SmartContractCreatorContainerScreenRoute(
+      {List<_i54.PageRouteInfo>? children})
       : super(
           SmartContractCreatorContainerScreenRoute.name,
           path: 'create-smart-contract',
@@ -1120,9 +1185,10 @@ class RemoteShopContainerScreenRoute extends _i54.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i10.SellerChatScreen]
-class SellerChatScreenRoute extends _i54.PageRouteInfo<SellerChatScreenRouteArgs> {
+class SellerChatScreenRoute
+    extends _i54.PageRouteInfo<SellerChatScreenRouteArgs> {
   SellerChatScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required String address,
   }) : super(
           SellerChatScreenRoute.name,
@@ -1143,7 +1209,7 @@ class SellerChatScreenRouteArgs {
     required this.address,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final String address;
 
@@ -1157,7 +1223,7 @@ class SellerChatScreenRouteArgs {
 /// [_i11.ShopChatScreen]
 class ShopChatScreenRoute extends _i54.PageRouteInfo<ShopChatScreenRouteArgs> {
   ShopChatScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required String url,
   }) : super(
           ShopChatScreenRoute.name,
@@ -1178,7 +1244,7 @@ class ShopChatScreenRouteArgs {
     required this.url,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final String url;
 
@@ -1426,7 +1492,7 @@ class OperationsTabRouter extends _i54.PageRouteInfo<void> {
 /// [_i13.NewHomeScreen]
 class NewHomeScreenRoute extends _i54.PageRouteInfo<NewHomeScreenRouteArgs> {
   NewHomeScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     double verticalPadding = 0,
     double horizontalPadding = 0,
   }) : super(
@@ -1449,7 +1515,7 @@ class NewHomeScreenRouteArgs {
     this.horizontalPadding = 0,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final double verticalPadding;
 
@@ -1595,9 +1661,10 @@ class SellerChatThreadListScreenRoute extends _i54.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i25.WebSellerChatScreen]
-class WebSellerChatScreenRoute extends _i54.PageRouteInfo<WebSellerChatScreenRouteArgs> {
+class WebSellerChatScreenRoute
+    extends _i54.PageRouteInfo<WebSellerChatScreenRouteArgs> {
   WebSellerChatScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required String address,
     required int shopId,
   }) : super(
@@ -1624,7 +1691,7 @@ class WebSellerChatScreenRouteArgs {
     required this.shopId,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final String address;
 
@@ -1650,9 +1717,10 @@ class MyCollectionsListScreenRoute extends _i54.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i27.MyCollectionDetailScreen]
-class MyCollectionDetailScreenRoute extends _i54.PageRouteInfo<MyCollectionDetailScreenRouteArgs> {
+class MyCollectionDetailScreenRoute
+    extends _i54.PageRouteInfo<MyCollectionDetailScreenRouteArgs> {
   MyCollectionDetailScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required int collectionId,
   }) : super(
           MyCollectionDetailScreenRoute.name,
@@ -1673,7 +1741,7 @@ class MyCollectionDetailScreenRouteArgs {
     required this.collectionId,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final int collectionId;
 
@@ -1709,9 +1777,10 @@ class CreateDecShopContainerScreenRoute extends _i54.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i30.ListingDetailScreen]
-class ListingDetailScreenRoute extends _i54.PageRouteInfo<ListingDetailScreenRouteArgs> {
+class ListingDetailScreenRoute
+    extends _i54.PageRouteInfo<ListingDetailScreenRouteArgs> {
   ListingDetailScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required int listingId,
   }) : super(
           ListingDetailScreenRoute.name,
@@ -1732,7 +1801,7 @@ class ListingDetailScreenRouteArgs {
     required this.listingId,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final int listingId;
 
@@ -1744,9 +1813,10 @@ class ListingDetailScreenRouteArgs {
 
 /// generated route for
 /// [_i31.ListingAuctionDetailScreen]
-class ListingAuctionDetailScreenRoute extends _i54.PageRouteInfo<ListingAuctionDetailScreenRouteArgs> {
+class ListingAuctionDetailScreenRoute
+    extends _i54.PageRouteInfo<ListingAuctionDetailScreenRouteArgs> {
   ListingAuctionDetailScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required int listingId,
   }) : super(
           ListingAuctionDetailScreenRoute.name,
@@ -1767,7 +1837,7 @@ class ListingAuctionDetailScreenRouteArgs {
     required this.listingId,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final int listingId;
 
@@ -1779,10 +1849,11 @@ class ListingAuctionDetailScreenRouteArgs {
 
 /// generated route for
 /// [_i32.CreateListingContainerScreen]
-class CreateListingContainerScreenRoute extends _i54.PageRouteInfo<CreateListingContainerScreenRouteArgs> {
+class CreateListingContainerScreenRoute
+    extends _i54.PageRouteInfo<CreateListingContainerScreenRouteArgs> {
   CreateListingContainerScreenRoute({
     required int collectionId,
-    _i55.Key? key,
+    _i56.Key? key,
   }) : super(
           CreateListingContainerScreenRoute.name,
           path: 'createListing/:collectionId',
@@ -1804,7 +1875,7 @@ class CreateListingContainerScreenRouteArgs {
 
   final int collectionId;
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   @override
   String toString() {
@@ -1838,9 +1909,10 @@ class TopicListScreenRoute extends _i54.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i35.TopicDetailScreen]
-class TopicDetailScreenRoute extends _i54.PageRouteInfo<TopicDetailScreenRouteArgs> {
+class TopicDetailScreenRoute
+    extends _i54.PageRouteInfo<TopicDetailScreenRouteArgs> {
   TopicDetailScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required String topicUid,
   }) : super(
           TopicDetailScreenRoute.name,
@@ -1861,7 +1933,7 @@ class TopicDetailScreenRouteArgs {
     required this.topicUid,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final String topicUid;
 
@@ -1957,9 +2029,10 @@ class TokenCreateScreenRoute extends _i54.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i43.CreateTokenTopicScreen]
-class CreateTokenTopicScreenRoute extends _i54.PageRouteInfo<CreateTokenTopicScreenRouteArgs> {
+class CreateTokenTopicScreenRoute
+    extends _i54.PageRouteInfo<CreateTokenTopicScreenRouteArgs> {
   CreateTokenTopicScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required String scId,
     required String address,
   }) : super(
@@ -1986,7 +2059,7 @@ class CreateTokenTopicScreenRouteArgs {
     required this.address,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final String scId;
 
@@ -2048,9 +2121,10 @@ class BuyerChatThreadListScreenRoute extends _i54.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i48.RemoteShopDetailScreen]
-class RemoteShopDetailScreenRoute extends _i54.PageRouteInfo<RemoteShopDetailScreenRouteArgs> {
+class RemoteShopDetailScreenRoute
+    extends _i54.PageRouteInfo<RemoteShopDetailScreenRouteArgs> {
   RemoteShopDetailScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required String shopUrl,
   }) : super(
           RemoteShopDetailScreenRoute.name,
@@ -2071,7 +2145,7 @@ class RemoteShopDetailScreenRouteArgs {
     required this.shopUrl,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final String shopUrl;
 
@@ -2083,9 +2157,10 @@ class RemoteShopDetailScreenRouteArgs {
 
 /// generated route for
 /// [_i49.RemoteShopCollectionScreen]
-class RemoteShopCollectionScreenRoute extends _i54.PageRouteInfo<RemoteShopCollectionScreenRouteArgs> {
+class RemoteShopCollectionScreenRoute
+    extends _i54.PageRouteInfo<RemoteShopCollectionScreenRouteArgs> {
   RemoteShopCollectionScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required int collectionId,
     required String url,
   }) : super(
@@ -2112,7 +2187,7 @@ class RemoteShopCollectionScreenRouteArgs {
     required this.url,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final int collectionId;
 
@@ -2126,9 +2201,10 @@ class RemoteShopCollectionScreenRouteArgs {
 
 /// generated route for
 /// [_i50.WebShopDetailScreen]
-class WebShopDetailScreenRoute extends _i54.PageRouteInfo<WebShopDetailScreenRouteArgs> {
+class WebShopDetailScreenRoute
+    extends _i54.PageRouteInfo<WebShopDetailScreenRouteArgs> {
   WebShopDetailScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required int shopId,
   }) : super(
           WebShopDetailScreenRoute.name,
@@ -2149,7 +2225,7 @@ class WebShopDetailScreenRouteArgs {
     required this.shopId,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final int shopId;
 
@@ -2161,9 +2237,10 @@ class WebShopDetailScreenRouteArgs {
 
 /// generated route for
 /// [_i51.WebShopChatScreen]
-class WebShopChatScreenRoute extends _i54.PageRouteInfo<WebShopChatScreenRouteArgs> {
+class WebShopChatScreenRoute
+    extends _i54.PageRouteInfo<WebShopChatScreenRouteArgs> {
   WebShopChatScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required String identifier,
   }) : super(
           WebShopChatScreenRoute.name,
@@ -2184,7 +2261,7 @@ class WebShopChatScreenRouteArgs {
     required this.identifier,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final String identifier;
 
@@ -2196,9 +2273,10 @@ class WebShopChatScreenRouteArgs {
 
 /// generated route for
 /// [_i52.WebCollectionDetailScreen]
-class WebCollectionDetailScreenRoute extends _i54.PageRouteInfo<WebCollectionDetailScreenRouteArgs> {
+class WebCollectionDetailScreenRoute
+    extends _i54.PageRouteInfo<WebCollectionDetailScreenRouteArgs> {
   WebCollectionDetailScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required int shopId,
     required int collectionId,
   }) : super(
@@ -2225,7 +2303,7 @@ class WebCollectionDetailScreenRouteArgs {
     required this.collectionId,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final int shopId;
 
@@ -2239,15 +2317,17 @@ class WebCollectionDetailScreenRouteArgs {
 
 /// generated route for
 /// [_i53.WebListingDetailScreen]
-class WebListingDetailScreenRoute extends _i54.PageRouteInfo<WebListingDetailScreenRouteArgs> {
+class WebListingDetailScreenRoute
+    extends _i54.PageRouteInfo<WebListingDetailScreenRouteArgs> {
   WebListingDetailScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required int shopId,
     required int collectionId,
     required int listingId,
   }) : super(
           WebListingDetailScreenRoute.name,
-          path: 'third-party/shop/:shopId/collection/:collectionId/listing/:listingId',
+          path:
+              'third-party/shop/:shopId/collection/:collectionId/listing/:listingId',
           args: WebListingDetailScreenRouteArgs(
             key: key,
             shopId: shopId,
@@ -2272,7 +2352,7 @@ class WebListingDetailScreenRouteArgs {
     required this.listingId,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final int shopId;
 

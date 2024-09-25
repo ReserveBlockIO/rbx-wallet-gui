@@ -42,6 +42,7 @@ class TokenManagementScreenContainer extends StatefulWidget {
   final TokenAccount? tokenAccount;
   final TokenScFeature tokenFeature;
   final WidgetRef ref;
+  final Nft nft;
 
   const TokenManagementScreenContainer({
     super.key,
@@ -50,6 +51,7 @@ class TokenManagementScreenContainer extends StatefulWidget {
     required this.ref,
     required this.tokenAccount,
     required this.tokenFeature,
+    required this.nft,
   });
 
   @override
@@ -60,11 +62,13 @@ class _TokenManagementScreenContainerState extends State<TokenManagementScreenCo
   Timer? timer;
   TokenAccount? tokenAccount;
   TokenScFeature? tokenFeature;
+  Nft? nft;
 
   @override
   void initState() {
     tokenAccount = widget.tokenAccount;
     tokenFeature = widget.tokenFeature;
+    nft = widget.nft;
     timer = Timer.periodic(const Duration(seconds: 10), (Timer t) => load());
 
     super.initState();
@@ -78,23 +82,27 @@ class _TokenManagementScreenContainerState extends State<TokenManagementScreenCo
   }
 
   Future<void> load() async {
-    final nft = await NftService().getNftData(widget.nftId);
-    if (nft != null && nft.isToken) {
-      final _tokenAccount = TokenAccount.fromNft(nft, widget.ref);
-      final _tokenFeature = TokenScFeature.fromNft(nft);
+    final _nft = await NftService().getNftData(widget.nftId);
+    if (_nft != null && _nft.isToken) {
+      final _tokenAccount = TokenAccount.fromNft(_nft, widget.ref);
+      final _tokenFeature = TokenScFeature.fromNft(_nft);
 
-      widget.ref.invalidate(nftDetailWatcher(nft.id));
+      // widget.ref.invalidate(nftDetailWatcher(_nft.id));
 
       setState(() {
         tokenAccount = _tokenAccount;
         tokenFeature = _tokenFeature;
+        nft = _nft;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (tokenAccount == null || tokenFeature == null) {
+    if (tokenAccount == null || tokenFeature == null || nft == null) {
+      print(tokenAccount);
+      print(tokenFeature);
+      print(nft);
       return CenteredLoader();
     }
 
@@ -103,6 +111,7 @@ class _TokenManagementScreenContainerState extends State<TokenManagementScreenCo
       tokenFeature!,
       widget.nftId,
       widget.address,
+      nft!,
     );
   }
 }
@@ -112,8 +121,9 @@ class TokenManagementScreen extends BaseScreen {
   final TokenScFeature token;
   final String nftId;
   final String address;
+  final Nft nft;
 
-  const TokenManagementScreen(this.tokenAccount, this.token, this.nftId, this.address, {super.key})
+  const TokenManagementScreen(this.tokenAccount, this.token, this.nftId, this.address, this.nft, {super.key})
       : super(
           backgroundColor: Colors.black87,
           horizontalPadding: 0,
@@ -171,219 +181,208 @@ class TokenManagementScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(nftDetailWatcher(nftId));
-    return data.when(
-      loading: () => SizedBox(),
-      error: (_, __) => SizedBox(),
-      data: (nft) {
-        if (nft == null) {
-          return SizedBox();
+    final isOwnedByRA = nft.currentOwner.startsWith("xRBX");
+
+    final accounts = ref.watch(sessionProvider).balances.where((b) => b.tokens.isNotEmpty).toList();
+    final List<TokenAccount> tokenAccounts = [];
+    final List<String> addresses = [];
+
+    for (final account in accounts) {
+      for (final t in account.tokens) {
+        if (t.smartContractId == tokenAccount.smartContractId) {
+          tokenAccounts.add(t);
+          addresses.add(account.address);
         }
+      }
+    }
 
-        final isOwnedByRA = nft.currentOwner.startsWith("xRBX");
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Divider(),
+            TokenDetailsContent(
+              tokenAccount: tokenAccount,
+              token: nft.tokenStateDetails!,
+              owner: nft.currentOwner,
+              nft: nft,
+            ),
+            Divider(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 12.0,
+                runSpacing: 12.0,
+                children: [
+                  if (token.mintable) MintTokensButton(nft: nft, showRaErrorMessage: showRaErrorMessage),
+                  PauseTokenButton(
+                    scId: nft.id,
+                    fromAddress: nft.currentOwner,
+                    showRaErrorMessage: showRaErrorMessage,
+                    isOwnedByRa: isOwnedByRA,
+                  ),
+                  if (token.voting)
+                    AppButton(
+                      label: "Voting",
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return ModalContainer(
+                              color: Colors.black,
+                              withDecor: false,
+                              withClose: true,
+                              children: [
+                                ListTile(
+                                  title: Text("Create Token Topic"),
+                                  leading: Icon(Icons.new_label),
+                                  onTap: () {
+                                    if (isOwnedByRA) {
+                                      showRaErrorMessage();
+                                      return;
+                                    }
+                                    Navigator.of(context).pop();
+                                    AutoRouter.of(context).push(CreateTokenTopicScreenRoute(scId: nft.id, address: nft.currentOwner));
+                                  },
+                                ),
+                                ListTile(
+                                  title: Text("View Topics"),
+                                  leading: Icon(Icons.remove_red_eye),
+                                  onTap: () async {
+                                    final nft = await NftService().getNftData(nftId);
 
-        final accounts = ref.watch(sessionProvider).balances.where((b) => b.tokens.isNotEmpty).toList();
-        final List<TokenAccount> tokenAccounts = [];
-        final List<String> addresses = [];
+                                    if (nft != null && nft.tokenStateDetails != null) {
+                                      if (nft.tokenStateDetails!.topicList.isEmpty) {
+                                        InfoDialog.show(title: "No Topics", body: "This token doesn't have any voting topics yet.");
+                                        return;
+                                      }
 
-        for (final account in accounts) {
-          for (final t in account.tokens) {
-            if (t.smartContractId == tokenAccount.smartContractId) {
-              tokenAccounts.add(t);
-              addresses.add(account.address);
-            }
-          }
-        }
+                                      showModalBottomSheet(
+                                        context: context,
+                                        isScrollControlled: true,
+                                        builder: (context) {
+                                          return ModalContainer(
+                                            color: Colors.black,
+                                            withDecor: false,
+                                            withClose: true,
+                                            children: nft.tokenStateDetails!.topicList.map((t) {
+                                              return ListTile(
+                                                title: Text(t.topicName),
+                                                subtitle: Text(
+                                                  t.topicDescription,
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                                trailing: Icon(Icons.chevron_right),
+                                                onTap: () {
+                                                  Navigator.of(context).pop();
+                                                  Navigator.of(context).pop();
 
-        return SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Divider(),
-                TokenDetailsContent(
-                  tokenAccount: tokenAccount,
-                  token: nft.tokenStateDetails!,
-                  owner: nft.currentOwner,
-                  nft: nft,
-                ),
-                Divider(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Wrap(
-                    alignment: WrapAlignment.center,
-                    spacing: 12.0,
-                    runSpacing: 12.0,
-                    children: [
-                      if (token.mintable) MintTokensButton(nft: nft, showRaErrorMessage: showRaErrorMessage),
-                      PauseTokenButton(
-                        scId: nft.id,
-                        fromAddress: nft.currentOwner,
-                        showRaErrorMessage: showRaErrorMessage,
-                        isOwnedByRa: isOwnedByRA,
-                      ),
-                      if (token.voting)
-                        AppButton(
-                          label: "Voting",
-                          onPressed: () {
-                            showModalBottomSheet(
-                              context: context,
-                              builder: (context) {
-                                return ModalContainer(
-                                  color: Colors.black,
-                                  withDecor: false,
-                                  withClose: true,
-                                  children: [
-                                    ListTile(
-                                      title: Text("Create Token Topic"),
-                                      leading: Icon(Icons.new_label),
-                                      onTap: () {
-                                        if (isOwnedByRA) {
-                                          showRaErrorMessage();
-                                          return;
-                                        }
-                                        Navigator.of(context).pop();
-                                        AutoRouter.of(context).push(CreateTokenTopicScreenRoute(scId: nft.id, address: nft.currentOwner));
-                                      },
-                                    ),
-                                    ListTile(
-                                      title: Text("View Topics"),
-                                      leading: Icon(Icons.remove_red_eye),
-                                      onTap: () async {
-                                        final nft = await NftService().getNftData(nftId);
-
-                                        if (nft != null && nft.tokenStateDetails != null) {
-                                          if (nft.tokenStateDetails!.topicList.isEmpty) {
-                                            InfoDialog.show(title: "No Topics", body: "This token doesn't have any voting topics yet.");
-                                            return;
-                                          }
-
-                                          showModalBottomSheet(
-                                            context: context,
-                                            isScrollControlled: true,
-                                            builder: (context) {
-                                              return ModalContainer(
-                                                color: Colors.black,
-                                                withDecor: false,
-                                                withClose: true,
-                                                children: nft.tokenStateDetails!.topicList.map((t) {
-                                                  return ListTile(
-                                                    title: Text(t.topicName),
-                                                    subtitle: Text(
-                                                      t.topicDescription,
-                                                      maxLines: 1,
-                                                      overflow: TextOverflow.ellipsis,
+                                                  Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                      builder: (_) => TokenTopicDetailScreen(
+                                                        t,
+                                                        nft.currentOwner,
+                                                        tokenAccount.balance,
+                                                        true,
+                                                      ),
                                                     ),
-                                                    trailing: Icon(Icons.chevron_right),
-                                                    onTap: () {
-                                                      Navigator.of(context).pop();
-                                                      Navigator.of(context).pop();
-
-                                                      Navigator.of(context).push(
-                                                        MaterialPageRoute(
-                                                          builder: (_) => TokenTopicDetailScreen(
-                                                            t,
-                                                            nft.currentOwner,
-                                                            tokenAccount.balance,
-                                                            true,
-                                                          ),
-                                                        ),
-                                                      );
-                                                    },
                                                   );
-                                                }).toList(),
+                                                },
                                               );
-                                            },
+                                            }).toList(),
                                           );
+                                        },
+                                      );
 
-                                          return;
-                                        }
+                                      return;
+                                    }
 
-                                        Toast.error();
-                                      },
-                                    )
-                                  ],
-                                );
-                              },
+                                    Toast.error();
+                                  },
+                                )
+                              ],
                             );
                           },
-                        ),
-                      ChangeTokenOwnershipButton(
-                        nft: nft,
-                        fromAddress: nft.currentOwner,
-                      ),
-                    ],
+                        );
+                      },
+                    ),
+                  ChangeTokenOwnershipButton(
+                    nft: nft,
+                    fromAddress: nft.currentOwner,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Wrap(
-                    alignment: WrapAlignment.center,
-                    spacing: 12.0,
-                    runSpacing: 12.0,
-                    children: [
-                      BanTokenAddressButton(
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 12.0,
+                runSpacing: 12.0,
+                children: [
+                  BanTokenAddressButton(
+                    nft: nft,
+                    fromAddress: nft.currentOwner,
+                    showRaErrorMessage: showRaErrorMessage,
+                  ),
+                  if (nft.tokenStateDetails != null &&
+                      nft.tokenStateDetails!.addressBlackList != null &&
+                      nft.tokenStateDetails!.addressBlackList!.isNotEmpty)
+                    AppButton(
+                      label: "List Bans",
+                      variant: AppColorVariant.Light,
+                      type: AppButtonType.Text,
+                      onPressed: () {
+                        final content = nft.tokenStateDetails!.addressBlackList!.join("\n");
+                        InfoDialog.show(title: "Banned Addresses", body: content);
+                      },
+                    ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 2),
+              child: Text(
+                "Token Accounts",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+            ),
+            if (tokenAccounts.isEmpty)
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text("No tokens in any of your accounts."),
+                  if (token.mintable)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: MintTokensButton(
                         nft: nft,
-                        fromAddress: nft.currentOwner,
+                        elevated: false,
                         showRaErrorMessage: showRaErrorMessage,
                       ),
-                      if (nft.tokenStateDetails != null &&
-                          nft.tokenStateDetails!.addressBlackList != null &&
-                          nft.tokenStateDetails!.addressBlackList!.isNotEmpty)
-                        AppButton(
-                          label: "List Bans",
-                          variant: AppColorVariant.Light,
-                          type: AppButtonType.Text,
-                          onPressed: () {
-                            final content = nft.tokenStateDetails!.addressBlackList!.join("\n");
-                            InfoDialog.show(title: "Banned Addresses", body: content);
-                          },
-                        ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 2),
-                  child: Text(
-                    "Token Accounts",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                  ),
-                ),
-                if (tokenAccounts.isEmpty)
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text("No tokens in any of your accounts."),
-                      if (token.mintable)
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: MintTokensButton(
-                            nft: nft,
-                            elevated: false,
-                            showRaErrorMessage: showRaErrorMessage,
-                          ),
-                        ),
-                    ],
-                  ),
-                SizedBox(
-                  height: 14,
-                ),
-                ...tokenAccounts.asMap().entries.map((entry) {
-                  final i = entry.key;
-                  final t = entry.value;
-                  return TokenListTile(
-                    tokenAccount: t,
-                    address: addresses[i],
-                    token: ref.read(tokenNftsProvider)[t.smartContractId],
-                    titleOverride: addresses[i],
-                    interactive: false,
-                  );
-                }).toList()
-              ],
+                    ),
+                ],
+              ),
+            SizedBox(
+              height: 14,
             ),
-          ),
-        );
-      },
+            ...tokenAccounts.asMap().entries.map((entry) {
+              final i = entry.key;
+              final t = entry.value;
+              return TokenListTile(
+                tokenAccount: t,
+                address: addresses[i],
+                token: ref.read(tokenNftsProvider)[t.smartContractId],
+                titleOverride: addresses[i],
+                interactive: false,
+              );
+            }).toList()
+          ],
+        ),
+      ),
     );
   }
 }

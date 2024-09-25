@@ -114,6 +114,10 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
     bool isIncoming = false,
   }) {
     if (isIncoming) {
+      if (transaction.fromAddress == "Coinbase_BlkRwd") {
+        return;
+      }
+
       _broadcastNotification(
         TransactionNotification(
           identifier: "${transaction.hash}_incoming",

@@ -23,7 +23,10 @@ class BtcTransactionList extends BaseComponent {
       itemBuilder: (context, index) {
         final transaction = transactions[index];
 
-        return BtcTransactionListTile(transaction: transaction, address: transaction.fromAddress);
+        return Padding(
+          padding: EdgeInsets.only(bottom: index + 1 == transactions.length ? 36 : 12.0),
+          child: BtcTransactionListTile(transaction: transaction),
+        );
       },
     );
   }

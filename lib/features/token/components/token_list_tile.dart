@@ -190,6 +190,7 @@ class TokenListTile extends BaseComponent {
                                     tokenAccount: tokenAccount,
                                     tokenFeature: tokenFeature,
                                     ref: ref,
+                                    nft: nft,
                                   ),
                                 ),
                               );
