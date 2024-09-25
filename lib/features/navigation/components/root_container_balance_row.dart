@@ -212,12 +212,12 @@ class RootContainerBalanceRow extends BaseComponent {
               ),
             ],
           ),
-          IgnorePointer(
-            ignoring: true,
-            child: AnimatedPositioned(
-              duration: ROOT_CONTAINER_TRANSITION_DURATION,
-              curve: Curves.easeInOut,
-              top: forceExpand ? ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT / 2 : 0,
+          AnimatedPositioned(
+            duration: ROOT_CONTAINER_TRANSITION_DURATION,
+            curve: Curves.easeInOut,
+            top: forceExpand ? ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT / 2 : 0,
+            child: IgnorePointer(
+              ignoring: true,
               child: Padding(
                 padding: EdgeInsets.only(left: connector1Left),
                 // child: RootContainerBalanceRowConnector(),
@@ -233,12 +233,12 @@ class RootContainerBalanceRow extends BaseComponent {
               ),
             ),
           ),
-          IgnorePointer(
-            ignoring: true,
-            child: AnimatedPositioned(
-              duration: ROOT_CONTAINER_TRANSITION_DURATION,
-              curve: Curves.easeInOut,
-              top: forceExpand ? ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT / 2 : 0,
+          AnimatedPositioned(
+            duration: ROOT_CONTAINER_TRANSITION_DURATION,
+            curve: Curves.easeInOut,
+            top: forceExpand ? ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT / 2 : 0,
+            child: IgnorePointer(
+              ignoring: true,
               child: Padding(
                 padding: EdgeInsets.only(left: connector2Left),
                 child: Transform.translate(

@@ -12,6 +12,7 @@ import 'package:rbx_wallet/core/theme/colors.dart';
 import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/btc/providers/electrum_connected_provider.dart';
+import 'package:rbx_wallet/features/wallet/utils.dart';
 
 import '../../core/components/currency_segmented_button.dart';
 import '../block/latest_block.dart';
@@ -369,7 +370,9 @@ class _LayoutState extends State<_Layout> {
                                   ),
                                   AppButton(
                                     label: "Add Account",
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      AccountUtils.promptVfxNewOrImport(context, ref);
+                                    },
                                     icon: Icons.add,
                                     variant: btcSelected ? AppColorVariant.Btc : AppColorVariant.Secondary,
                                   ),

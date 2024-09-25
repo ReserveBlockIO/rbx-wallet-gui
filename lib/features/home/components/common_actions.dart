@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/app.dart';
+import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/theme/colors.dart';
 import 'package:rbx_wallet/core/theme/components.dart';
 import 'package:rbx_wallet/features/navigation/utils.dart';
+import 'package:rbx_wallet/features/wallet/utils.dart';
 
-class CommonActions extends StatelessWidget {
+class CommonActions extends BaseComponent {
   const CommonActions({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return AppCard(
       padding: 6,
       child: Center(
@@ -20,7 +24,9 @@ class CommonActions extends StatelessWidget {
             AppVerticalIconButton(
               label: "Add\nAccount",
               icon: Icons.add,
-              onPressed: () {},
+              onPressed: () async {
+                await AccountUtils.promptVfxOrBtc(rootNavigatorKey.currentContext!, ref);
+              },
               size: AppVerticalIconButtonSize.sm,
               color: AppColors.getBlue(),
               hoverColor: AppColors.getBlue(ColorShade.s50),

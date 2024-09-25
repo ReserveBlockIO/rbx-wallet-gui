@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_window_close/flutter_window_close.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
 import 'utils.dart';
 import '../features/global_loader/global_loading_provider.dart';
 import '../features/payment/components/payment_disclaimer.dart';
@@ -649,6 +650,78 @@ class PaymentTermsDialog {
               ],
             );
           },
+        );
+      },
+    );
+  }
+}
+
+class SpecialDialog<T> {
+  Future<T?> show(
+    BuildContext context, {
+    required Widget content,
+    bool dissmissible = true,
+    double maxWidth = 500.0,
+    String? title,
+  }) async {
+    return await showGeneralDialog(
+      context: context,
+      barrierColor: Colors.black45,
+      pageBuilder: (context, anim1, anim2) {
+        return content;
+      },
+      barrierDismissible: dissmissible,
+      transitionDuration: Duration(milliseconds: 200),
+      barrierLabel: '',
+      transitionBuilder: (context, a1, a2, widget) {
+        return Transform.scale(
+          scale: a1.value,
+          child: Opacity(
+            opacity: a1.value,
+            child: Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: maxWidth),
+                child: IntrinsicHeight(
+                  child: AppCard(
+                    padding: 0,
+                    child: Stack(
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (title != null)
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  title,
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ),
+                            if (title == null && dissmissible) SizedBox(height: 18 + 8 + 8),
+                            Container(color: Colors.black12, child: widget),
+                          ],
+                        ),
+                        if (dissmissible)
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 3.0),
+                              child: IconButton(
+                                icon: Icon(Icons.close),
+                                iconSize: 14,
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ),
+                          )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         );
       },
     );
