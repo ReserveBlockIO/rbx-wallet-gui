@@ -34,27 +34,7 @@ class CombinedTransactionsList extends BaseComponent {
               child: IntrinsicHeight(
                 child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: Container(
-                        width: 6,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            stops: [0, .8],
-                            colors: [
-                              AppColors.getBlue(ColorShade.s100),
-                              AppColors.getBlue(ColorShade.s200),
-                            ],
-                          ),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(4),
-                            bottomLeft: Radius.circular(4),
-                          ),
-                        ),
-                      ),
-                    ),
+                    CardIndicatorVfx(),
                     Expanded(child: TransactionListTile(tx)),
                   ],
                 ),
@@ -68,27 +48,7 @@ class CombinedTransactionsList extends BaseComponent {
               child: IntrinsicHeight(
                 child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: Container(
-                        width: 6,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            stops: [0, .8],
-                            colors: [
-                              AppColors.getBtc(),
-                              AppColors.getBtcSubtle(),
-                            ],
-                          ),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(4),
-                            bottomLeft: Radius.circular(4),
-                          ),
-                        ),
-                      ),
-                    ),
+                    CardIndicatorBtc(),
                     Expanded(
                       child: BtcTransactionListTile(
                         transaction: tx,
@@ -100,5 +60,66 @@ class CombinedTransactionsList extends BaseComponent {
             );
           }
         });
+  }
+}
+
+class CardIndicatorBtc extends StatelessWidget {
+  final double verticalPadding;
+  const CardIndicatorBtc({super.key, this.verticalPadding = 12.0});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: verticalPadding),
+      child: Container(
+        width: 6,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [0, .8],
+            colors: [
+              AppColors.getBtc(),
+              AppColors.getBtcSubtle(),
+            ],
+          ),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(4),
+            bottomLeft: Radius.circular(4),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CardIndicatorVfx extends StatelessWidget {
+  final double verticalPadding;
+
+  const CardIndicatorVfx({super.key, this.verticalPadding = 12.0});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: verticalPadding),
+      child: Container(
+        width: 6,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [0, .8],
+            colors: [
+              AppColors.getBlue(ColorShade.s100),
+              AppColors.getBlue(ColorShade.s200),
+            ],
+          ),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(4),
+            bottomLeft: Radius.circular(4),
+          ),
+        ),
+      ),
+    );
   }
 }
