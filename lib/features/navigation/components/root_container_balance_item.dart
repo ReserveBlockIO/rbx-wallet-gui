@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/components.dart';
 import '../constants.dart';
 import '../root_container.dart';
+import '../utils.dart';
 
 class RootContainerBalanceItem extends StatefulWidget {
   final String heading;
@@ -82,7 +84,9 @@ class RootContainerBalanceItemState extends State<RootContainerBalanceItem> {
                                 ),
                               ),
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  RootContainerUtils.navigateToTab(context, RootTab.transactions);
+                                },
                                 child: Text(
                                   "View All Txs",
                                   style: TextStyle(

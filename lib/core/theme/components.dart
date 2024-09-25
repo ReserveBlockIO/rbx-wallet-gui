@@ -111,8 +111,9 @@ class _AppVerticalIconButtonState extends State<AppVerticalIconButton> {
       },
       child: GestureDetector(
         onTap: widget.onPressed,
-        child: SizedBox(
+        child: Container(
           width: widget.size.wrapSize,
+          color: Colors.transparent,
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(8.0),

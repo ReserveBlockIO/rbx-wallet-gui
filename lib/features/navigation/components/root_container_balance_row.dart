@@ -6,6 +6,7 @@ import 'package:rbx_wallet/features/navigation/components/root_container_balance
 import 'package:rbx_wallet/features/navigation/components/root_container_balance_row_conector.dart';
 import 'package:rbx_wallet/features/navigation/constants.dart';
 import 'package:rbx_wallet/features/navigation/root_container.dart';
+import 'package:rbx_wallet/features/navigation/utils.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/base_component.dart';
@@ -93,36 +94,41 @@ class RootContainerBalanceRow extends BaseComponent {
                   latestTx: latestVfxTx != null
                       ? Builder(builder: (context) {
                           final tx = latestVfxTx;
-                          return AppCard(
-                            padding: 12,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                if (tx.type == TxType.rbxTransfer)
-                                  Text(
-                                    "${tx.amount} VFX",
-                                    style: TextStyle(
-                                      color: tx.amount < 0 ? Colors.red.shade500 : Theme.of(context).colorScheme.success,
-                                      fontWeight: FontWeight.w600,
+                          return GestureDetector(
+                            onTap: () {
+                              RootContainerUtils.navigateToTab(context, RootTab.transactions);
+                            },
+                            child: AppCard(
+                              padding: 12,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  if (tx.type == TxType.rbxTransfer)
+                                    Text(
+                                      "${tx.amount} VFX",
+                                      style: TextStyle(
+                                        color: tx.amount < 0 ? Colors.red.shade500 : Theme.of(context).colorScheme.success,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    )
+                                  else
+                                    Text(
+                                      tx.typeLabel,
+                                      style: TextStyle(
+                                        color: AppColors.getBlue(),
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
-                                  )
-                                else
                                   Text(
-                                    tx.typeLabel,
+                                    "From: ${tx.fromAddress}\nTo: ${tx.toAddress}",
                                     style: TextStyle(
-                                      color: AppColors.getBlue(),
-                                      fontWeight: FontWeight.w600,
+                                      fontSize: 11,
+                                      color: Colors.white.withOpacity(0.9),
                                     ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                Text(
-                                  "From: ${tx.fromAddress}\nTo: ${tx.toAddress}",
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    color: Colors.white.withOpacity(0.9),
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           );
                         })
@@ -206,37 +212,43 @@ class RootContainerBalanceRow extends BaseComponent {
               ),
             ],
           ),
-          AnimatedPositioned(
-            duration: ROOT_CONTAINER_TRANSITION_DURATION,
-            curve: Curves.easeInOut,
-            top: forceExpand ? ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT / 2 : 0,
-            child: Padding(
-              padding: EdgeInsets.only(left: connector1Left),
-              // child: RootContainerBalanceRowConnector(),
-              child: Transform.translate(
-                offset: Offset(-33, 8),
-                child: Image.asset(
-                  'assets/images/connector1.png',
-                  width: 155 / 3,
-                  height: 118 / 3,
-                  isAntiAlias: true,
+          IgnorePointer(
+            ignoring: true,
+            child: AnimatedPositioned(
+              duration: ROOT_CONTAINER_TRANSITION_DURATION,
+              curve: Curves.easeInOut,
+              top: forceExpand ? ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT / 2 : 0,
+              child: Padding(
+                padding: EdgeInsets.only(left: connector1Left),
+                // child: RootContainerBalanceRowConnector(),
+                child: Transform.translate(
+                  offset: Offset(-33, 8),
+                  child: Image.asset(
+                    'assets/images/connector1.png',
+                    width: 155 / 3,
+                    height: 118 / 3,
+                    isAntiAlias: true,
+                  ),
                 ),
               ),
             ),
           ),
-          AnimatedPositioned(
-            duration: ROOT_CONTAINER_TRANSITION_DURATION,
-            curve: Curves.easeInOut,
-            top: forceExpand ? ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT / 2 : 0,
-            child: Padding(
-              padding: EdgeInsets.only(left: connector2Left),
-              child: Transform.translate(
-                offset: Offset(-6, 8),
-                child: Image.asset(
-                  'assets/images/connector2.png',
-                  width: 155 / 3,
-                  height: 118 / 3,
-                  isAntiAlias: true,
+          IgnorePointer(
+            ignoring: true,
+            child: AnimatedPositioned(
+              duration: ROOT_CONTAINER_TRANSITION_DURATION,
+              curve: Curves.easeInOut,
+              top: forceExpand ? ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT / 2 : 0,
+              child: Padding(
+                padding: EdgeInsets.only(left: connector2Left),
+                child: Transform.translate(
+                  offset: Offset(-6, 8),
+                  child: Image.asset(
+                    'assets/images/connector2.png',
+                    width: 155 / 3,
+                    height: 118 / 3,
+                    isAntiAlias: true,
+                  ),
                 ),
               ),
             ),
