@@ -41,7 +41,7 @@ class WebShopChatListProvider extends ChatListProviderInterface {
 
     final fromAddress = kIsWeb ? ref.read(webSessionProvider).keypair?.address : ref.read(sessionProvider).currentWallet?.address;
     if (fromAddress == null) {
-      Toast.error("No wallet selected");
+      Toast.error("No account selected");
       return;
     }
 

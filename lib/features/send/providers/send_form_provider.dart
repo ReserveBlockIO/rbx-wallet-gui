@@ -116,7 +116,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
       if (kIsWeb) {
         final account = ref.read(webSessionProvider).btcKeypair;
         if (account == null) {
-          return "No wallet selected";
+          return "No account selected";
         }
 
         final btcBalance = ref.read(webSessionProvider).btcBalanceInfo?.btcFinalBalance ?? 0;
@@ -132,7 +132,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
       } else {
         final account = ref.read(sessionProvider).currentBtcAccount;
         if (account == null) {
-          return "No wallet selected";
+          return "No account selected";
         }
 
         final feeRateInt = getFeeRate();
@@ -152,20 +152,20 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
     if (kIsWeb) {
       if (ref.read(webSessionProvider).currentWallet == null) {
-        return "No wallet selected";
+        return "No account selected";
       }
       final balance = ref.read(webSessionProvider).currentWallet!.balance;
 
       if (balance < parsed) {
-        return "Not enough balance in wallet.";
+        return "Not enough balance in account.";
       }
     } else {
       final currentWallet = ref.read(sessionProvider).currentWallet;
       if (currentWallet == null) {
-        return "No wallet selected";
+        return "No account selected";
       }
       if (currentWallet.balance < parsed) {
-        return "Not enough balance in wallet.";
+        return "Not enough balance in account.";
       }
     }
 
@@ -295,7 +295,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
       if (kIsWeb) {
         final account = ref.read(webSessionProvider).btcKeypair;
         if (account == null) {
-          Toast.error("No BTC Wallet");
+          Toast.error("No BTC Account");
           return;
         }
 
@@ -397,7 +397,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
 
         final account = ref.read(sessionProvider).currentBtcAccount;
         if (account == null) {
-          Toast.error("No wallet selected");
+          Toast.error("No account selected");
           return;
         }
 
@@ -516,7 +516,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
     if (!kIsWeb) {
       currentWallet = ref.read(sessionProvider).currentWallet;
       if (currentWallet == null) {
-        Toast.error("No wallet selected");
+        Toast.error("No account selected");
         return;
       }
 
@@ -556,7 +556,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
       }
     } else {
       if (ref.read(webSessionProvider).currentWallet == null) {
-        Toast.error("No wallet selected");
+        Toast.error("No account selected");
         return;
       }
 

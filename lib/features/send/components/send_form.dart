@@ -374,7 +374,7 @@ class SendForm extends BaseComponent {
                 title: TextFormField(
                   controller: formProvider.addressController,
                   validator: formProvider.addressValidator,
-                  decoration: const InputDecoration(hintText: "Recipient's Wallet Address"),
+                  decoration: const InputDecoration(hintText: "Recipient's Account Address"),
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9.]')),
                   ],

@@ -134,7 +134,7 @@ class TokenizedBtcActionButtons extends BaseComponent {
                         withClose: true,
                         children: [
                           Text(
-                            "Choose BTC Wallet to Send From",
+                            "Choose BTC Account to Send From",
                             style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
                           ),
                           Divider(),
@@ -514,7 +514,7 @@ class TokenizedBtcActionButtons extends BaseComponent {
                               color: Colors.white10,
                               child: ListTile(
                                 title: Text("Transfer Token Ownership"),
-                                subtitle: Text("Transfer the ownership of this token to another VFX wallet."),
+                                subtitle: Text("Transfer the ownership of this token to another VFX account."),
                                 trailing: Icon(Icons.chevron_right),
                                 onTap: () {
                                   Navigator.of(context).pop(1);

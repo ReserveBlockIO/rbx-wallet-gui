@@ -89,7 +89,7 @@ class SmartContractCreatorMain extends BaseComponent {
 
     if (kIsWeb) {
       if (ref.read(webSessionProvider).currentWallet == null) {
-        Toast.error("No wallet");
+        Toast.error("No account");
         return;
       }
     }

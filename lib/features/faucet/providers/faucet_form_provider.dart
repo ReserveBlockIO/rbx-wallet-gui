@@ -69,7 +69,7 @@ class FaucetFormProvider extends StateNotifier<FaucetFormstate> {
     final currentWallet = ref.read(sessionProvider).currentWallet;
 
     if (currentWallet == null) {
-      Toast.error("No Wallet Selected");
+      Toast.error("No Account Selected");
       return null;
     }
 

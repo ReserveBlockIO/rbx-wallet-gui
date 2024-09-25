@@ -751,7 +751,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
       final owner = kIsWeb ? ref.read(webSessionProvider).currentWallet : ref.read(sessionProvider).currentWallet;
 
       if (owner == null) {
-        Toast.error("No wallet selected.");
+        Toast.error("No account selected.");
         return;
       }
 

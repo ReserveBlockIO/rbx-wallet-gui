@@ -191,7 +191,7 @@ class ReserveAccountRecoverButton extends BaseComponent {
         final confirmed = await ConfirmDialog.show(
           title: "Recover Funds & NFTs",
           body:
-              "This is a destructive function that will callback all pending transactions and NFTs and move everything to this recovery address:\n\n${wallet.recoveryAddress}",
+              "This is a destructive function that will callback all pending transactions and NFTs and move everything to this recovery account:\n\n${wallet.recoveryAddress}",
           confirmText: "Proceed",
           cancelText: "Cancel",
           destructive: true,

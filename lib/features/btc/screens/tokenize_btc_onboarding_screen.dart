@@ -44,7 +44,7 @@ class TokenizeBtcOnboardingScreen extends BaseScreen {
         onPressed: () async {
           final confirmed = await ConfirmDialog.show(
             title: "Exit vBTC Onboarding?",
-            body: "Are you sure you want to cancel setting up your wallet with Tokenized Bitcoin?",
+            body: "Are you sure you want to cancel setting up your account with Tokenized Bitcoin?",
             confirmText: "Yes",
             cancelText: "No",
             destructive: true,

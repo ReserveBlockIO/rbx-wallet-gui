@@ -108,7 +108,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
               SelectableText("Please send funds to ${walletAddress}"),
               Text(""),
               Text(
-                  "You have a wallet with a sufficient balance.\n\nWould you like to send 5 VFX from:\n${fundingWallet.address}\n[Balance: ${fundingWallet.balance} VFX]?"),
+                  "You have an account with a sufficient balance.\n\nWould you like to send 5 VFX from:\n${fundingWallet.address}\n[Balance: ${fundingWallet.balance} VFX]?"),
             ],
           ),
         ),

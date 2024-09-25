@@ -469,7 +469,7 @@ class AuthModal {
       barrierDismissible: true,
       builder: (context) {
         return AlertDialog(
-          title: Text(forCreate ? "Create Wallet" : "Login",
+          title: Text(forCreate ? "Create Account" : "Login",
               style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -488,7 +488,7 @@ class AuthModal {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     if (withExplanation)
-                      const Text("A wallet is required to continue.\nPlease create your account now with your email address and a password."),
+                      const Text("An account is required to continue.\nPlease create your account now with your email address and a password."),
                     const Text(
                       "Your email and password is used to seed your private key which is processed in this browser and will never be transmitted across the internet.",
                       style: TextStyle(

@@ -95,7 +95,7 @@ class _HomeButtonsState extends State<HomeButtons> {
             value: HomeButtonSection.general,
           ),
           ButtonSegment(
-            label: Text("Wallet Security"),
+            label: Text("Account Security"),
             value: HomeButtonSection.security,
           ),
           ButtonSegment(

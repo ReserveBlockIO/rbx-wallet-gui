@@ -200,7 +200,7 @@ class _WalletUnlockTime extends BaseComponent {
       onChanged: provider.setWalletUnlockTime,
       decoration: InputDecoration(
         label: const Text(
-          "Wallet Unlock Time",
+          "Account Unlock Time",
           style: TextStyle(color: Colors.white),
         ),
         hintText: WALLET_UNLOCK_TIME_DEFAULT.toString(),

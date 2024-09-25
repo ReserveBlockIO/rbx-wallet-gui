@@ -28,7 +28,7 @@ class FaucetScreen extends BaseScreen {
 
     if (isBtc || wallet == null) {
       return Center(
-        child: Text("Please choose a VFX wallet to continue"),
+        child: Text("Please choose a VFX account to continue"),
       );
     }
     return FutureBuilder<double>(

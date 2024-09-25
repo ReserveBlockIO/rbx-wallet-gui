@@ -12,7 +12,7 @@ class _TransferBtcToVbtcStep extends BaseComponent {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("No BTC Wallet / Token Found."),
+          Text("No BTC account / Token Found."),
           AppButton(
             label: "Start Over",
             onPressed: () {
@@ -244,7 +244,7 @@ class _TransferBtcStep extends BaseComponent {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("No BTC Wallet Found."),
+          Text("No BTC Account Found."),
           AppButton(
             label: "Start Over",
             onPressed: () {
@@ -324,11 +324,11 @@ class _CreateOrImportVfxWalletStep extends BaseComponent {
                     if (w.balance >= VBTC_ONBOARD_VFX_AMOUNT) {
                       await InfoDialog.show(
                         title: "Balance Found!",
-                        body: "A balance of ${w.balance} VFX was found in this wallet. Skipping to step 3.",
+                        body: "A balance of ${w.balance} VFX was found in this account. Skipping to step 3.",
                       );
                     }
                     provider.setVfxWallet(w);
-                    Toast.message("VFX Wallet Imported Successfully");
+                    Toast.message("VFX Account Imported Successfully");
                   }
                 }
               },
@@ -341,7 +341,7 @@ class _CreateOrImportVfxWalletStep extends BaseComponent {
                 final w = await ref.read(walletListProvider.notifier).create();
                 if (w != null) {
                   provider.setVfxWallet(w);
-                  Toast.message("VFX Wallet Created Successfully");
+                  Toast.message("VFX account Created Successfully");
                 }
               },
               variant: AppColorVariant.Secondary,
@@ -352,7 +352,7 @@ class _CreateOrImportVfxWalletStep extends BaseComponent {
           SizedBox(
             height: 16,
           ),
-          Text("Or use one of your existing VFX Wallets:"),
+          Text("Or use one of your existing VFX Accounts:"),
           SizedBox(
             height: 8,
           ),
@@ -386,7 +386,7 @@ class _FaucetWithdrawlStep extends BaseComponent {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("No VFX Wallet Found."),
+          Text("No VFX Account Found."),
           AppButton(
             label: "Start Over",
             onPressed: () {
@@ -558,13 +558,13 @@ class _CreateOrImportBtcAccountStep extends BaseComponent {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: const Text("BTC Wallet Created"),
+                      title: const Text("BTC Account Created"),
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const Align(
                             alignment: Alignment.centerLeft,
-                            child: Text("Here are your BTC wallet details. Please ensure to back up your private key in a safe place."),
+                            child: Text("Here are your BTC account details. Please ensure to back up your private key in a safe place."),
                           ),
                           ListTile(
                             leading: const Icon(Icons.account_balance_wallet),
@@ -628,7 +628,7 @@ class _CreateOrImportBtcAccountStep extends BaseComponent {
           SizedBox(
             height: 16,
           ),
-          Text("Or use one of your existing BTC Wallets:"),
+          Text("Or use one of your existing BTC Accounts:"),
           SizedBox(
             height: 8,
           ),

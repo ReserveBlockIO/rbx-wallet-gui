@@ -95,7 +95,7 @@ class BtcAdnrList extends BaseComponent {
                       }
 
                       if (ref.read(walletListProvider).isEmpty) {
-                        Toast.error("An VFX wallet is required for this functionality.");
+                        Toast.error("An VFX account is required for this functionality.");
                         return;
                       }
 
@@ -314,7 +314,7 @@ class CreateBtcAdnrModal extends BaseComponent {
             style: TextStyle(color: Theme.of(context).colorScheme.btcOrange, fontSize: 12),
           ),
           Text(
-            "This wallet will control transfer/delete ownership over this new domain.",
+            "This account will control transfer/delete ownership over this new domain.",
             style: Theme.of(context).textTheme.bodySmall,
           ),
           SizedBox(

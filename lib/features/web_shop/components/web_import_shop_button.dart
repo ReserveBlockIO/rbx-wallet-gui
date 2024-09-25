@@ -31,7 +31,7 @@ class WebImportShopButton extends BaseComponent {
       onPressed: () async {
         final myAddress = ref.read(webSessionProvider).keypair?.address;
         if (myAddress == null) {
-          Toast.error("No wallet found");
+          Toast.error("No account found");
           return;
         }
 
@@ -60,8 +60,7 @@ class WebImportShopButton extends BaseComponent {
         }
 
         if (shop.ownerAddress != myAddress) {
-          Toast.error(
-              "You are not the owner of this shop. Please login as ${shop.ownerAddress}");
+          Toast.error("You are not the owner of this shop. Please login as ${shop.ownerAddress}");
           return;
         }
 
@@ -79,17 +78,13 @@ class WebImportShopButton extends BaseComponent {
 
         ref.read(globalLoadingProvider.notifier).start();
 
-        final success = await broadcastShopTx(
-            ref.read(webSessionProvider).keypair!,
-            shop,
-            ShopPublishTxType.update);
+        final success = await broadcastShopTx(ref.read(webSessionProvider).keypair!, shop, ShopPublishTxType.update);
         ref.read(globalLoadingProvider.notifier).complete();
 
         if (success == true) {
           InfoDialog.show(
             title: "TX Broadcasted",
-            body:
-                "Once the transaction relects on chain, your shop will appear here.",
+            body: "Once the transaction relects on chain, your shop will appear here.",
           );
         }
       },

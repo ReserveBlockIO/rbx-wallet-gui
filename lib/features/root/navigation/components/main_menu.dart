@@ -279,7 +279,7 @@ class MainMenu extends BaseComponent {
                     icon: Icons.receipt_long,
                     onPressed: () {
                       if (ref.read(sessionProvider).currentWallet == null) {
-                        Toast.error("A wallet is required to access this section.");
+                        Toast.error("An account is required to access this section.");
                         return;
                       }
                       tabsRouter.setActiveIndex(8);
@@ -314,7 +314,7 @@ class MainMenu extends BaseComponent {
                     icon: Icons.lightbulb_outline,
                     onPressed: () {
                       if (ref.read(sessionProvider).currentWallet == null) {
-                        Toast.error("A wallet is required to access this section.");
+                        Toast.error("An account is required to access this section.");
                         return;
                       }
                       tabsRouter.setActiveIndex(7);

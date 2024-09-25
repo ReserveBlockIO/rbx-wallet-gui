@@ -84,7 +84,7 @@ class TokenFormProvider extends StateNotifier<TokenScFeature> {
     final currentWallet = ref.read(sessionProvider).currentWallet;
 
     if (currentWallet == null) {
-      Toast.error("No Wallet Selected");
+      Toast.error("No account selected");
       return null;
     }
 

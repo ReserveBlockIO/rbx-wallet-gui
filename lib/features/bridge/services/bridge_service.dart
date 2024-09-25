@@ -53,7 +53,7 @@ class BridgeService extends BaseService {
 
       return "A problem occurred";
     } catch (e) {
-      print("Unlock Wallet Error");
+      print("Unlock Account Error");
       print(e);
       return "$e";
     }
@@ -69,7 +69,7 @@ class BridgeService extends BaseService {
       }
       return false;
     } catch (e) {
-      print("Unlock Wallet Error");
+      print("Unlock Account Error");
       print(e);
       return false;
     }
@@ -85,7 +85,7 @@ class BridgeService extends BaseService {
       }
       return false;
     } catch (e) {
-      print("Lock Wallet Error");
+      print("Lock Account Error");
       print(e);
       return false;
     }

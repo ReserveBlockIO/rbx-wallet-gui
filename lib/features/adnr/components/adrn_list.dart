@@ -88,7 +88,7 @@ class AdnrList extends BaseComponent {
                           return;
                         }
                         if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
-                          Toast.error("Not enough VFX in this wallet to create a VFX domain. $ADNR_COST RBX required (plus TX fee).");
+                          Toast.error("Not enough VFX in this account to create a VFX domain. $ADNR_COST RBX required (plus TX fee).");
                           return;
                         }
 
@@ -116,7 +116,7 @@ class AdnrList extends BaseComponent {
                                     return;
                                   }
                                   if (wallet.balance < (ADNR_TRANSFER_COST + MIN_RBX_FOR_SC_ACTION)) {
-                                    Toast.error("Not enough VFX in this wallet to transfer a VFX domain. $ADNR_COST RBX required (plus TX fee).");
+                                    Toast.error("Not enough VFX in this account to transfer a VFX domain. $ADNR_COST RBX required (plus TX fee).");
                                     return;
                                   }
 
@@ -163,7 +163,7 @@ class AdnrList extends BaseComponent {
                             }
 
                             if (wallet.balance < (ADNR_DELETE_COST + MIN_RBX_FOR_SC_ACTION)) {
-                              Toast.error("Not enough VFX in this wallet to delete a VFX domain.");
+                              Toast.error("Not enough VFX in this account to delete a VFX domain.");
 
                               return;
                             }

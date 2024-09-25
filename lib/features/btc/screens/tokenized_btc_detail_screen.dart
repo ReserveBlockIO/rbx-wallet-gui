@@ -327,7 +327,7 @@ class _BtcTokenMedia extends BaseComponent {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
-                  "NFT assets have not been transfered to the VFX Web Wallet.",
+                  "NFT assets have not been transfered to the VFX Web Account.",
                   textAlign: TextAlign.center,
                 ),
                 if (includeButton)

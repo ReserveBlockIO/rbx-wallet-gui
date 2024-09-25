@@ -175,7 +175,7 @@ class TokenizeBtcForm extends BaseComponent {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("This transaction requires a network fee ~0.000028 VFX."),
-                            if (wallets.length == 1) Text("VFX Wallet: ${formState.vfxAddress}"),
+                            if (wallets.length == 1) Text("VFX Account: ${formState.vfxAddress}"),
                             if (wallets.length > 1)
                               Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -184,7 +184,7 @@ class TokenizeBtcForm extends BaseComponent {
                                   SizedBox(
                                     height: 12,
                                   ),
-                                  Text("Change Wallet:"),
+                                  Text("Change Account:"),
                                   Row(
                                     children: [
                                       PopupMenuButton<String>(

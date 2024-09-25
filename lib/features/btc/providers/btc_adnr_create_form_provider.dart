@@ -85,12 +85,12 @@ class BtcAdnrCreateFormProvider extends StateNotifier<BtcAdnrCreateFormState> {
     final wallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.address == state.selectedAddress);
 
     if (wallet == null) {
-      Toast.error("The VFX wallet that controls this BTC domain was not found. [${state.selectedAddress}]");
+      Toast.error("The VFX account that controls this BTC domain was not found. [${state.selectedAddress}]");
       return null;
     }
 
     if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
-      Toast.error("Not enough VFX in your controlling wallet to delete a VFX domain. [${state.selectedAddress}]");
+      Toast.error("Not enough VFX in your controlling account to delete a VFX domain. [${state.selectedAddress}]");
       return null;
     }
 

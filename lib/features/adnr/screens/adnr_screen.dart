@@ -52,7 +52,7 @@ class AdnrScreen extends BaseScreen {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const Text(
-                            "Create a BTC Domain as an alias to your BTC wallet address for receiving funds.",
+                            "Create a BTC Domain as an alias to your BTC account address for receiving funds.",
                             style: TextStyle(
                               fontSize: 17,
                             ),
@@ -87,7 +87,7 @@ class AdnrScreen extends BaseScreen {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const Text(
-                          "Create a VFX Domain as an alias to your wallet's address for receiving funds.",
+                          "Create a VFX Domain as an alias to your account's address for receiving funds.",
                           style: TextStyle(
                             fontSize: 17,
                           ),

@@ -32,13 +32,13 @@ class HdWalletButton extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppButton(
-      label: "Create HD Wallet",
+      label: "Create HD Account",
       icon: Icons.hd_outlined,
       onPressed: !ref.watch(sessionProvider).cliStarted
           ? null
           : () async {
               if (ref.read(walletIsEncryptedProvider)) {
-                Toast.error("You can not create an HD wallet with an encrypted wallet.");
+                Toast.error("You can not create an HD account with an encrypted wallet.");
                 return;
               }
 
@@ -48,7 +48,7 @@ class HdWalletButton extends BaseComponent {
                   return AlertDialog(
                     // buttonPadding: EdgeInsets.all(8.0),
                     // actionsPadding: EdgeInsets.all(0.0),
-                    title: const Text("HD Wallet"),
+                    title: const Text("HD Account"),
                     actionsAlignment: MainAxisAlignment.center,
                     actions: [
                       TextButton(
@@ -67,7 +67,7 @@ class HdWalletButton extends BaseComponent {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Text("By creating an HD wallet you are creating a function to recover your private keys by use of recovery phrase."),
+                          const Text("By creating an HD account you are creating a function to recover your private keys by use of recovery phrase."),
                           const SizedBox(
                             height: 8,
                           ),
