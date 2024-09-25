@@ -43,6 +43,14 @@ class TokenizedBtcDetailScreen extends BaseScreen {
         shadowColor: Colors.transparent,
       );
     }
+    final nft = ref.watch(nftDetailProvider(token.smartContractUid));
+
+    if (nft == null) {
+      return AppBar(
+        backgroundColor: Colors.black,
+        shadowColor: Colors.transparent,
+      );
+    }
 
     return AppBar(
       backgroundColor: Colors.black,
@@ -52,15 +60,25 @@ class TokenizedBtcDetailScreen extends BaseScreen {
         Padding(
           padding: const EdgeInsets.only(right: 8.0),
           child: Center(
-            child: Tooltip(
-              message: "Token Total Balance: ${token.balance} vBTC",
-              child: Text(
-                "My Balance: ${token.myBalance} vBTC",
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
+            child: Builder(builder: (context) {
+              if (nft.currentOwner != token.rbxAddress && token.myBalance == 0) {
+                return Text(
+                  "Confirming Balance...",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
+                );
+              }
+              return Tooltip(
+                message: "Token Total Balance: ${token.balance} vBTC",
+                child: Text(
+                  "My Balance: ${token.myBalance} vBTC",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
-            ),
+              );
+            }),
           ),
         ),
       ],
@@ -145,7 +163,7 @@ class TokenizedBtcDetailScreen extends BaseScreen {
                     ),
                     _DetailRow(
                       label: "My Balance",
-                      value: "${token.myBalance} vBTC",
+                      value: scOwner != token.rbxAddress && token.myBalance == 0 ? "Confirming Balance..." : "${token.myBalance} vBTC",
                     ),
                     if (scOwner == token.rbxAddress)
                       _DetailRow(

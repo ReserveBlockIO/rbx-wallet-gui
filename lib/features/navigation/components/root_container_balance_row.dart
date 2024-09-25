@@ -215,15 +215,11 @@ class RootContainerBalanceRow extends BaseComponent {
               // child: RootContainerBalanceRowConnector(),
               child: Transform.translate(
                 offset: Offset(-33, 8),
-                child: AnimatedOpacity(
-                  duration: ROOT_CONTAINER_TRANSITION_DURATION,
-                  opacity: isHovering || forceExpand ? 1 : 0.6,
-                  child: Image.asset(
-                    'assets/images/connector1.png',
-                    width: 155 / 3,
-                    height: 118 / 3,
-                    isAntiAlias: true,
-                  ),
+                child: Image.asset(
+                  'assets/images/connector1.png',
+                  width: 155 / 3,
+                  height: 118 / 3,
+                  isAntiAlias: true,
                 ),
               ),
             ),
@@ -236,15 +232,11 @@ class RootContainerBalanceRow extends BaseComponent {
               padding: EdgeInsets.only(left: connector2Left),
               child: Transform.translate(
                 offset: Offset(-6, 8),
-                child: AnimatedOpacity(
-                  duration: ROOT_CONTAINER_TRANSITION_DURATION,
-                  opacity: isHovering || forceExpand ? 1 : 0.6,
-                  child: Image.asset(
-                    'assets/images/connector2.png',
-                    width: 155 / 3,
-                    height: 118 / 3,
-                    isAntiAlias: true,
-                  ),
+                child: Image.asset(
+                  'assets/images/connector2.png',
+                  width: 155 / 3,
+                  height: 118 / 3,
+                  isAntiAlias: true,
                 ),
               ),
             ),

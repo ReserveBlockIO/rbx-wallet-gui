@@ -441,6 +441,58 @@ class TokenizedBtcActionButtons extends BaseComponent {
                 },
                 variant: AppColorVariant.Primary,
               ),
+
+            AppButton(
+              label: "Withdraw",
+              icon: Icons.download,
+              variant: AppColorVariant.Primary,
+              onPressed: () async {
+                if (isRa) {
+                  Toast.error("Vault Accounts can not withdrawl. Please transfer vBTC to a standard VFX address");
+                  return;
+                }
+
+                final result = await showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return _TransferSharesModal(
+                      forWithdrawl: false,
+                      token: token,
+                    );
+                  },
+                );
+
+                if (result is _TransferShareModalResponse) {
+                  final confirmed = await ConfirmDialog.show(
+                    title: "Withdraw BTC",
+                    body: "Are you sure you want to withdraw ${result.amount} BTC to ${result.toAddress}?",
+                  );
+
+                  if (confirmed != true) {
+                    return;
+                  }
+
+                  ref.read(globalLoadingProvider.notifier).start();
+                  final withdrawlHash = await BtcService().withdrawCoin(
+                    token.smartContractUid,
+                    result.toAddress,
+                    token.rbxAddress,
+                    result.amount,
+                    result.feeRate,
+                  );
+                  ref.read(globalLoadingProvider.notifier).complete();
+
+                  if (withdrawlHash != null) {
+                    final message = "BTC Withdrawl TX Broadcasted successfully. Hash: $withdrawlHash";
+                    Toast.message(message);
+
+                    ref.read(logProvider.notifier).append(
+                          LogEntry(message: message, variant: AppColorVariant.Btc, textToCopy: withdrawlHash),
+                        );
+                  }
+                }
+              },
+            ),
             AppButton(
               label: "Transfer",
               variant: AppColorVariant.Primary,
@@ -482,17 +534,17 @@ class TokenizedBtcActionButtons extends BaseComponent {
                               },
                             ),
                           ),
-                          Card(
-                            color: Colors.white10,
-                            child: ListTile(
-                              title: Text("Withdraw BTC"),
-                              subtitle: Text("Convert vBTC to BTC and transfer it from this token to a BTC address."),
-                              trailing: Icon(Icons.chevron_right),
-                              onTap: () {
-                                Navigator.of(context).pop(3);
-                              },
-                            ),
-                          ),
+                          // Card(
+                          //   color: Colors.white10,
+                          //   child: ListTile(
+                          //     title: Text("Withdraw BTC"),
+                          //     subtitle: Text("Convert vBTC to BTC and transfer it from this token to a BTC address."),
+                          //     trailing: Icon(Icons.chevron_right),
+                          //     onTap: () {
+                          //       Navigator.of(context).pop(3);
+                          //     },
+                          //   ),
+                          // ),
                           if (isOwner)
                             Card(
                               color: Colors.white10,
@@ -529,21 +581,12 @@ class TokenizedBtcActionButtons extends BaseComponent {
                     isToken: true,
                   );
                 }
-                if (option == 2 || option == 3) {
-                  final forWithdrawl = option == 3;
-
-                  if (forWithdrawl) {
-                    if (isRa) {
-                      Toast.error("Vault Accounts can not withdrawl. Please transfer vBTC to a standard VFX address");
-                      return;
-                    }
-                  }
-
+                if (option == 2) {
                   final result = await showModalBottomSheet(
                     context: context,
                     builder: (context) {
                       return _TransferSharesModal(
-                        forWithdrawl: forWithdrawl,
+                        forWithdrawl: false,
                         token: token,
                       );
                     },
@@ -551,57 +594,35 @@ class TokenizedBtcActionButtons extends BaseComponent {
 
                   if (result is _TransferShareModalResponse) {
                     final confirmed = await ConfirmDialog.show(
-                      title: forWithdrawl ? "Withdraw BTC" : "Transfer BTC",
-                      body: forWithdrawl
-                          ? "Are you sure you want to withdraw ${result.amount} BTC to ${result.toAddress}?"
-                          : "Are you sure you want to transfer ${result.amount} vBTC to ${result.toAddress}?",
+                      title: "Transfer BTC",
+                      body: "Are you sure you want to transfer ${result.amount} vBTC to ${result.toAddress}?",
                     );
 
                     if (confirmed != true) {
                       return;
                     }
 
-                    late final bool success;
-                    String? withdrawlHash;
-
-                    if (option == 2) {
-                      if (isRa) {
-                        if (!await passwordRequiredGuardV2(context, ref, token.rbxAddress)) {
-                          return;
-                        }
-                      }
-                      ref.read(globalLoadingProvider.notifier).start();
-
-                      success = await BtcService().transferTokenShares(
-                        token.smartContractUid,
-                        result.toAddress,
-                        token.rbxAddress,
-                        result.amount,
-                      );
-                      ref.read(globalLoadingProvider.notifier).complete();
-                    } else {
-                      ref.read(globalLoadingProvider.notifier).start();
-                      withdrawlHash = await BtcService().withdrawCoin(
-                        token.smartContractUid,
-                        result.toAddress,
-                        token.rbxAddress,
-                        result.amount,
-                        result.feeRate,
-                      );
-                      ref.read(globalLoadingProvider.notifier).complete();
-
-                      if (withdrawlHash != null) {
-                        success = true;
+                    if (isRa) {
+                      if (!await passwordRequiredGuardV2(context, ref, token.rbxAddress)) {
+                        return;
                       }
                     }
+                    ref.read(globalLoadingProvider.notifier).start();
+
+                    final success = await BtcService().transferTokenShares(
+                      token.smartContractUid,
+                      result.toAddress,
+                      token.rbxAddress,
+                      result.amount,
+                    );
+                    ref.read(globalLoadingProvider.notifier).complete();
 
                     if (success) {
-                      final message =
-                          "BTC ${forWithdrawl ? "Withdrawl" : "Transfer"} TX Broadcasted successfully.${withdrawlHash != null ? ' Hash: $withdrawlHash' : ''}";
-                      Toast.message(message);
+                      const message = "BTC Transfer TX Broadcasted successfully.";
+                      Toast.message("BTC Transfer TX Broadcasted successfully. ");
 
                       ref.read(logProvider.notifier).append(
-                            LogEntry(message: message, variant: AppColorVariant.Btc, textToCopy: withdrawlHash),
+                            LogEntry(message: message, variant: AppColorVariant.Btc),
                           );
                     }
                   }
@@ -667,7 +688,7 @@ class TokenizedBtcActionButtons extends BaseComponent {
               },
             ),
             AppButton(
-              label: "Lend",
+              label: "Borrow/Lend",
               icon: Icons.people,
               onPressed: () {
                 Toast.message("Action Not Available Yet.");
