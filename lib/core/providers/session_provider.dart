@@ -707,7 +707,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     }
   }
 
-  void setCurrentWallet(Wallet wallet) {
+  void setCurrentWallet(Wallet wallet, [bool updateGlobalCurrency = true]) {
     state = state.copyWith(currentWallet: wallet, btcSelected: false);
     singleton<Storage>().setString(Storage.CURRENT_WALLET_ADDRESS_KEY, wallet.address);
 
@@ -718,15 +718,17 @@ class SessionProvider extends StateNotifier<SessionModel> {
     ref.read(currentValidatorProvider.notifier).set(currentValidator);
 
     setupChatListeners();
-
-    ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.vfx);
+    if (updateGlobalCurrency) {
+      ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.vfx);
+    }
   }
 
-  void setCurrentBtcAccount(BtcAccount account) {
+  void setCurrentBtcAccount(BtcAccount account, [bool updateGlobalCurrency = true]) {
     state = state.copyWith(currentBtcAccount: account, btcSelected: true);
     singleton<Storage>().setString(Storage.CURRENT_BTC_ACCOUNT_ADDRESS_KEY, account.address);
-
-    ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.btc);
+    if (updateGlobalCurrency) {
+      ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.btc);
+    }
   }
 
   void setFilteringTransactions(bool val) {
@@ -971,18 +973,18 @@ class SessionProvider extends StateNotifier<SessionModel> {
     });
   }
 
-  void toggleToVfxWallet() {
+  void toggleToVfxWallet([bool updateWallet = true]) {
     final wallets = ref.read(walletListProvider);
-    if (wallets.isNotEmpty) {
+    if (wallets.isNotEmpty && updateWallet) {
       state = state.copyWith(btcSelected: false, currentWallet: wallets.first);
     } else {
       state = state.copyWith(btcSelected: false);
     }
   }
 
-  void toggleToBtcWallet() {
+  void toggleToBtcWallet([bool updateWallet = true]) {
     final accounts = ref.read(btcAccountListProvider);
-    if (accounts.isNotEmpty) {
+    if (accounts.isNotEmpty && updateWallet) {
       state = state.copyWith(btcSelected: true, currentBtcAccount: accounts.first);
     } else {
       state = state.copyWith(btcSelected: true);

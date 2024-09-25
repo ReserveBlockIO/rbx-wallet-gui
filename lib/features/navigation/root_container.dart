@@ -7,6 +7,7 @@ import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/env.dart';
+import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/theme/colors.dart';
@@ -277,6 +278,8 @@ class _LayoutState extends State<_Layout> {
                     final vfxWallet = btcSelected ? null : ref.watch(sessionProvider.select((value) => value.currentWallet));
                     final btcWallet = btcSelected ? ref.watch(sessionProvider.select((value) => value.currentBtcAccount)) : null;
 
+                    final mode = ref.watch(currencySegementedButtonProvider);
+
                     return AnimatedPositioned(
                       left: 0,
                       bottom: walletSelectorIsExpanded ? 0 : -expandedHeight,
@@ -416,20 +419,42 @@ class _LayoutState extends State<_Layout> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         CurrencySegementedButton(
-                                          includeAny: false,
+                                          includeAny: true,
+                                          shouldToggleGlobal: false,
                                         ),
-                                        AppButton(
-                                          label: "Add Account",
-                                          onPressed: () {
-                                            if (btcSelected) {
-                                              AccountUtils.promptBtcNewOrImport(context, ref);
-                                            } else {
-                                              AccountUtils.promptVfxNewOrImport(context, ref);
-                                            }
-                                          },
-                                          icon: Icons.add,
-                                          variant: btcSelected ? AppColorVariant.Btc : AppColorVariant.Secondary,
-                                        ),
+                                        Builder(builder: (context) {
+                                          switch (mode) {
+                                            case CurrencyType.vfx:
+                                              return AppButton(
+                                                label: "Add Account",
+                                                onPressed: () {
+                                                  AccountUtils.promptVfxNewOrImport(context, ref);
+                                                },
+                                                icon: Icons.add,
+                                                variant: AppColorVariant.Secondary,
+                                              );
+
+                                            case CurrencyType.btc:
+                                              return AppButton(
+                                                label: "Add Account",
+                                                onPressed: () {
+                                                  AccountUtils.promptBtcNewOrImport(context, ref);
+                                                },
+                                                icon: Icons.add,
+                                                variant: AppColorVariant.Btc,
+                                              );
+
+                                            case CurrencyType.any:
+                                              return AppButton(
+                                                label: "Add Account",
+                                                onPressed: () {
+                                                  AccountUtils.promptVfxOrBtc(context, ref);
+                                                },
+                                                icon: Icons.add,
+                                                variant: AppColorVariant.Light,
+                                              );
+                                          }
+                                        }),
                                       ],
                                     ),
                                   ),

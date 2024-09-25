@@ -371,7 +371,7 @@ class ValidatorScreen extends BaseScreen {
         Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
           child: Text(
-            "Blocks Validated",
+            "Blocks Validated (${ref.watch(validatedBlocksProvider).length})",
             style: TextStyle(
               fontSize: 13,
               decoration: TextDecoration.underline,

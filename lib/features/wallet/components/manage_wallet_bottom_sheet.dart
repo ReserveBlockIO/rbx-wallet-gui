@@ -124,18 +124,19 @@ class ManageWalletBtcListTile extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     final btcOrange = AppColors.getBtc();
 
+    final isSelected = ref.watch(sessionProvider).btcSelected && account.address == ref.watch(sessionProvider).currentBtcAccount?.address;
+
     return ListTile(
+      key: Key("btc_wallet_${account.address}_$isSelected"),
+      onTap: isSelected
+          ? null
+          : () {
+              ref.read(sessionProvider.notifier).setCurrentBtcAccount(account, false);
+            },
+      dense: true,
       leading: ref.watch(sessionProvider).btcSelected && account.address == ref.watch(sessionProvider).currentBtcAccount?.address
-          ? IconButton(
-              onPressed: null,
-              icon: Icon(Icons.check_box_rounded, color: btcOrange),
-            )
-          : IconButton(
-              onPressed: () {
-                ref.read(sessionProvider.notifier).setCurrentBtcAccount(account);
-              },
-              icon: Icon(Icons.check_box_outline_blank_outlined, color: btcOrange),
-            ),
+          ? Icon(Icons.check_box_rounded, color: btcOrange)
+          : Icon(Icons.check_box_outline_blank_outlined, color: btcOrange),
       title: Row(
         children: [
           Text(
@@ -244,11 +245,13 @@ class ManageWalletListTile extends BaseComponent {
     final isSelected = !ref.watch(sessionProvider).btcSelected && wallet.address == ref.watch(sessionProvider).currentWallet?.address;
 
     return ListTile(
+      key: Key("vfx_wallet_${wallet.address}_$isSelected"),
+
       dense: true,
       onTap: isSelected
           ? null
           : () {
-              ref.read(sessionProvider.notifier).setCurrentWallet(wallet);
+              ref.read(sessionProvider.notifier).setCurrentWallet(wallet, false);
             },
       // leading: Icon(Icons.account_balance_wallet_outlined, color: color),
       leading: isSelected ? Icon(Icons.check_box_rounded, color: color) : Icon(Icons.check_box_outline_blank_outlined, color: color),
