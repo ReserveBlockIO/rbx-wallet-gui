@@ -39,10 +39,11 @@ class TransactionListProvider extends StateNotifier<List<Transaction>> {
 
     switch (type) {
       case TransactionListType.All:
-        transactions = await LocalTransactionService().transactionsAll();
+        transactions = (await LocalTransactionService().transactionsAll()).where((tx) => tx.fromAddress != 'Coinbase_BlkRwd').toList();
         break;
       case TransactionListType.Success:
-        transactions = await LocalTransactionService().transactionsSuccess();
+        transactions = (await LocalTransactionService().transactionsSuccess()).where((tx) => tx.fromAddress != 'Coinbase_BlkRwd').toList();
+        ;
         break;
       case TransactionListType.Failed:
         transactions = await LocalTransactionService().transactionsFailed();

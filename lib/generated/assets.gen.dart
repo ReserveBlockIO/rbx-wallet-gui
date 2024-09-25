@@ -162,6 +162,14 @@ class $AssetsImagesGen {
   AssetGenImage get animatedCubeFast =>
       const AssetGenImage('assets/images/animated_cube_fast.gif');
 
+  /// File path: assets/images/connector1.png
+  AssetGenImage get connector1 =>
+      const AssetGenImage('assets/images/connector1.png');
+
+  /// File path: assets/images/connector2.png
+  AssetGenImage get connector2 =>
+      const AssetGenImage('assets/images/connector2.png');
+
   /// File path: assets/images/decor_bottom.png
   AssetGenImage get decorBottom =>
       const AssetGenImage('assets/images/decor_bottom.png');
@@ -297,6 +305,8 @@ class $AssetsImagesGen {
         animatedCube,
         animatedCubeBtc,
         animatedCubeFast,
+        connector1,
+        connector2,
         decorBottom,
         decorBottomLeft,
         decorBottomRight,

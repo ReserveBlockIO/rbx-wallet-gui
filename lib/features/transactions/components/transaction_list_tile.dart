@@ -74,6 +74,7 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
     // final DateTime? callbackUntil = widget.transaction.unlockTime != null ?
 
     return AppCard(
+      padding: 8,
       margin: widget.compact ? EdgeInsets.zero : const EdgeInsets.symmetric(horizontal: 0).copyWith(bottom: 16),
       // color: Colors.white.withOpacity(0.03),
       child: Column(

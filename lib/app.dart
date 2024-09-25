@@ -111,57 +111,72 @@ class AppContainer extends ConsumerWidget {
                         width: double.infinity,
                         height: 28,
                         decoration: BoxDecoration(
-                            color: AppColors.getGray(),
-                            border: Border(
-                                bottom: BorderSide(
+                          color: AppColors.getGray(),
+                          border: Border(
+                            bottom: BorderSide(
                               color: Colors.white.withOpacity(0.05),
                               width: 1,
-                            ))),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                              padding: const EdgeInsets.only(left: 72.0, top: 4),
-                              child: RichText(
-                                text: TextSpan(
-                                  style: TextStyle(
-                                    fontFamily: "Mukta",
-                                    color: Colors.white.withOpacity(.85),
-                                    letterSpacing: 0.75,
-                                    height: 1,
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: "VFX",
-                                      style: TextStyle(
-                                        color: AppColors.getBlue(ColorShade.s100),
-                                        fontWeight: FontWeight.w600,
-                                        shadows: [
-                                          Shadow(
-                                            color: Colors.white.withOpacity(0.4),
-                                            blurRadius: 8,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: " | ",
-                                      style: TextStyle(
-                                        color: Colors.white.withOpacity(0.25),
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: "Switchblade",
-                                    ),
-                                  ],
-                                ),
-                              )),
+                            ),
+                          ),
                         ),
+                        child: Padding(
+                            padding: const EdgeInsets.only(left: 72.0, top: 4),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontFamily: "Mukta",
+                                      color: Colors.white.withOpacity(.85),
+                                      letterSpacing: 0.75,
+                                      height: 1,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: "VFX",
+                                        style: TextStyle(
+                                          color: AppColors.getBlue(ColorShade.s100),
+                                          fontWeight: FontWeight.w600,
+                                          shadows: [
+                                            Shadow(
+                                              color: Colors.white.withOpacity(0.4),
+                                              blurRadius: 8,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: " | ",
+                                        style: TextStyle(
+                                          color: Colors.white.withOpacity(0.25),
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: "Switchblade",
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                if (Env.isTestNet)
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8.0),
+                                    child: Text(
+                                      "[TESTNET]",
+                                      style: TextStyle(
+                                        fontFamily: "Mukta",
+                                        fontSize: 10,
+                                        color: Colors.white.withOpacity(1),
+                                        letterSpacing: 1.5,
+                                        height: 1,
+                                      ),
+                                    ),
+                                  )
+                              ],
+                            )),
                       ),
                     ),
                   ),
-                SizedBox(
-                  height: 4,
-                ),
                 Expanded(
                   child: Stack(
                     children: [
