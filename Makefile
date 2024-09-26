@@ -42,7 +42,7 @@ package_mac:
 	open ./installers/exports/
 
 build_win_cli:
-	dotnet publish -c Release -r win-x64 ../Core-Cli/ --output ../Core-Cli/rbxpublished
+	dotnet publish -c Release -r win-x64 ../Core-Cli/ --output ../Core-Cli/rbxpublished --self-contained true -p:PublishSingleFile=true
 
 package_m1:
 	rm -rf ../Core-CLI/bin/Release
@@ -65,9 +65,9 @@ package_m1:
 
 build_win:
 	if exist .\build\windows\runner\Release rmdir /s /q ".\build\windows\runner\Release"
-	flutter build windows --release
+	fvm flutter build windows --release
 	move ".\build\windows\runner\Release\rbx_wallet_gui.exe" ".\build\windows\runner\Release\RBXWallet.exe"
-	#TODO add cli build command
+	dotnet publish -c Release -r win-x64 ../Core-Cli/ --output ../Core-Cli/rbxpublished --self-contained true -p:PublishSingleFile=true
 	Xcopy "..\ReserveBlock-Core\rbxpublished" ".\build\windows\runner\Release\RBXCore\" /E /Y /K
 	copy ".\installers\resources\windows-64\RBXLauncher.exe" ".\build\windows\runner\Release\RBXCore\RBXLauncher.exe" 
 	copy ".\installers\resources\windows-64\RBXLauncherTestNet.exe" ".\build\windows\runner\Release\RBXCore\RBXLauncherTestNet.exe" 
