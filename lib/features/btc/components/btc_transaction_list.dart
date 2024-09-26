@@ -14,7 +14,7 @@ class BtcTransactionList extends BaseComponent {
 
     if (transactions.isEmpty) {
       return Center(
-        child: Text("No Outgoing Transactions"),
+        child: Text("No Transactions"),
       );
     }
 

@@ -2,6 +2,7 @@
 
 const APP_V = "5.0.26";
 const APP_VERSION = "beta$APP_V";
+const APP_VERSION_NICKNAME = "Switchblade";
 
 const ALLOW_PAYMENT = true;
 

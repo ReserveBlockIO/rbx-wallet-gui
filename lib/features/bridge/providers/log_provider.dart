@@ -24,7 +24,7 @@ class LogProvider extends StateNotifier<List<LogEntry>> {
     if (scrollController.hasClients) {
       await Future.delayed(const Duration(milliseconds: 300));
       scrollController.animateTo(
-        scrollController.position.maxScrollExtent - 24,
+        scrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 500),
         curve: Curves.linear,
       );

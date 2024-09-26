@@ -12,43 +12,36 @@ class LogItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
-      child: SizedBox(
-        width: double.infinity,
-        child: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: SelectableText(
-                  entry.message,
-                  style: TextStyle(
-                    color: entry.colorOverride ?? AppTheme.appVariantToColor(context, entry.variant),
-                  ),
-                ),
-              ),
-              if (entry.trailing != null) entry.trailing!,
-              if (entry.textToCopy != null)
-                Padding(
-                  padding: const EdgeInsets.only(left: 4, right: 12),
-                  child: InkWell(
-                    onTap: () async {
-                      await Clipboard.setData(
-                        ClipboardData(text: entry.textToCopy),
-                      );
-                      Toast.message("${entry.textToCopy} copied to clipboard");
-                    },
-                    child: const Icon(
-                      Icons.copy,
-                      size: 12,
-                    ),
-                  ),
-                ),
-            ],
+    return Row(
+      children: [
+        Expanded(
+          child: SelectableText(
+            entry.message,
+            style: TextStyle(
+              color: entry.colorOverride ?? AppTheme.appVariantToColor(context, entry.variant),
+              height: 1.5,
+              fontFamily: "RobotoMono",
+            ),
           ),
         ),
-      ),
+        if (entry.trailing != null) entry.trailing!,
+        if (entry.textToCopy != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 4, right: 12),
+            child: InkWell(
+              onTap: () async {
+                await Clipboard.setData(
+                  ClipboardData(text: entry.textToCopy),
+                );
+                Toast.message("${entry.textToCopy} copied to clipboard");
+              },
+              child: const Icon(
+                Icons.copy,
+                size: 12,
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

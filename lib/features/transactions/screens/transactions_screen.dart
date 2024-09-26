@@ -70,7 +70,7 @@ class TransactionsScreen extends BaseScreen {
                 indicatorColor: btcColor,
                 tabs: [
                   const Tab(
-                    child: Text("Outgoing Transactions"),
+                    child: Text("Transactions"),
                   ),
                   const Tab(
                     child: Text("Inputs"),

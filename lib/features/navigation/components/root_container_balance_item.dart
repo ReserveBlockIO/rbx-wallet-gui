@@ -34,7 +34,6 @@ class RootContainerBalanceItemState extends State<RootContainerBalanceItem> {
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      cursor: SystemMouseCursors.click,
       onExit: (_) {
         setState(() {
           isExpanded = false;

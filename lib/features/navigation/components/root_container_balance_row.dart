@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/features/btc/models/btc_transaction.dart';
+import 'package:rbx_wallet/features/btc/providers/btc_transaction_list_provider.dart';
 import 'package:rbx_wallet/features/navigation/components/root_container_balance_item.dart';
 import 'package:rbx_wallet/features/navigation/components/root_container_balance_row_conector.dart';
 import 'package:rbx_wallet/features/navigation/constants.dart';
 import 'package:rbx_wallet/features/navigation/root_container.dart';
 import 'package:rbx_wallet/features/navigation/utils.dart';
+import 'package:rbx_wallet/features/transactions/models/transaction.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/base_component.dart';
@@ -52,6 +56,9 @@ class RootContainerBalanceRow extends BaseComponent {
 
     final latestVfxTx = vfxTxs.isEmpty ? null : vfxTxs.first;
 
+    final btcTxs = ref.watch(btcTransactionListProvider);
+    final latestBtcTx = btcTxs.isEmpty ? null : btcTxs.first;
+
     final forceExpand = ref.watch(globalBalancesExpandedProvider);
 
     return LayoutBuilder(builder: (context, constraints) {
@@ -92,60 +99,12 @@ class RootContainerBalanceRow extends BaseComponent {
                       size: AppVerticalIconButtonSize.sm,
                     ),
                   ],
-                  latestTx: latestVfxTx != null
-                      ? Builder(builder: (context) {
-                          final tx = latestVfxTx;
-                          return GestureDetector(
-                            onTap: () {
-                              RootContainerUtils.navigateToTab(context, RootTab.transactions);
-                            },
-                            child: AppCard(
-                              padding: 12,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  if (tx.type == TxType.rbxTransfer)
-                                    Text(
-                                      "${tx.amount} VFX",
-                                      style: TextStyle(
-                                        color: tx.amount < 0 ? Colors.red.shade500 : Theme.of(context).colorScheme.success,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    )
-                                  else
-                                    Text(
-                                      tx.typeLabel,
-                                      style: TextStyle(
-                                        color: AppColors.getBlue(),
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  Text(
-                                    "From: ${tx.fromAddress}\nTo: ${tx.toAddress}",
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      color: Colors.white.withOpacity(0.9),
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        })
-                      : null,
+                  latestTx: latestVfxTx != null ? _LatestVfxTx(tx: latestVfxTx) : null,
                 ),
               ),
-              // AnimatedPadding(
-              //   duration: ROOT_CONTAINER_TRANSITION_DURATION,
-              //   curve: Curves.easeInOut,
-              //   padding: EdgeInsets.only(top: forceExpand ? ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT / 2 : 0),
-              //   child: RootContainerBalanceRowConnector(),
-              // ),
               SizedBox(
                 width: 16,
               ),
-
               Expanded(
                 child: RootContainerBalanceItem(
                   forceExpand: forceExpand,
@@ -177,12 +136,6 @@ class RootContainerBalanceRow extends BaseComponent {
               SizedBox(
                 width: 16,
               ),
-              // AnimatedPadding(
-              //   duration: ROOT_CONTAINER_TRANSITION_DURATION,
-              //   curve: Curves.easeInOut,
-              //   padding: EdgeInsets.only(top: forceExpand ? ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT / 2 : 0),
-              //   child: RootContainerBalanceRowConnector(),
-              // ),
               Expanded(
                 child: RootContainerBalanceItem(
                   forceExpand: forceExpand,
@@ -209,6 +162,7 @@ class RootContainerBalanceRow extends BaseComponent {
                       size: AppVerticalIconButtonSize.sm,
                     ),
                   ],
+                  latestTx: latestBtcTx != null ? _LatestBtcTx(tx: latestBtcTx) : null,
                 ),
               ),
             ],
@@ -240,16 +194,117 @@ class RootContainerBalanceRow extends BaseComponent {
               child: Padding(
                 padding: EdgeInsets.only(left: connector2Left),
                 child: Transform.translate(
-                    offset: Offset(-6, 8),
-                    child: ConnectorVisual(
-                      isBtc: true,
-                    )),
+                  offset: Offset(-6, 8),
+                  child: ConnectorVisual(
+                    isBtc: true,
+                  ),
+                ),
               ),
             ),
           ),
         ],
       );
     });
+  }
+}
+
+class _LatestBtcTx extends BaseComponent {
+  const _LatestBtcTx({
+    super.key,
+    required this.tx,
+  });
+
+  final BtcTransaction tx;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: () {
+          ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.btc);
+          RootContainerUtils.navigateToTab(context, RootTab.transactions);
+        },
+        child: AppCard(
+          padding: 12,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "${tx.amount} BTC",
+                style: TextStyle(
+                  color: tx.amount < 0 ? Colors.red.shade500 : Theme.of(context).colorScheme.success,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Text(
+                "From: ${tx.fromAddress}\nTo: ${tx.toAddress}",
+                style: TextStyle(
+                  fontSize: 11,
+                  color: Colors.white.withOpacity(0.9),
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _LatestVfxTx extends BaseComponent {
+  const _LatestVfxTx({
+    super.key,
+    required this.tx,
+  });
+
+  final Transaction tx;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: () {
+          ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.vfx);
+
+          RootContainerUtils.navigateToTab(context, RootTab.transactions);
+        },
+        child: AppCard(
+          padding: 12,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (tx.type == TxType.rbxTransfer)
+                Text(
+                  "${tx.amount} VFX",
+                  style: TextStyle(
+                    color: tx.amount < 0 ? Colors.red.shade500 : Theme.of(context).colorScheme.success,
+                    fontWeight: FontWeight.w600,
+                  ),
+                )
+              else
+                Text(
+                  tx.typeLabel,
+                  style: TextStyle(
+                    color: AppColors.getBlue(),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              Text(
+                "From: ${tx.fromAddress}\nTo: ${tx.toAddress}",
+                style: TextStyle(
+                  fontSize: 11,
+                  color: Colors.white.withOpacity(0.9),
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 

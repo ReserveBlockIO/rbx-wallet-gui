@@ -61,7 +61,7 @@ class _HomeButtonsState extends State<HomeButtons> {
           backgroundColor: MaterialStateProperty.resolveWith(
             (states) {
               if (states.contains(MaterialState.selected)) {
-                return AppColors.getGold(ColorShade.s100);
+                return AppColors.getBlue(ColorShade.s100);
               }
               if (states.contains(MaterialState.hovered)) {
                 return AppColors.getBlue(ColorShade.s400);
@@ -77,7 +77,7 @@ class _HomeButtonsState extends State<HomeButtons> {
               if (states.contains(MaterialState.selected)) {
                 return Colors.black;
               }
-              return AppColors.getBlue(ColorShade.s50);
+              return AppColors.getWhite();
             },
           ),
         ),
