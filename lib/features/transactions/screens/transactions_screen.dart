@@ -135,11 +135,9 @@ class TransactionsScreen extends BaseScreen {
           ),
         );
       case CurrencyType.any:
-        return Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: CombinedTransactionsList(),
-          ),
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: CombinedTransactionsList(),
         );
     }
   }
