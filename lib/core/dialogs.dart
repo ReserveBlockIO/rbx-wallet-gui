@@ -113,53 +113,6 @@ class InfoDialog {
 }
 
 class ConfirmDialog {
-  static alert(
-    BuildContext context, {
-    required String title,
-    Widget? content,
-    String? body,
-    String? cancelText,
-    String? confirmText,
-    bool destructive = false,
-  }) {
-    return AlertDialog(
-      title: Text(title),
-      content: body != null ? ConstrainedBox(constraints: const BoxConstraints(maxWidth: 500), child: Text(body)) : content,
-      actions: [
-        TextButton(
-          style: TextButton.styleFrom(
-            textStyle: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.info,
-            ),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop(false);
-          },
-          child: Text(
-            cancelText ?? "No",
-            style: TextStyle(color: Theme.of(context).colorScheme.info),
-          ),
-        ),
-        TextButton(
-          style: TextButton.styleFrom(
-            primary: destructive ? Colors.red.shade600 : Theme.of(context).colorScheme.info,
-            textStyle: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop(true);
-          },
-          child: Text(
-            confirmText ?? "Yes",
-            style: TextStyle(
-              color: destructive ? Colors.red.shade600 : Colors.white,
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
   static Future<bool?> show({
     required String title,
     Widget? content,
@@ -169,19 +122,50 @@ class ConfirmDialog {
     bool destructive = false,
     BuildContext? context,
   }) async {
-    return await showDialog(
-      context: context ?? rootNavigatorKey.currentContext!,
-      builder: (context) {
-        return alert(
-          context,
-          title: title,
-          content: content,
-          body: body,
-          cancelText: cancelText,
-          confirmText: confirmText,
-          destructive: destructive,
-        );
-      },
+    final ctx = context ?? rootNavigatorKey.currentContext!;
+
+    return await SpecialDialog<bool?>().show(
+      ctx,
+      title: title,
+      content: body != null
+          ? Text(
+              body,
+              style: TextStyle(fontSize: 18, color: Colors.white.withOpacity(.8)),
+              textAlign: TextAlign.center,
+            )
+          : content ?? SizedBox(),
+      actions: [
+        TextButton(
+          style: TextButton.styleFrom(
+            textStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(ctx).colorScheme.info,
+            ),
+          ),
+          onPressed: () {
+            Navigator.of(ctx).pop(false);
+          },
+          child: Text(
+            cancelText ?? "No",
+            style: TextStyle(color: Theme.of(ctx).colorScheme.info),
+          ),
+        ),
+        TextButton(
+          style: TextButton.styleFrom(
+            primary: destructive ? Colors.red.shade600 : Theme.of(ctx).colorScheme.info,
+            textStyle: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          onPressed: () {
+            Navigator.of(ctx).pop(true);
+          },
+          child: Text(
+            confirmText ?? "Yes",
+            style: TextStyle(
+              color: destructive ? Colors.red.shade600 : Colors.white,
+            ),
+          ),
+        )
+      ],
     );
   }
 }
@@ -663,6 +647,7 @@ class SpecialDialog<T> {
     bool dissmissible = true,
     double maxWidth = 500.0,
     String? title,
+    List<Widget>? actions,
   }) async {
     return await showGeneralDialog(
       context: context,
@@ -699,6 +684,17 @@ class SpecialDialog<T> {
                               ),
                             if (title == null && dissmissible) SizedBox(height: 18 + 8 + 8),
                             Container(color: Colors.black12, child: widget),
+                            if (actions != null)
+                              Align(
+                                alignment: Alignment.center,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: actions,
+                                  ),
+                                ),
+                              ),
                           ],
                         ),
                         if (dissmissible)
