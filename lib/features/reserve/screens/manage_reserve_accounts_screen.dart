@@ -36,7 +36,7 @@ class ManageReserveAccountsScreen extends BaseScreen {
     return AppBar(
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
-      title: Text("Manage Reserve Accounts"),
+      title: Text("Manage Vault Accounts"),
     );
   }
 
@@ -66,7 +66,7 @@ class ManageReserveAccountsScreen extends BaseScreen {
                 height: 6,
               ),
               AppButton(
-                label: "Restore Reserve Account",
+                label: "Restore Vault Account",
                 icon: Icons.refresh,
                 type: AppButtonType.Text,
                 variant: AppColorVariant.Light,
@@ -80,7 +80,7 @@ class ManageReserveAccountsScreen extends BaseScreen {
         Expanded(
           child: accounts.isEmpty
               ? Center(
-                  child: Text("No Reserve Accounts"),
+                  child: Text("No Vault Accounts"),
                 )
               : ListView.builder(
                   itemCount: accounts.length,

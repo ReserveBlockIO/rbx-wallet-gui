@@ -17,6 +17,7 @@ import '../../../core/theme/components.dart';
 import '../../btc/providers/btc_account_list_provider.dart';
 import '../../btc/providers/btc_balance_provider.dart';
 import '../../btc/providers/tokenized_bitcoin_list_provider.dart';
+import '../../image_sequencer/image_sequencer.dart';
 import '../../misc/providers/global_balances_expanded_provider.dart';
 import '../../transactions/providers/transaction_list_provider.dart';
 import '../../wallet/providers/wallet_list_provider.dart';
@@ -223,11 +224,8 @@ class RootContainerBalanceRow extends BaseComponent {
                 // child: RootContainerBalanceRowConnector(),
                 child: Transform.translate(
                   offset: Offset(-33, 8),
-                  child: Image.asset(
-                    'assets/images/connector1.png',
-                    width: 155 / 3,
-                    height: 118 / 3,
-                    isAntiAlias: true,
+                  child: ConnectorVisual(
+                    isBtc: false,
                   ),
                 ),
               ),
@@ -242,19 +240,52 @@ class RootContainerBalanceRow extends BaseComponent {
               child: Padding(
                 padding: EdgeInsets.only(left: connector2Left),
                 child: Transform.translate(
-                  offset: Offset(-6, 8),
-                  child: Image.asset(
-                    'assets/images/connector2.png',
-                    width: 155 / 3,
-                    height: 118 / 3,
-                    isAntiAlias: true,
-                  ),
-                ),
+                    offset: Offset(-6, 8),
+                    child: ConnectorVisual(
+                      isBtc: true,
+                    )),
               ),
             ),
           ),
         ],
       );
     });
+  }
+}
+
+class ConnectorVisual extends StatelessWidget {
+  final bool isBtc;
+  final bool isAnimated;
+  const ConnectorVisual({
+    super.key,
+    required this.isBtc,
+    this.isAnimated = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (isAnimated) {
+      return SizedBox(
+        width: 155 / 3,
+        height: 118 / 3,
+        child: ImageSequenceAnimator(
+          isOnline: false,
+          folderName: 'assets/images/connector',
+          fileName: isBtc ? "connectorb_" : "connectora_",
+          fileFormat: 'png',
+          frameCount: isBtc ? 45 : 30,
+          fps: 30,
+          suffixStart: 1,
+          suffixCount: 2,
+          isLooping: true,
+          isAutoPlay: true,
+        ),
+      );
+    }
+    return Image.asset(
+      isBtc ? 'assets/images/connector2.png' : 'assets/images/connector1.png',
+      width: 155 / 3,
+      height: 118 / 3,
+    );
   }
 }

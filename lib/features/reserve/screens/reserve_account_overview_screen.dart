@@ -39,6 +39,7 @@ class ReserveAccountOverviewScreen extends BaseScreen {
           child: AppButton(
             label: "Manage Vault Accounts",
             variant: AppColorVariant.Reserve,
+            type: AppButtonType.Outlined,
             onPressed: () {
               AutoRouter.of(context).push(const ManageReserveAccountsScreenRoute());
             },
@@ -100,10 +101,12 @@ class ReserveAccountOverviewScreen extends BaseScreen {
                 ),
               ),
               AppButton(
-                label: "Manage Vault Accounts",
-                variant: AppColorVariant.Secondary,
-                onPressed: () {
-                  AutoRouter.of(context).push(const ManageReserveAccountsScreenRoute());
+                label: "Restore Vault Account",
+                icon: Icons.refresh,
+                type: AppButtonType.Text,
+                variant: AppColorVariant.Light,
+                onPressed: () async {
+                  provider.restoreAccount(context);
                 },
               ),
             ],
@@ -252,23 +255,6 @@ class _Top extends BaseComponent {
         height: 16,
       ),
 
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          AppButton(
-            label: "Restore Vault Account",
-            icon: Icons.refresh,
-            type: AppButtonType.Text,
-            variant: AppColorVariant.Light,
-            onPressed: () async {
-              provider.restoreAccount(context);
-            },
-          ),
-        ],
-      ),
-      SizedBox(
-        height: 8,
-      ),
       TextButton.icon(
         onPressed: () {
           showDialog(
@@ -310,7 +296,17 @@ class _Top extends BaseComponent {
         style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
       ),
       SizedBox(height: 3),
-      if (wallets.isEmpty) Text("No Vault Accounts")
+      if (wallets.isEmpty) Text("No Vault Accounts"),
+      if (wallets.isEmpty)
+        AppButton(
+          label: "Restore Vault Account",
+          icon: Icons.refresh,
+          type: AppButtonType.Text,
+          variant: AppColorVariant.Light,
+          onPressed: () async {
+            provider.restoreAccount(context);
+          },
+        ),
     ]);
   }
 }

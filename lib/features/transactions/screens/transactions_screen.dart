@@ -109,7 +109,7 @@ class TransactionsScreen extends BaseScreen {
                     child: Text("Failed"),
                   ),
                   const Tab(
-                    child: const Text("Reserve"),
+                    child: const Text("Vaulted"),
                   ),
                   // const Tab(
                   //   child: const Text("Validated"),
