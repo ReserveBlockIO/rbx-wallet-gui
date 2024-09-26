@@ -71,8 +71,8 @@ package_m1:
 build_win:
 	if exist .\build\windows\runner\Release rmdir /s /q ".\build\windows\runner\Release"
 	fvm flutter build windows --release
-	move ".\build\windows\runner\Release\rbx_wallet_gui.exe" ".\build\windows\runner\Release\RBXWallet.exe"
-	dotnet publish -c Release -r win-x64 ../Core-Cli/ --output ../Core-Cli/rbxpublished --self-contained true -p:PublishSingleFile=true
+	move ".\build\windows\runner\Release\rbx_wallet_gui.exe" ".\build\windows\runner\Release\VFXWallet.exe"
+	dotnet publish -c Release -r win-x64 ..\ReserveBlock-Core\ --output ..\ReserveBlock-Core\rbxpublished --self-contained true -p:PublishSingleFile=true
 	Xcopy "..\ReserveBlock-Core\rbxpublished" ".\build\windows\runner\Release\RBXCore\" /E /Y /K
 	copy ".\installers\resources\windows-64\RBXLauncher.exe" ".\build\windows\runner\Release\RBXCore\RBXLauncher.exe" 
 	copy ".\installers\resources\windows-64\RBXLauncherTestNet.exe" ".\build\windows\runner\Release\RBXCore\RBXLauncherTestNet.exe" 
@@ -87,13 +87,13 @@ build_win7:
 	if exist .\build\windows\runner\Release rmdir /s /q ".\build\windows\runner\Release"
 	fvm flutter build windows --release
 	move ".\build\windows\runner\Release\rbx_wallet_gui.exe" ".\build\windows\runner\Release\VFXWallet.exe"
-	Xcopy ".\installers\resources\win7-64\RBXCore" ".\build\windows\runner\Release\RBXCore\" /E /Y /K
-	copy ".\installers\resources\win7-64\RBXLauncher.exe" ".\build\windows\runner\Release\RBXCore\RBXLauncher.exe" 
+	dotnet publish -c Release -r win7-x64 ..\ReserveBlock-Core\ --output ..\ReserveBlock-Core\rbxpublished --self-contained true -p:PublishSingleFile=true
+	Xcopy "..\ReserveBlock-Core\rbxpublished" ".\build\windows\runner\Release\RBXCore\" /E /Y /K
+	copy ".\installers\resources\windows-64\RBXLauncher.exe" ".\build\windows\runner\Release\RBXCore\RBXLauncher.exe" 
 	copy ".\installers\resources\windows-64\RBXLauncherTestNet.exe" ".\build\windows\runner\Release\RBXCore\RBXLauncherTestNet.exe" 
-	copy ".\installers\resources\win7-64\msvcp140.dll" ".\build\windows\runner\Release\msvcp140.dll" 
-	copy ".\installers\resources\win7-64\vcruntime140.dll" ".\build\windows\runner\Release\vcruntime140.dll" 
-	copy ".\installers\resources\win7-64\vcruntime140_1.dll" ".\build\windows\runner\Release\vcruntime140_1.dll"
-	copy ".\installers\resources\win7-64\api-ms-win-core-winrt-l1-1-0.dll" ".\build\windows\runner\Release\api-ms-win-core-winrt-l1-1-0.dll"
+	copy ".\installers\resources\windows-64\msvcp140.dll" ".\build\windows\runner\Release\msvcp140.dll" 
+	copy ".\installers\resources\windows-64\vcruntime140.dll" ".\build\windows\runner\Release\vcruntime140.dll" 
+	copy ".\installers\resources\windows-64\vcruntime140_1.dll" ".\build\windows\runner\Release\vcruntime140_1.dll" 
 	Xcopy ".\installers\resources\BIP39" ".\build\windows\runner\Release\BIP39\" /E /Y /K
 	C:\"Program Files (x86)"\"Inno Setup 6"\ISCC .\installers\resources\WindowsInstallerScript-win7.iss
 
