@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/foundation.dart';
@@ -96,8 +98,8 @@ class AppContainer extends ConsumerWidget {
 
         return Scaffold(
           body: WindowBorder(
-            width: 1,
-            color: Colors.red,
+            width: 0,
+            color: AppColors.getBlue(ColorShade.s400),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -120,7 +122,7 @@ class AppContainer extends ConsumerWidget {
                           ),
                         ),
                         child: Padding(
-                            padding: const EdgeInsets.only(left: 72.0, top: 4),
+                            padding: EdgeInsets.only(left: Platform.isWindows ? 4 : 72.0, top: 4),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -159,19 +161,22 @@ class AppContainer extends ConsumerWidget {
                                   ),
                                 ),
                                 if (Env.isTestNet)
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
-                                    child: Text(
-                                      "[TESTNET]",
-                                      style: TextStyle(
-                                        fontFamily: "Mukta",
-                                        fontSize: 10,
-                                        color: Colors.white.withOpacity(1),
-                                        letterSpacing: 1.5,
-                                        height: 1,
+                                  Row(mainAxisSize: MainAxisSize.min, children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(right: Platform.isWindows ? 2 : 8.0),
+                                      child: Text(
+                                        "[TESTNET]",
+                                        style: TextStyle(
+                                          fontFamily: "Mukta",
+                                          fontSize: 10,
+                                          color: Colors.white.withOpacity(1),
+                                          letterSpacing: 1.5,
+                                          height: 1,
+                                        ),
                                       ),
                                     ),
-                                  )
+                                    if (Platform.isWindows) _WindowsTopRightButtons(),
+                                  ])
                               ],
                             )),
                       ),
@@ -271,6 +276,52 @@ class AppContainer extends ConsumerWidget {
         );
       },
       title: 'VFX Wallet',
+    );
+  }
+}
+
+class _WindowsTopRightButtons extends StatefulWidget {
+  const _WindowsTopRightButtons({
+    super.key,
+  });
+
+  @override
+  State<_WindowsTopRightButtons> createState() => _WindowsTopRightButtonsState();
+}
+
+class _WindowsTopRightButtonsState extends State<_WindowsTopRightButtons> {
+  final buttonColors = WindowButtonColors(
+    normal: AppColors.getGray(),
+    mouseOver: AppColors.getGray(ColorShade.s200),
+    mouseDown: AppColors.getBlue(ColorShade.s300),
+    iconNormal: AppColors.getBlue(ColorShade.s200),
+    iconMouseOver: AppColors.getBlue(),
+    iconMouseDown: AppColors.getBlue(ColorShade.s50),
+  );
+
+  void maximizeOrRestore() {
+    setState(() {
+      appWindow.maximizeOrRestore();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        MinimizeWindowButton(colors: buttonColors),
+        appWindow.isMaximized
+            ? RestoreWindowButton(
+                colors: buttonColors,
+                onPressed: maximizeOrRestore,
+              )
+            : MaximizeWindowButton(
+                colors: buttonColors,
+                onPressed: maximizeOrRestore,
+              ),
+        CloseWindowButton(colors: buttonColors),
+      ],
     );
   }
 }
