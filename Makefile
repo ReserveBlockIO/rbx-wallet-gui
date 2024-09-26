@@ -41,6 +41,8 @@ package_mac:
 	cd /Users/tylersavery/Projects/rbx/rbx_wallet/
 	open ./installers/exports/
 
+build_win_cli:
+	dotnet publish -c Release -r win-x64 ../Core-Cli/ --output ../Core-Cli/rbxpublished
 
 package_m1:
 	rm -rf ../Core-CLI/bin/Release
@@ -65,7 +67,8 @@ build_win:
 	if exist .\build\windows\runner\Release rmdir /s /q ".\build\windows\runner\Release"
 	flutter build windows --release
 	move ".\build\windows\runner\Release\rbx_wallet_gui.exe" ".\build\windows\runner\Release\RBXWallet.exe"
-	Xcopy ".\installers\resources\windows-64\RBXCore" ".\build\windows\runner\Release\RBXCore\" /E /Y /K
+	#TODO add cli build command
+	Xcopy "..\ReserveBlock-Core\rbxpublished" ".\build\windows\runner\Release\RBXCore\" /E /Y /K
 	copy ".\installers\resources\windows-64\RBXLauncher.exe" ".\build\windows\runner\Release\RBXCore\RBXLauncher.exe" 
 	copy ".\installers\resources\windows-64\RBXLauncherTestNet.exe" ".\build\windows\runner\Release\RBXCore\RBXLauncherTestNet.exe" 
 	copy ".\installers\resources\windows-64\msvcp140.dll" ".\build\windows\runner\Release\msvcp140.dll" 
@@ -77,8 +80,8 @@ build_win:
 
 build_win7:
 	if exist .\build\windows\runner\Release rmdir /s /q ".\build\windows\runner\Release"
-	flutter build windows --release
-	move ".\build\windows\runner\Release\rbx_wallet_gui.exe" ".\build\windows\runner\Release\RBXWallet.exe"
+	fvm flutter build windows --release
+	move ".\build\windows\runner\Release\rbx_wallet_gui.exe" ".\build\windows\runner\Release\VFXWallet.exe"
 	Xcopy ".\installers\resources\win7-64\RBXCore" ".\build\windows\runner\Release\RBXCore\" /E /Y /K
 	copy ".\installers\resources\win7-64\RBXLauncher.exe" ".\build\windows\runner\Release\RBXCore\RBXLauncher.exe" 
 	copy ".\installers\resources\windows-64\RBXLauncherTestNet.exe" ".\build\windows\runner\Release\RBXCore\RBXLauncherTestNet.exe" 
@@ -129,6 +132,8 @@ run_web_cors:
 run_cli_testnet:
 	/Applications/VFXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore testnet enableapi gui
 
+run_cli_testnet_win:
+	C:\Users\Administrator\prj\ReserveBlock-Core\rbxpublished\ReserveBlockCore.exe testnet enableapi gui
 
 
 
