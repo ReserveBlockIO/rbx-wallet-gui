@@ -151,7 +151,7 @@ class ValidatorScreen extends BaseScreen {
               ),
               AppButton(
                 label: "Start Validating",
-                icon: Icons.star,
+                icon: Icons.check,
                 variant: AppColorVariant.Success,
                 onPressed: () async {
                   if (!widgetGuardWalletIsSynced(ref)) return;

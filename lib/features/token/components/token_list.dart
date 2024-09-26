@@ -122,10 +122,13 @@ class TokenList extends BaseComponent {
               height: 8,
             ),
             ...tokens.map((t) {
-              return TokenListTile(
-                tokenAccount: t,
-                address: account.address,
-                token: ref.read(tokenNftsProvider)[t.smartContractId],
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: TokenListTile(
+                  tokenAccount: t,
+                  address: account.address,
+                  token: ref.read(tokenNftsProvider)[t.smartContractId],
+                ),
               );
             }),
             SizedBox(

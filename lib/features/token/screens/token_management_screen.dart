@@ -30,6 +30,7 @@ import 'package:rbx_wallet/features/token/screens/token_topic_detail_screen.dart
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:collection/collection.dart';
 
+import '../../../core/theme/components.dart';
 import '../components/ban_token_address_button.dart';
 import '../components/burn_tokens_button.dart';
 import '../components/change_token_ownership_button.dart';
@@ -198,19 +199,21 @@ class TokenManagementScreen extends BaseScreen {
 
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-            Divider(),
-            TokenDetailsContent(
-              tokenAccount: tokenAccount,
-              token: nft.tokenStateDetails!,
-              owner: nft.currentOwner,
-              nft: nft,
+            AppCard(
+              padding: 4,
+              fullWidth: true,
+              child: TokenDetailsContent(
+                tokenAccount: tokenAccount,
+                token: nft.tokenStateDetails!,
+                owner: nft.currentOwner,
+                nft: nft,
+              ),
             ),
-            Divider(),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(16.0),
               child: Wrap(
                 alignment: WrapAlignment.center,
                 spacing: 12.0,
@@ -379,7 +382,10 @@ class TokenManagementScreen extends BaseScreen {
                 titleOverride: addresses[i],
                 interactive: false,
               );
-            }).toList()
+            }).toList(),
+            SizedBox(
+              height: 48,
+            )
           ],
         ),
       ),
@@ -403,62 +409,82 @@ class TokenDetailsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _DetailRow(
-          label: "Smart Contract UID",
-          value: tokenAccount.smartContractId,
-          copyable: true,
-        ),
-        _DetailRow(
-          label: "Owner",
-          value: owner,
-          copyable: true,
-        ),
-        _DetailRow(
-          label: "Token Name",
-          value: token.name,
-          copyable: true,
-        ),
-        _DetailRow(
-          label: "Token Ticker",
-          value: token.ticker,
-          copyable: true,
-        ),
-        _DetailRow(
-          label: token.mintable ? 'Initial Issuance' : 'Fixed Supply',
-          value: token.mintable ? "${token.startingSupply.toString()} " : "${(min(token.currentSupply, token.startingSupply))}",
-        ),
-        // if (token.currentSupply > 0)
-        _DetailRow(
-          label: "Circulating Supply",
-          value: token.currentSupply.toString(),
-        ),
-        _DetailRow(
-          label: "Lifetime Cap",
-          value: token.mintable ? 'Infinite' : (min(token.currentSupply, token.startingSupply)).toString(),
-        ),
-        if (!token.mintable && token.currentSupply < token.startingSupply)
-          _DetailRow(
-            label: "Burned",
-            value: "${token.startingSupply - token.currentSupply}",
+        Expanded(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _DetailRow(
+                label: "Smart Contract UID",
+                value: tokenAccount.smartContractId,
+                copyable: true,
+              ),
+
+              _DetailRow(
+                label: "Token Name",
+                value: token.name,
+                copyable: true,
+              ),
+
+              _DetailRow(
+                label: token.mintable ? 'Initial Issuance' : 'Fixed Supply',
+                value: token.mintable ? "${token.startingSupply.toString()} " : "${(min(token.currentSupply, token.startingSupply))}",
+              ),
+              // if (token.currentSupply > 0)
+
+              _DetailRow(
+                label: "Lifetime Cap",
+                value: token.mintable ? 'Infinite' : (min(token.currentSupply, token.startingSupply)).toString(),
+              ),
+
+              if (nft.tokenDetails != null)
+                _DetailRow(
+                  label: "Mintable",
+                  value: nft.tokenDetails!.mintable ? "YES" : "NO",
+                  dividerBelow: false,
+                ),
+            ],
           ),
-        if (nft.tokenDetails != null)
-          _DetailRow(
-            label: "Mintable",
-            value: nft.tokenDetails!.mintable ? "YES" : "NO",
+        ),
+        Expanded(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _DetailRow(
+                label: "Owner",
+                value: owner,
+                copyable: true,
+              ),
+              _DetailRow(
+                label: "Token Ticker",
+                value: token.ticker,
+                copyable: true,
+              ),
+              _DetailRow(
+                label: "Circulating Supply",
+                value: token.currentSupply.toString(),
+              ),
+              if (!token.mintable && token.currentSupply < token.startingSupply)
+                _DetailRow(
+                  label: "Burned",
+                  value: "${token.startingSupply - token.currentSupply}",
+                ),
+              if (nft.tokenDetails != null)
+                _DetailRow(
+                  label: "Burnable",
+                  value: nft.tokenDetails!.burnable ? "YES" : "NO",
+                ),
+              if (nft.tokenDetails != null)
+                _DetailRow(
+                  label: "Voting",
+                  value: nft.tokenDetails!.voting ? "YES" : "NO",
+                  dividerBelow: false,
+                ),
+            ],
           ),
-        if (nft.tokenDetails != null)
-          _DetailRow(
-            label: "Burnable",
-            value: nft.tokenDetails!.burnable ? "YES" : "NO",
-          ),
-        if (nft.tokenDetails != null)
-          _DetailRow(
-            label: "Voting",
-            value: nft.tokenDetails!.voting ? "YES" : "NO",
-          ),
+        ),
       ],
     );
   }
@@ -468,43 +494,49 @@ class _DetailRow extends StatelessWidget {
   final String label;
   final String value;
   final bool copyable;
+  final bool dividerBelow;
 
   const _DetailRow({
     super.key,
     required this.label,
     required this.value,
     this.copyable = false,
+    this.dividerBelow = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        children: [
-          Text(
-            "$label: ",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-          ),
-          Text(
-            value,
-            style: TextStyle(fontSize: 18),
-          ),
-          if (copyable)
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: InkWell(
-                  onTap: () async {
-                    await Clipboard.setData(ClipboardData(text: value));
-                    Toast.message("$label copied to clipboard");
-                  },
-                  child: Icon(
-                    Icons.copy,
-                    size: 16,
-                  )),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ListTile(
+          dense: true,
+          title: Text(value),
+          subtitle: Text(label),
+          trailing: copyable
+              ? MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: () async {
+                      await Clipboard.setData(ClipboardData(text: value));
+                      Toast.message("$label copied to clipboard");
+                    },
+                    child: Icon(
+                      Icons.copy,
+                      size: 14,
+                    ),
+                  ),
+                )
+              : null,
+        ),
+        if (dividerBelow)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            child: Divider(
+              height: 1,
             ),
-        ],
-      ),
+          ),
+      ],
     );
   }
 }

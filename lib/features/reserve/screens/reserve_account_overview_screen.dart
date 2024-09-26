@@ -290,7 +290,9 @@ class _Top extends BaseComponent {
           ),
         ),
       ),
-      Divider(),
+      SizedBox(
+        height: 16,
+      ),
       Text(
         "Existing Accounts",
         style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),

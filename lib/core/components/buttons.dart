@@ -52,6 +52,7 @@ class AppButton extends StatelessWidget {
           textStyle: TextStyle(
             fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
             fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+            height: 1,
           ),
           splashFactory: NoSplash.splashFactory,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
@@ -65,6 +66,7 @@ class AppButton extends StatelessWidget {
           textStyle: TextStyle(
             fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
             fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+            height: 1,
           ),
           splashFactory: NoSplash.splashFactory,
         );
@@ -77,6 +79,7 @@ class AppButton extends StatelessWidget {
           textStyle: TextStyle(
             fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
             fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+            height: 1,
           ),
         );
       case AppColorVariant.Danger:
@@ -88,6 +91,7 @@ class AppButton extends StatelessWidget {
           textStyle: TextStyle(
             fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
             fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+            height: 1,
           ),
         );
       case AppColorVariant.Success:
@@ -99,6 +103,7 @@ class AppButton extends StatelessWidget {
           textStyle: TextStyle(
             fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
             fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+            height: 1,
           ),
         );
       case AppColorVariant.Warning:
@@ -110,6 +115,7 @@ class AppButton extends StatelessWidget {
           textStyle: TextStyle(
             fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
             fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+            height: 1,
           ),
         );
       case AppColorVariant.Light:
@@ -121,6 +127,7 @@ class AppButton extends StatelessWidget {
           textStyle: TextStyle(
             fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
             fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+            height: 1,
           ),
         );
       case AppColorVariant.Dark:
@@ -132,6 +139,7 @@ class AppButton extends StatelessWidget {
           textStyle: TextStyle(
             fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
             fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+            height: 1,
           ),
         );
       case AppColorVariant.Btc:
@@ -143,6 +151,7 @@ class AppButton extends StatelessWidget {
           textStyle: TextStyle(
             fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
             fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+            height: 1,
           ),
         );
       case AppColorVariant.Reserve:
@@ -154,6 +163,7 @@ class AppButton extends StatelessWidget {
           textStyle: TextStyle(
             fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
             fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+            height: 1,
           ),
         );
       case AppColorVariant.Vbtc:
@@ -165,6 +175,7 @@ class AppButton extends StatelessWidget {
           textStyle: TextStyle(
             fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
             fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
+            height: 1,
           ),
         );
     }
@@ -387,7 +398,7 @@ class AppButton extends StatelessWidget {
                   offset: Offset(0, (icon?.fontPackage).toString().contains("font_awesome_flutter") ? 3 : 0),
                   child: Icon(
                     icon,
-                    size: 16,
+                    size: 14,
                     color: _iconColor(context),
                   ),
                 ),
