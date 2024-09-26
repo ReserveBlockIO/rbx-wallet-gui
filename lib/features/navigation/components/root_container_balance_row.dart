@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/btc/models/btc_transaction.dart';
@@ -11,6 +12,7 @@ import 'package:rbx_wallet/features/navigation/constants.dart';
 import 'package:rbx_wallet/features/navigation/root_container.dart';
 import 'package:rbx_wallet/features/navigation/utils.dart';
 import 'package:rbx_wallet/features/transactions/models/transaction.dart';
+import 'package:rbx_wallet/features/wallet/utils.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/base_component.dart';
@@ -21,10 +23,12 @@ import '../../../core/theme/components.dart';
 import '../../btc/providers/btc_account_list_provider.dart';
 import '../../btc/providers/btc_balance_provider.dart';
 import '../../btc/providers/tokenized_bitcoin_list_provider.dart';
+import '../../btc/screens/tokenized_btc_list_screen.dart';
 import '../../image_sequencer/image_sequencer.dart';
 import '../../misc/providers/global_balances_expanded_provider.dart';
 import '../../transactions/providers/transaction_list_provider.dart';
 import '../../wallet/providers/wallet_list_provider.dart';
+import '../../wallet/screens/accounts_screen.dart';
 import 'root_container_top_balance_item.dart';
 
 class RootContainerBalanceRow extends BaseComponent {
@@ -81,19 +85,31 @@ class RootContainerBalanceRow extends BaseComponent {
                       : "${allVfxWallets.length} Account${allVfxWallets.length == 1 ? '' : 's'}",
                   actions: [
                     AppVerticalIconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.vfx);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            fullscreenDialog: true,
+                            builder: (_) => AccountsScreen(),
+                          ),
+                        );
+                      },
                       icon: Icons.wallet,
                       label: "View\nAccounts",
                       size: AppVerticalIconButtonSize.sm,
                     ),
                     AppVerticalIconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        AccountUtils.promptVfxNewOrImport(context, ref);
+                      },
                       icon: Icons.add,
                       label: "Add\nAccount",
                       size: AppVerticalIconButtonSize.sm,
                     ),
                     AppVerticalIconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        AccountUtils.getCoin(context, ref, VfxOrBtcOption.vfx);
+                      },
                       icon: FontAwesomeIcons.coins,
                       label: "Get\nVFX",
                       size: AppVerticalIconButtonSize.sm,
@@ -113,19 +129,22 @@ class RootContainerBalanceRow extends BaseComponent {
                   accountCount: "${vbtcTokens.length} Token${vbtcTokens.length == 1 ? '' : 's'}",
                   actions: [
                     AppVerticalIconButton(
-                      onPressed: () {},
-                      icon: Icons.wallet,
-                      label: "View\nAccounts",
-                      size: AppVerticalIconButtonSize.sm,
-                    ),
-                    AppVerticalIconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        RootContainerUtils.navigateToTab(context, RootTab.vbtc);
+                      },
                       icon: FontAwesomeIcons.bitcoin,
                       label: "vBTC\nTokens",
                       size: AppVerticalIconButtonSize.sm,
                     ),
                     AppVerticalIconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        SpecialDialog().show(
+                          context,
+                          content: VbtcInfo(),
+                          title: "vBTC",
+                          maxWidth: 800,
+                        );
+                      },
                       icon: Icons.help_rounded,
                       label: "What's\nvBTC",
                       size: AppVerticalIconButtonSize.sm,
@@ -144,19 +163,31 @@ class RootContainerBalanceRow extends BaseComponent {
                   accountCount: "${btcAccounts.length} Account${btcAccounts.length == 1 ? '' : 's'}",
                   actions: [
                     AppVerticalIconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.btc);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            fullscreenDialog: true,
+                            builder: (_) => AccountsScreen(),
+                          ),
+                        );
+                      },
                       icon: Icons.wallet,
                       label: "View\nAccounts",
                       size: AppVerticalIconButtonSize.sm,
                     ),
                     AppVerticalIconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        AccountUtils.promptBtcNewOrImport(context, ref);
+                      },
                       icon: Icons.add,
                       label: "Add\nAccount",
                       size: AppVerticalIconButtonSize.sm,
                     ),
                     AppVerticalIconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        AccountUtils.getCoin(context, ref, VfxOrBtcOption.btc);
+                      },
                       icon: FontAwesomeIcons.btc,
                       label: "Get\nBTC",
                       size: AppVerticalIconButtonSize.sm,

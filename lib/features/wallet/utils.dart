@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/colors.dart';
 import 'package:rbx_wallet/core/theme/components.dart';
@@ -14,8 +15,13 @@ import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/guards.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
-enum _VfxOrBtcOption {
+import '../../core/env.dart';
+import '../payment/payment_utils.dart';
+
+enum VfxOrBtcOption {
   vfx,
   btc,
 }
@@ -27,7 +33,7 @@ enum _NewOrImportOption {
 
 class AccountUtils {
   static Future<void> promptVfxOrBtc(BuildContext context, WidgetRef ref) async {
-    final selection = await SpecialDialog<_VfxOrBtcOption>().show(
+    final selection = await SpecialDialog<VfxOrBtcOption>().show(
       context,
       title: "Add New Account",
       content: Column(
@@ -46,7 +52,7 @@ class AccountUtils {
               color: Colors.white54,
             ),
             onTap: () {
-              Navigator.of(context).pop(_VfxOrBtcOption.vfx);
+              Navigator.of(context).pop(VfxOrBtcOption.vfx);
             },
           ),
           Divider(),
@@ -63,7 +69,7 @@ class AccountUtils {
               color: Colors.white54,
             ),
             onTap: () {
-              Navigator.of(context).pop(_VfxOrBtcOption.btc);
+              Navigator.of(context).pop(VfxOrBtcOption.btc);
             },
           ),
         ],
@@ -74,9 +80,9 @@ class AccountUtils {
       case null:
         return;
 
-      case _VfxOrBtcOption.vfx:
+      case VfxOrBtcOption.vfx:
         return await promptVfxNewOrImport(context, ref);
-      case _VfxOrBtcOption.btc:
+      case VfxOrBtcOption.btc:
         return await promptBtcNewOrImport(context, ref);
     }
   }
@@ -373,6 +379,68 @@ class AccountUtils {
           Toast.error();
         }
       }
+    }
+  }
+
+  static Future<void> getCoin(BuildContext context, WidgetRef ref, VfxOrBtcOption type) async {
+    switch (type) {
+      case VfxOrBtcOption.vfx:
+        if (Env.isTestNet) {
+          launchUrlString("https://testnet.rbx.network/faucet");
+          return;
+        }
+        String? address = ref.read(sessionProvider).currentWallet?.address;
+        if (address == null) {
+          if (ref.read(walletListProvider).isNotEmpty) {
+            address = ref.read(walletListProvider).first.address;
+          }
+        }
+
+        if (address != null) {
+          Toast.error("Please create or import a VFX account before proceeding");
+          return;
+        }
+
+        final agreed = await PaymentTermsDialog.show(context);
+
+        if (agreed != true) {
+          return;
+        }
+
+        final url = paymentUrl(amount: 5000, walletAddress: address!, currency: "VFX");
+        if (url != null) {
+          launchUrl(Uri.parse(url));
+        }
+        break;
+      case VfxOrBtcOption.btc:
+        if (Env.isTestNet) {
+          launchUrlString("https://mempool.space/testnet4/faucet");
+          return;
+        }
+
+        String? address = ref.read(sessionProvider).currentBtcAccount?.address;
+        if (address == null) {
+          if (ref.read(btcAccountListProvider).isNotEmpty) {
+            address = ref.read(btcAccountListProvider).first.address;
+          }
+        }
+
+        if (address != null) {
+          Toast.error("Please create or import a BTC account before proceeding");
+          return;
+        }
+
+        final agreed = await PaymentTermsDialog.show(context);
+
+        if (agreed != true) {
+          return;
+        }
+
+        final url = paymentUrl(amount: 5000, walletAddress: address!, currency: "BTC");
+        if (url != null) {
+          launchUrl(Uri.parse(url));
+        }
+        break;
     }
   }
 }

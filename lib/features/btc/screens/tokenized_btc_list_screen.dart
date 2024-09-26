@@ -154,24 +154,11 @@ class TokenizeBtcListScreen extends BaseScreen {
               ),
               TextButton.icon(
                 onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        content: _vBTCInfo(),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text(
-                              "Close",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          )
-                        ],
-                      );
-                    },
+                  SpecialDialog().show(
+                    context,
+                    content: VbtcInfo(),
+                    title: "vBTC",
+                    maxWidth: 800,
                   );
                 },
                 icon: Icon(
@@ -224,32 +211,35 @@ class TokenizeBtcListScreen extends BaseScreen {
   }
 }
 
-class _vBTCInfo extends StatelessWidget {
-  const _vBTCInfo({
+class VbtcInfo extends StatelessWidget {
+  const VbtcInfo({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          "This wallet provides a specific smart contract that enables tokenizing actual Bitcoin! This will allow you to lock any denomination of Bitcoin you choose into a smart contract with or without media / documents.\n\nOnce minted, you will then hold a Verified Bitcoin Token that you may send to any other person at any time in whole or in part without moving it across the BTC network and without paying any BTC fees. Only you or the holder of a vBTC token may unlock the underlying BTC from the smart contract. You may also add additional BTC to your token at anytime without creating an additional one should you choose.\n\nAny and all vBTC tokens may also be stored in your registered Reserve (Protected) Account feature enabling full on-chain recovery and call-back options providing incredibly secure self-custodial vaulting.",
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(
-          height: 12,
-        ),
-        Text(
-          "Welcome to true on-chain utility for your BTC!",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            "This wallet provides a specific smart contract that enables tokenizing actual Bitcoin! This will allow you to lock any denomination of Bitcoin you choose into a smart contract with or without media / documents.\n\nOnce minted, you will then hold a Verified Bitcoin Token that you may send to any other person at any time in whole or in part without moving it across the BTC network and without paying any BTC fees. Only you or the holder of a vBTC token may unlock the underlying BTC from the smart contract. You may also add additional BTC to your token at anytime without creating an additional one should you choose.\n\nAny and all vBTC tokens may also be stored in your registered Reserve (Protected) Account feature enabling full on-chain recovery and call-back options providing incredibly secure self-custodial vaulting.",
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
-        ),
-      ],
+          SizedBox(
+            height: 12,
+          ),
+          Text(
+            "Welcome to true on-chain utility for your BTC!",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 }

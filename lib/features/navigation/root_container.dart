@@ -278,8 +278,6 @@ class _LayoutState extends State<_Layout> {
                     final vfxWallet = btcSelected ? null : ref.watch(sessionProvider.select((value) => value.currentWallet));
                     final btcWallet = btcSelected ? ref.watch(sessionProvider.select((value) => value.currentBtcAccount)) : null;
 
-                    final mode = ref.watch(currencySegementedButtonProvider);
-
                     return AnimatedPositioned(
                       left: 0,
                       bottom: walletSelectorIsExpanded ? 0 : -expandedHeight,
@@ -411,58 +409,7 @@ class _LayoutState extends State<_Layout> {
                                   ),
                                 ),
                               ),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(12.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        CurrencySegementedButton(
-                                          includeAny: true,
-                                          shouldToggleGlobal: false,
-                                        ),
-                                        Builder(builder: (context) {
-                                          switch (mode) {
-                                            case CurrencyType.vfx:
-                                              return AppButton(
-                                                label: "Add Account",
-                                                onPressed: () {
-                                                  AccountUtils.promptVfxNewOrImport(context, ref);
-                                                },
-                                                icon: Icons.add,
-                                                variant: AppColorVariant.Secondary,
-                                              );
-
-                                            case CurrencyType.btc:
-                                              return AppButton(
-                                                label: "Add Account",
-                                                onPressed: () {
-                                                  AccountUtils.promptBtcNewOrImport(context, ref);
-                                                },
-                                                icon: Icons.add,
-                                                variant: AppColorVariant.Btc,
-                                              );
-
-                                            case CurrencyType.any:
-                                              return AppButton(
-                                                label: "Add Account",
-                                                onPressed: () {
-                                                  AccountUtils.promptVfxOrBtc(context, ref);
-                                                },
-                                                icon: Icons.add,
-                                                variant: AppColorVariant.Light,
-                                              );
-                                          }
-                                        }),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: RootContainerWalletSelectorList(),
-                                  ),
-                                ],
-                              ),
+                              child: AccountManagementContainer(),
                             )
                           ],
                         ),
@@ -693,6 +640,70 @@ class _LayoutState extends State<_Layout> {
         ],
       );
     });
+  }
+}
+
+class AccountManagementContainer extends BaseComponent {
+  const AccountManagementContainer({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final mode = ref.watch(currencySegementedButtonProvider);
+
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CurrencySegementedButton(
+                includeAny: true,
+                shouldToggleGlobal: false,
+              ),
+              Builder(builder: (context) {
+                switch (mode) {
+                  case CurrencyType.vfx:
+                    return AppButton(
+                      label: "Add Account",
+                      onPressed: () {
+                        AccountUtils.promptVfxNewOrImport(context, ref);
+                      },
+                      icon: Icons.add,
+                      variant: AppColorVariant.Secondary,
+                    );
+
+                  case CurrencyType.btc:
+                    return AppButton(
+                      label: "Add Account",
+                      onPressed: () {
+                        AccountUtils.promptBtcNewOrImport(context, ref);
+                      },
+                      icon: Icons.add,
+                      variant: AppColorVariant.Btc,
+                    );
+
+                  case CurrencyType.any:
+                    return AppButton(
+                      label: "Add Account",
+                      onPressed: () {
+                        AccountUtils.promptVfxOrBtc(context, ref);
+                      },
+                      icon: Icons.add,
+                      variant: AppColorVariant.Light,
+                    );
+                }
+              }),
+            ],
+          ),
+        ),
+        Expanded(
+          child: RootContainerWalletSelectorList(),
+        ),
+      ],
+    );
   }
 }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
 import 'package:rbx_wallet/features/btc/models/btc_account.dart';
 
 import '../../../core/base_component.dart';
@@ -71,8 +72,9 @@ class RootContainerWalletSelectorList extends BaseComponent {
           itemBuilder: (context, index) {
             final w = vfxWallets[index];
 
-            return Card(
-              color: AppColors.getGray(ColorShade.s50),
+            return AppCard(
+              padding: 0,
+              margin: EdgeInsets.symmetric(vertical: 4),
               child: ManageWalletListTile(wallet: w),
             );
           },
@@ -108,7 +110,9 @@ class RootContainerWalletSelectorList extends BaseComponent {
           itemCount: btcWallets.length,
           itemBuilder: (context, index) {
             final account = btcWallets[index];
-            return Card(
+            return AppCard(
+              padding: 0,
+              margin: EdgeInsets.symmetric(vertical: 4),
               color: AppColors.getGray(ColorShade.s50),
               child: ManageWalletBtcListTile(account: account),
             );
@@ -154,11 +158,12 @@ class RootContainerWalletSelectorList extends BaseComponent {
                   child: Row(
                     children: [
                       CardIndicatorVfx(
-                        verticalPadding: 4,
+                        verticalPadding: 8,
                       ),
                       Expanded(
-                        child: Card(
-                          margin: EdgeInsets.zero,
+                        child: AppCard(
+                          padding: 0,
+                          margin: EdgeInsets.symmetric(vertical: 0),
                           color: AppColors.getGray(ColorShade.s50),
                           child: ManageWalletListTile(wallet: item),
                         ),
@@ -175,11 +180,12 @@ class RootContainerWalletSelectorList extends BaseComponent {
                   child: Row(
                     children: [
                       CardIndicatorBtc(
-                        verticalPadding: 4,
+                        verticalPadding: 8,
                       ),
                       Expanded(
-                        child: Card(
-                          margin: EdgeInsets.zero,
+                        child: AppCard(
+                          padding: 0,
+                          margin: EdgeInsets.symmetric(vertical: 0),
                           color: AppColors.getGray(ColorShade.s50),
                           child: ManageWalletBtcListTile(account: item),
                         ),

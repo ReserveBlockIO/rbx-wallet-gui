@@ -1,3 +1,4 @@
+import "../../../core/providers/currency_segmented_button_provider.dart";
 import "../models/btc_account.dart";
 import "../models/btc_address_type.dart";
 import "../services/btc_service.dart";
