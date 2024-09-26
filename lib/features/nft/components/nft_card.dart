@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
 
 import 'package:rbx_wallet/features/nft/providers/sale_provider.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
@@ -74,7 +75,8 @@ class NftCard extends BaseComponent {
           : () {
               _showDetails(context, ref);
             },
-      child: Card(
+      child: AppCard(
+        padding: 16,
         child: Stack(
           alignment: Alignment.center,
           children: [

@@ -87,7 +87,9 @@ class AssetCard extends StatelessWidget {
           ],
         ),
         if (asset.localPath != null) ...[
-          const Divider(),
+          const SizedBox(
+            height: 8,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [

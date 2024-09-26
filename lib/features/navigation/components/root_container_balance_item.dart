@@ -99,7 +99,7 @@ class RootContainerBalanceItemState extends State<RootContainerBalanceItem> {
                           ),
                         ),
                         SizedBox(
-                          height: 110,
+                          height: 126,
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8),
@@ -120,7 +120,7 @@ class RootContainerBalanceItemState extends State<RootContainerBalanceItem> {
                           ),
                         ),
                         SizedBox(
-                          height: 28,
+                          height: 12,
                         ),
                         Wrap(
                           children: widget.actions,

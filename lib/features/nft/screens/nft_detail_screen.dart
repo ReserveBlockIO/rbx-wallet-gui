@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/theme/colors.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
+import '../../../core/theme/components.dart';
 import '../../bridge/providers/wallet_info_provider.dart';
 import '../providers/sale_provider.dart';
 import '../services/nft_service.dart';
@@ -116,6 +118,9 @@ class NftDetailScreen extends BaseScreen {
                       label: "Listed",
                     ),
                   ),
+                SizedBox(
+                  width: 8,
+                ),
               ],
             ),
           )
@@ -167,121 +172,180 @@ class NftDetailScreen extends BaseScreen {
                       )),
                     ),
                   ),
-                Text(
-                  nft.currentEvolveName,
-                  style: Theme.of(context).textTheme.headline4!.copyWith(color: Colors.white),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Row(
-                  children: [
-                    SelectableText("ID: ${nft.id}"),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    InkWell(
-                        onTap: () async {
-                          await Clipboard.setData(ClipboardData(text: nft.id));
-                          Toast.message("Smart Contract Identifier copied to clipboard");
-                        },
-                        child: Icon(
-                          Icons.copy,
-                          size: 14,
-                        ))
-                  ],
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                if (nft.minterName.isNotEmpty)
-                  Text(
-                    "Minted By: ${nft.minterName}",
-                    style: Theme.of(context).textTheme.headline5!.copyWith(color: Colors.white),
-                  ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  nft.currentEvolveDescription.replaceAll("\\n", "\n"),
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
+                AppCard(
+                  padding: 16,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              nft.currentEvolveName,
+                              style: TextStyle(
+                                fontSize: 40,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                height: 1,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.getBlue(ColorShade.s300),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Tooltip(
+                                    message: "Smart Contract ID",
+                                    child: Text(
+                                      nft.id,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 6,
+                                  ),
+                                  InkWell(
+                                    onTap: () async {
+                                      await Clipboard.setData(ClipboardData(text: nft.id));
+                                      Toast.message("Smart Contract Identifier copied to clipboard");
+                                    },
+                                    child: Icon(
+                                      Icons.copy,
+                                      size: 14,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      if (nft.minterName.isNotEmpty)
+                        Text(
+                          "Minted By: ${nft.minterName}",
+                          style: Theme.of(context).textTheme.headline5!.copyWith(
+                                color: Colors.white,
+                                height: 1,
+                              ),
+                        ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        nft.currentEvolveDescription.replaceAll("\\n", "\n"),
+                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400,
+                            ),
+                      ),
+                    ],
+                  ),
                 ),
-                const Divider(),
+                SizedBox(
+                  height: 16,
+                ),
                 Row(
                   children: [
                     if (nft.currentOwner.isNotEmpty)
                       Expanded(
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          title: Text(nft.currentOwner,
-                              style: TextStyle(fontSize: 13, color: nft.currentOwner.startsWith("xRBX") ? Colors.deepPurple.shade200 : Colors.white)),
-                          subtitle: const Text(
-                            "Owner",
-                          ),
-                          leading: IconButton(
-                            icon: const Icon(Icons.copy),
-                            onPressed: () {
-                              copyToClipboard(nft.currentOwner);
-                            },
+                        child: AppCard(
+                          padding: 0,
+                          child: ListTile(
+                            title: Text(
+                              nft.currentOwner,
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: nft.currentOwner.startsWith("xRBX") ? Colors.deepPurple.shade200 : AppColors.getBlue(ColorShade.s50),
+                              ),
+                            ),
+                            subtitle: const Text(
+                              "Owner",
+                            ),
+                            trailing: IconButton(
+                              iconSize: 16,
+                              icon: const Icon(Icons.copy),
+                              onPressed: () {
+                                copyToClipboard(nft.currentOwner);
+                              },
+                            ),
                           ),
                         ),
                       ),
                     if (nft.minterAddress.isNotEmpty)
                       Expanded(
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          title: Text(nft.minterAddress,
-                              style: const TextStyle(
-                                fontSize: 13,
-                              )),
-                          subtitle: const Text("Minter Address"),
-                          leading: IconButton(
-                            icon: const Icon(Icons.copy),
-                            onPressed: () {
-                              copyToClipboard(nft.minterAddress);
-                            },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16.0),
+                          child: AppCard(
+                            padding: 0,
+                            child: ListTile(
+                              title: Text(
+                                nft.minterAddress,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: AppColors.getBlue(ColorShade.s50),
+                                ),
+                              ),
+                              subtitle: const Text("Minter Address"),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.copy),
+                                iconSize: 16,
+                                onPressed: () {
+                                  copyToClipboard(nft.minterAddress);
+                                },
+                              ),
+                            ),
                           ),
                         ),
                       ),
                   ],
                 ),
                 if (nft.nextOwner != null && nft.nextOwner!.isNotEmpty)
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(nft.nextOwner!,
-                        style: TextStyle(fontSize: 13, color: nft.nextOwner!.startsWith("xRBX") ? Colors.deepPurple.shade200 : Colors.white)),
-                    subtitle: const Text(
-                      "Next Owner",
-                    ),
-                    leading: IconButton(
-                      icon: const Icon(Icons.copy),
-                      onPressed: () {
-                        copyToClipboard(nft.nextOwner!);
-                      },
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: AppCard(
+                      padding: 0,
+                      child: ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(nft.nextOwner!,
+                            style: TextStyle(fontSize: 13, color: nft.nextOwner!.startsWith("xRBX") ? Colors.deepPurple.shade200 : Colors.white)),
+                        subtitle: const Text(
+                          "Next Owner",
+                        ),
+                        leading: IconButton(
+                          icon: const Icon(Icons.copy),
+                          onPressed: () {
+                            copyToClipboard(nft.nextOwner!);
+                          },
+                        ),
+                      ),
                     ),
                   ),
-                const Divider(),
-                Wrap(
-                  children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Asset:", style: Theme.of(context).textTheme.headline5),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            boxShadow: glowingBox,
-                          ),
-                          child: ConstrainedBox(
-                            constraints: const BoxConstraints(maxWidth: 512),
-                            child: Card(
-                              color: Colors.black,
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: Wrap(
+                    children: [
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AppCard(
+                            padding: 8,
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 512),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
@@ -305,10 +369,11 @@ class NftDetailScreen extends BaseScreen {
                                           mainAxisSize: MainAxisSize.min,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            const Divider(),
                                             Text(
                                               "Additional Assets:",
-                                              style: Theme.of(context).textTheme.headline5,
+                                              style: Theme.of(context).textTheme.headline5!.copyWith(
+                                                    color: Colors.white,
+                                                  ),
                                             ),
                                             const SizedBox(
                                               height: 6,
@@ -352,33 +417,35 @@ class NftDetailScreen extends BaseScreen {
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 216),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "QR Code:",
-                            style: Theme.of(context).textTheme.headline5,
-                          ),
-                          NftQrCode(
-                            data: nft.explorerUrl,
-                            size: 200,
-                            withOpen: true,
-                          ),
-                          MediaBackup(nft),
                         ],
                       ),
-                    )
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 316),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AppCard(
+                                padding: 8,
+                                child: NftQrCode(
+                                  data: nft.explorerUrl,
+                                  size: 300,
+                                  withOpen: true,
+                                ),
+                              ),
+                              MediaBackup(nft),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 if (nft.currentEvolveProperties.isNotEmpty) ...[
                   const Divider(),
-                  Text("Properties:", style: Theme.of(context).textTheme.headline5),
+                  Text("Properties:", style: Theme.of(context).textTheme.headline5!.copyWith(color: Colors.white)),
                   SizedBox(
                     height: 8,
                   ),
@@ -387,7 +454,10 @@ class NftDetailScreen extends BaseScreen {
                   )
                 ],
                 const Divider(),
-                Text("Features:", style: Theme.of(context).textTheme.headline5),
+                Text("Features:",
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                          color: Colors.white,
+                        )),
                 if (nft.features.isEmpty)
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -413,54 +483,60 @@ class NftDetailScreen extends BaseScreen {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: nft.featureList
                       .map(
-                        (f) => ListTile(
-                          leading: Icon(f.icon),
-                          title: Text(f.nameLabel),
-                          subtitle: Text(f.description),
-                          trailing: f.type == FeatureType.evolution
-                              ? AppButton(
-                                  label: "Reveal Evolve Stages",
-                                  variant: AppColorVariant.Dark,
-                                  onPressed: () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        isScrollControlled: true,
-                                        backgroundColor: Colors.black87,
-                                        builder: (context) {
-                                          return ModalContainer(color: Colors.black26, children: [
-                                            Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                EvolutionStateRow(
-                                                  nft.baseEvolutionPhase,
-                                                  nft: nft,
-                                                  nftId: id,
-                                                  canManageEvolve: nft.canManageEvolve,
-                                                  index: 0,
-                                                ),
-                                                ...nft.updatedEvolutionPhases
-                                                    .asMap()
-                                                    .entries
-                                                    .map(
-                                                      (entry) => EvolutionStateRow(
-                                                        entry.value,
-                                                        nft: nft,
-                                                        nftId: id,
-                                                        canManageEvolve: nft.canManageEvolve,
-                                                        index: entry.key + 1,
-                                                        onAssociate: () {
-                                                          Navigator.of(context).pop();
-                                                        },
-                                                      ),
-                                                    )
-                                                    .toList(),
-                                              ],
-                                            )
-                                          ]);
-                                        });
-                                  },
-                                )
-                              : null,
+                        (f) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: AppCard(
+                            padding: 0,
+                            child: ListTile(
+                              leading: Icon(f.icon),
+                              title: Text(f.nameLabel),
+                              subtitle: Text(f.description),
+                              trailing: f.type == FeatureType.evolution
+                                  ? AppButton(
+                                      label: "Reveal Evolve Stages",
+                                      variant: AppColorVariant.Dark,
+                                      onPressed: () {
+                                        showModalBottomSheet(
+                                            context: context,
+                                            isScrollControlled: true,
+                                            backgroundColor: Colors.black87,
+                                            builder: (context) {
+                                              return ModalContainer(color: Colors.black26, children: [
+                                                Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    EvolutionStateRow(
+                                                      nft.baseEvolutionPhase,
+                                                      nft: nft,
+                                                      nftId: id,
+                                                      canManageEvolve: nft.canManageEvolve,
+                                                      index: 0,
+                                                    ),
+                                                    ...nft.updatedEvolutionPhases
+                                                        .asMap()
+                                                        .entries
+                                                        .map(
+                                                          (entry) => EvolutionStateRow(
+                                                            entry.value,
+                                                            nft: nft,
+                                                            nftId: id,
+                                                            canManageEvolve: nft.canManageEvolve,
+                                                            index: entry.key + 1,
+                                                            onAssociate: () {
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                          ),
+                                                        )
+                                                        .toList(),
+                                                  ],
+                                                )
+                                              ]);
+                                            });
+                                      },
+                                    )
+                                  : null,
+                            ),
+                          ),
                         ),
                       )
                       .toList(),
@@ -469,11 +545,9 @@ class NftDetailScreen extends BaseScreen {
             ),
           ),
         ),
-        const Divider(),
-        if (!nft.isLocked) Text("Actions:", style: Theme.of(context).textTheme.headline5),
         if (!nft.isLocked)
           Padding(
-            padding: const EdgeInsets.all(4.0),
+            padding: const EdgeInsets.all(4.0).copyWith(bottom: 24, top: 8),
             child: Center(
               child: Wrap(
                 // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -842,58 +916,50 @@ class NftPropertiesWrap extends StatelessWidget {
       children: properties.map((p) {
         return ConstrainedBox(
           constraints: BoxConstraints(maxWidth: 250),
-          child: Container(
-            decoration: BoxDecoration(
-              boxShadow: glowingBox,
-            ),
-            child: Card(
-              color: Colors.black,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 3.0),
-                child: ListTile(
-                  // dense: true,
-                  visualDensity: VisualDensity.compact,
-                  leading: Builder(builder: (context) {
-                    switch (p.type) {
-                      case ScPropertyType.color:
-                        return Icon(
-                          Icons.color_lens,
-                          color: colorFromHex(p.value),
-                        );
-                      case ScPropertyType.number:
-                        return Icon(Icons.numbers);
-                      case ScPropertyType.url:
-                        return Icon(Icons.link);
-                      default:
-                        return Icon(Icons.text_fields);
-                    }
-                  }),
-                  title: Builder(builder: (context) {
-                    if (p.name == BACKUP_URL_PROPERTY_NAME) {
-                      final url = p.value.replaceAll("https//", "https://").replaceAll("http//", 'http://');
-                      return Tooltip(
-                        message: url,
-                        child: InkWell(
-                          onTap: () {
-                            launchUrlString(url);
-                          },
-                          child: Text(
-                            "Open",
-                            style: TextStyle(decoration: TextDecoration.underline),
-                          ),
-                        ),
-                      );
-                    }
-                    return Text(p.value);
-                  }),
-                  subtitle: Builder(builder: (context) {
-                    if (p.name == BACKUP_URL_PROPERTY_NAME) {
-                      return Text("Media Backup URL");
-                    }
-                    return Text(p.name);
-                  }),
-                ),
-              ),
+          child: AppCard(
+            padding: 8,
+            child: ListTile(
+              // dense: true,
+              visualDensity: VisualDensity.compact,
+              leading: Builder(builder: (context) {
+                switch (p.type) {
+                  case ScPropertyType.color:
+                    return Icon(
+                      Icons.color_lens,
+                      color: colorFromHex(p.value),
+                    );
+                  case ScPropertyType.number:
+                    return Icon(Icons.numbers);
+                  case ScPropertyType.url:
+                    return Icon(Icons.link);
+                  default:
+                    return Icon(Icons.text_fields);
+                }
+              }),
+              title: Builder(builder: (context) {
+                if (p.name == BACKUP_URL_PROPERTY_NAME) {
+                  final url = p.value.replaceAll("https//", "https://").replaceAll("http//", 'http://');
+                  return Tooltip(
+                    message: url,
+                    child: InkWell(
+                      onTap: () {
+                        launchUrlString(url);
+                      },
+                      child: Text(
+                        "Open",
+                        style: TextStyle(decoration: TextDecoration.underline),
+                      ),
+                    ),
+                  );
+                }
+                return Text(p.value);
+              }),
+              subtitle: Builder(builder: (context) {
+                if (p.name == BACKUP_URL_PROPERTY_NAME) {
+                  return Text("Media Backup URL");
+                }
+                return Text(p.name);
+              }),
             ),
           ),
         );

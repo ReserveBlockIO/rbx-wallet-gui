@@ -61,10 +61,13 @@ class FeaturesFormGroup extends BaseComponent {
           ..._model.features
               .asMap()
               .entries
-              .map((entry) => _FeatureCard(
-                    entry.value,
-                    entry.key,
-                    readOnly: _model.isCompiled,
+              .map((entry) => Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: _FeatureCard(
+                      entry.value,
+                      entry.key,
+                      readOnly: _model.isCompiled,
+                    ),
                   ))
               .toList(),
           const SizedBox(

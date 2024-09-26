@@ -6,6 +6,7 @@ import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/currency_segmented_button.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/theme/components.dart';
@@ -69,7 +70,15 @@ class NewHomeScreen extends BaseScreen {
                     type: CoinPriceSummaryType.vfx,
                     actions: [
                       AppVerticalIconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.vfx);
+                          Navigator.of(rootNavigatorKey.currentContext!).push(
+                            MaterialPageRoute(
+                              fullscreenDialog: true,
+                              builder: (_) => PriceChartScreen(),
+                            ),
+                          );
+                        },
                         icon: FontAwesomeIcons.chartLine,
                         label: "View\nChart",
                         size: AppVerticalIconButtonSize.sm,
@@ -100,6 +109,7 @@ class NewHomeScreen extends BaseScreen {
                     actions: [
                       AppVerticalIconButton(
                         onPressed: () {
+                          ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.btc);
                           Navigator.of(rootNavigatorKey.currentContext!).push(
                             MaterialPageRoute(
                               fullscreenDialog: true,

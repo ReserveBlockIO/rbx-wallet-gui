@@ -128,10 +128,13 @@ class ConfirmDialog {
       ctx,
       title: title,
       content: body != null
-          ? Text(
-              body,
-              style: TextStyle(fontSize: 18, color: Colors.white.withOpacity(.8)),
-              textAlign: TextAlign.center,
+          ? Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                body,
+                style: TextStyle(fontSize: 18, color: Colors.white.withOpacity(.8)),
+                textAlign: TextAlign.center,
+              ),
             )
           : content ?? SizedBox(),
       actions: [

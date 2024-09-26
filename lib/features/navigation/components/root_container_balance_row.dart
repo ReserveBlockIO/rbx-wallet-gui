@@ -276,6 +276,16 @@ class _LatestBtcTx extends BaseComponent {
                 ),
                 textAlign: TextAlign.center,
               ),
+              SizedBox(
+                height: 2,
+              ),
+              Text(
+                tx.isConfirmed ? "Confirmed" : "Pending",
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: tx.isConfirmed ? Theme.of(context).colorScheme.success : Theme.of(context).colorScheme.warning,
+                ),
+              )
             ],
           ),
         ),
@@ -330,6 +340,16 @@ class _LatestVfxTx extends BaseComponent {
                   color: Colors.white.withOpacity(0.9),
                 ),
                 textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 2,
+              ),
+              Text(
+                tx.statusLabel,
+                style: TextStyle(
+                  color: tx.statusColor(context),
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),

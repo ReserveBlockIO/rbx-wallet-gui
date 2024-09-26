@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:rbx_wallet/features/price/models/price_data.dart';
+import '../../features/price/models/price_history_item.dart';
 import '../app_constants.dart';
 import '../../features/adnr/models/adnr_response.dart';
 import '../../features/nft/models/web_nft.dart';
@@ -87,6 +88,23 @@ class ExplorerService extends BaseService {
     } catch (e) {
       print(e);
       return null;
+    }
+  }
+
+  Future<List<PriceHistoryItem>> listPriceHistory(String cointype) async {
+    try {
+      final result = await getJson('/cmc-price/$cointype/history/');
+      if (result.containsKey('success') && result['success'] == true) {
+        final List<dynamic> data = result['data'];
+
+        return data.map((e) => PriceHistoryItem(DateTime.fromMillisecondsSinceEpoch((e[1] * 1000).round()), e[0])).toList();
+      }
+
+      print(result[['message']]);
+      return [];
+    } catch (e) {
+      print(e);
+      return [];
     }
   }
 
