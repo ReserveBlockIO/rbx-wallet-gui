@@ -13,6 +13,7 @@ class RootContainerBalanceItem extends StatefulWidget {
   final List<Widget> actions;
   final Widget? latestTx;
   final bool forceExpand;
+  final VoidCallback handleViewAllTxs;
 
   const RootContainerBalanceItem({
     super.key,
@@ -22,6 +23,7 @@ class RootContainerBalanceItem extends StatefulWidget {
     this.actions = const [],
     this.latestTx,
     required this.forceExpand,
+    required this.handleViewAllTxs,
   });
 
   @override
@@ -44,101 +46,96 @@ class RootContainerBalanceItemState extends State<RootContainerBalanceItem> {
           isExpanded = true;
         });
       },
-      child: GestureDetector(
-        onTap: () {},
-        child: AppCard(
-          padding: 6,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AnimatedContainer(
-                duration: ROOT_CONTAINER_TRANSITION_DURATION,
-                curve: Curves.easeInOut,
-                height: widget.forceExpand || isExpanded ? ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT : 0,
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(),
-                child: ScrollConfiguration(
-                  behavior: NoThumbScrollBehavior().copyWith(
-                    scrollbars: false,
-                  ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          widget.accountCount,
-                          style: Theme.of(context).textTheme.caption,
-                        ),
-                        SizedBox(
-                          width: 250,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Latest TX:",
+      child: AppCard(
+        padding: 6,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AnimatedContainer(
+              duration: ROOT_CONTAINER_TRANSITION_DURATION,
+              curve: Curves.easeInOut,
+              height: widget.forceExpand || isExpanded ? ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT : 0,
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(),
+              child: ScrollConfiguration(
+                behavior: NoThumbScrollBehavior().copyWith(
+                  scrollbars: false,
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        widget.accountCount,
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                      SizedBox(
+                        width: 250,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Latest TX:",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13,
+                                color: Colors.white.withOpacity(0.9),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: widget.handleViewAllTxs,
+                              child: Text(
+                                "View All Txs",
                                 style: TextStyle(
-                                  fontWeight: FontWeight.w600,
+                                  color: widget.headingColor.withOpacity(0.65),
                                   fontSize: 13,
-                                  color: Colors.white.withOpacity(0.9),
+                                  decoration: TextDecoration.underline,
                                 ),
                               ),
-                              TextButton(
-                                onPressed: () {
-                                  RootContainerUtils.navigateToTab(context, RootTab.transactions);
-                                },
-                                child: Text(
-                                  "View All Txs",
-                                  style: TextStyle(
-                                    color: widget.headingColor.withOpacity(0.65),
-                                    fontSize: 13,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
+                            )
+                          ],
                         ),
-                        SizedBox(
-                          height: 126,
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: widget.latestTx ??
-                                  SizedBox(
-                                    width: 250,
-                                    height: 100,
-                                    child: AppCard(
-                                      child: Center(
-                                        child: Text(
-                                          "No Transactions",
-                                          style: Theme.of(context).textTheme.caption,
-                                        ),
+                      ),
+                      SizedBox(
+                        height: 126,
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: widget.latestTx ??
+                                SizedBox(
+                                  width: 250,
+                                  height: 100,
+                                  child: AppCard(
+                                    child: Center(
+                                      child: Text(
+                                        "No Transactions",
+                                        style: Theme.of(context).textTheme.caption,
                                       ),
                                     ),
                                   ),
-                            ),
+                                ),
                           ),
                         ),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        Wrap(
-                          children: widget.actions,
-                        ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Wrap(
+                        children: widget.actions,
+                      ),
+                    ],
                   ),
                 ),
               ),
-              Text(
-                widget.heading,
-                style: TextStyle(
-                  fontSize: 24,
-                  color: widget.headingColor,
-                ),
+            ),
+            Text(
+              widget.heading,
+              style: TextStyle(
+                fontSize: 24,
+                color: widget.headingColor,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
