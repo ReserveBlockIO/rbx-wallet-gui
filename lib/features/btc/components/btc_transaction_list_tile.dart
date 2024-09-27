@@ -177,6 +177,17 @@ class BtcTransactionListTileState extends BaseComponentState<BtcTransactionListT
                         if (showReplaceAndRebroadcast)
                           Padding(
                             padding: const EdgeInsets.only(right: 4.0),
+                            child: Text(
+                              "[Pending]",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                              ),
+                            ),
+                          ),
+                        if (showReplaceAndRebroadcast)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 4.0),
                             child: AppButton(
                               label: "Replace By Fee",
                               onPressed: () async {

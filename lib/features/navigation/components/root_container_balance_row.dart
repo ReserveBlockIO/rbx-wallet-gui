@@ -13,7 +13,7 @@ import 'package:rbx_wallet/features/navigation/root_container.dart';
 import 'package:rbx_wallet/features/navigation/utils.dart';
 import 'package:rbx_wallet/features/transactions/models/transaction.dart';
 import 'package:rbx_wallet/features/wallet/utils.dart';
-
+import 'package:collection/collection.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/base_component.dart';
 import '../../../core/providers/session_provider.dart';
@@ -64,6 +64,22 @@ class RootContainerBalanceRow extends BaseComponent {
     final latestBtcTx = btcTxs.isEmpty ? null : btcTxs.first;
 
     final forceExpand = ref.watch(globalBalancesExpandedProvider);
+
+    Transaction? latestVbtcVfxTx;
+    BtcTransaction? latestVbtcBtcTx;
+    if (vbtcTokens.isNotEmpty) {
+      final vbtcAddresses = vbtcTokens.map((e) => e.btcAddress).toList();
+      latestVbtcVfxTx = vfxTxs.firstWhereOrNull((tx) => tx.isVbtcTx);
+      latestVbtcBtcTx = btcTxs.firstWhereOrNull((tx) => vbtcAddresses.contains(tx.toAddress) || vbtcAddresses.contains(tx.fromAddress));
+    }
+
+    if (latestVbtcBtcTx != null && latestVbtcVfxTx != null) {
+      if (latestVbtcBtcTx.timestamp > latestVbtcVfxTx.timestamp) {
+        latestVbtcVfxTx = null;
+      } else {
+        latestVbtcBtcTx = null;
+      }
+    }
 
     return LayoutBuilder(builder: (context, constraints) {
       final availableWidth = constraints.maxWidth;
@@ -127,6 +143,11 @@ class RootContainerBalanceRow extends BaseComponent {
                   heading: "$vBtcBalance vBTC",
                   headingColor: AppColors.getWhite(),
                   accountCount: "${vbtcTokens.length} Token${vbtcTokens.length == 1 ? '' : 's'}",
+                  latestTx: latestVbtcBtcTx != null
+                      ? _LatestBtcTx(tx: latestVbtcBtcTx)
+                      : latestVbtcVfxTx != null
+                          ? _LatestVfxTx(tx: latestVbtcVfxTx)
+                          : null,
                   actions: [
                     AppVerticalIconButton(
                       onPressed: () {

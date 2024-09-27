@@ -11,6 +11,7 @@ import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/btc/models/btc_fee_rate_preset.dart';
@@ -137,14 +138,13 @@ class TokenizedBtcActionButtons extends BaseComponent {
                             "Choose BTC Account to Send From",
                             style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
                           ),
-                          Divider(),
                           ListView(
                             shrinkWrap: true,
                             children: [
                               ...btcAccounts.map((account) {
-                                return Card(
-                                  margin: EdgeInsets.symmetric(vertical: 2),
-                                  color: Colors.white10,
+                                return AppCard(
+                                  padding: 0,
+                                  margin: EdgeInsets.symmetric(vertical: 8),
                                   child: ListTile(
                                     title: Text(account.address),
                                     subtitle: Text("${account.balance} BTC"),
@@ -419,9 +419,9 @@ class TokenizedBtcActionButtons extends BaseComponent {
                                   ),
                                 );
                               }).toList(),
-                              Card(
-                                margin: EdgeInsets.symmetric(vertical: 2),
-                                color: Colors.white10,
+                              AppCard(
+                                padding: 0,
+                                margin: EdgeInsets.symmetric(vertical: 8),
                                 child: ListTile(
                                   title: Text("Manual Send"),
                                   subtitle: Text("Send coin manually to this token's BTC deposit address"),
@@ -456,7 +456,7 @@ class TokenizedBtcActionButtons extends BaseComponent {
                   context: context,
                   builder: (context) {
                     return _TransferSharesModal(
-                      forWithdrawl: false,
+                      forWithdrawl: true,
                       token: token,
                     );
                   },
@@ -510,8 +510,9 @@ class TokenizedBtcActionButtons extends BaseComponent {
                             style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
                           ),
                           if (isOwner)
-                            Card(
-                              color: Colors.white10,
+                            AppCard(
+                              padding: 0,
+                              margin: EdgeInsets.symmetric(vertical: 4),
                               child: ListTile(
                                 title: Text("Transfer Token Ownership"),
                                 subtitle: Text("Transfer the ownership of this token to another VFX account."),
@@ -521,8 +522,9 @@ class TokenizedBtcActionButtons extends BaseComponent {
                                 },
                               ),
                             ),
-                          Card(
-                            color: Colors.white10,
+                          AppCard(
+                            padding: 0,
+                            margin: EdgeInsets.symmetric(vertical: 4),
                             child: ListTile(
                               title: Text("Transfer vBTC"),
                               // leading: Icon(FontAwesomeIcons.btc),
@@ -546,8 +548,9 @@ class TokenizedBtcActionButtons extends BaseComponent {
                           //   ),
                           // ),
                           if (isOwner)
-                            Card(
-                              color: Colors.white10,
+                            AppCard(
+                              padding: 0,
+                              margin: EdgeInsets.symmetric(vertical: 4),
                               child: ListTile(
                                 title: Text("Transfer Ownership To Reserve/Protected Account"),
                                 subtitle: Text("Transfer the ownership of this token to your reserve/protected account."),

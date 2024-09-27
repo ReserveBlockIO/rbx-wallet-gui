@@ -224,6 +224,34 @@ class Transaction with _$Transaction {
     }
   }
 
+  bool get isVbtcTx {
+    if (type == 17) {
+      final data = parseNftData(this);
+      if (data != null) {
+        if (nftDataValue(data, 'Function') == "TokenDeploy()") {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    if (type == 18) {
+      final data = parseNftData(this);
+      if (data != null) {
+        final function = nftDataValue(data, 'Function');
+
+        if (function == "TransferCoin()") {
+          return true;
+        }
+
+        if (function == "Transfer()") {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   String get statusLabel {
     switch (status) {
       case TransactionStatus.Success:
