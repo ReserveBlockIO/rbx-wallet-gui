@@ -99,6 +99,10 @@ class RootContainerBalanceRow extends BaseComponent {
                   accountCount: raWallets.isNotEmpty && vfxWallets.isNotEmpty
                       ? "${vfxWallets.length} Account${vfxWallets.length == 1 ? '' : 's'}   ${raWallets.length} Vault Account${raWallets.length == 1 ? '' : 's'}"
                       : "${allVfxWallets.length} Account${allVfxWallets.length == 1 ? '' : 's'}",
+                  handleViewAllTxs: () {
+                    ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.vfx);
+                    RootContainerUtils.navigateToTab(context, RootTab.transactions);
+                  },
                   actions: [
                     AppVerticalIconButton(
                       onPressed: () {
@@ -143,6 +147,9 @@ class RootContainerBalanceRow extends BaseComponent {
                   heading: "$vBtcBalance vBTC",
                   headingColor: AppColors.getWhite(),
                   accountCount: "${vbtcTokens.length} Token${vbtcTokens.length == 1 ? '' : 's'}",
+                  handleViewAllTxs: () {
+                    RootContainerUtils.navigateToTab(context, RootTab.vbtc);
+                  },
                   latestTx: latestVbtcBtcTx != null
                       ? _LatestBtcTx(tx: latestVbtcBtcTx)
                       : latestVbtcVfxTx != null
@@ -182,6 +189,10 @@ class RootContainerBalanceRow extends BaseComponent {
                   heading: "$btcBalance BTC",
                   headingColor: AppColors.getBtc(),
                   accountCount: "${btcAccounts.length} Account${btcAccounts.length == 1 ? '' : 's'}",
+                  handleViewAllTxs: () {
+                    ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.btc);
+                    RootContainerUtils.navigateToTab(context, RootTab.transactions);
+                  },
                   actions: [
                     AppVerticalIconButton(
                       onPressed: () {
