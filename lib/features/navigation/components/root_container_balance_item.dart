@@ -131,7 +131,7 @@ class RootContainerBalanceItemState extends State<RootContainerBalanceItem> {
             Text(
               widget.heading,
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 20,
                 color: widget.headingColor,
               ),
             ),

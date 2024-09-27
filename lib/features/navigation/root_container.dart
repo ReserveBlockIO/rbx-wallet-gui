@@ -179,7 +179,7 @@ class _LayoutState extends State<_Layout> {
                 Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 5, top: 5),
+                    padding: const EdgeInsets.only(left: 5, top: 7),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -253,7 +253,7 @@ class _LayoutState extends State<_Layout> {
                       Align(
                         alignment: Alignment.topLeft,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(top: 6),
                           child: MouseRegion(
                               onHover: (_) {
                                 setState(() {

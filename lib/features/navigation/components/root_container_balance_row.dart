@@ -240,7 +240,7 @@ class RootContainerBalanceRow extends BaseComponent {
                 padding: EdgeInsets.only(left: connector1Left),
                 // child: RootContainerBalanceRowConnector(),
                 child: Transform.translate(
-                  offset: Offset(-33, 8),
+                  offset: Offset(-33, 4),
                   child: ConnectorVisual(
                     isBtc: false,
                   ),
@@ -257,7 +257,7 @@ class RootContainerBalanceRow extends BaseComponent {
               child: Padding(
                 padding: EdgeInsets.only(left: connector2Left),
                 child: Transform.translate(
-                  offset: Offset(-6, 8),
+                  offset: Offset(-6, 4),
                   child: ConnectorVisual(
                     isBtc: true,
                   ),

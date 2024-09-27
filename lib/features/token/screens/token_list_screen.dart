@@ -27,7 +27,7 @@ class TokenListScreen extends BaseScreen {
       leading: BackToHomeButton(),
       actions: [
         Padding(
-          padding: const EdgeInsets.only(right: 8.0),
+          padding: const EdgeInsets.only(right: 20.0),
           child: AppButton(
             label: "Create Token",
             variant: AppColorVariant.Success,
@@ -42,38 +42,6 @@ class TokenListScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    return DefaultTabController(
-      length: 2,
-      child: Builder(builder: (context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TabBar(
-              indicatorColor: AppColors.getBlue(),
-              tabs: [
-                Tab(
-                  child: Text("Tokens with Supply"),
-                ),
-                Tab(
-                  child: Text("Manage Tokens"),
-                ),
-              ],
-            ),
-            Expanded(
-              child: TabBarView(
-                children: [
-                  TokenList(
-                    handleManage: () {
-                      DefaultTabController.of(context).animateTo(1);
-                    },
-                  ),
-                  ManageTokenGrid(),
-                ],
-              ),
-            )
-          ],
-        );
-      }),
-    );
+    return TokenList();
   }
 }
