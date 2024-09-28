@@ -103,8 +103,8 @@ class RootContainerBalanceRow extends BaseComponent {
                   heading: vfxBalance != null ? "$vfxBalance VFX" : "0.0 VFX",
                   headingColor: AppColors.getBlue(),
                   accountCount: raWallets.isNotEmpty && vfxWallets.isNotEmpty
-                      ? "${vfxWallets.length} Account${vfxWallets.length == 1 ? '' : 's'}   ${raWallets.length} Vault Account${raWallets.length == 1 ? '' : 's'}"
-                      : "${allVfxWallets.length} Account${allVfxWallets.length == 1 ? '' : 's'}",
+                      ? "${vfxWallets.length} Address${vfxWallets.length == 1 ? '' : 'es'}   ${raWallets.length} Vault Address${raWallets.length == 1 ? '' : 'es'}"
+                      : "${allVfxWallets.length} Address${allVfxWallets.length == 1 ? '' : 'es'}",
                   handleViewAllTxs: () {
                     ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.vfx);
                     RootContainerUtils.navigateToTab(context, RootTab.transactions);
@@ -121,7 +121,7 @@ class RootContainerBalanceRow extends BaseComponent {
                         );
                       },
                       icon: Icons.wallet,
-                      label: "View\nAccounts",
+                      label: "View\nAddress",
                       size: AppVerticalIconButtonSize.sm,
                     ),
                     AppVerticalIconButton(
@@ -129,7 +129,7 @@ class RootContainerBalanceRow extends BaseComponent {
                         AccountUtils.promptVfxNewOrImport(context, ref);
                       },
                       icon: Icons.add,
-                      label: "Add\nAccount",
+                      label: "New\nAddress",
                       size: AppVerticalIconButtonSize.sm,
                     ),
                     AppVerticalIconButton(
@@ -227,7 +227,7 @@ class RootContainerBalanceRow extends BaseComponent {
                         );
                       },
                       icon: Icons.wallet,
-                      label: "View\nAccounts",
+                      label: "View\nAddresses",
                       size: AppVerticalIconButtonSize.sm,
                     ),
                     AppVerticalIconButton(
@@ -235,7 +235,7 @@ class RootContainerBalanceRow extends BaseComponent {
                         AccountUtils.promptBtcNewOrImport(context, ref);
                       },
                       icon: Icons.add,
-                      label: "Add\nAccount",
+                      label: "New\nAddress",
                       size: AppVerticalIconButtonSize.sm,
                     ),
                     AppVerticalIconButton(

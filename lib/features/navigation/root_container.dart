@@ -287,6 +287,7 @@ class _LayoutState extends State<_Layout> {
                         onHover: (_) {
                           setState(() {
                             walletSelectorIsHovering = true;
+                            walletSelectorIsExpanded = true;
                           });
                         },
                         onExit: (_) {
@@ -331,7 +332,7 @@ class _LayoutState extends State<_Layout> {
                                           child: Builder(builder: (context) {
                                             if (vfxWallet != null) {
                                               return Tooltip(
-                                                message: "Selected VFX Account",
+                                                message: "Selected VFX Address",
                                                 child: Row(
                                                   children: [
                                                     Text(vfxWallet.address),

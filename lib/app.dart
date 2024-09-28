@@ -122,7 +122,7 @@ class AppContainer extends ConsumerWidget {
                           ),
                         ),
                         child: Padding(
-                            padding: EdgeInsets.only(left: Platform.isWindows ? 4 : 72.0, top: 4),
+                            padding: EdgeInsets.only(left: Platform.isWindows ? 4 : 72.0, top: 5),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -130,9 +130,10 @@ class AppContainer extends ConsumerWidget {
                                   text: TextSpan(
                                     style: TextStyle(
                                       fontFamily: "Mukta",
-                                      color: Colors.white.withOpacity(.85),
+                                      color: Colors.white.withOpacity(0.9),
                                       letterSpacing: 0.75,
                                       height: 1,
+                                      fontSize: 16,
                                     ),
                                     children: [
                                       TextSpan(

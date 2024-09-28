@@ -113,7 +113,6 @@ class RootContainerWalletSelectorList extends BaseComponent {
             return AppCard(
               padding: 0,
               margin: EdgeInsets.symmetric(vertical: 4),
-              color: AppColors.getGray(ColorShade.s50),
               child: ManageWalletBtcListTile(account: account),
             );
           },
@@ -164,7 +163,6 @@ class RootContainerWalletSelectorList extends BaseComponent {
                         child: AppCard(
                           padding: 0,
                           margin: EdgeInsets.symmetric(vertical: 0),
-                          color: AppColors.getGray(ColorShade.s50),
                           child: ManageWalletListTile(wallet: item),
                         ),
                       ),
@@ -186,7 +184,6 @@ class RootContainerWalletSelectorList extends BaseComponent {
                         child: AppCard(
                           padding: 0,
                           margin: EdgeInsets.symmetric(vertical: 0),
-                          color: AppColors.getGray(ColorShade.s50),
                           child: ManageWalletBtcListTile(account: item),
                         ),
                       ),

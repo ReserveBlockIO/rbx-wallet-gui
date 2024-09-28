@@ -22,14 +22,14 @@ class CommonActions extends BaseComponent {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               AppVerticalIconButton(
-                label: "Add\nAccount",
+                label: "Add\nAddress",
                 icon: Icons.add,
                 onPressed: () async {
                   await AccountUtils.promptVfxOrBtc(rootNavigatorKey.currentContext!, ref);
                 },
                 size: AppVerticalIconButtonSize.sm,
-                color: AppColors.getBlue(),
-                hoverColor: AppColors.getBlue(ColorShade.s50),
+                color: AppColors.getWhite(ColorShade.s200),
+                hoverColor: AppColors.getWhite(),
               ),
               AppVerticalIconButton(
                 label: "Add\nVault",
@@ -38,8 +38,8 @@ class CommonActions extends BaseComponent {
                 onPressed: () {
                   RootContainerUtils.navigateToTab(context, RootTab.reserve);
                 },
-                color: AppColors.getBlue(),
-                hoverColor: AppColors.getBlue(ColorShade.s50),
+                color: AppColors.getWhite(ColorShade.s200),
+                hoverColor: AppColors.getWhite(),
               ),
               AppVerticalIconButton(
                 label: "Add\nDomain",
@@ -48,8 +48,8 @@ class CommonActions extends BaseComponent {
                 onPressed: () {
                   RootContainerUtils.navigateToTab(context, RootTab.adnr);
                 },
-                color: AppColors.getBlue(),
-                hoverColor: AppColors.getBlue(ColorShade.s50),
+                color: AppColors.getWhite(ColorShade.s200),
+                hoverColor: AppColors.getWhite(),
               ),
               AppVerticalIconButton(
                 label: "Send\nCoin",
@@ -58,8 +58,8 @@ class CommonActions extends BaseComponent {
                 onPressed: () {
                   RootContainerUtils.navigateToTab(context, RootTab.send);
                 },
-                color: AppColors.getBlue(),
-                hoverColor: AppColors.getBlue(ColorShade.s50),
+                color: AppColors.getWhite(ColorShade.s200),
+                hoverColor: AppColors.getWhite(),
               ),
               AppVerticalIconButton(
                 label: "Receive\nCoin",
@@ -68,8 +68,8 @@ class CommonActions extends BaseComponent {
                 onPressed: () {
                   RootContainerUtils.navigateToTab(context, RootTab.receive);
                 },
-                color: AppColors.getBlue(),
-                hoverColor: AppColors.getBlue(ColorShade.s50),
+                color: AppColors.getWhite(ColorShade.s200),
+                hoverColor: AppColors.getWhite(),
               ),
               AppVerticalIconButton(
                 label: "TX\nHistory",
@@ -78,8 +78,8 @@ class CommonActions extends BaseComponent {
                 onPressed: () {
                   RootContainerUtils.navigateToTab(context, RootTab.transactions);
                 },
-                color: AppColors.getBlue(),
-                hoverColor: AppColors.getBlue(ColorShade.s50),
+                color: AppColors.getWhite(ColorShade.s200),
+                hoverColor: AppColors.getWhite(),
               ),
               AppVerticalIconButton(
                 label: "Mint\nNFT",
@@ -88,8 +88,8 @@ class CommonActions extends BaseComponent {
                 onPressed: () {
                   RootContainerUtils.navigateToTab(context, RootTab.smartContracts);
                 },
-                color: AppColors.getBlue(),
-                hoverColor: AppColors.getBlue(ColorShade.s50),
+                color: AppColors.getWhite(ColorShade.s200),
+                hoverColor: AppColors.getWhite(),
               ),
               AppVerticalIconButton(
                 label: "Mint\nToken",
@@ -98,8 +98,8 @@ class CommonActions extends BaseComponent {
                 onPressed: () {
                   RootContainerUtils.navigateToTab(context, RootTab.tokens);
                 },
-                color: AppColors.getBlue(),
-                hoverColor: AppColors.getBlue(ColorShade.s50),
+                color: AppColors.getWhite(ColorShade.s200),
+                hoverColor: AppColors.getWhite(),
               ),
               AppVerticalIconButton(
                 label: "Tokenize\nBTC",
@@ -108,8 +108,8 @@ class CommonActions extends BaseComponent {
                 onPressed: () {
                   RootContainerUtils.navigateToTab(context, RootTab.vbtc);
                 },
-                color: AppColors.getBlue(),
-                hoverColor: AppColors.getBlue(ColorShade.s50),
+                color: AppColors.getWhite(ColorShade.s200),
+                hoverColor: AppColors.getWhite(),
               ),
             ],
           ),
