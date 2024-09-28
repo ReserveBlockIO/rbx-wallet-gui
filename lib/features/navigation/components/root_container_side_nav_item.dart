@@ -3,42 +3,58 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/colors.dart';
 import '../root_container.dart';
 
-class RootContainerSideNavItem extends StatelessWidget {
+class RootContainerSideNavItem extends StatefulWidget {
   final String title;
   final VoidCallback onPressed;
   final IconData icon;
   final bool isActive;
   final bool isExpanded;
-  const RootContainerSideNavItem({
-    super.key,
-    required this.title,
-    required this.onPressed,
-    required this.icon,
-    required this.isActive,
-    required this.isExpanded,
-  });
+  final String? iconName;
+  const RootContainerSideNavItem(
+      {super.key, required this.title, required this.onPressed, required this.icon, required this.isActive, required this.isExpanded, this.iconName});
+
+  @override
+  State<RootContainerSideNavItem> createState() => _RootContainerSideNavItemState();
+}
+
+class _RootContainerSideNavItemState extends State<RootContainerSideNavItem> {
+  bool isHovering = false;
 
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
+      onHover: (_) {
+        setState(() {
+          isHovering = true;
+        });
+      },
+      onExit: (_) {
+        setState(() {
+          isHovering = false;
+        });
+      },
       child: GestureDetector(
-        onTap: onPressed,
+        onTap: widget.onPressed,
         child: AnimatedContainer(
           duration: ROOT_CONTAINER_TRANSITION_DURATION,
-          decoration: BoxDecoration(color: isActive ? AppColors.getBlue() : Colors.white30),
+          decoration: BoxDecoration(color: widget.isActive ? AppColors.getBlue() : Colors.white30),
           child: Padding(
             padding: const EdgeInsets.only(left: 2),
             child: AnimatedContainer(
               duration: ROOT_CONTAINER_TRANSITION_DURATION,
               decoration: BoxDecoration(
-                  color: isActive ? AppColors.getGray(ColorShade.s50) : AppColors.getGray(ColorShade.s200),
+                  color: widget.isActive
+                      ? AppColors.getGray(ColorShade.s50)
+                      : isHovering
+                          ? AppColors.getGray(ColorShade.s100)
+                          : AppColors.getGray(ColorShade.s200),
                   border: Border(
                     top: BorderSide(
-                      color: isActive ? AppColors.getBlue().withOpacity(0.1) : Colors.transparent,
+                      color: widget.isActive ? AppColors.getBlue().withOpacity(0.1) : Colors.transparent,
                     ),
                     bottom: BorderSide(
-                      color: isActive ? AppColors.getBlue().withOpacity(0.05) : Colors.transparent,
+                      color: widget.isActive ? AppColors.getBlue().withOpacity(0.05) : Colors.transparent,
                     ),
                   )),
               child: Padding(
@@ -54,22 +70,36 @@ class RootContainerSideNavItem extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        icon,
-                        size: 20,
-                        color: isActive ? AppColors.getBlue(ColorShade.s100) : AppColors.getWhite(ColorShade.s400),
-                      ),
+                      child: widget.iconName != null
+                          ? Image.asset(
+                              'assets/images/sidebar/${widget.iconName}.png',
+                              width: 22,
+                              height: 22,
+                            )
+                          : Icon(
+                              widget.icon,
+                              size: 20,
+                              color: widget.isActive
+                                  ? AppColors.getBlue(ColorShade.s100)
+                                  : isHovering
+                                      ? Colors.white
+                                      : AppColors.getWhite(ColorShade.s400),
+                            ),
                     ),
                     Flexible(
                       child: AnimatedOpacity(
                         duration: ROOT_CONTAINER_TRANSITION_DURATION,
-                        opacity: isExpanded ? 1 : 0,
+                        opacity: widget.isExpanded ? 1 : 0,
                         child: Text(
-                          title,
+                          widget.title,
                           overflow: TextOverflow.visible,
                           softWrap: false,
                           style: TextStyle(
-                            color: isActive ? AppColors.getBlue(ColorShade.s100) : AppColors.getWhite(ColorShade.s400),
+                            color: widget.isActive
+                                ? AppColors.getBlue(ColorShade.s100)
+                                : isHovering
+                                    ? AppColors.getWhite(ColorShade.s200)
+                                    : AppColors.getWhite(ColorShade.s400),
                           ),
                         ),
                       ),

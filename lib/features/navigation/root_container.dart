@@ -194,7 +194,7 @@ class _LayoutState extends State<_Layout> {
                             "Verified",
                             style: TextStyle(
                               color: AppColors.getWhite(ColorShade.s400),
-                              fontSize: 20,
+                              fontSize: 26,
                               fontWeight: FontWeight.w300,
                               fontFamily: 'Mukta',
                               letterSpacing: 0,
@@ -212,7 +212,7 @@ class _LayoutState extends State<_Layout> {
                               duration: ROOT_CONTAINER_TRANSITION_DURATION,
                               style: TextStyle(
                                 color: ref.watch(sessionProvider).btcSelected ? AppColors.getBtc() : AppColors.getBlue(ColorShade.s100),
-                                fontSize: 22,
+                                fontSize: 26,
                                 fontWeight: FontWeight.w700,
                                 fontFamily: 'Mukta',
                                 letterSpacing: 0,

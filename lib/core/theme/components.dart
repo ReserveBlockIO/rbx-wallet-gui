@@ -53,9 +53,9 @@ class AppCard extends StatelessWidget {
 }
 
 enum AppVerticalIconButtonSize {
-  sm(60, 24, 18, 12),
-  md(80, 32, 24, 16),
-  lg(120, 48, 36, 24);
+  sm(80, 28.8, 21.6, 14.4),
+  md(105, 38.4, 28.8, 19.2),
+  lg(160, 57.6, 43.2, 28.8);
 
   final double wrapSize;
   final double circleSize;

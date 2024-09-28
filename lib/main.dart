@@ -14,10 +14,10 @@ import 'core/env.dart';
 import 'core/singletons.dart';
 
 const DEFAULT_WIDTH = 1200.0;
-const DEFAULT_HEIGHT = 760.0;
+const DEFAULT_HEIGHT = 730.0;
 
 const MIN_WIDTH = 1200.0;
-const MIN_HEIGHT = 760.0;
+const MIN_HEIGHT = 730.0;
 late final Box rbxBox;
 
 final rootAppWindow = appWindow;

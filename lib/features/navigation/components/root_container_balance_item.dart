@@ -14,6 +14,7 @@ class RootContainerBalanceItem extends StatefulWidget {
   final Widget? latestTx;
   final bool forceExpand;
   final VoidCallback handleViewAllTxs;
+  final Widget topIndicator;
 
   const RootContainerBalanceItem({
     super.key,
@@ -24,6 +25,7 @@ class RootContainerBalanceItem extends StatefulWidget {
     this.latestTx,
     required this.forceExpand,
     required this.handleViewAllTxs,
+    required this.topIndicator,
   });
 
   @override
@@ -65,31 +67,40 @@ class RootContainerBalanceItemState extends State<RootContainerBalanceItem> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        widget.accountCount,
-                        style: Theme.of(context).textTheme.caption,
-                      ),
                       SizedBox(
                         width: 250,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "Latest TX:",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 13,
-                                color: Colors.white.withOpacity(0.9),
+                            Expanded(
+                              child: Text(
+                                "Latest TX:",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13,
+                                  color: Colors.white.withOpacity(0.9),
+                                ),
                               ),
                             ),
-                            TextButton(
-                              onPressed: widget.handleViewAllTxs,
-                              child: Text(
-                                "View All Txs",
-                                style: TextStyle(
-                                  color: widget.headingColor.withOpacity(0.65),
-                                  fontSize: 13,
-                                  decoration: TextDecoration.underline,
+                            SizedBox(
+                                width: 42,
+                                height: 42,
+                                child: Center(
+                                  child: widget.topIndicator,
+                                )),
+                            Expanded(
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: TextButton(
+                                  onPressed: widget.handleViewAllTxs,
+                                  child: Text(
+                                    "View All Txs",
+                                    style: TextStyle(
+                                      color: widget.headingColor.withOpacity(0.65),
+                                      fontSize: 13,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
                                 ),
                               ),
                             )
@@ -101,19 +112,22 @@ class RootContainerBalanceItemState extends State<RootContainerBalanceItem> {
                         child: Center(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: widget.latestTx ??
-                                SizedBox(
-                                  width: 250,
-                                  height: 100,
-                                  child: AppCard(
-                                    child: Center(
-                                      child: Text(
-                                        "No Transactions",
-                                        style: Theme.of(context).textTheme.caption,
+                            child: SizedBox(
+                              width: 280,
+                              child: widget.latestTx ??
+                                  SizedBox(
+                                    height: 100,
+                                    child: AppCard(
+                                      fullWidth: true,
+                                      child: Center(
+                                        child: Text(
+                                          "No Transactions",
+                                          style: Theme.of(context).textTheme.caption,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
+                            ),
                           ),
                         ),
                       ),
@@ -122,6 +136,20 @@ class RootContainerBalanceItemState extends State<RootContainerBalanceItem> {
                       ),
                       Wrap(
                         children: widget.actions,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 9),
+                        child: SizedBox(
+                          width: 230,
+                          child: Divider(
+                            height: 1,
+                            color: Colors.white.withOpacity(0.07),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        widget.accountCount,
+                        style: Theme.of(context).textTheme.caption,
                       ),
                     ],
                   ),

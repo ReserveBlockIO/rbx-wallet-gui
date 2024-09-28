@@ -14,6 +14,7 @@ import 'package:rbx_wallet/features/navigation/utils.dart';
 import 'package:rbx_wallet/features/transactions/models/transaction.dart';
 import 'package:rbx_wallet/features/wallet/utils.dart';
 import 'package:collection/collection.dart';
+import 'package:rbx_wallet/generated/assets.gen.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/base_component.dart';
 import '../../../core/providers/session_provider.dart';
@@ -93,6 +94,11 @@ class RootContainerBalanceRow extends BaseComponent {
             children: [
               Expanded(
                 child: RootContainerBalanceItem(
+                  topIndicator: Image.asset(
+                    "assets/images/cube_still.png",
+                    width: 32,
+                    height: 32,
+                  ),
                   forceExpand: forceExpand,
                   heading: vfxBalance != null ? "$vfxBalance VFX" : "0.0 VFX",
                   headingColor: AppColors.getBlue(),
@@ -143,6 +149,17 @@ class RootContainerBalanceRow extends BaseComponent {
               ),
               Expanded(
                 child: RootContainerBalanceItem(
+                  topIndicator: Container(
+                    decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(32)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Image.asset(
+                        "assets/images/vbtc_small.png",
+                        width: 32,
+                        height: 32,
+                      ),
+                    ),
+                  ),
                   forceExpand: forceExpand,
                   heading: "$vBtcBalance vBTC",
                   headingColor: AppColors.getWhite(),
@@ -185,6 +202,11 @@ class RootContainerBalanceRow extends BaseComponent {
               ),
               Expanded(
                 child: RootContainerBalanceItem(
+                  topIndicator: FaIcon(
+                    FontAwesomeIcons.bitcoin,
+                    color: AppColors.getBtc(),
+                    size: 28,
+                  ),
                   forceExpand: forceExpand,
                   heading: "$btcBalance BTC",
                   headingColor: AppColors.getBtc(),
@@ -289,6 +311,7 @@ class _LatestBtcTx extends BaseComponent {
           RootContainerUtils.navigateToTab(context, RootTab.transactions);
         },
         child: AppCard(
+          fullWidth: true,
           padding: 12,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -346,6 +369,7 @@ class _LatestVfxTx extends BaseComponent {
         },
         child: AppCard(
           padding: 12,
+          fullWidth: true,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

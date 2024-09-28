@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
+import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/components/currency_segmented_button.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dart';
@@ -69,7 +70,7 @@ class NewHomeScreen extends BaseScreen {
                   child: CoinPriceSummary(
                     type: CoinPriceSummaryType.vfx,
                     actions: [
-                      AppVerticalIconButton(
+                      AppButton(
                         onPressed: () {
                           ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.vfx);
                           Navigator.of(rootNavigatorKey.currentContext!).push(
@@ -79,9 +80,10 @@ class NewHomeScreen extends BaseScreen {
                             ),
                           );
                         },
-                        icon: FontAwesomeIcons.chartLine,
-                        label: "View\nChart",
-                        size: AppVerticalIconButtonSize.sm,
+                        // icon: FontAwesomeIcons.chartLine,
+                        label: "View Chart",
+                        variant: AppColorVariant.Light,
+                        type: AppButtonType.Outlined,
                       ),
                       // AppVerticalIconButton(
                       //   onPressed: () {},
@@ -89,13 +91,15 @@ class NewHomeScreen extends BaseScreen {
                       //   label: "View\nTrades",
                       //   size: AppVerticalIconButtonSize.sm,
                       // ),
-                      AppVerticalIconButton(
+                      AppButton(
                         onPressed: () async {
                           AccountUtils.getCoin(context, ref, VfxOrBtcOption.vfx);
                         },
-                        icon: FontAwesomeIcons.coins,
-                        label: "Get\nVFX",
-                        size: AppVerticalIconButtonSize.sm,
+                        variant: AppColorVariant.Secondary,
+                        type: AppButtonType.Outlined,
+                        // icon: FontAwesomeIcons.coins,
+                        label: "Get VFX",
+                        // size: AppVerticalIconButtonSize.sm,
                       ),
                     ],
                   ),
@@ -107,7 +111,7 @@ class NewHomeScreen extends BaseScreen {
                   child: CoinPriceSummary(
                     type: CoinPriceSummaryType.btc,
                     actions: [
-                      AppVerticalIconButton(
+                      AppButton(
                         onPressed: () {
                           ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.btc);
                           Navigator.of(rootNavigatorKey.currentContext!).push(
@@ -117,9 +121,9 @@ class NewHomeScreen extends BaseScreen {
                             ),
                           );
                         },
-                        icon: FontAwesomeIcons.chartLine,
-                        label: "View\nChart",
-                        size: AppVerticalIconButtonSize.sm,
+                        label: "View Chart",
+                        variant: AppColorVariant.Light,
+                        type: AppButtonType.Outlined,
                       ),
                       // AppVerticalIconButton(
                       //   onPressed: () {},
@@ -127,13 +131,13 @@ class NewHomeScreen extends BaseScreen {
                       //   label: "View\nTrades",
                       //   size: AppVerticalIconButtonSize.sm,
                       // ),
-                      AppVerticalIconButton(
+                      AppButton(
                         onPressed: () {
                           AccountUtils.getCoin(context, ref, VfxOrBtcOption.btc);
                         },
-                        icon: FontAwesomeIcons.coins,
-                        label: "Get\nBTC",
-                        size: AppVerticalIconButtonSize.sm,
+                        label: "Get BTC",
+                        variant: AppColorVariant.Btc,
+                        type: AppButtonType.Outlined,
                       ),
                     ],
                   ),

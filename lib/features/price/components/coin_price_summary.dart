@@ -99,7 +99,7 @@ class _CoinPriceSummaryContent extends StatelessWidget {
           Text(
             type.label,
             style: TextStyle(
-              fontSize: 28,
+              fontSize: 22,
               color: type.color,
               fontWeight: FontWeight.w600,
               letterSpacing: 2,
@@ -140,7 +140,7 @@ class _CoinPriceSummaryContent extends StatelessWidget {
                   child: Text(
                     "\$${data.usdtPrice.toStringAsFixed(4)}",
                     style: TextStyle(
-                      fontSize: 32,
+                      fontSize: 22,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -176,7 +176,11 @@ class _CoinPriceSummaryContent extends StatelessWidget {
               ],
             ),
           ),
+          SizedBox(
+            height: 6,
+          ),
           Wrap(
+            spacing: 16,
             children: actions,
           )
         ],
