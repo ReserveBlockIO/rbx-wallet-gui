@@ -23,7 +23,12 @@ class DstLandingScreen extends BaseScreen {
       title: const Text("P2P Auctions"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      actions: const [WalletSelector()],
+      actions: const [
+        WalletSelector(
+          includeBtc: false,
+          withOptions: false,
+        )
+      ],
       leading: BackToHomeButton(),
     );
   }

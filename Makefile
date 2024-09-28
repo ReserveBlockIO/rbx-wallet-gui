@@ -66,6 +66,7 @@ package_m1:
 	cd /Users/tyler/prj/rbx/rbx-wallet-gui/
 	open ./installers/exports/
 
+
 	
 
 build_win:

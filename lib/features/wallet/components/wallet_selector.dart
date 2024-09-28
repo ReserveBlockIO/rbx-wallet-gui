@@ -29,6 +29,7 @@ class WalletSelector extends BaseComponent {
   final bool headerHasCopy;
   final bool includeRbx;
   final bool includeBtc;
+  final bool includeRa;
   const WalletSelector({
     Key? key,
     this.truncatedLabel = true,
@@ -36,6 +37,7 @@ class WalletSelector extends BaseComponent {
     this.headerHasCopy = true,
     this.includeRbx = true,
     this.includeBtc = true,
+    this.includeRa = true,
   }) : super(key: key);
 
   @override
@@ -430,6 +432,10 @@ class WalletSelector extends BaseComponent {
             for (final wallet in allWallets) {
               if (!includeRbx) {
                 break;
+              }
+
+              if (wallet.isReserved && !includeRa) {
+                continue;
               }
               final isSelected = currentWallet != null && wallet.address == currentWallet.address;
 

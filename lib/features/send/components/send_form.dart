@@ -322,7 +322,7 @@ class SendForm extends BaseComponent {
                                 ),
                                 BalanceIndicator(
                                   label: "Total",
-                                  value: wallet!.balance + wallet!.lockedBalance,
+                                  value: wallet!.balance - wallet!.lockedBalance,
                                   bgColor: Colors.green.shade700,
                                   fgColor: Colors.white,
                                 ),

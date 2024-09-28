@@ -29,15 +29,12 @@ class RemoteShopListScreen extends BaseScreen {
   ) async {
     String? url = await PromptModal.show(
       title: "Shop URL",
-      initialValue: "vfx://",
+      initialValue: "rbx://",
       validator: (value) {
         if (value == null || value.isEmpty) {
           return "Shop URL required";
         }
 
-        // if (!value.startsWith("vfx://")) {
-        //   return "Invalid URL. Must start with 'vfx://'";
-        // }
         return null;
       },
       labelText: "Input Shop Name Only",
@@ -47,8 +44,8 @@ class RemoteShopListScreen extends BaseScreen {
       return null;
     }
 
-    if (!url.startsWith("vfx://")) {
-      url = "vfx://$url";
+    if (!url.startsWith("rbx://")) {
+      url = "rbx://$url";
     }
 
     return url.trim();
@@ -60,12 +57,10 @@ class RemoteShopListScreen extends BaseScreen {
   ) async {
     final url = await promptForShopUrl(context, ref);
 
-    if (ref.read(walletInfoProvider) == null ||
-        !ref.read(walletInfoProvider)!.isChainSynced) {
+    if (ref.read(walletInfoProvider) == null || !ref.read(walletInfoProvider)!.isChainSynced) {
       final cont = await ConfirmDialog.show(
         title: "Wallet Not Synced",
-        body:
-            "Since your wallet is not synced there may be some issues viewing the data in this shop. Continue anyway?",
+        body: "Since your wallet is not synced there may be some issues viewing the data in this shop. Continue anyway?",
         confirmText: "Continue",
         cancelText: "Cancel",
       );
@@ -141,9 +136,7 @@ class RemoteShopListScreen extends BaseScreen {
     final List<DecShop> filteredGlobalShops = searchQuery.isEmpty
         ? [...globalShops]
         : [...globalShops]
-            .where((s) =>
-                s.name.toLowerCase().contains(searchQuery) ||
-                s.urlWithoutPrefix.toLowerCase().contains(searchQuery))
+            .where((s) => s.name.toLowerCase().contains(searchQuery) || s.urlWithoutPrefix.toLowerCase().contains(searchQuery))
             .toList();
 
     return Column(
@@ -152,8 +145,7 @@ class RemoteShopListScreen extends BaseScreen {
           children: [
             Expanded(
               child: TextFormField(
-                controller:
-                    ref.read(remoteShopSearchProvider.notifier).controller,
+                controller: ref.read(remoteShopSearchProvider.notifier).controller,
                 autofocus: true,
                 decoration: InputDecoration(
                   prefixIcon: Icon(
@@ -164,8 +156,7 @@ class RemoteShopListScreen extends BaseScreen {
                   suffixIcon: IconButton(
                     icon: Icon(
                       Icons.clear,
-                      color:
-                          searchQuery.isEmpty ? Colors.white10 : Colors.white,
+                      color: searchQuery.isEmpty ? Colors.white10 : Colors.white,
                     ),
                     onPressed: () {
                       ref.read(remoteShopSearchProvider.notifier).clear();

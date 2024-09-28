@@ -45,10 +45,7 @@ class WebShopList extends BaseComponent {
     final filteredShops = searchQuery.isEmpty
         ? [...shops]
         : shops.where((s) {
-            if (s.url
-                .replaceAll("vfx://", "")
-                .toLowerCase()
-                .contains(searchQuery)) {
+            if (s.url.replaceAll("rbx://", "").toLowerCase().contains(searchQuery)) {
               return true;
             }
 
@@ -79,8 +76,7 @@ class WebShopList extends BaseComponent {
                   suffixIcon: IconButton(
                     icon: Icon(
                       Icons.clear,
-                      color:
-                          searchQuery.isEmpty ? Colors.white10 : Colors.white,
+                      color: searchQuery.isEmpty ? Colors.white10 : Colors.white,
                     ),
                     onPressed: () {
                       ref.read(webShopSearchProvider.notifier).clear();

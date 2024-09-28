@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_component.dart';
 import '../../../core/dialogs.dart';
@@ -27,88 +28,80 @@ class RemoteShopListTile extends BaseComponent {
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.black,
-          boxShadow: glowingBox,
-        ),
-        child: Card(
-          margin: EdgeInsets.zero,
-          color: Colors.white.withOpacity(0.03),
-          child: ListTile(
-            title: RichText(
-                text: TextSpan(style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500), children: [
+      child: AppCard(
+        child: ListTile(
+          title: RichText(
+              text: TextSpan(style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500), children: [
+            TextSpan(
+              text: shop.name,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            if (currentUrl == shop.url && isConnected)
               TextSpan(
-                text: shop.name,
+                text: " [Connected]",
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.success,
                 ),
               ),
-              if (currentUrl == shop.url && isConnected)
-                TextSpan(
-                  text: " [Connected]",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.success,
-                  ),
+          ])),
+          subtitle: RichText(
+            text: TextSpan(style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500), children: [
+              TextSpan(
+                text: shop.url,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary.withOpacity(0.7),
                 ),
-            ])),
-            subtitle: RichText(
-              text: TextSpan(style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500), children: [
-                TextSpan(
-                  text: shop.url,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary.withOpacity(0.7),
-                  ),
+              ),
+              TextSpan(text: " "),
+              TextSpan(
+                text: "${shop.ownerAddress}",
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontWeight: FontWeight.w300,
                 ),
-                TextSpan(text: " "),
-                TextSpan(
-                  text: "${shop.ownerAddress}",
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-              ]),
-            ),
-            leading: Icon(
-              Icons.house,
-            ),
-            trailing: Icon(Icons.chevron_right),
-            onTap: () async {
-              if (shop.isThirdParty) {
-                final webShop = await WebShopService().lookupShop(shop.url);
+              ),
+            ]),
+          ),
+          leading: Icon(
+            Icons.house,
+          ),
+          trailing: Icon(Icons.chevron_right),
+          onTap: () async {
+            if (shop.isThirdParty) {
+              final webShop = await WebShopService().lookupShop(shop.url);
 
-                if (webShop == null) {
-                  Toast.error();
-                  return;
-                }
-
-                AutoRouter.of(context).push(WebShopDetailScreenRoute(shopId: webShop.id));
+              if (webShop == null) {
+                Toast.error();
                 return;
               }
 
-              if (ref.read(walletInfoProvider) == null || !ref.read(walletInfoProvider)!.isChainSynced) {
-                final cont = await ConfirmDialog.show(
-                  title: "Wallet Not Synced",
-                  body: "Since your wallet is not synced there may be some issues viewing the data in this shop. Continue anyway?",
-                  confirmText: "Continue",
-                  cancelText: "Cancel",
-                );
+              AutoRouter.of(context).push(WebShopDetailScreenRoute(shopId: webShop.id));
+              return;
+            }
 
-                if (cont != true) {
-                  return;
-                }
-              }
+            if (ref.read(walletInfoProvider) == null || !ref.read(walletInfoProvider)!.isChainSynced) {
+              final cont = await ConfirmDialog.show(
+                title: "Wallet Not Synced",
+                body: "Since your wallet is not synced there may be some issues viewing the data in this shop. Continue anyway?",
+                confirmText: "Continue",
+                cancelText: "Cancel",
+              );
 
-              if (currentUrl == shop.url && isConnected) {
-                ref.read(connectedShopProvider.notifier).refresh();
-                ref.read(connectedShopProvider.notifier).activateRefreshTimer();
-                AutoRouter.of(context).push(RemoteShopDetailScreenRoute(shopUrl: shop.url));
-              } else {
-                await ref.read(connectedShopProvider.notifier).loadShop(context, ref, shop.url);
+              if (cont != true) {
+                return;
               }
-            },
-          ),
+            }
+
+            if (currentUrl == shop.url && isConnected) {
+              ref.read(connectedShopProvider.notifier).refresh();
+              ref.read(connectedShopProvider.notifier).activateRefreshTimer();
+              AutoRouter.of(context).push(RemoteShopDetailScreenRoute(shopUrl: shop.url));
+            } else {
+              await ref.read(connectedShopProvider.notifier).loadShop(context, ref, shop.url);
+            }
+          },
         ),
       ),
     );
