@@ -161,6 +161,22 @@ class AppTheme {
           // color: Colors.white.withOpacity(0.8),
         ),
       ),
+      tooltipTheme: TooltipThemeData(
+        padding: EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+        decoration: BoxDecoration(
+          color: AppColors.getGray(ColorShade.s50).withOpacity(0.9),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.getBlue().withOpacity(0.3),
+              blurRadius: 8,
+            )
+          ],
+          borderRadius: BorderRadius.circular(8),
+        ),
+        textStyle: TextStyle(
+          color: Colors.white.withOpacity(0.85),
+        ),
+      ),
       textTheme: _textTheme(true),
       fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : "Mukta",
       colorScheme: ColorScheme.fromSwatch(

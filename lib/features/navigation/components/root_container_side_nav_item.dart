@@ -70,21 +70,24 @@ class _RootContainerSideNavItemState extends State<RootContainerSideNavItem> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: widget.iconName != null
-                          ? Image.asset(
-                              'assets/images/sidebar/${widget.iconName}.png',
-                              width: 22,
-                              height: 22,
-                            )
-                          : Icon(
-                              widget.icon,
-                              size: 20,
-                              color: widget.isActive
-                                  ? AppColors.getBlue(ColorShade.s100)
-                                  : isHovering
-                                      ? Colors.white
-                                      : AppColors.getWhite(ColorShade.s400),
-                            ),
+                      child: Tooltip(
+                        message: widget.isExpanded ? "" : widget.title,
+                        child: widget.iconName != null
+                            ? Image.asset(
+                                'assets/images/sidebar/${widget.iconName}.png',
+                                width: 22,
+                                height: 22,
+                              )
+                            : Icon(
+                                widget.icon,
+                                size: 20,
+                                color: widget.isActive
+                                    ? AppColors.getBlue(ColorShade.s100)
+                                    : isHovering
+                                        ? Colors.white
+                                        : AppColors.getWhite(ColorShade.s400),
+                              ),
+                      ),
                     ),
                     Flexible(
                       child: AnimatedOpacity(

@@ -97,186 +97,204 @@ class AppContainer extends ConsumerWidget {
         }
 
         return Scaffold(
-          body: WindowBorder(
-            width: 0,
-            color: AppColors.getBlue(ColorShade.s400),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (!kIsWeb)
-                  GestureDetector(
-                    onTapDown: (_) {
-                      rootAppWindow.startDragging();
-                    },
-                    child: WindowTitleBarBox(
-                      child: Container(
-                        width: double.infinity,
-                        height: 28,
-                        decoration: BoxDecoration(
-                          color: AppColors.getGray(),
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Colors.white.withOpacity(0.05),
-                              width: 1,
-                            ),
+          body: Container(
+            decoration: BoxDecoration(
+              color: Platform.isMacOS ? Colors.white.withOpacity(0.25) : Colors.transparent,
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(Platform.isMacOS ? 1.0 : 0),
+              child: WindowBorder(
+                width: 1,
+                color: AppColors.getBlue(ColorShade.s400),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (!kIsWeb) TopAppWindowMenuBar(),
+                    Expanded(
+                      child: Stack(
+                        children: [
+                          ContextMenuOverlay(
+                            child: widget!,
                           ),
-                        ),
-                        child: Padding(
-                            padding: EdgeInsets.only(left: Platform.isWindows ? 4 : 72.0, top: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                      fontFamily: "Mukta",
-                                      color: Colors.white.withOpacity(0.9),
-                                      letterSpacing: 0.75,
-                                      height: 1,
-                                      fontSize: 16,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: "VFX",
-                                        style: TextStyle(
-                                          color: AppColors.getBlue(ColorShade.s100),
-                                          fontWeight: FontWeight.w600,
-                                          shadows: [
-                                            Shadow(
-                                              color: Colors.white.withOpacity(0.4),
-                                              blurRadius: 8,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: " | ",
-                                        style: TextStyle(
-                                          color: Colors.white.withOpacity(0.25),
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: "Switchblade",
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                if (Env.isTestNet)
-                                  Row(mainAxisSize: MainAxisSize.min, children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(right: Platform.isWindows ? 2 : 8.0),
-                                      child: Text(
-                                        "[TESTNET]",
-                                        style: TextStyle(
-                                          fontFamily: "Mukta",
-                                          fontSize: 10,
-                                          color: Colors.white.withOpacity(1),
-                                          letterSpacing: 1.5,
-                                          height: 1,
-                                        ),
-                                      ),
-                                    ),
-                                    if (Platform.isWindows) _WindowsTopRightButtons(),
-                                  ])
-                              ],
-                            )),
-                      ),
-                    ),
-                  ),
-                Expanded(
-                  child: Stack(
-                    children: [
-                      ContextMenuOverlay(
-                        child: widget!,
-                      ),
-                      const Align(
-                        alignment: Alignment.topRight,
-                        child: NotificationOverlay(),
-                      ),
-                      if (ref.watch(globalLoadingProvider))
-                        Container(
-                          color: Colors.black54,
-                          child: Center(
-                            child: Text(
-                              "Loading...",
-                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                            ),
+                          const Align(
+                            alignment: Alignment.topRight,
+                            child: NotificationOverlay(),
                           ),
-                        ),
-                      if (ref.watch(shopLoadingProvider) != null)
-                        Container(
-                          color: Colors.black54,
-                          child: Stack(
-                            children: [
-                              Center(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Container(
-                                      width: 120,
-                                      height: 120,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(16),
-                                        color: Colors.black,
+                          if (ref.watch(globalLoadingProvider))
+                            Container(
+                              color: Colors.black54,
+                              child: Center(
+                                child: Text(
+                                  "Loading...",
+                                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      child: Center(
-                                        child: SizedBox(
-                                          width: 100,
-                                          height: 100,
-                                          child: Image.asset(
-                                            Assets.images.animatedCube.path,
-                                            scale: 1,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 16,
-                                    ),
-                                    Text(
-                                      ref.watch(shopLoadingProvider)!,
-                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                            color: Colors.white,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                    ),
-                                  ],
                                 ),
                               ),
-                              Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 72.0),
-                                    child: Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        onTap: () => ref.read(shopLoadingProvider.notifier).complete(),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            "[CLOSE]",
-                                            style: Theme.of(context).textTheme.caption,
+                            ),
+                          if (ref.watch(shopLoadingProvider) != null)
+                            Container(
+                              color: Colors.black54,
+                              child: Stack(
+                                children: [
+                                  Center(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          width: 120,
+                                          height: 120,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(16),
+                                            color: Colors.black,
+                                          ),
+                                          child: Center(
+                                            child: SizedBox(
+                                              width: 100,
+                                              height: 100,
+                                              child: Image.asset(
+                                                Assets.images.animatedCube.path,
+                                                scale: 1,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                        SizedBox(
+                                          height: 16,
+                                        ),
+                                        Text(
+                                          ref.watch(shopLoadingProvider)!,
+                                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                        ),
+                                      ],
                                     ),
-                                  ))
-                            ],
-                          ),
-                        ),
-                    ],
-                  ),
+                                  ),
+                                  Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(bottom: 72.0),
+                                        child: Material(
+                                          color: Colors.transparent,
+                                          child: InkWell(
+                                            onTap: () => ref.read(shopLoadingProvider.notifier).complete(),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "[CLOSE]",
+                                                style: Theme.of(context).textTheme.caption,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ))
+                                ],
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         );
       },
       title: 'VFX Wallet',
+    );
+  }
+}
+
+class TopAppWindowMenuBar extends StatelessWidget {
+  const TopAppWindowMenuBar({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTapDown: (_) {
+        rootAppWindow.startDragging();
+      },
+      child: WindowTitleBarBox(
+        child: Container(
+          width: double.infinity,
+          height: 28,
+          decoration: BoxDecoration(
+            color: AppColors.getGray(),
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.white.withOpacity(0.05),
+                width: 1,
+              ),
+            ),
+          ),
+          child: Padding(
+              padding: EdgeInsets.only(left: Platform.isWindows ? 4 : 72.0, top: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      style: TextStyle(
+                        fontFamily: "Mukta",
+                        color: Colors.white.withOpacity(0.9),
+                        letterSpacing: 0.75,
+                        height: 1,
+                        fontSize: 16,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: "VFX",
+                          style: TextStyle(
+                            color: AppColors.getBlue(ColorShade.s100),
+                            fontWeight: FontWeight.w600,
+                            shadows: [
+                              Shadow(
+                                color: Colors.white.withOpacity(0.4),
+                                blurRadius: 8,
+                              ),
+                            ],
+                          ),
+                        ),
+                        TextSpan(
+                          text: " | ",
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.25),
+                          ),
+                        ),
+                        TextSpan(
+                          text: "Switchblade",
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (Env.isTestNet)
+                    Row(mainAxisSize: MainAxisSize.min, children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: Platform.isWindows ? 2 : 18.0),
+                        child: Text(
+                          "[TESTNET]",
+                          style: TextStyle(
+                            fontFamily: "Mukta",
+                            fontSize: 10,
+                            color: Colors.white.withOpacity(1),
+                            letterSpacing: 1.5,
+                            height: 1,
+                          ),
+                        ),
+                      ),
+                      if (Platform.isWindows) _WindowsTopRightButtons(),
+                    ])
+                ],
+              )),
+        ),
+      ),
     );
   }
 }
