@@ -136,7 +136,12 @@ class ConfirmDialog {
                 textAlign: TextAlign.center,
               ),
             )
-          : content ?? SizedBox(),
+          : content != null
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: content,
+                )
+              : SizedBox(),
       actions: [
         TextButton(
           style: TextButton.styleFrom(
@@ -686,7 +691,7 @@ class SpecialDialog<T> {
                                 ),
                               ),
                             if (title == null && dissmissible) SizedBox(height: 18 + 8 + 8),
-                            Container(color: Colors.black12, child: widget),
+                            widget,
                             if (actions != null)
                               Align(
                                 alignment: Alignment.center,

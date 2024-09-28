@@ -5,6 +5,8 @@ import 'package:rbx_wallet/core/breakpoints.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/help_button.dart';
 
+import '../theme/colors.dart';
+
 enum AppButtonType { Elevated, Outlined, Text }
 
 class AppButton extends StatelessWidget {
@@ -96,7 +98,7 @@ class AppButton extends StatelessWidget {
         );
       case AppColorVariant.Success:
         return ElevatedButton.styleFrom(
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.successButtonBg,
+          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : AppColors.getSpringGreen(),
           onPrimary: Theme.of(context).colorScheme.successButtonFg,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
@@ -395,7 +397,8 @@ class AppButton extends StatelessWidget {
                   ),
                 )
               : Transform.translate(
-                  offset: Offset(0, (icon?.fontPackage).toString().contains("font_awesome_flutter") ? 3 : 0),
+                  offset:
+                      type == AppButtonType.Text ? Offset(0, 4) : Offset(0, (icon?.fontPackage).toString().contains("font_awesome_flutter") ? 3 : 0),
                   child: Icon(
                     icon,
                     size: 14,

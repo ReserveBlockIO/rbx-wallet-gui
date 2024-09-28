@@ -83,7 +83,7 @@ class AppVerticalIconButton extends StatefulWidget {
     required this.label,
     this.color,
     this.hoverColor,
-    this.size = AppVerticalIconButtonSize.md,
+    this.size = AppVerticalIconButtonSize.sm,
   });
 
   @override

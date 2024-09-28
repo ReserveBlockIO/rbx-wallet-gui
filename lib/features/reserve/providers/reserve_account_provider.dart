@@ -95,7 +95,6 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
 
     if (fundingWallet != null) {
       final shouldSendFunds = await ConfirmDialog.show(
-        context: context,
         title: "Fund Account",
         content: ConstrainedBox(
           constraints: BoxConstraints(maxWidth: 600),
@@ -120,7 +119,6 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
         const amount = 5.0;
 
         final confirmed = await ConfirmDialog.show(
-          context: context,
           title: "Please Confirm",
           body: "Sending:\n$amount VFX\n\nTo:\n${walletAddress}\n\nFrom:\n${fundingWallet.address}",
           confirmText: "Send",
@@ -169,6 +167,8 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
 
             if (password != null) {
               ref.read(reserveAccountAutoActivateProvider.notifier).add(txHash, walletAddress, password);
+              ref.read(pendingActivationProvider.notifier).addId(walletAddress);
+              Toast.message("Auto activate queued.");
             }
           }
         } else {

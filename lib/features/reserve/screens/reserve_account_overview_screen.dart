@@ -1,11 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 import 'package:rbx_wallet/core/theme/components.dart';
 import 'package:rbx_wallet/features/reserve/models/new_reserve_account.dart';
 import 'package:rbx_wallet/features/reserve/screens/manage_reserve_accounts_screen.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/utils.dart';
 import '../../../utils/toast.dart';
@@ -30,19 +33,49 @@ class ReserveAccountOverviewScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("Vault Accounts"),
+      title: Text(
+        "Vault Accounts",
+        style: TextStyle(color: Colors.white),
+      ),
       backgroundColor: Colors.black,
       leading: BackToHomeButton(),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 16.0),
-          child: AppButton(
-            label: "Manage Vault Accounts",
-            variant: AppColorVariant.Reserve,
-            type: AppButtonType.Outlined,
+          child: TextButton.icon(
             onPressed: () {
-              AutoRouter.of(context).push(const ManageReserveAccountsScreenRoute());
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    content: _RaInfo(),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          "Close",
+                          style: TextStyle(color: AppColors.getReserve()),
+                        ),
+                      )
+                    ],
+                  );
+                },
+              );
             },
+            icon: Icon(
+              Icons.help,
+              size: 16,
+              color: AppColors.getReserve(),
+            ),
+            label: Text(
+              "What are Vault Accounts?",
+              style: TextStyle(
+                color: AppColors.getReserve(),
+                decoration: TextDecoration.underline,
+              ),
+            ),
           ),
         ),
       ],
@@ -73,25 +106,61 @@ class ReserveAccountOverviewScreen extends BaseScreen {
                           ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 16.0),
-                          child: AppCard(
-                            padding: 4,
-                            child: ListTile(
-                              title: SelectableText(wallet.address),
-                              subtitle: Row(mainAxisSize: MainAxisSize.min, children: [
-                                Text("Available: ${wallet.availableBalance} VFX"),
-                                SizedBox(width: 4),
-                                InkWell(
-                                  onTap: () {
-                                    provider.showBalanceInfo(context, wallet);
-                                  },
-                                  child: Icon(
-                                    Icons.help,
-                                    size: 16,
-                                    color: Theme.of(context).colorScheme.secondary,
+                          child: MouseRegion(
+                            cursor: wallet.isNetworkProtected ? SystemMouseCursors.click : MouseCursor.defer,
+                            child: GestureDetector(
+                              onTap: wallet.isNetworkProtected
+                                  ? () {
+                                      showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) {
+                                            return ModalContainer(
+                                              children: [
+                                                ReserveAccountManageCard(wallet),
+                                              ],
+                                            );
+                                          });
+                                    }
+                                  : null,
+                              child: AppCard(
+                                padding: 4,
+                                child: ListTile(
+                                  title: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        wallet.address,
+                                        style: TextStyle(color: AppColors.getReserve()),
+                                      ),
+                                      IconButton(
+                                          onPressed: () async {
+                                            await Clipboard.setData(ClipboardData(text: wallet.address));
+                                            Toast.message("Address copied to clipboard");
+                                          },
+                                          icon: Icon(
+                                            Icons.copy,
+                                            size: 16,
+                                            color: AppColors.getReserve(),
+                                          ))
+                                    ],
                                   ),
-                                )
-                              ]),
-                              trailing: ReserveAccountStatusBadge(wallet: wallet),
+                                  subtitle: Row(mainAxisSize: MainAxisSize.min, children: [
+                                    Text("Available: ${wallet.availableBalance} VFX"),
+                                    SizedBox(width: 4),
+                                    InkWell(
+                                      onTap: () {
+                                        provider.showBalanceInfo(context, wallet);
+                                      },
+                                      child: Icon(
+                                        Icons.help,
+                                        size: 16,
+                                        color: Theme.of(context).colorScheme.secondary,
+                                      ),
+                                    )
+                                  ]),
+                                  trailing: ReserveAccountStatusBadge(wallet: wallet),
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -241,8 +310,20 @@ class _Top extends BaseComponent {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          if (wallets.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: AppButton(
+                label: "Manage Vault Accounts",
+                icon: Icons.settings,
+                variant: AppColorVariant.Reserve,
+                onPressed: () {
+                  AutoRouter.of(context).push(const ManageReserveAccountsScreenRoute());
+                },
+              ),
+            ),
           AppButton(
-            label: "Setup Account",
+            label: "Setup New Account",
             icon: Icons.add,
             variant: AppColorVariant.Success,
             onPressed: () {
@@ -255,47 +336,12 @@ class _Top extends BaseComponent {
         height: 16,
       ),
 
-      TextButton.icon(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                content: _RaInfo(),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      "Close",
-                      style: TextStyle(color: AppColors.getReserve()),
-                    ),
-                  )
-                ],
-              );
-            },
-          );
-        },
-        icon: Icon(
-          Icons.help,
-          size: 16,
-          color: AppColors.getReserve(),
-        ),
-        label: Text(
-          "What are Vault Accounts?",
-          style: TextStyle(
-            color: AppColors.getReserve(),
-            decoration: TextDecoration.underline,
-          ),
-        ),
-      ),
       SizedBox(
         height: 16,
       ),
       Text(
         "Existing Accounts",
-        style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white),
       ),
       SizedBox(height: 3),
       if (wallets.isEmpty) Text("No Vault Accounts"),
