@@ -31,7 +31,23 @@ class TokenCreateScreen extends BaseScreen {
     }
     if (currentWallet.isReserved) {
       return Center(
-        child: Text("Vault Accounts can not mint tokens"),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("Vault Accounts cann't mint tokens"),
+            SizedBox(
+              height: 8,
+            ),
+            WalletSelector(
+              includeRbx: true,
+              includeBtc: false,
+              includeRa: false,
+              withOptions: false,
+              truncatedLabel: false,
+              headerHasCopy: false,
+            ),
+          ],
+        ),
       );
     }
     return const SingleChildScrollView(

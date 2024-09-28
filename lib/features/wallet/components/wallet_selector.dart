@@ -99,38 +99,35 @@ class WalletSelector extends BaseComponent {
             maxWidth: 8.0 * 56.0,
           ),
           child: Center(
-            child: Tooltip(
-              message: (currentWallet == null && currentBtcAccount == null) ? "Create/Import Address" : "Current Wallet Address",
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (!btcSelected)
-                      Text(
-                        currentWallet != null
-                            ? truncatedLabel
-                                ? currentWallet.label
-                                : currentWallet.labelWithoutTruncation
-                            : "VFX/BTC Account Addresses",
-                        style: TextStyle(color: color),
-                      ),
-                    if (btcSelected)
-                      Text(
-                        currentBtcAccount != null
-                            ? truncatedLabel
-                                ? currentBtcAccount.label
-                                : currentBtcAccount.address
-                            : "VFX/BTC Account Addresses",
-                        style: TextStyle(color: btcOrange),
-                      ),
-                    Icon(
-                      Icons.arrow_drop_down,
-                      size: 18,
-                      color: btcSelected ? btcOrange : color,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (!btcSelected)
+                    Text(
+                      currentWallet != null
+                          ? truncatedLabel
+                              ? currentWallet.label
+                              : currentWallet.labelWithoutTruncation
+                          : "VFX/BTC Account Addresses",
+                      style: TextStyle(color: color),
                     ),
-                  ],
-                ),
+                  if (btcSelected)
+                    Text(
+                      currentBtcAccount != null
+                          ? truncatedLabel
+                              ? currentBtcAccount.label
+                              : currentBtcAccount.address
+                          : "VFX/BTC Account Addresses",
+                      style: TextStyle(color: btcOrange),
+                    ),
+                  Icon(
+                    Icons.arrow_drop_down,
+                    size: 18,
+                    color: btcSelected ? btcOrange : color,
+                  ),
+                ],
               ),
             ),
           ),

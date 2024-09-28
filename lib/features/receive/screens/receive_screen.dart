@@ -79,9 +79,9 @@ class ReceiveScreen extends BaseScreen {
                         ListTile(
                           leading: const Icon(Icons.account_balance_wallet),
                           subtitle: Text(
-                            "Your Selected VFX Address",
+                            "Your Selected VFX${currentWallet.isReserved ? ' Vault Account' : ''} Address",
                             style: TextStyle(
-                              color: AppColors.getBlue(),
+                              color: currentWallet.isReserved ? AppColors.getReserve() : AppColors.getBlue(),
                             ),
                           ),
                           // subtitle: currentWallet.friendlyName != null ? Text(currentWallet.friendlyName!) : null,
