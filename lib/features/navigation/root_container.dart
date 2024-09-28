@@ -57,7 +57,7 @@ class RootContainer extends BaseComponent {
     ];
 
     return AutoTabsScaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xff050505),
       scaffoldKey: rootScaffoldKey,
       routes: routes,
       builder: (context, child, animated) {

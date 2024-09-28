@@ -63,7 +63,8 @@ class NewHomeScreen extends BaseScreen {
       padding: const EdgeInsets.all(16.0).copyWith(top: ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT + 16),
       child: Column(
         children: [
-          Expanded(
+          SizedBox(
+            height: 160,
             child: Row(
               children: [
                 Expanded(
