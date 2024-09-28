@@ -593,6 +593,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
           labelText: "Password",
           lines: 1,
           obscureText: true,
+          revealObscure: true,
         );
         if (password == null) {
           return;

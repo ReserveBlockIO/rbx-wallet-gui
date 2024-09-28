@@ -66,6 +66,7 @@ Future<bool> passwordRequiredGuardV2(
     validator: (value) => formValidatorNotEmpty(value, "Password"),
     labelText: "Password",
     obscureText: true,
+    revealObscure: true,
     lines: 1,
     tightPadding: true,
   );
@@ -90,6 +91,7 @@ Future<bool?> promptForPassword(BuildContext context, WidgetRef ref, [bool forVa
     validator: (value) => formValidatorNotEmpty(value, "Password"),
     labelText: "Password",
     obscureText: true,
+    revealObscure: true,
     lines: 1,
     tightPadding: true,
   );

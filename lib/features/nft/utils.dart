@@ -113,6 +113,7 @@ Future<dynamic> initTransferNftProcess(
         labelText: "Password",
         lines: 1,
         obscureText: true,
+        revealObscure: true,
       );
       if (reservePassword == null) {
         return;

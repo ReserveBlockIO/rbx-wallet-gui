@@ -164,6 +164,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
               lines: 1,
               obscureText: true,
               labelText: "Password",
+              revealObscure: true,
             );
 
             if (password != null) {
@@ -219,6 +220,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
       lines: 1,
       obscureText: true,
       labelText: "Password",
+      revealObscure: true,
     );
     if (password == null) return;
 
@@ -254,6 +256,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
       lines: 1,
       obscureText: true,
       labelText: "Password",
+      revealObscure: true,
     );
     if (password == null || password.isEmpty) return;
 
@@ -371,6 +374,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
         lines: 1,
         obscureText: true,
         labelText: "Password",
+        revealObscure: true,
       );
       if (password == null) {
         return;

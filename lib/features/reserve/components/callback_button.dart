@@ -34,6 +34,7 @@ class CallbackButton extends BaseComponent {
           lines: 1,
           obscureText: true,
           labelText: "Password",
+          revealObscure: true,
         );
 
         if (password != null) {
