@@ -9,7 +9,6 @@ import '../../../core/dialogs.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../services/nft_service.dart';
-import '../../smart_contracts/services/smart_contract_service.dart';
 import '../../web/components/web_wallet_type_switcher.dart';
 import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';

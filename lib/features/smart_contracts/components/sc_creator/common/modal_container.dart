@@ -1,7 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../generated/assets.gen.dart';
 
 class ModalContainer extends StatelessWidget {
   final List<Widget> children;

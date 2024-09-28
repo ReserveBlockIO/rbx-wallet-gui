@@ -15,12 +15,9 @@ import 'package:rbx_wallet/core/providers/cached_memory_image_provider.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_detail_watcher.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/token/components/mint_tokens_button.dart';
-import 'package:rbx_wallet/features/token/components/token_list.dart';
 import 'package:rbx_wallet/features/token/components/token_list_tile.dart';
 import 'package:rbx_wallet/features/token/models/token_account.dart';
 import 'package:rbx_wallet/features/token/models/token_details.dart';
@@ -28,14 +25,11 @@ import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
 import 'package:rbx_wallet/features/token/providers/token_nfts_provider.dart';
 import 'package:rbx_wallet/features/token/screens/token_topic_detail_screen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
-import 'package:collection/collection.dart';
 
 import '../../../core/theme/components.dart';
 import '../components/ban_token_address_button.dart';
-import '../components/burn_tokens_button.dart';
 import '../components/change_token_ownership_button.dart';
 import '../components/pause_token_button.dart';
-import '../components/transfer_tokens_button.dart';
 
 class TokenManagementScreenContainer extends StatefulWidget {
   final String nftId;
@@ -500,7 +494,6 @@ class _DetailRow extends StatelessWidget {
   final bool dividerBelow;
 
   const _DetailRow({
-    super.key,
     required this.label,
     required this.value,
     this.copyable = false,

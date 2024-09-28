@@ -5,7 +5,6 @@ import '../../../../core/utils.dart';
 import '../../../sc_property/components/property_modal.dart';
 import '../../../sc_property/models/sc_property.dart';
 import '../../../sc_property/providers/edit_sc_property_provider.dart';
-import '../../providers/create_smart_contract_provider.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/components/buttons.dart';
@@ -708,7 +707,7 @@ class _EvolvePhaseContainer extends BaseComponent {
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Text(
         "Evolve Stage ${index + 1}",
-        style: Theme.of(context).textTheme.headline6,
+        style: Theme.of(context).textTheme.titleLarge,
       ),
     );
   }

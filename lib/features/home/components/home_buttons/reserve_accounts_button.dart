@@ -1,13 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/app_constants.dart';
-import '../../../bridge/providers/wallet_info_provider.dart';
-import '../../../../core/app_router.gr.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/components/buttons.dart';
 import '../../../../core/providers/session_provider.dart';
-import '../../../../utils/toast.dart';
 
 class ReserveAccountsButton extends BaseComponent {
   const ReserveAccountsButton({

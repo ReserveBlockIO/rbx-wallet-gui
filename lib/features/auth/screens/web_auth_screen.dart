@@ -16,7 +16,6 @@ import '../../../core/storage.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/web_router.gr.dart';
 import '../../../generated/assets.gen.dart';
-import '../../../utils/validation.dart';
 import '../auth_utils.dart';
 import '../components/auth_type_modal.dart';
 

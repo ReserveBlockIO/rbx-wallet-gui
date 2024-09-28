@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../core/env.dart';
-import '../btc/models/btc_account.dart';
 import '../btc_web/models/btc_web_account.dart';
 import '../btc_web/services/btc_web_service.dart';
 import '../keygen/models/ra_keypair.dart';
@@ -225,8 +224,7 @@ Future<dynamic> handleRememberMe(BuildContext context, WidgetRef ref) async {
           actions: [
             TextButton(
               style: TextButton.styleFrom(
-                primary: Theme.of(context).colorScheme.darkButtonBg,
-                textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                foregroundColor: Theme.of(context).colorScheme.darkButtonBg, textStyle: const TextStyle(fontWeight: FontWeight.bold),
               ),
               onPressed: () {
                 ref.read(webSessionProvider.notifier).setRememberMe(false);
@@ -241,8 +239,7 @@ Future<dynamic> handleRememberMe(BuildContext context, WidgetRef ref) async {
             ),
             TextButton(
               style: TextButton.styleFrom(
-                primary: Theme.of(context).colorScheme.info,
-                textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                foregroundColor: Theme.of(context).colorScheme.info, textStyle: const TextStyle(fontWeight: FontWeight.bold),
               ),
               onPressed: () {
                 ref.read(webSessionProvider.notifier).setRememberMe(true);

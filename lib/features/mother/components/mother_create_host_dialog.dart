@@ -54,7 +54,7 @@ class MotherCreateHostDialog extends BaseComponent {
               const SizedBox(height: 6),
               Text(
                 "You must have port '${Env.validatorPort}' open on the HOST machine.",
-                style: Theme.of(context).textTheme.caption,
+                style: Theme.of(context).textTheme.bodySmall,
               )
             ],
           ),

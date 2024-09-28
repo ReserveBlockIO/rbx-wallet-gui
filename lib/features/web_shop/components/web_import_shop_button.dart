@@ -7,7 +7,6 @@ import '../../../core/dialogs.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../global_loader/global_loading_provider.dart';
-import '../providers/web_shop_list_provider.dart';
 import '../services/web_shop_service.dart';
 import '../utils/shop_publishing.dart';
 import '../../../utils/toast.dart';

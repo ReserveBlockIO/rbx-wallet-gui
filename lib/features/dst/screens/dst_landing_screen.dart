@@ -6,7 +6,6 @@ import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_screen.dart';
-import '../../../generated/assets.gen.dart';
 import '../../wallet/components/wallet_selector.dart';
 
 class DstLandingScreen extends BaseScreen {

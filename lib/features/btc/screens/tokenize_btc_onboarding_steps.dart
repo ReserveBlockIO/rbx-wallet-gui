@@ -1,7 +1,7 @@
 part of './tokenize_btc_onboarding_screen.dart';
 
 class _TransferBtcToVbtcStep extends BaseComponent {
-  const _TransferBtcToVbtcStep({super.key});
+  const _TransferBtcToVbtcStep();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -124,7 +124,7 @@ class _TransferBtcToVbtcStep extends BaseComponent {
                       ),
                       Text(
                         "Fee Estimate: ~$feeEstimate SATS | ~$feeEstimateBtc BTC    ($fee SATS /byte | $feeBtc BTC /byte)",
-                        style: Theme.of(context).textTheme.caption,
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
                   );
@@ -217,7 +217,7 @@ class _TransferBtcToVbtcStep extends BaseComponent {
 }
 
 class _TokenizeBtcStep extends BaseComponent {
-  const _TokenizeBtcStep({super.key});
+  const _TokenizeBtcStep();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -233,7 +233,7 @@ class _TokenizeBtcStep extends BaseComponent {
 }
 
 class _TransferBtcStep extends BaseComponent {
-  const _TransferBtcStep({super.key});
+  const _TransferBtcStep();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -290,9 +290,7 @@ class _TransferBtcStep extends BaseComponent {
 }
 
 class _CreateOrImportVfxWalletStep extends BaseComponent {
-  const _CreateOrImportVfxWalletStep({
-    super.key,
-  });
+  const _CreateOrImportVfxWalletStep();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -373,9 +371,7 @@ class _CreateOrImportVfxWalletStep extends BaseComponent {
 }
 
 class _FaucetWithdrawlStep extends BaseComponent {
-  const _FaucetWithdrawlStep({
-    super.key,
-  });
+  const _FaucetWithdrawlStep();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -447,9 +443,7 @@ class _FaucetWithdrawlStep extends BaseComponent {
 }
 
 class _CreateOrImportBtcAccountStep extends BaseComponent {
-  const _CreateOrImportBtcAccountStep({
-    super.key,
-  });
+  const _CreateOrImportBtcAccountStep();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

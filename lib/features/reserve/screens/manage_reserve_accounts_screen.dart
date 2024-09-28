@@ -15,7 +15,6 @@ import 'package:rbx_wallet/features/btc/screens/tokenized_btc_list_screen.dart';
 import 'package:rbx_wallet/features/nft/components/nft_list_tile.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_list_provider.dart';
-import 'package:rbx_wallet/features/nft/providers/transferred_provider.dart';
 import 'package:rbx_wallet/features/nft/screens/nft_detail_screen.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
 import 'package:rbx_wallet/features/nft/utils.dart';
@@ -25,7 +24,6 @@ import 'package:rbx_wallet/features/reserve/screens/reserve_account_overview_scr
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/token/models/token_account.dart';
 import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
-import 'package:rbx_wallet/features/token/providers/token_list_provider.dart';
 import 'package:rbx_wallet/features/token/screens/token_management_screen.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/utils/toast.dart';

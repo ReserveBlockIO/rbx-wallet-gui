@@ -6,7 +6,6 @@ import '../../../../../utils/validation.dart';
 import '../../../models/smart_contract.dart';
 import '../../../providers/create_smart_contract_provider.dart';
 import '../common/form_group_container.dart';
-import '../common/form_group_header.dart';
 import '../common/help_button.dart';
 
 class BasicPropertiesFormGroup extends BaseComponent {

@@ -2,16 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../screens/my_create_collection_container_screen.dart';
 import '../../../core/app_constants.dart';
 // import '../../../core/app_router.gr.dart';
 import '../../../core/dialogs.dart';
-import '../../../core/env.dart';
 import '../../../core/web_router.gr.dart';
-import '../../dst/providers/collection_list_provider.dart';
-import '../../dst/providers/dec_shop_provider.dart';
-import '../../dst/providers/listing_list_provider.dart';
-import '../../dst/services/dst_service.dart';
 import '../../global_loader/global_loading_provider.dart';
 import '../models/web_shop.dart';
 import 'web_auth_token_provider.dart';
@@ -24,7 +18,6 @@ import '../../../utils/validation.dart';
 
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
-import '../models/web_collection.dart';
 import '../services/web_shop_service.dart';
 
 class WebShopFormProvider extends StateNotifier<WebShop> {

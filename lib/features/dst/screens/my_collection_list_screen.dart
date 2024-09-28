@@ -11,16 +11,13 @@ import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/components/centered_loader.dart';
 import '../../../core/dialogs.dart';
-import '../../../core/providers/session_provider.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../bridge/providers/wallet_info_provider.dart';
 import '../components/publish_shop_button.dart';
 import '../components/shop_online_button.dart';
 import '../components/collection_list.dart';
 import '../providers/collection_form_provider.dart';
 import '../providers/collection_list_provider.dart';
 import '../services/dst_service.dart';
-import '../../global_loader/global_loading_provider.dart';
 import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';
 

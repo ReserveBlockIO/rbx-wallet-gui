@@ -6,21 +6,17 @@ import 'package:rbx_wallet/core/theme/colors.dart';
 import 'package:rbx_wallet/features/btc/models/btc_account.dart';
 import '../../btc/providers/btc_account_list_provider.dart';
 import '../../btc/services/btc_service.dart';
-import '../../bridge/services/bridge_service.dart';
 import '../../reserve/providers/reserve_account_provider.dart';
-import '../../reserve/services/reserve_account_service.dart';
 import '../models/wallet.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
-import '../../../core/dialogs.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/singletons.dart';
 import '../../../core/storage.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../utils/toast.dart';
 import '../../encrypt/utils.dart';
-import '../providers/wallet_detail_provider.dart';
 import '../providers/wallet_list_provider.dart';
 
 class ManageWalletBottomSheet extends BaseComponent {
@@ -464,7 +460,7 @@ class _Header extends BaseComponent {
 }
 
 class WalletRestorer extends StatefulWidget {
-  WalletRestorer({
+  const WalletRestorer({
     super.key,
   });
 

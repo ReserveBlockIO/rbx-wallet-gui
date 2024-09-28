@@ -73,7 +73,7 @@ class HomeScreen extends BaseScreen {
               if (kIsWeb)
                 Text(
                   "Keys",
-                  style: Theme.of(context).textTheme.subtitle2,
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
               if (kIsWeb) const Divider(),
               if (kIsWeb) const KeygenCta(),

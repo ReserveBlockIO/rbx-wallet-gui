@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 
 import '../../validator/providers/validating_status_provider.dart';
 import '../models/transaction.dart';
@@ -43,8 +42,7 @@ class TransactionListProvider extends StateNotifier<List<Transaction>> {
         transactions = (await LocalTransactionService().transactionsAll()).where((tx) => tx.fromAddress != 'Coinbase_BlkRwd').toList();
         break;
       case TransactionListType.Success:
-        transactions = (await LocalTransactionService().transactionsSuccess()).where((tx) => tx.fromAddress != 'Coinbase_BlkRwd').toList();
-        ;
+        transactions = (await LocalTransactionService().transactionsSuccess()).where((tx) => tx.fromAddress != 'Coinbase_BlkRwd').toList(); {}
         break;
       case TransactionListType.Failed:
         transactions = await LocalTransactionService().transactionsFailed();

@@ -19,7 +19,7 @@ class CombinedTransactionsList extends BaseComponent {
       return Center(
         child: Text(
           "No Transactions Found",
-          style: Theme.of(context).textTheme.headline5,
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
       );
     }
@@ -59,6 +59,7 @@ class CombinedTransactionsList extends BaseComponent {
               ),
             );
           }
+          return null;
         });
   }
 }

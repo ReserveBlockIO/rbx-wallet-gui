@@ -191,32 +191,32 @@ class AppTheme {
 
   static TextTheme _textTheme([bool isDark = false]) {
     return TextTheme(
-      headline1: TextStyle(
+      displayLarge: TextStyle(
         fontSize: 42,
         fontWeight: FontWeight.w700,
         color: isDark ? _textColorLight : _textColorDark,
       ),
-      headline2: TextStyle(
+      displayMedium: TextStyle(
         fontSize: 36,
         fontWeight: FontWeight.w600,
         color: isDark ? _textColorLight : _textColorDark,
       ),
-      headline3: TextStyle(
+      displaySmall: TextStyle(
         fontSize: 30,
         fontWeight: FontWeight.w500,
         color: isDark ? _textColorLight : _textColorDark,
       ),
-      headline4: TextStyle(
+      headlineMedium: TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.w500,
         color: (isDark ? _textColorLight : _textColorDark).withOpacity(0.8),
       ),
-      headline5: TextStyle(
+      headlineSmall: TextStyle(
         fontSize: 20,
         fontWeight: FontWeight.w500,
         color: (isDark ? _textColorLight : _textColorDark).withOpacity(0.7),
       ),
-      headline6: TextStyle(
+      titleLarge: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.w500,
         color: (isDark ? _textColorLight : _textColorDark).withOpacity(0.6),

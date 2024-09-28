@@ -205,7 +205,7 @@ class ValidatorScreen extends BaseScreen {
           children: [
             Text(
               "${currentWallet.labelWithoutTruncation} is NOT Validating...",
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(height: 8),
             AppButton(
@@ -427,7 +427,6 @@ class ValidatedBlocksList extends BaseComponent {
 
 class _BlockPreview extends StatelessWidget {
   const _BlockPreview({
-    super.key,
     required this.block,
   });
 

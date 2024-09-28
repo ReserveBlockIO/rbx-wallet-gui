@@ -8,15 +8,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:rbx_wallet/core/theme/components.dart';
 
 import 'package:rbx_wallet/features/nft/providers/sale_provider.dart';
-import 'package:rbx_wallet/features/nft/services/nft_service.dart';
-import 'package:rbx_wallet/features/token/models/token_account.dart';
-import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
-import 'package:rbx_wallet/features/token/screens/token_management_screen.dart';
-import '../providers/sale_provider.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/badges.dart';
-import '../../../core/components/buttons.dart';
 import '../../../core/env.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../utils/toast.dart';
@@ -132,7 +126,7 @@ class NftCard extends BaseComponent {
                     padding: const EdgeInsets.symmetric(vertical: 4.0),
                     child: Text(
                       nft.id,
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         shadows: [
                           const Shadow(
                             color: Colors.black87,

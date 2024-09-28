@@ -47,7 +47,7 @@ class MotherModal extends BaseComponent {
                   ),
                   Text(
                     "MOTHER is a tool for monitoring the state of your remote validators.",
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.white),
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white),
                   ),
                 ],
               ),

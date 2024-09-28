@@ -39,7 +39,7 @@ class TopicDetail extends BaseComponent {
                     const SizedBox(height: 4),
                     SelectableText(
                       "UID: ${topic.uid}",
-                      style: Theme.of(context).textTheme.caption,
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ],
                 ),
@@ -250,7 +250,7 @@ class DateCard extends StatelessWidget {
             ),
             Text(
               label,
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
           ],
         ),

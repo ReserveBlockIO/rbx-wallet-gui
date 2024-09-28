@@ -113,11 +113,11 @@ class TopicForm extends BaseComponent {
                     children: [
                       Text(
                         "128 character limit",
-                        style: Theme.of(context).textTheme.caption,
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                       Text(
                         "$currentLength/$maxLength",
-                        style: Theme.of(context).textTheme.caption,
+                        style: Theme.of(context).textTheme.bodySmall,
                       )
                     ],
                   );
@@ -149,11 +149,11 @@ class TopicForm extends BaseComponent {
                       children: [
                         Text(
                           "1,600 character limit including provided links",
-                          style: Theme.of(context).textTheme.caption,
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                         Text(
                           "$currentLength/1600",
-                          style: Theme.of(context).textTheme.caption,
+                          style: Theme.of(context).textTheme.bodySmall,
                         )
                       ],
                     );

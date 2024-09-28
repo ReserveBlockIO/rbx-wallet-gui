@@ -13,8 +13,6 @@ import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dar
 
 import 'package:rbx_wallet/features/balance/models/balance.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service_v2.dart';
-import 'package:rbx_wallet/features/reserve/providers/ra_auto_activate_provider.dart';
-import 'package:rbx_wallet/features/token/providers/auto_mint_provider.dart';
 import '../../features/btc/providers/electrum_connected_provider.dart';
 import '../../features/btc/providers/tokenized_bitcoin_list_provider.dart';
 import '../../features/price/providers/price_detail_providers.dart';
@@ -31,7 +29,6 @@ import '../../features/btc/services/btc_service.dart';
 import '../api_token_manager.dart';
 import '../utils.dart';
 import '../../features/chat/providers/chat_notification_provider.dart';
-import '../../features/dst/providers/dec_shop_provider.dart';
 import '../../features/dst/providers/listed_nfts_provider.dart';
 import '../../features/dst/services/dst_service.dart';
 import '../../features/remote_info/components/snapshot_downloader.dart';

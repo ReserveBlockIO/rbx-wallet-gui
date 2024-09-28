@@ -10,7 +10,6 @@ import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../bridge/providers/wallet_info_provider.dart';
-import '../../remote_shop/providers/connected_shop_provider.dart';
 import '../components/web_shop_list.dart';
 import '../components/web_shop_list_tile.dart';
 import '../models/web_shop.dart';

@@ -12,9 +12,7 @@ import '../../../core/base_component.dart';
 import '../../../core/env.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/theme/components.dart';
-import '../models/btc_account.dart';
 import '../models/btc_transaction.dart';
-import '../providers/btc_account_list_provider.dart';
 import '../../../utils/toast.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -78,7 +76,6 @@ class BtcTransactionListTileState extends BaseComponentState<BtcTransactionListT
                     case BTCTransactionType.sameWalletTx:
                       return Icon(Icons.refresh);
                   }
-                  ;
                 }),
               ),
               Expanded(
@@ -91,7 +88,7 @@ class BtcTransactionListTileState extends BaseComponentState<BtcTransactionListT
                       children: [
                         Text(
                           "Hash: ${transaction.hash}",
-                          style: Theme.of(context).textTheme.bodyText1,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         const SizedBox(
                           width: 4,
@@ -126,7 +123,7 @@ class BtcTransactionListTileState extends BaseComponentState<BtcTransactionListT
                     const SizedBox(height: 4),
                     RichText(
                       text: TextSpan(
-                        style: Theme.of(context).textTheme.bodyText2,
+                        style: Theme.of(context).textTheme.bodyMedium,
                         children: [
                           const TextSpan(text: "Amount: "),
                           TextSpan(
@@ -147,21 +144,21 @@ class BtcTransactionListTileState extends BaseComponentState<BtcTransactionListT
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SelectableText("Type: ${transaction.typeLabel}", style: Theme.of(context).textTheme.caption),
+                              SelectableText("Type: ${transaction.typeLabel}", style: Theme.of(context).textTheme.bodySmall),
                               const SizedBox(
                                 height: 4,
                               ),
-                              SelectableText("To: ${transaction.toAddress}", style: Theme.of(context).textTheme.caption),
+                              SelectableText("To: ${transaction.toAddress}", style: Theme.of(context).textTheme.bodySmall),
                               const SizedBox(
                                 height: 4,
                               ),
-                              SelectableText("From: ${transaction.fromAddress}", style: Theme.of(context).textTheme.caption),
+                              SelectableText("From: ${transaction.fromAddress}", style: Theme.of(context).textTheme.bodySmall),
                               const SizedBox(
                                 height: 4,
                               ),
                               Text(
                                 "Date: ${widget.transaction.parseTimeStamp}",
-                                style: Theme.of(context).textTheme.caption,
+                                style: Theme.of(context).textTheme.bodySmall,
                               ),
                             ],
                           ),
@@ -304,7 +301,7 @@ class BtcTransactionListTileState extends BaseComponentState<BtcTransactionListT
                           ),
                           SelectableText(
                             transaction.signature,
-                            style: Theme.of(context).textTheme.caption,
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                           SizedBox(
                             height: 6,

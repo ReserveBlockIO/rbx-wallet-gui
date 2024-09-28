@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../core/base_component.dart';
-import '../../../core/theme/app_theme.dart';
 import '../../../core/theme/components.dart';
 import '../../nft/models/nft.dart';
 import 'listing_details.dart';
@@ -64,7 +63,6 @@ class ListingDetailsListTile extends BaseComponent {
 class _Thumbnail extends StatefulWidget {
   final Nft nft;
   const _Thumbnail({
-    super.key,
     required this.nft,
   });
 

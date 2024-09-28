@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/components/big_button.dart';
 
 import '../../../core/base_screen.dart';
-import '../../../core/env.dart';
 import '../../../core/web_router.gr.dart';
 
 class WebShopLandingScreen extends BaseScreen {

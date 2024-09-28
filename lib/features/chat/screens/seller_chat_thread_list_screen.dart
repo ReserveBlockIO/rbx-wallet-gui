@@ -47,7 +47,7 @@ class SellerChatThreadListScreen extends BaseScreen {
 
 class _ThreadPoller extends StatefulWidget {
   final Function pollFunction;
-  const _ThreadPoller({super.key, required this.pollFunction});
+  const _ThreadPoller({required this.pollFunction});
 
   @override
   State<_ThreadPoller> createState() => __ThreadPollerState();

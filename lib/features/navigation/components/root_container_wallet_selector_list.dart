@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dart';
 import 'package:rbx_wallet/core/theme/components.dart';
@@ -7,15 +6,9 @@ import 'package:rbx_wallet/features/btc/models/btc_account.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
-import '../../../core/dialogs.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../../core/theme/colors.dart';
-import '../../../utils/guards.dart';
-import '../../../utils/validation.dart';
 import '../../btc/providers/btc_account_list_provider.dart';
-import '../../encrypt/utils.dart';
-import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
 import '../../transactions/components/combined_transactions_list.dart';
 import '../../wallet/components/manage_wallet_bottom_sheet.dart';
 import '../../wallet/models/wallet.dart';
@@ -48,7 +41,7 @@ class RootContainerWalletSelectorList extends BaseComponent {
               children: [
                 Text(
                   "No VFX Accounts",
-                  style: Theme.of(context).textTheme.caption,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
                 SizedBox(
                   height: 8,
@@ -88,7 +81,7 @@ class RootContainerWalletSelectorList extends BaseComponent {
               children: [
                 Text(
                   "No BTC Accounts",
-                  style: Theme.of(context).textTheme.caption,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
                 SizedBox(
                   height: 8,
@@ -127,7 +120,7 @@ class RootContainerWalletSelectorList extends BaseComponent {
               children: [
                 Text(
                   "No Accounts",
-                  style: Theme.of(context).textTheme.caption,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
                 SizedBox(
                   height: 8,

@@ -10,9 +10,7 @@ import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/providers/currency_segmented_button_provider.dart';
-import '../../../core/providers/session_provider.dart';
 import '../../btc/components/btc_transaction_list.dart';
-import '../../wallet/components/wallet_selector.dart';
 import '../components/combined_transactions_list.dart';
 import '../components/transaction_list.dart';
 import '../providers/transaction_list_provider.dart';

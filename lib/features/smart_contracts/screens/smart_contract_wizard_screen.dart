@@ -7,7 +7,6 @@ import '../../../core/dialogs.dart';
 import '../../../core/env.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
-import '../components/collection_form.dart';
 import '../components/sc_wizard_list.dart';
 import '../models/bulk_smart_contract_entry.dart';
 import 'sc_wizard_edit_item_screen.dart';

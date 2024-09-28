@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
@@ -12,12 +11,10 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../../../core/theme/components.dart';
-import '../../bridge/providers/wallet_info_provider.dart';
 import '../providers/sale_provider.dart';
 import '../services/nft_service.dart';
 import '../../smart_contracts/services/smart_contract_service.dart';
 import '../../global_loader/global_loading_provider.dart';
-import '../models/nft.dart';
 import '../../sc_property/models/sc_property.dart';
 
 import '../../../core/app_constants.dart';
@@ -46,7 +43,6 @@ import '../components/web_asset_card.dart';
 import '../components/web_asset_thumbnail.dart';
 import '../modals/nft_management_modal.dart';
 import '../providers/nft_detail_provider.dart';
-import '../providers/transferred_provider.dart';
 import '../utils.dart';
 
 class NftDetailScreen extends BaseScreen {
@@ -237,7 +233,7 @@ class NftDetailScreen extends BaseScreen {
                       if (nft.minterName.isNotEmpty)
                         Text(
                           "Minted By: ${nft.minterName}",
-                          style: Theme.of(context).textTheme.headline5!.copyWith(
+                          style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                 color: Colors.white,
                                 height: 1,
                               ),
@@ -247,7 +243,7 @@ class NftDetailScreen extends BaseScreen {
                       ),
                       Text(
                         nft.currentEvolveDescription.replaceAll("\\n", "\n"),
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
                               color: Colors.white,
                               fontWeight: FontWeight.w400,
                             ),
@@ -371,7 +367,7 @@ class NftDetailScreen extends BaseScreen {
                                           children: [
                                             Text(
                                               "Additional Assets:",
-                                              style: Theme.of(context).textTheme.headline5!.copyWith(
+                                              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                                     color: Colors.white,
                                                   ),
                                             ),
@@ -445,7 +441,7 @@ class NftDetailScreen extends BaseScreen {
                 ),
                 if (nft.currentEvolveProperties.isNotEmpty) ...[
                   const Divider(),
-                  Text("Properties:", style: Theme.of(context).textTheme.headline5!.copyWith(color: Colors.white)),
+                  Text("Properties:", style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white)),
                   SizedBox(
                     height: 8,
                   ),
@@ -455,7 +451,7 @@ class NftDetailScreen extends BaseScreen {
                 ],
                 const Divider(),
                 Text("Features:",
-                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                           color: Colors.white,
                         )),
                 if (nft.features.isEmpty)

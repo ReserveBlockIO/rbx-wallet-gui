@@ -2,9 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/env.dart';
 import '../../../core/theme/components.dart';
-import '../providers/web_auth_token_provider.dart';
 import '../../../utils/guards.dart';
 import '../../../utils/toast.dart';
 
@@ -17,7 +15,6 @@ import '../../../core/web_router.gr.dart' as webRouter;
 import '../../bridge/providers/wallet_info_provider.dart';
 import '../../remote_shop/providers/connected_shop_provider.dart';
 import '../models/web_shop.dart';
-import '../services/web_shop_service.dart';
 
 class WebShopTile extends BaseComponent {
   final WebShop shop;
@@ -64,7 +61,7 @@ class WebShopTile extends BaseComponent {
               ),
               TextSpan(text: " "),
               TextSpan(
-                text: "${shop.ownerAddress}",
+                text: shop.ownerAddress,
                 style: TextStyle(
                   color: Colors.white70,
                   fontWeight: FontWeight.w300,

@@ -75,7 +75,7 @@ class _PollingImagePreviewState extends State<PollingImagePreview> {
         errorBuilder: (context, _, __) {
           return Text(
             "File not found for preview.\nLikely this means this NFT no longer exists on this machine.\n",
-            style: Theme.of(context).textTheme.caption,
+            style: Theme.of(context).textTheme.bodySmall,
             textAlign: TextAlign.left,
           );
         },

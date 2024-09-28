@@ -50,7 +50,7 @@ class FeatureChooserModal extends BaseComponent {
               Navigator.of(context).pop();
             },
             style: TextButton.styleFrom(
-              primary: Colors.white,
+              foregroundColor: Colors.white,
             ),
             child: const Text("Close"),
           ),

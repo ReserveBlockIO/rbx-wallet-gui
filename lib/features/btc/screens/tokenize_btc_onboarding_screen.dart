@@ -15,7 +15,6 @@ import 'package:rbx_wallet/features/btc/models/btc_fee_rate_preset.dart';
 import 'package:rbx_wallet/features/btc/models/btc_recommended_fees.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
 import 'package:rbx_wallet/features/btc/screens/tokenize_btc_screen.dart';
-import 'package:rbx_wallet/features/btc/screens/tokenized_btc_detail_screen.dart';
 import 'package:rbx_wallet/features/btc/utils.dart';
 import 'package:rbx_wallet/features/home/screens/home_screen.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';

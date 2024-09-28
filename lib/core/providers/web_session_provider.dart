@@ -1,17 +1,14 @@
 import 'dart:async';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../env.dart';
-import '../../features/btc/models/btc_account.dart';
 import '../../features/btc_web/models/btc_web_account.dart';
 import '../../features/btc_web/services/btc_web_service.dart';
 import '../../features/keygen/models/ra_keypair.dart';
 import '../../features/nft/providers/minted_nft_list_provider.dart';
 import 'package:collection/collection.dart';
 import '../models/web_session_model.dart';
-import '../web_router.gr.dart';
 import '../../features/transactions/providers/web_transaction_list_provider.dart';
 import '../../features/web_shop/providers/web_listed_nfts_provider.dart';
 import '../../utils/html_helpers.dart';

@@ -61,7 +61,7 @@ class AssetCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: Text(
               "Filename: ${asset.fileName} | Creator: ${asset.authorName}",
-              style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 14),
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 14),
             ),
           ),
         Wrap(

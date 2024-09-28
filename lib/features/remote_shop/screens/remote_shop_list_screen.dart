@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
@@ -11,7 +10,6 @@ import '../components/remote_shop_list_tile.dart';
 import '../providers/connected_shop_provider.dart';
 import '../providers/global_remote_shop_list_provider.dart';
 import '../providers/remote_shop_search_provider.dart';
-import '../providers/saved_shops_provider.dart';
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_screen.dart';
 

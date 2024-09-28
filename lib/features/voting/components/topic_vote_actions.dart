@@ -115,7 +115,7 @@ class TopicVoteActions extends BaseComponent {
         const SizedBox(height: 8),
         Text(
           "Voting ends ${topic.endsAtFormatted}.",
-          style: Theme.of(context).textTheme.caption,
+          style: Theme.of(context).textTheme.bodySmall,
         )
       ],
     );

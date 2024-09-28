@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:math';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,25 +9,19 @@ import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../../../core/services/explorer_service.dart';
 import '../../dst/models/bid.dart';
-import '../../dst/services/dst_service.dart';
 import '../../keygen/models/keypair.dart';
 import '../../nft/models/nft.dart';
 import '../../raw/raw_service.dart';
-import '../../remote_shop/models/shop_data.dart';
-import '../../remote_shop/providers/connected_shop_provider.dart';
 import '../../remote_shop/services/remote_shop_service.dart';
 import '../../smart_contracts/features/royalty/royalty.dart';
-import '../../transactions/providers/web_transaction_list_provider.dart';
 import '../../web/utils/raw_transaction.dart';
 import '../models/web_listing.dart';
 import 'web_auth_token_provider.dart';
-import 'web_collection_detail_provider.dart';
 import 'web_listing_list_provider.dart';
 import '../services/web_shop_service.dart';
 import '../../../utils/guards.dart';
 import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';
-import 'package:collection/collection.dart';
 
 import '../../global_loader/global_loading_provider.dart';
 

@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../app.dart';
 import '../../../core/base_component.dart';
 import '../../../core/breakpoints.dart';
@@ -14,7 +13,6 @@ import '../../../core/web_router.gr.dart';
 import '../../auth/auth_utils.dart';
 import '../../btc_web/services/btc_web_service.dart';
 import '../../keygen/models/keypair.dart';
-import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
 import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';
 

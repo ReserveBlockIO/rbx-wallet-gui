@@ -9,9 +9,7 @@ import 'package:rbx_wallet/core/theme/colors.dart';
 import 'package:rbx_wallet/main.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'core/base_component.dart';
-import 'features/chat/providers/chat_notification_provider.dart';
 import 'features/remote_shop/providers/shop_loading_provider.dart';
-import 'features/transactions/providers/web_transaction_list_provider.dart';
 import 'generated/assets.gen.dart';
 
 import 'core/app_router.gr.dart';
@@ -76,7 +74,6 @@ class AppContainer extends ConsumerWidget {
 
     return MaterialApp.router(
       restorationScopeId: "app",
-
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: rootScaffoldMessengerKey,
       theme: AppTheme.dark().themeData,
@@ -211,7 +208,7 @@ class AppContent extends BaseComponent {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
                                             "[CLOSE]",
-                                            style: Theme.of(context).textTheme.caption,
+                                            style: Theme.of(context).textTheme.bodySmall,
                                           ),
                                         ),
                                       ),
@@ -322,9 +319,7 @@ class TopAppWindowMenuBar extends StatelessWidget {
 }
 
 class _WindowsTopRightButtons extends StatefulWidget {
-  const _WindowsTopRightButtons({
-    super.key,
-  });
+  const _WindowsTopRightButtons();
 
   @override
   State<_WindowsTopRightButtons> createState() => _WindowsTopRightButtonsState();

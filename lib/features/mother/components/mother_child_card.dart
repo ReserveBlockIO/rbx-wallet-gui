@@ -96,7 +96,7 @@ class MotherChildCard extends StatelessWidget {
                   const Divider(),
                   Text(
                     child.address,
-                    style: Theme.of(context).textTheme.caption,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
               ),

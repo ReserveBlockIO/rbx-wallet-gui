@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 import '../models/new_reserve_account.dart';
-import '../../wallet/models/wallet.dart';
 import '../../../utils/toast.dart';
 
 import '../../../core/services/base_service.dart';

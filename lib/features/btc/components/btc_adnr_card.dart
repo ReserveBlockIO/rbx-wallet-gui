@@ -296,7 +296,7 @@ class CreateBtcAdnrModal extends BaseComponent {
           ),
           Text(
             "Your domain must only contain letters and numbers and will automatically be appended with \".btc\" upon verification",
-            style: Theme.of(context).textTheme.caption,
+            style: Theme.of(context).textTheme.bodySmall,
           ),
           TextFormField(
             controller: formProvider.nameController,

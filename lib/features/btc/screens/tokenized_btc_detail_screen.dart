@@ -1,12 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:archive/archive_io.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
@@ -19,12 +17,9 @@ import 'package:rbx_wallet/features/btc/components/tokenized_btc_action_buttons.
 import 'package:rbx_wallet/features/btc/models/tokenized_bitcoin.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_transaction_list_provider.dart';
 import 'package:rbx_wallet/features/btc/providers/tokenized_btc_detail_provider.dart';
-import 'package:rbx_wallet/features/btc/services/btc_service.dart';
 import 'package:rbx_wallet/features/nft/components/web_asset_thumbnail.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
 import 'package:rbx_wallet/features/nft/providers/nft_detail_provider.dart';
 import 'package:rbx_wallet/features/nft/services/nft_service.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/feature.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -257,7 +252,7 @@ class TokenizedBtcDetailScreen extends BaseScreen {
                 if (transactions.isEmpty)
                   Text(
                     "No BTC Transactions",
-                    style: Theme.of(context).textTheme.caption,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 SizedBox(
                   height: 8,
@@ -284,7 +279,6 @@ class TokenizedBtcDetailScreen extends BaseScreen {
 
 class _VbtcActionButtonsContainer extends StatefulWidget {
   const _VbtcActionButtonsContainer({
-    super.key,
     required this.token,
     required this.scOwner,
   });
@@ -355,7 +349,6 @@ class _VbtcActionButtonsContainerState extends State<_VbtcActionButtonsContainer
 class _BtcTokenMedia extends BaseComponent {
   final TokenizedBitcoin token;
   const _BtcTokenMedia({
-    super.key,
     required this.token,
   });
 
@@ -371,7 +364,7 @@ class _BtcTokenMedia extends BaseComponent {
     if (nft.additionalAssets.isEmpty) {
       return Text(
         "This token does not contain any additional media.",
-        style: Theme.of(context).textTheme.caption,
+        style: Theme.of(context).textTheme.bodySmall,
       );
     }
 
@@ -463,7 +456,6 @@ class _DetailRow extends StatelessWidget {
     required this.label,
     required this.value,
     this.withCopy = false,
-    super.key,
   });
 
   @override
