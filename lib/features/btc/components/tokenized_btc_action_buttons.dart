@@ -569,6 +569,10 @@ class TokenizedBtcActionButtons extends BaseComponent {
                 }
 
                 if (option == 1) {
+                  if (token.balance == 0) {
+                    Toast.error("vBTC tokens with zero balance can not be transferred.");
+                    return;
+                  }
                   final nft = await NftService().retrieve(token.smartContractUid);
 
                   if (nft == null) {
