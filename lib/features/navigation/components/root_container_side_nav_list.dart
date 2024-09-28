@@ -25,7 +25,7 @@ class RootContainerSideNavList extends BaseComponent {
       children: [
         RootContainerSideNavItem(
           title: "Dashboard",
-          iconName: 'dashboard',
+          iconName: 'Dashboard',
           icon: Icons.dashboard,
           onPressed: () {
             if (tabsRouter.activeIndex == 0) {
@@ -39,7 +39,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Vault Accounts",
-          iconName: 'vault',
+          iconName: 'Lock',
           icon: Icons.security,
           onPressed: () {
             tabsRouter.setActiveIndex(14);
@@ -49,7 +49,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Domains",
-          iconName: 'domains',
+          iconName: 'Domain',
           icon: Icons.link,
           onPressed: () {
             tabsRouter.setActiveIndex(10);
@@ -59,7 +59,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Send",
-          iconName: 'send',
+          iconName: 'Send',
           icon: Icons.outbox,
           onPressed: () {
             tabsRouter.setActiveIndex(1);
@@ -69,7 +69,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Receive",
-          iconName: 'receive',
+          iconName: 'Receive',
           icon: Icons.move_to_inbox,
           onPressed: () {
             tabsRouter.setActiveIndex(2);
@@ -79,7 +79,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Transactions",
-          iconName: 'transactions',
+          iconName: 'Transactions',
           icon: Icons.paid,
           onPressed: () {
             tabsRouter.setActiveIndex(3);
@@ -90,6 +90,7 @@ class RootContainerSideNavList extends BaseComponent {
         RootContainerSideNavItem(
           title: "Tokenize BTC",
           icon: FontAwesomeIcons.bitcoin,
+          iconName: 'Bitcoin',
           onPressed: () {
             tabsRouter.setActiveIndex(15);
           },
@@ -98,7 +99,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Fungible Tokens",
-          iconName: 'tokens',
+          iconName: 'FungibleToken',
           icon: Icons.toll,
           onPressed: () {
             if (tabsRouter.activeIndex == 13) {
@@ -112,7 +113,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Smart Contracts",
-          iconName: 'smart_contracts',
+          iconName: 'SmartContract',
           icon: Icons.receipt_long,
           onPressed: () {
             if (ref.read(sessionProvider).currentWallet == null) {
@@ -127,7 +128,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Manage NFTs",
-          iconName: 'nfts',
+          iconName: 'NFT',
           icon: Icons.lightbulb_outline,
           onPressed: () {
             if (ref.read(sessionProvider).currentWallet == null) {
@@ -142,7 +143,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "P2P Auctions",
-          iconName: 'p2p',
+          iconName: 'P2P',
           icon: Icons.leak_add,
           onPressed: () {
             if (tabsRouter.activeIndex == 9) {
@@ -156,7 +157,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Validator",
-          iconName: 'validator',
+          iconName: 'Validator',
           icon: Icons.check_circle,
           onPressed: () {
             tabsRouter.setActiveIndex(4);
@@ -166,7 +167,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Operations",
-          iconName: 'operations',
+          iconName: 'Operations',
           icon: Icons.bolt,
           onPressed: () {
             if (tabsRouter.activeIndex == 16) {
