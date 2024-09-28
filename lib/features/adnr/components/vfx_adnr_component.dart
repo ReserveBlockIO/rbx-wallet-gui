@@ -43,7 +43,20 @@ class VfxAdnrCard extends BaseComponent {
         child: ListTile(
           leading: Icon(wallet.adnr != null ? Icons.link : Icons.link_off),
           title: SelectableText(wallet.address),
-          subtitle: Text(adnrLabel),
+          subtitle: wallet.adnr != null
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2),
+                      child: AppBadge(
+                        label: "@${wallet.adnr!}",
+                        variant: AppColorVariant.Secondary,
+                      ),
+                    ),
+                  ],
+                )
+              : Text("No Domain"),
           isThreeLine: false,
           trailing: Builder(
             builder: (context) {

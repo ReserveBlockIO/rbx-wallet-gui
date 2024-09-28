@@ -48,15 +48,13 @@ class CreateAdnrDialog extends BaseComponent {
             children: [
               Text("${isBtc ? 'BTC' : 'VFX'} Domains cost $ADNR_COST VFX."),
               Text(
-                "Your domain must only contain letters and numbers and will automatically be appended with ${isBtc ? '`.btc`' : '`.vfx`'} upon verification",
+                "Your domain must only contain letters and numbers and will automatically be appended with ${isBtc ? '".btc"' : '".vfx"'} upon verification",
                 style: Theme.of(context).textTheme.caption,
               ),
               TextFormField(
                 controller: controller,
                 validator: (value) => formValidatorAlphaNumeric(value, "Domain Name"),
-                decoration: const InputDecoration(
-                  label: Text("Domain Name"),
-                ),
+                decoration: InputDecoration(label: Text("Domain Name"), suffix: Text(isBtc ? '.btc' : '.vfx')),
                 inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]'))],
               ),
             ],

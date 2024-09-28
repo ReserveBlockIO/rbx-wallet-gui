@@ -375,12 +375,15 @@ class TokenManagementScreen extends BaseScreen {
             ...tokenAccounts.asMap().entries.map((entry) {
               final i = entry.key;
               final t = entry.value;
-              return TokenListTile(
-                tokenAccount: t,
-                address: addresses[i],
-                token: ref.read(tokenNftsProvider)[t.smartContractId],
-                titleOverride: addresses[i],
-                interactive: false,
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: TokenListTile(
+                  tokenAccount: t,
+                  address: addresses[i],
+                  token: ref.read(tokenNftsProvider)[t.smartContractId],
+                  titleOverride: addresses[i],
+                  interactive: false,
+                ),
               );
             }).toList(),
             SizedBox(

@@ -78,7 +78,7 @@ class NotificationOverlay extends BaseComponent {
                                         children: [
                                           Text(
                                             n.title,
-                                            style: Theme.of(context).textTheme.bodyMedium,
+                                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(height: 1),
                                           ),
                                           if (n.body != null)
                                             Padding(
@@ -87,6 +87,7 @@ class NotificationOverlay extends BaseComponent {
                                                 n.body!,
                                                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
                                                       fontSize: 12,
+                                                      height: 1,
                                                     ),
                                               ),
                                             )

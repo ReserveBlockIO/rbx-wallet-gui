@@ -48,7 +48,7 @@ class BtcAdnrCard extends BaseComponent {
                       Padding(
                         padding: const EdgeInsets.only(top: 2.0),
                         child: AppBadge(
-                          label: account.adnr!,
+                          label: "@${account.adnr!}",
                           variant: AppColorVariant.Btc,
                         ),
                       ),
@@ -294,10 +294,15 @@ class CreateBtcAdnrModal extends BaseComponent {
           SizedBox(
             height: 8,
           ),
+          Text(
+            "Your domain must only contain letters and numbers and will automatically be appended with \".btc\" upon verification",
+            style: Theme.of(context).textTheme.caption,
+          ),
           TextFormField(
             controller: formProvider.nameController,
             validator: formProvider.nameValidator,
             decoration: InputDecoration(
+              suffix: Text(".btc"),
               label: Text(
                 "Domain Name",
                 style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),

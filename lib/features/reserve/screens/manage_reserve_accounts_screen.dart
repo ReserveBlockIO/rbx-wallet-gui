@@ -236,57 +236,39 @@ class ReserveAccountManageCard extends BaseComponent {
                                   return ModalContainer(
                                     withDecor: false,
                                     children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.black,
-                                          boxShadow: glowingBox,
-                                        ),
-                                        child: Card(
-                                          color: Colors.black,
-                                          child: ListTile(
-                                            title: Text("NFTs"),
-                                            leading: Icon(Icons.lightbulb_outline),
-                                            trailing: Icon(Icons.chevron_right),
-                                            onTap: () {
-                                              Navigator.of(context).pop("nfts");
-                                            },
-                                          ),
+                                      AppCard(
+                                        padding: 0,
+                                        child: ListTile(
+                                          title: Text("NFTs"),
+                                          leading: Icon(Icons.lightbulb_outline),
+                                          trailing: Icon(Icons.chevron_right),
+                                          onTap: () {
+                                            Navigator.of(context).pop("nfts");
+                                          },
                                         ),
                                       ),
                                       SizedBox(height: 10),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.black,
-                                          boxShadow: glowingBox,
-                                        ),
-                                        child: Card(
-                                          color: Colors.black,
-                                          child: ListTile(
-                                            title: Text("Fungible Tokens"),
-                                            leading: Icon(Icons.toll),
-                                            trailing: Icon(Icons.chevron_right),
-                                            onTap: () {
-                                              Navigator.of(context).pop("tokens");
-                                            },
-                                          ),
+                                      AppCard(
+                                        padding: 0,
+                                        child: ListTile(
+                                          title: Text("Fungible Tokens"),
+                                          leading: Icon(Icons.toll),
+                                          trailing: Icon(Icons.chevron_right),
+                                          onTap: () {
+                                            Navigator.of(context).pop("tokens");
+                                          },
                                         ),
                                       ),
                                       SizedBox(height: 10),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.black,
-                                          boxShadow: glowingBox,
-                                        ),
-                                        child: Card(
-                                          color: Colors.black,
-                                          child: ListTile(
-                                            title: Text("Bitcoin (vBTC)"),
-                                            leading: Icon(FontAwesomeIcons.bitcoin),
-                                            trailing: Icon(Icons.chevron_right),
-                                            onTap: () {
-                                              Navigator.of(context).pop("btc");
-                                            },
-                                          ),
+                                      AppCard(
+                                        padding: 0,
+                                        child: ListTile(
+                                          title: Text("Bitcoin (vBTC)"),
+                                          leading: Icon(FontAwesomeIcons.bitcoin),
+                                          trailing: Icon(Icons.chevron_right),
+                                          onTap: () {
+                                            Navigator.of(context).pop("btc");
+                                          },
                                         ),
                                       )
                                     ],
@@ -340,15 +322,38 @@ class ReserveAccountManageCard extends BaseComponent {
                                             .map(
                                               (nft) => NftListTile(
                                                 nft,
-                                                onPressedOverride: () {
-                                                  // initTransferNftProcess(context, ref, nft);
+                                                onPressedOverride: () async {
+                                                  if (option == 'nfts') {
+                                                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => NftDetailScreen(id: nft.id)));
+                                                  } else {
+                                                    final n = await NftService().getNftData(nft.id);
 
-                                                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => NftDetailScreen(id: nft.id)));
+                                                    // if (!ref.read(transferredProvider).contains(tokenAccount.smartContractId)) {
+                                                    if (n != null && nft.isToken) {
+                                                      // if (n.currentOwner == address) {
+                                                      final tokenAccount = TokenAccount.fromNft(n, ref);
+                                                      final tokenFeature = TokenScFeature.fromNft(n);
+                                                      if (tokenAccount != null && tokenFeature != null) {
+                                                        Navigator.of(context).push(MaterialPageRoute(
+                                                            builder: (_) => TokenManagementScreenContainer(
+                                                                  address: ra.address,
+                                                                  nftId: nft.id,
+                                                                  tokenAccount: tokenAccount,
+                                                                  tokenFeature: tokenFeature,
+                                                                  ref: ref,
+                                                                  nft: nft,
+                                                                )));
+                                                        return;
+                                                      }
+                                                      // }
+                                                      // }
+                                                    }
+                                                  }
                                                 },
                                                 trailingOverride: Row(
                                                   mainAxisSize: MainAxisSize.min,
                                                   children: [
-                                                    if (option == 'nft') ...[
+                                                    if (option == 'nfts') ...[
                                                       AppButton(
                                                         label: "Transfer",
                                                         variant: AppColorVariant.Secondary,
@@ -363,7 +368,8 @@ class ReserveAccountManageCard extends BaseComponent {
                                                     AppButton(
                                                       label: "View Details",
                                                       onPressed: () async {
-                                                        if (option == 'nft') {
+                                                        print(option);
+                                                        if (option == 'nfts') {
                                                           Navigator.of(context).push(MaterialPageRoute(builder: (_) => NftDetailScreen(id: nft.id)));
                                                         } else {
                                                           final n = await NftService().getNftData(nft.id);
