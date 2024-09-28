@@ -16,72 +16,6 @@ import '../utils/validation.dart';
 import 'theme/app_theme.dart';
 
 class InfoDialog {
-  static alert(
-    BuildContext context, {
-    required String title,
-    String? body,
-    Widget? content,
-    String? closeText,
-    IconData? icon,
-    Color? headerColor = Colors.white,
-    Color? buttonColorOverride,
-    bool withBackArrow = false,
-  }) {
-    return AlertDialog(
-      title: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (withBackArrow)
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: Icon(Icons.navigate_before),
-            ),
-          if (icon != null)
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Icon(
-                icon,
-                color: headerColor,
-              ),
-            ),
-          Text(
-            title,
-            style: TextStyle(
-              color: headerColor,
-            ),
-          ),
-        ],
-      ),
-      content: body != null
-          ? ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 400),
-              child: Text(body),
-            )
-          : content,
-      actions: [
-        TextButton(
-          style: TextButton.styleFrom(
-            textStyle: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.info,
-            ),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop(true);
-          },
-          child: Text(
-            closeText ?? "Close",
-            style: TextStyle(
-              color: buttonColorOverride ?? Theme.of(context).colorScheme.secondary,
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
   static show({
     required String title,
     String? body,
@@ -95,20 +29,49 @@ class InfoDialog {
   }) async {
     final context = rootNavigatorKey.currentContext!;
 
-    return await showDialog(
-      context: contextOverride ?? context,
-      builder: (context) {
-        return alert(context,
-            title: title,
-            body: body,
-            content: content,
-            closeText: closeText,
-            icon: icon,
-            headerColor: headerColor,
-            buttonColorOverride: buttonColorOverride,
-            withBackArrow: withBackArrow);
-      },
-    );
+    final titleLeading = withBackArrow
+        ? IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: Icon(Icons.navigate_before),
+          )
+        : null;
+
+    final contentWidget = body != null
+        ? ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 400),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(body),
+            ),
+          )
+        : Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: content,
+          );
+
+    final actions = [
+      TextButton(
+        style: TextButton.styleFrom(
+          textStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.info,
+          ),
+        ),
+        onPressed: () {
+          Navigator.of(context).pop(true);
+        },
+        child: Text(
+          closeText ?? "Close",
+          style: TextStyle(
+            color: buttonColorOverride ?? Theme.of(context).colorScheme.secondary,
+          ),
+        ),
+      )
+    ];
+
+    return await SpecialDialog().show(context, content: contentWidget, actions: actions, title: title, titleLeading: titleLeading);
   }
 }
 
@@ -257,7 +220,7 @@ class RecoverDialog {
 class PromptModal {
   static Future<String?> show({
     required String title,
-    required String? Function(String?) validator,
+    String? Function(String?)? validator,
     required String labelText,
     BuildContext? contextOverride,
     String? body,
@@ -288,129 +251,117 @@ class PromptModal {
 
     bool _obscureText = obscureText;
 
-    return await showDialog(
-      context: context,
-      barrierDismissible: allowCancel,
-      builder: (context) {
-        return AlertDialog(
-          title: titleTrailing != null
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    titleTrailing
-                  ],
-                )
-              : Text(
-                  title,
-                  style: const TextStyle(color: Colors.white),
-                ),
-          titlePadding: tightPadding ? const EdgeInsets.all(12.0) : const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 20),
-          contentPadding: tightPadding ? const EdgeInsets.all(12.0) : const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
-          insetPadding: tightPadding ? const EdgeInsets.all(8.0) : const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
-          content: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 600, minWidth: 400),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    final content = ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 600, minWidth: 400),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (body != null) Text(body),
+            StatefulBuilder(builder: (context, setState) {
+              return Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (body != null) Text(body),
-                  StatefulBuilder(builder: (context, setState) {
-                    return Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            controller: _controller,
-                            obscureText: _obscureText,
-                            autofocus: true,
-                            minLines: lines,
-                            maxLines: lines,
-                            keyboardType: keyboardType,
-                            decoration: InputDecoration(
-                              label: Text(
-                                labelText,
-                                style: TextStyle(color: labelColor ?? Theme.of(context).colorScheme.secondary),
-                              ),
-                              prefixText: prefixText,
-                            ),
-                            validator: validator,
-                            inputFormatters: inputFormatters,
-                          ),
+                  Expanded(
+                    child: TextFormField(
+                      controller: _controller,
+                      obscureText: _obscureText,
+                      autofocus: true,
+                      minLines: lines,
+                      maxLines: obscureText ? 1 : lines,
+                      keyboardType: keyboardType,
+                      decoration: InputDecoration(
+                        label: Text(
+                          labelText,
+                          style: TextStyle(color: labelColor ?? Theme.of(context).colorScheme.secondary),
                         ),
-                        if (obscureText && revealObscure)
-                          IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _obscureText = !_obscureText;
-                              });
-                            },
-                            icon: Icon(
-                              _obscureText ? Icons.remove_red_eye : Icons.hide_source_outlined,
-                            ),
-                          )
-                      ],
-                    );
-                  }),
-                  if (footer != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4.0),
-                      child: Text(
-                        footer,
-                        style: Theme.of(context).textTheme.bodySmall,
+                        prefixText: prefixText,
                       ),
+                      validator: validator,
+                      inputFormatters: inputFormatters,
                     ),
+                  ),
+                  if (obscureText && revealObscure)
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
+                      icon: Icon(
+                        _obscureText ? Icons.remove_red_eye : Icons.hide_source_outlined,
+                      ),
+                    )
                 ],
+              );
+            }),
+            if (footer != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Text(
+                  footer,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
               ),
+          ],
+        ),
+      ),
+    );
+
+    final actions = [
+      if (allowCancel)
+        TextButton(
+          style: TextButton.styleFrom(
+            textStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.info,
             ),
           ),
-          actions: [
-            if (allowCancel)
-              TextButton(
-                style: TextButton.styleFrom(
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.info,
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  cancelText ?? "Cancel",
-                  style: TextStyle(color: Theme.of(context).colorScheme.info),
-                ),
-              ),
-            TextButton(
-              style: TextButton.styleFrom(
-                primary: destructive ? Colors.red.shade600 : Theme.of(context).colorScheme.info,
-                textStyle: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              onPressed: () {
-                if (!_formKey.currentState!.validate()) return;
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text(
+            cancelText ?? "Cancel",
+            style: TextStyle(color: Theme.of(context).colorScheme.info),
+          ),
+        ),
+      TextButton(
+        style: TextButton.styleFrom(
+          primary: destructive ? Colors.red.shade600 : Theme.of(context).colorScheme.info,
+          textStyle: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        onPressed: () {
+          if (!_formKey.currentState!.validate()) return;
 
-                final value = _controller.value.text;
+          final value = _controller.value.text;
 
-                if (onValidSubmission != null) {
-                  if (popOnValidSubmission) {
-                    Navigator.of(context).pop();
-                  }
-                  onValidSubmission(value);
-                  return;
-                } else {
-                  Navigator.of(context).pop(value);
-                }
-              },
-              child: Text(confirmText ?? "Submit", style: TextStyle(color: Theme.of(context).colorScheme.info)),
-            )
-          ],
-        );
-      },
+          if (onValidSubmission != null) {
+            if (popOnValidSubmission) {
+              Navigator.of(context).pop();
+            }
+            onValidSubmission(value);
+            return;
+          } else {
+            Navigator.of(context).pop(value);
+          }
+        },
+        child: Text(confirmText ?? "Submit",
+            style: TextStyle(
+              color: destructive ? Colors.red.shade600 : Theme.of(context).colorScheme.info,
+            )),
+      )
+    ];
+
+    return await SpecialDialog<String?>().show(
+      context,
+      title: title,
+      content: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: content,
+      ),
+      actions: actions,
     );
   }
 }
@@ -655,6 +606,8 @@ class SpecialDialog<T> {
     bool dissmissible = true,
     double maxWidth = 500.0,
     String? title,
+    Widget? titleTrailing,
+    Widget? titleLeading,
     List<Widget>? actions,
   }) async {
     return await showGeneralDialog(
@@ -682,21 +635,28 @@ class SpecialDialog<T> {
                         Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            if (title != null)
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  title,
-                                  style: TextStyle(fontSize: 18),
-                                ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: titleLeading == null && titleTrailing == null ? MainAxisAlignment.center : MainAxisAlignment.start,
+                                children: [
+                                  if (titleLeading != null) titleLeading,
+                                  if (title != null)
+                                    Text(
+                                      title,
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                  if (titleTrailing != null) titleTrailing,
+                                ],
                               ),
+                            ),
                             if (title == null && dissmissible) SizedBox(height: 18 + 8 + 8),
                             widget,
                             if (actions != null)
                               Align(
-                                alignment: Alignment.center,
+                                alignment: Alignment.centerRight,
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(12.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: actions,
@@ -705,7 +665,7 @@ class SpecialDialog<T> {
                               ),
                           ],
                         ),
-                        if (dissmissible)
+                        if (dissmissible && titleTrailing == null && titleLeading == null)
                           Align(
                             alignment: Alignment.topRight,
                             child: Padding(

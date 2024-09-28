@@ -486,7 +486,7 @@ class _WalletRestorerState extends State<WalletRestorer> {
   @override
   Widget build(BuildContext context) {
     return hiddenWallets.isEmpty
-        ? InfoDialog.alert(context, title: 'No accounts to restore', body: "You don't have any hidden accounts.")
+        ? Text('No accounts to restore.')
         : Consumer(builder: (context, ref, child) {
             return AlertDialog(
               actionsAlignment: MainAxisAlignment.spaceBetween,
