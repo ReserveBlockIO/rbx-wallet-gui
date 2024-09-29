@@ -39,7 +39,7 @@ class TransactionsScreen extends BaseScreen {
       title: Text(title),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      leading: BackToHomeButton(),
+      // leading: BackToHomeButton(),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 16.0),

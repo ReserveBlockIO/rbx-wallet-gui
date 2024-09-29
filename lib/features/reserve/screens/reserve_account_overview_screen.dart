@@ -36,7 +36,7 @@ class ReserveAccountOverviewScreen extends BaseScreen {
         style: TextStyle(color: Colors.white),
       ),
       backgroundColor: Colors.black,
-      leading: BackToHomeButton(),
+      // leading: BackToHomeButton(),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 16.0),

@@ -28,7 +28,7 @@ class DstLandingScreen extends BaseScreen {
           withOptions: false,
         )
       ],
-      leading: BackToHomeButton(),
+      // leading: BackToHomeButton(),
     );
   }
 

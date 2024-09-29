@@ -26,7 +26,7 @@ class AdnrScreen extends BaseScreen {
     late final String title;
     switch (mode) {
       case CurrencyType.any:
-        title = "All Domains";
+        title = "Domains";
         break;
       case CurrencyType.vfx:
         title = "VFX Domains";
@@ -40,7 +40,7 @@ class AdnrScreen extends BaseScreen {
       title: Text(title),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      leading: BackToHomeButton(),
+      // leading: BackToHomeButton(),
     );
   }
 

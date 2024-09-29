@@ -37,7 +37,7 @@ class NftListScreen extends BaseScreen {
       title: const Text("NFTs"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      leading: BackToHomeButton(),
+      // leading: BackToHomeButton(),
       actions: [
         Row(
           mainAxisSize: MainAxisSize.min,

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -33,7 +32,7 @@ class TokenizeBtcListScreen extends BaseScreen {
     return AppBar(
       backgroundColor: Colors.black,
       title: Text("Tokenized Bitcoin (vBTC)"),
-      leading: BackToHomeButton(),
+      // leading: BackToHomeButton(),
 
       // Padding(
       //   padding: const EdgeInsets.only(right: 8.0),

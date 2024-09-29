@@ -22,7 +22,7 @@ class TokenListScreen extends BaseScreen {
       backgroundColor: Colors.black54,
       centerTitle: true,
       title: Text("Fungible Tokens"),
-      leading: BackToHomeButton(),
+      // leading: BackToHomeButton(),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 20.0),

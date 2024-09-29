@@ -29,7 +29,7 @@ class SmartContractsScreen extends BaseScreen {
       title: const Text("Smart Contracts"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      leading: BackToHomeButton(),
+      // leading: BackToHomeButton(),
     );
   }
 
