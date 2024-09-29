@@ -122,6 +122,10 @@ class TokenList extends BaseComponent {
             SizedBox(
               height: 8,
             ),
+            if (index + 1 == accounts.length)
+              SizedBox(
+                height: 32,
+              ),
           ],
         );
       },
