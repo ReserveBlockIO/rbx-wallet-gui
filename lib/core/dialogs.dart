@@ -123,7 +123,8 @@ class ConfirmDialog {
         ),
         TextButton(
           style: TextButton.styleFrom(
-            foregroundColor: destructive ? Colors.red.shade600 : Theme.of(ctx).colorScheme.info, textStyle: const TextStyle(fontWeight: FontWeight.bold),
+            foregroundColor: destructive ? Colors.red.shade600 : Theme.of(ctx).colorScheme.info,
+            textStyle: const TextStyle(fontWeight: FontWeight.bold),
           ),
           onPressed: () {
             Navigator.of(ctx).pop(true);
@@ -241,8 +242,8 @@ class PromptModal {
     String? prefixText,
     Color? labelColor,
   }) async {
-    // final context = rootNavigatorKey.currentContext!;
-    final context = contextOverride ?? rootNavigatorKey.currentContext!;
+    final context = rootNavigatorKey.currentContext!;
+    // final context = contextOverride ?? rootNavigatorKey.currentContext!;
 
     final GlobalKey<FormState> _formKey = GlobalKey();
 
@@ -328,7 +329,8 @@ class PromptModal {
         ),
       TextButton(
         style: TextButton.styleFrom(
-          foregroundColor: destructive ? Colors.red.shade600 : Theme.of(context).colorScheme.info, textStyle: const TextStyle(fontWeight: FontWeight.bold),
+          foregroundColor: destructive ? Colors.red.shade600 : Theme.of(context).colorScheme.info,
+          textStyle: const TextStyle(fontWeight: FontWeight.bold),
         ),
         onPressed: () {
           if (!_formKey.currentState!.validate()) return;
@@ -514,7 +516,8 @@ class AuthModal {
             ),
             TextButton(
               style: TextButton.styleFrom(
-                foregroundColor: Theme.of(context).colorScheme.info, textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                foregroundColor: Theme.of(context).colorScheme.info,
+                textStyle: const TextStyle(fontWeight: FontWeight.bold),
               ),
               onPressed: () {
                 submit(context);

@@ -95,7 +95,7 @@ class SmartContractsScreen extends BaseScreen {
                       ref.read(nftDetailProvider("$id").notifier).init();
                       ref.read(createSmartContractProvider.notifier).clearSmartContract();
 
-                      AutoRouter.of(context).push(NftDetailScreenRoute(id: "$id"));
+                      // AutoRouter.of(context).push(NftDetailScreenRoute(id: "$id"));
                     }
                   },
                 ),

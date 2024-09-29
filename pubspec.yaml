@@ -98,7 +98,7 @@ flutter:
     # Add assets from the images directory to the application.
     - assets/images/
     - assets/images/connector/
-    - assets/images/sidebar/
+    - assets/images/sidenav/
     - assets/env/
     - assets/fonts/
     - assets/js/
