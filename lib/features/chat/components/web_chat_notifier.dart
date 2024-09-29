@@ -1,17 +1,12 @@
 import 'dart:async';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../app.dart';
 import '../../../core/env.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils.dart';
 import '../models/latest_chat_message.dart';
-import '../models/web_chat_message.dart';
 import '../services/web_chat_service.dart';
 import '../../transactions/models/transaction_notification.dart';
 import '../../transactions/providers/transaction_notification_provider.dart';

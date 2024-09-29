@@ -26,7 +26,7 @@ class CreateBeaconModal extends BaseComponent {
         const Text("Create Beacon"),
         Text(
           "Create a beacon if you want to be the owner of the relay of assets. Setup your wallet as a beacon to partipate in media transferring on the VFX network. The name is a friendly name only visible to you. You can configure a specific port or just use the default setting. You can also configure whether your beacon is private and how long assets should remain cached.",
-          style: Theme.of(context).textTheme.caption,
+          style: Theme.of(context).textTheme.bodySmall,
         ),
         Form(
           key: provider.formKey,

@@ -5,7 +5,6 @@ import '../../../core/app_router.gr.dart';
 import '../../../core/base_component.dart';
 import '../../../core/components/badges.dart';
 import '../../../core/theme/app_theme.dart';
-import '../models/dec_shop.dart';
 import '../providers/collection_list_provider.dart';
 
 import '../providers/collection_form_provider.dart';

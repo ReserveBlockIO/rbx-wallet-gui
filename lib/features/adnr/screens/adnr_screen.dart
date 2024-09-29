@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/components/currency_segmented_button.dart';
 import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/btc/models/btc_account.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 
 import '../../../core/app_constants.dart';
@@ -28,7 +26,7 @@ class AdnrScreen extends BaseScreen {
     late final String title;
     switch (mode) {
       case CurrencyType.any:
-        title = "All Domains";
+        title = "Domains";
         break;
       case CurrencyType.vfx:
         title = "VFX Domains";
@@ -42,7 +40,7 @@ class AdnrScreen extends BaseScreen {
       title: Text(title),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      leading: BackToHomeButton(),
+      // leading: BackToHomeButton(),
     );
   }
 
@@ -166,7 +164,12 @@ class AdnrScreen extends BaseScreen {
                           ],
                         ),
                       ),
-                      Expanded(child: AdnrList(wallets: wallets)),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 6.0),
+                          child: AdnrList(wallets: wallets),
+                        ),
+                      ),
                     ],
                   );
                 case CurrencyType.btc:

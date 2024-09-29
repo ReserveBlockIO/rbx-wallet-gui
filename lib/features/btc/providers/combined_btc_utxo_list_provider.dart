@@ -1,4 +1,3 @@
-import 'package:rbx_wallet/features/btc/models/btc_transaction.dart';
 import 'package:rbx_wallet/features/btc/models/btc_utxo.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_utxo_list_provider.dart';

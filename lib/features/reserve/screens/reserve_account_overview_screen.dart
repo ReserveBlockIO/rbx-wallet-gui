@@ -2,11 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 import 'package:rbx_wallet/core/theme/components.dart';
-import 'package:rbx_wallet/features/reserve/models/new_reserve_account.dart';
 import 'package:rbx_wallet/features/reserve/screens/manage_reserve_accounts_screen.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import '../../../core/theme/colors.dart';
@@ -38,7 +36,7 @@ class ReserveAccountOverviewScreen extends BaseScreen {
         style: TextStyle(color: Colors.white),
       ),
       backgroundColor: Colors.black,
-      leading: BackToHomeButton(),
+      // leading: BackToHomeButton(),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 16.0),
@@ -360,9 +358,7 @@ class _Top extends BaseComponent {
 }
 
 class _RaInfo extends StatelessWidget {
-  const _RaInfo({
-    super.key,
-  });
+  const _RaInfo();
 
   @override
   Widget build(BuildContext context) {

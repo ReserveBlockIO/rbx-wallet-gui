@@ -193,7 +193,6 @@ class _DetailRow extends StatelessWidget {
   final bool withCopy;
 
   const _DetailRow({
-    super.key,
     required this.label,
     required this.value,
     this.withCopy = true,

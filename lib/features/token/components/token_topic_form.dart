@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/token/models/new_token_topic.dart';
-import '../../../core/app_constants.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
@@ -125,11 +124,11 @@ class TokenTopicForm extends BaseComponent {
                   children: [
                     Text(
                       "1,600 character limit including provided links",
-                      style: Theme.of(context).textTheme.caption,
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                     Text(
                       "$currentLength/1600",
-                      style: Theme.of(context).textTheme.caption,
+                      style: Theme.of(context).textTheme.bodySmall,
                     )
                   ],
                 );

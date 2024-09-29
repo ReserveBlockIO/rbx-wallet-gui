@@ -75,7 +75,7 @@ class LatestBlockContent extends StatelessWidget {
                 latestBlock.timestamp * 1000,
               ),
             ),
-            style: Theme.of(context).textTheme.caption,
+            style: Theme.of(context).textTheme.bodySmall,
           ),
         ),
         Row(
@@ -119,7 +119,7 @@ class LatestBlockContent extends StatelessWidget {
                       "View Txs",
                       style: Theme.of(context)
                           .textTheme
-                          .caption!
+                          .bodySmall!
                           .copyWith(fontSize: 10, color: Theme.of(context).colorScheme.secondary, decoration: TextDecoration.underline),
                     ),
                   ),
@@ -250,7 +250,7 @@ class _DetailItem extends StatelessWidget {
             Expanded(
               child: Text(
                 label,
-                style: Theme.of(context).textTheme.caption!.copyWith(decoration: TextDecoration.underline),
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(decoration: TextDecoration.underline),
               ),
             ),
             trailing ?? SizedBox.shrink()
@@ -263,7 +263,7 @@ class _DetailItem extends StatelessWidget {
           value,
           style: Theme.of(context)
               .textTheme
-              .caption!
+              .bodySmall!
               .copyWith(fontSize: mono ? 10 : null, fontFamily: mono ? "RobotoMono" : null, color: Colors.white38),
         ),
         const SizedBox(

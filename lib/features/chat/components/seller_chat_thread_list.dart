@@ -8,7 +8,6 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/web_router.gr.dart' as web_router;
 import '../providers/seller_chat_thread_list_provider.dart';
 import '../providers/web_seller_chat_thread_list_provider.dart';
-import '../screens/web_seller_chat_screen.dart';
 
 class SellerChatThreadList extends BaseComponent {
   final int shopId;

@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -9,16 +7,12 @@ import '../../../core/base_component.dart';
 import '../../../core/base_screen.dart';
 import '../../../core/components/empty_placeholder.dart';
 import '../../../core/providers/session_provider.dart';
-import '../../dst/models/dec_shop.dart';
 import '../components/listing_details_list_tile.dart';
-import '../components/remote_asset_preview.dart';
 import '../components/shop_connected_indicator.dart';
 import '../models/shop_data.dart';
 import '../providers/connected_shop_provider.dart';
 import 'package:collection/collection.dart';
 import '../providers/shop_list_view_provider.dart';
-import '../services/remote_shop_service.dart';
-import '../utils.dart';
 import '../../wallet/components/wallet_selector.dart';
 
 import '../../../core/components/buttons.dart';
@@ -152,7 +146,6 @@ class RemoteShopCollectionScreen extends BaseScreen {
 
 class _Header extends BaseComponent {
   const _Header({
-    super.key,
     required this.collection,
   });
 

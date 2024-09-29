@@ -141,7 +141,7 @@ class ImageSequenceAnimatorState extends State<ImageSequenceAnimator> with Singl
   final ValueNotifier<int> _changeNotifier = ValueNotifier<int>(0);
 
   String _folderName;
-  String _fileName;
+  final String _fileName;
   String _fileFormat;
   double get _frameCount => _useFullPaths ? widget.fullPaths!.length * 1.0 : widget.frameCount;
   bool get _useFullPaths => widget.fullPaths != null && widget.fullPaths!.isNotEmpty;
@@ -265,7 +265,7 @@ class ImageSequenceAnimatorState extends State<ImageSequenceAnimator> with Singl
   void setIsLooping(bool isLooping) {
     if (!_isReadyToPlay) return;
 
-    this._isLooping = isLooping;
+    _isLooping = isLooping;
     if (this.isLooping) {
       _isBoomerang = false;
       if (!_animationController!.isAnimating) restart();
@@ -276,7 +276,7 @@ class ImageSequenceAnimatorState extends State<ImageSequenceAnimator> with Singl
   void setIsBoomerang(bool isBoomerang) {
     if (!_isReadyToPlay) return;
 
-    this._isBoomerang = isBoomerang;
+    _isBoomerang = isBoomerang;
     if (this.isBoomerang) {
       _isLooping = false;
       if (!_animationController!.isAnimating) restart();
@@ -293,7 +293,7 @@ class ImageSequenceAnimatorState extends State<ImageSequenceAnimator> with Singl
   }
 
   ///Use this function to play this [ImageSequenceAnimator].
-  void play({double from: -1.0}) {
+  void play({double from = -1.0}) {
     if (!_isReadyToPlay) return;
 
     if (!_animationController!.isAnimating && widget.onStartPlaying != null) widget.onStartPlaying!(this);
@@ -306,7 +306,7 @@ class ImageSequenceAnimatorState extends State<ImageSequenceAnimator> with Singl
   }
 
   ///Use this function to rewind this [ImageSequenceAnimator].
-  void rewind({double from: -1.0}) {
+  void rewind({double from = -1.0}) {
     if (!_isReadyToPlay) return;
 
     if (!_animationController!.isAnimating && widget.onStartPlaying != null) widget.onStartPlaying!(this);
@@ -326,7 +326,7 @@ class ImageSequenceAnimatorState extends State<ImageSequenceAnimator> with Singl
   }
 
   ///Only use either value or percentage.
-  void skip(double value, {double percentage: -1.0}) {
+  void skip(double value, {double percentage = -1.0}) {
     if (!_isReadyToPlay) return;
 
     if (percentage != -1.0) {

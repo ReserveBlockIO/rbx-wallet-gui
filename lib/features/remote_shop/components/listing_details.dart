@@ -3,14 +3,11 @@ import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/theme/components.dart';
 import '../../../core/base_component.dart';
@@ -24,8 +21,6 @@ import '../../../core/theme/colors.dart';
 import '../../global_loader/global_loading_provider.dart';
 import '../../nft/components/nft_qr_code.dart';
 import '../../nft/models/nft.dart';
-import '../../nft/screens/nft_detail_screen.dart';
-import '../../nft/services/nft_service.dart';
 import 'bid_history_modal.dart';
 import '../models/shop_data.dart';
 import '../providers/bid_list_provider.dart';
@@ -33,15 +28,9 @@ import '../providers/carousel_memory_provider.dart';
 import '../providers/connected_shop_provider.dart';
 import '../providers/thumbnail_fetcher_provider.dart';
 import '../services/remote_shop_service.dart';
-import '../utils.dart';
 import '../../sc_property/models/sc_property.dart';
 import '../../../utils/files.dart';
-import '../../../utils/guards.dart';
 import '../../../utils/toast.dart';
-import 'package:collection/collection.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-
-import '../../../core/env.dart';
 
 class ListingDetails extends BaseComponent {
   final OrganizedListing listing;
@@ -231,7 +220,6 @@ class _Preview extends StatefulWidget {
   final Function(int index) onPageChange;
 
   const _Preview({
-    super.key,
     required this.nft,
     this.initialIndex = 0,
     required this.onPageChange,
@@ -416,7 +404,6 @@ class _PreviewState extends State<_Preview> {
 
 class _Details extends StatelessWidget {
   const _Details({
-    super.key,
     required this.listing,
     required this.nft,
   });
@@ -450,7 +437,7 @@ class _Details extends StatelessWidget {
 
 class _Features extends StatelessWidget {
   final Nft nft;
-  const _Features({super.key, required this.nft});
+  const _Features({required this.nft});
 
   @override
   Widget build(BuildContext context) {
@@ -462,7 +449,7 @@ class _Features extends StatelessWidget {
         children: [
           Text(
             "NFT Features:",
-            style: Theme.of(context).textTheme.headline5!.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                   color: Colors.white,
                 ),
           ),
@@ -520,7 +507,7 @@ class _Features extends StatelessWidget {
 
 class _NftDetails extends StatelessWidget {
   final Nft nft;
-  const _NftDetails({super.key, required this.nft});
+  const _NftDetails({required this.nft});
 
   @override
   Widget build(BuildContext context) {
@@ -562,7 +549,6 @@ class _NftData extends StatelessWidget {
   final OrganizedListing listing;
 
   const _NftData({
-    super.key,
     required this.nft,
     required this.listing,
   });
@@ -665,7 +651,7 @@ class _NftData extends StatelessWidget {
 
 class _BuyNow extends BaseComponent {
   final OrganizedListing listing;
-  const _BuyNow({super.key, required this.listing});
+  const _BuyNow({required this.listing});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -729,12 +715,9 @@ class _BuyNow extends BaseComponent {
 class _Price extends StatelessWidget {
   final String label;
   final double amount;
-  final Color priceColor;
   const _Price({
-    super.key,
     required this.label,
     required this.amount,
-    this.priceColor = Colors.white,
   });
 
   @override
@@ -756,7 +739,7 @@ class _Price extends StatelessWidget {
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: priceColor,
+            color: Colors.white,
           ),
         )
       ],
@@ -767,7 +750,6 @@ class _Price extends StatelessWidget {
 class _Auction extends BaseComponent {
   final OrganizedListing listing;
   const _Auction({
-    super.key,
     required this.listing,
   });
 
@@ -902,7 +884,6 @@ class BidHistoryButton extends BaseComponent {
 
 class _AuctionInfoDialogContent extends StatelessWidget {
   const _AuctionInfoDialogContent({
-    super.key,
     required this.auction,
   });
 
@@ -989,7 +970,7 @@ class _AuctionInfoDialogContent extends StatelessWidget {
 
 class _Countdown extends StatelessWidget {
   final OrganizedListing listing;
-  const _Countdown({super.key, required this.listing});
+  const _Countdown({required this.listing});
 
   @override
   Widget build(BuildContext context) {
@@ -1025,7 +1006,6 @@ class _Thumbnail extends StatefulWidget {
   final WidgetRef ref;
   final IconData fallbackIcon;
   const _Thumbnail({
-    super.key,
     required this.path,
     required this.fileNames,
     required this.scId,
@@ -1143,7 +1123,6 @@ class _QRCode extends StatelessWidget {
   final double size;
   final Nft nft;
   const _QRCode({
-    super.key,
     required this.nft,
     this.size = 260,
   });
@@ -1171,13 +1150,9 @@ class _QRCode extends StatelessWidget {
 }
 
 class _Properties extends StatelessWidget {
-  final double size;
-
   final Nft nft;
   const _Properties({
-    super.key,
     required this.nft,
-    this.size = 260,
   });
 
   @override
@@ -1186,14 +1161,14 @@ class _Properties extends StatelessWidget {
       return SizedBox.shrink();
     }
     return ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: size),
+      constraints: BoxConstraints(maxWidth: 260),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Properties:",
-            style: Theme.of(context).textTheme.headline5!.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                   color: Colors.white,
                 ),
           ),
@@ -1242,7 +1217,7 @@ class _Properties extends StatelessWidget {
 
 class _AuctionDataWatcher extends StatefulWidget {
   final int listingId;
-  const _AuctionDataWatcher(this.listingId, {super.key});
+  const _AuctionDataWatcher(this.listingId);
 
   @override
   State<_AuctionDataWatcher> createState() => __AuctionDataWatcherState();

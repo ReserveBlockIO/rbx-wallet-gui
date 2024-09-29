@@ -5,7 +5,6 @@ import 'package:rbx_wallet/core/theme/components.dart';
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_component.dart';
 import '../../../core/dialogs.dart';
-import '../../../core/services/explorer_service.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../bridge/providers/wallet_info_provider.dart';
 import '../../dst/models/dec_shop.dart';

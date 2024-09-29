@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/breakpoints.dart';
 import '../../../core/models/web_session_model.dart';
 import '../../btc_web/providers/btc_web_transaction_list_provider.dart';
 import '../../web/components/web_wallet_type_switcher.dart';
@@ -103,7 +102,6 @@ class _NextPageRequester extends StatefulWidget {
   final Function pageRequestFunction;
   final bool isLoading;
   const _NextPageRequester({
-    super.key,
     required this.pageRequestFunction,
     required this.isLoading,
   });

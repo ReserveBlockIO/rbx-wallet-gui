@@ -6,7 +6,6 @@ import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
@@ -73,7 +72,6 @@ class _Layout extends StatefulWidget {
   final Widget child;
 
   const _Layout({
-    super.key,
     required this.child,
   });
 

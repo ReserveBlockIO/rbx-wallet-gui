@@ -22,9 +22,7 @@ import '../../../generated/assets.gen.dart';
 import '../../root/web_dashboard_container.dart';
 import '../../web/components/web_latest_block.dart';
 import '../../web/components/web_wallet_details.dart';
-import '../../payment/payment_utils.dart';
 
-import '../../payment/components/payment_iframe_container.dart' if (dart.library.io) '../../payment/components/payment_iframe_container_mock.dart';
 
 class WebHomeScreen extends BaseScreen {
   const WebHomeScreen({Key? key})

@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../core/theme/components.dart';
 import '../../nft/providers/pending_sale_provider.dart';
-import '../../smart_contracts/models/smart_contract.dart';
 import '../../smart_contracts/services/smart_contract_service.dart';
 import '../providers/transaction_list_provider.dart';
-import '../../../core/app_constants.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/utils.dart';
-import '../../remote_shop/services/remote_shop_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../reserve/components/callback_button.dart';
@@ -112,7 +109,7 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                       children: [
                         Text(
                           "Hash: ${widget.transaction.hash}",
-                          style: Theme.of(context).textTheme.bodyText1,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         const SizedBox(
                           width: 4,
@@ -146,7 +143,7 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                     if (widget.transaction.amount != 0)
                       RichText(
                         text: TextSpan(
-                          style: Theme.of(context).textTheme.bodyText2,
+                          style: Theme.of(context).textTheme.bodyMedium,
                           children: [
                             const TextSpan(text: "Amount: "),
                             TextSpan(
@@ -186,7 +183,7 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                           if (amountOverride != null) {
                             return RichText(
                               text: TextSpan(
-                                style: Theme.of(context).textTheme.bodyText2,
+                                style: Theme.of(context).textTheme.bodyMedium,
                                 children: [
                                   const TextSpan(text: "Amount: "),
                                   TextSpan(
@@ -206,7 +203,7 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                       ),
                     RichText(
                       text: TextSpan(
-                        style: Theme.of(context).textTheme.bodyText2,
+                        style: Theme.of(context).textTheme.bodyMedium,
                         children: [
                           const TextSpan(text: "Type: "),
                           TextSpan(
@@ -222,7 +219,7 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                     if (widget.transaction.status != null)
                       RichText(
                         text: TextSpan(
-                          style: Theme.of(context).textTheme.bodyText2,
+                          style: Theme.of(context).textTheme.bodyMedium,
                           children: [
                             const TextSpan(text: "Status: "),
                             TextSpan(
@@ -247,24 +244,24 @@ class TransactionListTileState extends BaseComponentState<TransactionListTile> {
                               "To: ${widget.transaction.toAddress}${toWallet != null && toWallet.friendlyName != null ? ' (${toWallet.friendlyName})' : ''}",
                               style: Theme.of(context)
                                   .textTheme
-                                  .caption!
+                                  .bodySmall!
                                   .copyWith(color: widget.transaction.isToReserveAccount ? Colors.deepPurple.shade200 : null),
                             ),
                             SelectableText(
                               "From: ${widget.transaction.fromAddress}${fromWallet != null && fromWallet.friendlyName != null ? ' (${fromWallet.friendlyName})' : ''}",
                               style: Theme.of(context)
                                   .textTheme
-                                  .caption!
+                                  .bodySmall!
                                   .copyWith(color: widget.transaction.isFromReserveAccount ? Colors.deepPurple.shade200 : null),
                             ),
                             Text(
                               "Date: ${widget.transaction.parseTimeStamp}",
-                              style: Theme.of(context).textTheme.caption,
+                              style: Theme.of(context).textTheme.bodySmall,
                             ),
                             if (widget.transaction.callbackUntil != null)
                               Text(
                                 "Settlement Date: ${widget.transaction.parseUnlockTimeAsDate}",
-                                style: Theme.of(context).textTheme.caption,
+                                style: Theme.of(context).textTheme.bodySmall,
                               ),
                           ],
                         )),

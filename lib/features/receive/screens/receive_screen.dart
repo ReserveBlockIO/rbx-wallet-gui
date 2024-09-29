@@ -10,15 +10,12 @@ import '../../../core/components/badges.dart';
 import '../../../core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 import '../../../core/base_screen.dart';
-import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';
 import '../../encrypt/utils.dart';
 import '../../wallet/components/invalid_wallet.dart';
-import '../../wallet/components/wallet_selector.dart';
-import '../../wallet/models/wallet.dart';
 import '../../wallet/providers/wallet_list_provider.dart';
 
 class ReceiveScreen extends BaseScreen {
@@ -30,7 +27,7 @@ class ReceiveScreen extends BaseScreen {
       title: const Text("Receive VFX"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      leading: BackToHomeButton(),
+      // leading: BackToHomeButton(),
     );
   }
 

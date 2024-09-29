@@ -1,9 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../models/web_listing.dart';
-import '../models/web_shop.dart';
 
-import '../models/web_collection.dart';
 import '../services/web_shop_service.dart';
 
 class WebListingListProvider extends StateNotifier<List<WebListing>> {

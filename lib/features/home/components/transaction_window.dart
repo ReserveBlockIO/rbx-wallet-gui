@@ -5,7 +5,6 @@ import 'package:rbx_wallet/core/components/currency_segmented_button.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/btc/components/btc_transaction_list_tile.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_transaction_list_provider.dart';
-import 'package:rbx_wallet/features/btc/providers/combined_btc_transaction_list_provider.dart';
 import '../../../core/theme/app_theme.dart';
 
 import '../../../core/base_component.dart';
@@ -34,7 +33,7 @@ class TransactionWindow extends BaseComponent {
           children: [
             Text(
               "Recent Transactions",
-              style: Theme.of(context).textTheme.subtitle2,
+              style: Theme.of(context).textTheme.titleSmall,
             ),
             CurrencySegementedButton(
               includeAny: false,
@@ -54,7 +53,7 @@ class TransactionWindow extends BaseComponent {
                     ? Center(
                         child: Text(
                           "No BTC Transactions Found",
-                          style: Theme.of(context).textTheme.headline5,
+                          style: Theme.of(context).textTheme.headlineSmall,
                         ),
                       )
                     : ListView.builder(
@@ -79,7 +78,7 @@ class TransactionWindow extends BaseComponent {
                     ? Center(
                         child: Text(
                           "No VFX Transactions Found",
-                          style: Theme.of(context).textTheme.headline5,
+                          style: Theme.of(context).textTheme.headlineSmall,
                         ),
                       )
                     : SingleChildScrollView(

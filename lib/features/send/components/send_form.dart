@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dart';
-import 'package:rbx_wallet/core/theme/colors.dart';
 import 'package:rbx_wallet/core/theme/components.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/models/web_session_model.dart';
@@ -18,8 +17,6 @@ import '../../btc/utils.dart';
 import '../../btc_web/models/btc_web_account.dart';
 import '../../keygen/models/ra_keypair.dart';
 import '../../../core/providers/session_provider.dart';
-import '../../reserve/providers/pending_activation_provider.dart';
-import '../../reserve/providers/reserve_account_provider.dart';
 import '../../wallet/providers/wallet_list_provider.dart';
 
 import '../../../core/base_component.dart';
@@ -217,7 +214,7 @@ class SendForm extends BaseComponent {
                                       for (final wallet in allWallets) {
                                         final isSelected = !isBtc && currentWallet != null && wallet.address == currentWallet.address;
 
-                                        final color = wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color!;
+                                        final color = wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyLarge!.color!;
 
                                         list.add(
                                           PopupMenuItem(
@@ -287,7 +284,7 @@ class SendForm extends BaseComponent {
                                             ? btcColor
                                             : wallet!.isReserved
                                                 ? Colors.deepPurple.shade200
-                                                : Theme.of(context).textTheme.bodyText1!.color!,
+                                                : Theme.of(context).textTheme.bodyLarge!.color!,
                                       ),
                                     ],
                                   ),
@@ -521,7 +518,7 @@ class SendForm extends BaseComponent {
                           padding: const EdgeInsets.only(left: leadingWidth + 30),
                           child: Text(
                             "Fee Rate: $fee SATS /byte [$feeBtc BTC /byte]\nFee Estimate: ~$feeEstimate SATS [~$feeEstimateBtc BTC]    ",
-                            style: Theme.of(context).textTheme.caption,
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ),
                       if (formState.btcFeeRatePreset == BtcFeeRatePreset.custom)
@@ -529,7 +526,7 @@ class SendForm extends BaseComponent {
                           padding: const EdgeInsets.only(left: leadingWidth + 30),
                           child: Text(
                             "Fee Rate: ${formState.btcCustomFeeRate} SATS /byte [${(formState.btcCustomFeeRate * BTC_SATOSHI_MULTIPLIER).toStringAsFixed(9)} BTC /byte]\nFee Estimate: ${(formState.btcCustomFeeRate * BTC_TX_EXPECTED_BYTES)} SATS [~${(formState.btcCustomFeeRate * BTC_TX_EXPECTED_BYTES * BTC_SATOSHI_MULTIPLIER).toStringAsFixed(9)} BTC]",
-                            style: Theme.of(context).textTheme.caption,
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ),
                     ],

@@ -49,7 +49,7 @@ class CreateAdnrDialog extends BaseComponent {
               Text("${isBtc ? 'BTC' : 'VFX'} Domains cost $ADNR_COST VFX."),
               Text(
                 "Your domain must only contain letters and numbers and will automatically be appended with ${isBtc ? '".btc"' : '".vfx"'} upon verification",
-                style: Theme.of(context).textTheme.caption,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
               TextFormField(
                 controller: controller,

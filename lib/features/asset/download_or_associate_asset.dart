@@ -9,7 +9,6 @@ import '../smart_contracts/components/sc_creator/common/modal_container.dart';
 import '../../core/dialogs.dart';
 import '../reserve/services/reserve_account_service.dart';
 import '../../utils/toast.dart';
-import '../../utils/validation.dart';
 
 import '../../core/components/buttons.dart';
 import '../nft/providers/minted_nft_list_provider.dart';

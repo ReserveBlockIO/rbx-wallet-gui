@@ -111,7 +111,7 @@ class MainMenu extends BaseComponent {
                       child: Center(
                         child: Text(
                           totalBalance != null ? "$totalBalance VFX" : "0.0 VFX",
-                          style: Theme.of(context).textTheme.caption!.copyWith(
+                          style: Theme.of(context).textTheme.bodySmall!.copyWith(
                                 fontWeight: FontWeight.w600,
                                 color: Theme.of(context).colorScheme.secondary,
                               ),
@@ -131,7 +131,7 @@ class MainMenu extends BaseComponent {
                               : "",
                           child: Text(
                             "${btcBalance.toStringAsFixed(9)} BTC",
-                            style: Theme.of(context).textTheme.caption!.copyWith(
+                            style: Theme.of(context).textTheme.bodySmall!.copyWith(
                                   fontWeight: FontWeight.w600,
                                   color: Theme.of(context).colorScheme.btcOrange,
                                 ),
@@ -149,7 +149,7 @@ class MainMenu extends BaseComponent {
                         child: RichText(
                           textAlign: TextAlign.center,
                           text: TextSpan(
-                            style: Theme.of(context).textTheme.caption!.copyWith(
+                            style: Theme.of(context).textTheme.bodySmall!.copyWith(
                                   fontWeight: FontWeight.w600,
                                 ),
                             children: [
@@ -349,7 +349,6 @@ class _RotatingCube extends StatelessWidget {
   final bool btc;
   const _RotatingCube({
     required this.btc,
-    super.key,
   });
 
   @override
@@ -388,7 +387,7 @@ class _NavButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = isActive ? activeColorOverride ?? Theme.of(context).colorScheme.secondary : Theme.of(context).textTheme.bodyText1!.color;
+    final textColor = isActive ? activeColorOverride ?? Theme.of(context).colorScheme.secondary : Theme.of(context).textTheme.bodyLarge!.color;
 
     return Container(
       decoration: const BoxDecoration(
@@ -399,8 +398,7 @@ class _NavButton extends StatelessWidget {
       width: double.infinity,
       child: TextButton.icon(
         style: TextButton.styleFrom(
-          primary: textColor,
-          padding: const EdgeInsets.all(22.0),
+          foregroundColor: textColor, padding: const EdgeInsets.all(22.0),
           alignment: Alignment.centerLeft,
         ),
         icon: Icon(

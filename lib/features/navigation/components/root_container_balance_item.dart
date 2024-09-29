@@ -1,10 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/components.dart';
 import '../constants.dart';
 import '../root_container.dart';
-import '../utils.dart';
 
 class RootContainerBalanceItem extends StatefulWidget {
   final String heading;
@@ -122,7 +120,7 @@ class RootContainerBalanceItemState extends State<RootContainerBalanceItem> {
                                       child: Center(
                                         child: Text(
                                           "No Transactions",
-                                          style: Theme.of(context).textTheme.caption,
+                                          style: Theme.of(context).textTheme.bodySmall,
                                         ),
                                       ),
                                     ),
@@ -149,7 +147,7 @@ class RootContainerBalanceItemState extends State<RootContainerBalanceItem> {
                       ),
                       Text(
                         widget.accountCount,
-                        style: Theme.of(context).textTheme.caption,
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
                   ),

@@ -8,7 +8,6 @@ import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/encrypt/utils.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
@@ -128,7 +127,7 @@ class _TokenTopicDetailState extends BaseComponentState<TokenTopicDetail> {
                   const SizedBox(height: 4),
                   SelectableText(
                     "UID: ${topic.topicUid}",
-                    style: Theme.of(context).textTheme.caption,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
               ),
@@ -175,7 +174,6 @@ class _TokenTopicDetailState extends BaseComponentState<TokenTopicDetail> {
 
 class _TopicVotingActions extends BaseComponent {
   const _TopicVotingActions({
-    super.key,
     required this.topic,
     required this.address,
     required this.balance,
@@ -299,7 +297,6 @@ class _TopicVotingActions extends BaseComponent {
 
 class _TopicVotingDetails extends BaseComponent {
   const _TopicVotingDetails({
-    super.key,
     required this.topic,
     required this.isOwner,
   });

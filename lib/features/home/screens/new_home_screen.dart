@@ -1,37 +1,15 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/components/currency_segmented_button.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/core/theme/components.dart';
-import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
-import 'package:rbx_wallet/features/btc/models/btc_account.dart';
-import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
-import 'package:rbx_wallet/features/btc/providers/btc_balance_provider.dart';
-import 'package:rbx_wallet/features/btc/providers/electrum_connected_provider.dart';
-import 'package:rbx_wallet/features/btc/providers/tokenized_bitcoin_list_provider.dart';
-import 'package:rbx_wallet/features/home/components/home_buttons.dart';
 import 'package:rbx_wallet/features/navigation/constants.dart';
-import 'package:rbx_wallet/features/payment/payment_utils.dart';
 import 'package:rbx_wallet/features/price/components/coin_price_summary.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/features/wallet/utils.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../app.dart';
-import '../../../core/env.dart';
-import '../../../core/theme/colors.dart';
 import '../../price/components/price_chart.dart';
 import '../components/common_actions.dart';
 
@@ -65,7 +43,7 @@ class NewHomeScreen extends BaseScreen {
       child: Column(
         children: [
           SizedBox(
-            height: 160,
+            height: 186,
             child: Row(
               children: [
                 Expanded(

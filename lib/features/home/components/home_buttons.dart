@@ -19,7 +19,6 @@ import 'package:rbx_wallet/features/home/components/home_buttons/show_debug_data
 import 'package:rbx_wallet/features/home/components/home_buttons/validating_check_button.dart';
 import 'package:rbx_wallet/features/home/components/home_buttons/verify_nft_ownership_button.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/theme/colors.dart';
 

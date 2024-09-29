@@ -32,11 +32,11 @@ class MasternodeCard extends StatelessWidget {
                     children: [
                       Text(
                         masternode.uniqueName,
-                        style: Theme.of(context).textTheme.headline5!.copyWith(color: Colors.white),
+                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
                       ),
                       SelectableText(
                         masternode.address,
-                        style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white),
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white),
                       ),
                     ],
                   ),
@@ -49,11 +49,11 @@ class MasternodeCard extends StatelessWidget {
               children: [
                 Text(
                   "Connection Date: ${masternode.dateTimeLabel}",
-                  style: Theme.of(context).textTheme.caption,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
                 Text(
                   "Blocks: ${masternode.blockCount}",
-                  style: Theme.of(context).textTheme.caption,
+                  style: Theme.of(context).textTheme.bodySmall,
                 )
               ],
             )

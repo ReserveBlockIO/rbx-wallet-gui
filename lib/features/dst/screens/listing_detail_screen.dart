@@ -8,7 +8,6 @@ import '../../../core/components/buttons.dart';
 import '../../../core/components/centered_loader.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/theme/components.dart';
-import '../../asset/polling_image_preview.dart';
 
 import '../../../core/app_router.gr.dart';
 import '../providers/listing_detail_provider.dart';

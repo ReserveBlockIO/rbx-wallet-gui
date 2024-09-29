@@ -1,7 +1,5 @@
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/main.dart';
 import '../../app.dart';
 import '../theme/app_theme.dart';
 import '../../features/bridge/models/log_entry.dart';

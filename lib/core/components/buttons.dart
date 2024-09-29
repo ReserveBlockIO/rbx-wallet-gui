@@ -49,8 +49,7 @@ class AppButton extends StatelessWidget {
     switch (variant) {
       case AppColorVariant.Primary:
         return ElevatedButton.styleFrom(
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.primaryButtonBg,
-          onPrimary: Theme.of(context).colorScheme.primaryButtonFg,
+          foregroundColor: Theme.of(context).colorScheme.primaryButtonFg, backgroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.primaryButtonBg,
           textStyle: TextStyle(
             fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
             fontWeight: size == AppSizeVariant.Lg && !isMobile ? FontWeight.w500 : null,
@@ -62,8 +61,7 @@ class AppButton extends StatelessWidget {
 
       case AppColorVariant.Secondary:
         return ElevatedButton.styleFrom(
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.secondaryButtonBg,
-          onPrimary: Theme.of(context).colorScheme.secondaryButtonFg,
+          foregroundColor: Theme.of(context).colorScheme.secondaryButtonFg, backgroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.secondaryButtonBg,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           textStyle: TextStyle(
             fontSize: size == AppSizeVariant.Lg && !isMobile ? 17 : null,
@@ -74,8 +72,7 @@ class AppButton extends StatelessWidget {
         );
       case AppColorVariant.Info:
         return ElevatedButton.styleFrom(
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.infoButtonBg,
-          onPrimary: Theme.of(context).colorScheme.infoButtonFg,
+          foregroundColor: Theme.of(context).colorScheme.infoButtonFg, backgroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.infoButtonBg,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
           textStyle: TextStyle(
@@ -86,8 +83,7 @@ class AppButton extends StatelessWidget {
         );
       case AppColorVariant.Danger:
         return ElevatedButton.styleFrom(
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.dangerButtonBg,
-          onPrimary: Theme.of(context).colorScheme.dangerButtonFg,
+          foregroundColor: Theme.of(context).colorScheme.dangerButtonFg, backgroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.dangerButtonBg,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
           textStyle: TextStyle(
@@ -98,8 +94,7 @@ class AppButton extends StatelessWidget {
         );
       case AppColorVariant.Success:
         return ElevatedButton.styleFrom(
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : AppColors.getSpringGreen(),
-          onPrimary: Theme.of(context).colorScheme.successButtonFg,
+          foregroundColor: Theme.of(context).colorScheme.successButtonFg, backgroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : AppColors.getSpringGreen(),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
           textStyle: TextStyle(
@@ -110,8 +105,7 @@ class AppButton extends StatelessWidget {
         );
       case AppColorVariant.Warning:
         return ElevatedButton.styleFrom(
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.warningButtonBg,
-          onPrimary: Theme.of(context).colorScheme.warningButtonFg,
+          foregroundColor: Theme.of(context).colorScheme.warningButtonFg, backgroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.warningButtonBg,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
           textStyle: TextStyle(
@@ -122,8 +116,7 @@ class AppButton extends StatelessWidget {
         );
       case AppColorVariant.Light:
         return ElevatedButton.styleFrom(
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.lightButtonBg,
-          onPrimary: Theme.of(context).colorScheme.lightButtonFg,
+          foregroundColor: Theme.of(context).colorScheme.lightButtonFg, backgroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.lightButtonBg,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
           textStyle: TextStyle(
@@ -134,8 +127,7 @@ class AppButton extends StatelessWidget {
         );
       case AppColorVariant.Dark:
         return ElevatedButton.styleFrom(
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.lightButtonBg,
-          onPrimary: Theme.of(context).colorScheme.lightButtonFg,
+          foregroundColor: Theme.of(context).colorScheme.lightButtonFg, backgroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.lightButtonBg,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
           textStyle: TextStyle(
@@ -146,8 +138,7 @@ class AppButton extends StatelessWidget {
         );
       case AppColorVariant.Btc:
         return ElevatedButton.styleFrom(
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.btcOrange,
-          onPrimary: Theme.of(context).colorScheme.onBtcOrange,
+          foregroundColor: Theme.of(context).colorScheme.onBtcOrange, backgroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.btcOrange,
           splashFactory: NoSplash.splashFactory,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           textStyle: TextStyle(
@@ -158,8 +149,7 @@ class AppButton extends StatelessWidget {
         );
       case AppColorVariant.Reserve:
         return ElevatedButton.styleFrom(
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.reserve,
-          onPrimary: Theme.of(context).colorScheme.onReserve,
+          foregroundColor: Theme.of(context).colorScheme.onReserve, backgroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.reserve,
           splashFactory: NoSplash.splashFactory,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           textStyle: TextStyle(
@@ -170,8 +160,7 @@ class AppButton extends StatelessWidget {
         );
       case AppColorVariant.Vbtc:
         return ElevatedButton.styleFrom(
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.vbtc,
-          onPrimary: Theme.of(context).colorScheme.onVbtc,
+          foregroundColor: Theme.of(context).colorScheme.onVbtc, backgroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.vbtc,
           splashFactory: NoSplash.splashFactory,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           textStyle: TextStyle(
@@ -189,68 +178,57 @@ class AppButton extends StatelessWidget {
     switch (variant) {
       case AppColorVariant.Primary:
         return OutlinedButton.styleFrom(
-          primary: _colorScheme.primaryButtonBg,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          foregroundColor: _colorScheme.primaryButtonBg, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Secondary:
         return OutlinedButton.styleFrom(
-          primary: _colorScheme.secondaryButtonBg,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          foregroundColor: _colorScheme.secondaryButtonBg, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Info:
         return OutlinedButton.styleFrom(
-          primary: _colorScheme.infoButtonBg,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          foregroundColor: _colorScheme.infoButtonBg, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Danger:
         return OutlinedButton.styleFrom(
-          primary: _colorScheme.dangerButtonBg,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          foregroundColor: _colorScheme.dangerButtonBg, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Success:
         return OutlinedButton.styleFrom(
-          primary: _colorScheme.successButtonBg,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          foregroundColor: _colorScheme.successButtonBg, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Warning:
         return OutlinedButton.styleFrom(
-          primary: _colorScheme.warningButtonBg,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          foregroundColor: _colorScheme.warningButtonBg, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Light:
         return OutlinedButton.styleFrom(
-          primary: _colorScheme.lightButtonBg,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          foregroundColor: _colorScheme.lightButtonBg, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Dark:
         return OutlinedButton.styleFrom(
-          primary: _colorScheme.darkButtonBg,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          foregroundColor: _colorScheme.darkButtonBg, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Btc:
         return OutlinedButton.styleFrom(
-          primary: _colorScheme.btcOrange,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          foregroundColor: _colorScheme.btcOrange, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Reserve:
         return OutlinedButton.styleFrom(
-          primary: _colorScheme.reserve,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          foregroundColor: _colorScheme.reserve, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Vbtc:
         return OutlinedButton.styleFrom(
-          primary: _colorScheme.vbtc,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          foregroundColor: _colorScheme.vbtc, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           splashFactory: NoSplash.splashFactory,
         );
     }
@@ -261,58 +239,47 @@ class AppButton extends StatelessWidget {
     switch (variant) {
       case AppColorVariant.Primary:
         return OutlinedButton.styleFrom(
-          splashFactory: NoSplash.splashFactory,
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.primaryButtonBg,
+          foregroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.primaryButtonBg, splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Secondary:
         return OutlinedButton.styleFrom(
-          splashFactory: NoSplash.splashFactory,
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.secondaryButtonBg,
+          foregroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.secondaryButtonBg, splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Info:
         return OutlinedButton.styleFrom(
-          splashFactory: NoSplash.splashFactory,
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.infoButtonBg,
+          foregroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.infoButtonBg, splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Danger:
         return OutlinedButton.styleFrom(
-          splashFactory: NoSplash.splashFactory,
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.dangerButtonBg,
+          foregroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.dangerButtonBg, splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Success:
         return OutlinedButton.styleFrom(
-          splashFactory: NoSplash.splashFactory,
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.successButtonBg,
+          foregroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.successButtonBg, splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Warning:
         return OutlinedButton.styleFrom(
-          splashFactory: NoSplash.splashFactory,
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.warningButtonBg,
+          foregroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.warningButtonBg, splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Light:
         return OutlinedButton.styleFrom(
-          splashFactory: NoSplash.splashFactory,
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.lightButtonBg,
+          foregroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.lightButtonBg, splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Dark:
         return OutlinedButton.styleFrom(
-          splashFactory: NoSplash.splashFactory,
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.darkButtonBg,
+          foregroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.darkButtonBg, splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Btc:
         return OutlinedButton.styleFrom(
-          splashFactory: NoSplash.splashFactory,
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.btcOrange,
+          foregroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.btcOrange, splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Reserve:
         return OutlinedButton.styleFrom(
-          splashFactory: NoSplash.splashFactory,
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.reserve,
+          foregroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.reserve, splashFactory: NoSplash.splashFactory,
         );
       case AppColorVariant.Vbtc:
         return OutlinedButton.styleFrom(
-          splashFactory: NoSplash.splashFactory,
-          primary: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.vbtc,
+          foregroundColor: disabled || useDisabledColor ? Theme.of(context).disabledColor : _colorScheme.vbtc, splashFactory: NoSplash.splashFactory,
         );
     }
   }

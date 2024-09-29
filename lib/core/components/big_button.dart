@@ -56,11 +56,11 @@ class BigButton extends StatelessWidget {
                     child: Text(
                       title,
                       style: isMobile
-                          ? Theme.of(context).textTheme.headline5!.copyWith(
+                          ? Theme.of(context).textTheme.headlineSmall!.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               )
-                          : Theme.of(context).textTheme.headline4!.copyWith(color: Colors.white),
+                          : Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -68,7 +68,7 @@ class BigButton extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 32),
                     child: Text(
                       body,
-                      style: Theme.of(context).textTheme.bodyText2,
+                      style: Theme.of(context).textTheme.bodyMedium,
                       textAlign: TextAlign.center,
                     ),
                   ),

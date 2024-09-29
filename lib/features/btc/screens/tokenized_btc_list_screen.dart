@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,7 +5,6 @@ import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 import 'package:rbx_wallet/core/theme/colors.dart';
@@ -17,11 +13,7 @@ import 'package:rbx_wallet/features/btc/providers/tokenized_btc_onboard_provider
 
 import 'package:rbx_wallet/features/btc/screens/tokenize_btc_screen.dart';
 import 'package:rbx_wallet/features/btc/screens/tokenized_btc_detail_screen.dart';
-import 'package:rbx_wallet/features/faucet/screens/faucet_screen.dart';
 
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/services/nft_service.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:collection/collection.dart';
@@ -40,7 +32,7 @@ class TokenizeBtcListScreen extends BaseScreen {
     return AppBar(
       backgroundColor: Colors.black,
       title: Text("Tokenized Bitcoin (vBTC)"),
-      leading: BackToHomeButton(),
+      // leading: BackToHomeButton(),
 
       // Padding(
       //   padding: const EdgeInsets.only(right: 8.0),

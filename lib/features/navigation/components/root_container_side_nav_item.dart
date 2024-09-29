@@ -75,8 +75,9 @@ class _RootContainerSideNavItemState extends State<RootContainerSideNavItem> {
                         child: widget.iconName != null
                             ? Image.asset(
                                 'assets/images/sidebar/${widget.iconName}.png',
-                                width: 22,
-                                height: 22,
+                                width: 24,
+                                height: 24,
+                                isAntiAlias: true,
                               )
                             : Icon(
                                 widget.icon,

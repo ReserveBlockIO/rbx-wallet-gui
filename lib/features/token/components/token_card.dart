@@ -10,7 +10,6 @@ import 'package:rbx_wallet/features/token/models/token_account.dart';
 import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
 
 import '../../../core/theme/components.dart';
-import '../../nft/components/nft_card.dart';
 import '../../nft/providers/transferred_provider.dart';
 import '../screens/token_management_screen.dart';
 
@@ -124,7 +123,7 @@ class TokenCard extends BaseComponent {
                   ),
                   Text(
                     nft.id,
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       shadows: [
                         const Shadow(
                           color: Colors.black87,

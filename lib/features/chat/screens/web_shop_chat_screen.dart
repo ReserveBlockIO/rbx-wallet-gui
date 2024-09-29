@@ -10,7 +10,6 @@ import '../providers/shop_chat_list_provider.dart';
 import '../providers/web_chat_thread_detail_provider.dart';
 import '../providers/web_shop_chat_list_provider.dart';
 import '../../global_loader/global_loading_provider.dart';
-import '../../remote_shop/providers/remote_shop_detail_provider.dart';
 
 class WebShopChatScreen extends BaseScreen {
   final String identifier;

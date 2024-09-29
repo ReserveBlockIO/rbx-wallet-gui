@@ -5,13 +5,9 @@ import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../beacon/providers/beacon_list_provider.dart';
-import '../../bridge/providers/wallet_info_provider.dart';
 import '../providers/dec_shop_provider.dart';
 import '../providers/dst_tx_pending_provider.dart';
 import '../services/dst_service.dart';
-import '../../global_loader/global_loading_provider.dart';
-import '../../web_shop/services/web_shop_service.dart';
 import '../../../utils/toast.dart';
 
 import '../../../core/providers/session_provider.dart';

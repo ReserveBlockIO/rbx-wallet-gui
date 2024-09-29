@@ -9,13 +9,10 @@ import '../../btc/services/btc_service.dart';
 import '../../btc/utils.dart';
 import '../../btc_web/providers/btc_web_transaction_list_provider.dart';
 import '../../btc_web/services/btc_web_service.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../../core/app_constants.dart';
 import '../../global_loader/global_loading_provider.dart';
 import '../../reserve/services/reserve_account_service.dart';
-import '../../transactions/models/web_transaction.dart';
-import '../../transactions/providers/web_transaction_list_provider.dart';
 import '../../wallet/models/wallet.dart';
 
 import '../../../core/dialogs.dart';
@@ -379,9 +376,9 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
                     type: AppButtonType.Text,
                     onPressed: () {
                       if (Env.isTestNet) {
-                        launchUrlString("https://mempool.space/testnet4/tx/${txHash}");
+                        launchUrlString("https://mempool.space/testnet4/tx/$txHash");
                       } else {
-                        launchUrlString("https://mempool.space/tx/${txHash}");
+                        launchUrlString("https://mempool.space/tx/$txHash");
                       }
                     },
                   )
@@ -496,9 +493,9 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
                       type: AppButtonType.Text,
                       onPressed: () {
                         if (Env.isTestNet) {
-                          launchUrlString("https://mempool.space/testnet4/tx/${txHash}");
+                          launchUrlString("https://mempool.space/testnet4/tx/$txHash");
                         } else {
-                          launchUrlString("https://mempool.space/tx/${txHash}");
+                          launchUrlString("https://mempool.space/tx/$txHash");
                         }
                       },
                     )

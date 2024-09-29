@@ -61,7 +61,7 @@ class MediaBackup extends BaseComponent {
           ),
           Text(
             "Media Backup URL:",
-            style: Theme.of(context).textTheme.headline5,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
           SelectableText(backupUrl),
           const SizedBox(

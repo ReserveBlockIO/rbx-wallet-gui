@@ -21,7 +21,7 @@ class LogWindow extends BaseComponent {
       children: [
         Text(
           "Status Log",
-          style: Theme.of(context).textTheme.subtitle2,
+          style: Theme.of(context).textTheme.titleSmall,
         ),
         const SizedBox(height: 8),
         Container(

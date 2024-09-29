@@ -5,7 +5,6 @@ import '../../../../core/components/buttons.dart';
 import '../../../../core/providers/session_provider.dart';
 import '../../../../core/utils.dart';
 import '../../../../utils/toast.dart';
-import '../../../smart_contracts/components/sc_creator/common/modal_container.dart';
 
 class ImportMediaButton extends BaseComponent {
   const ImportMediaButton({

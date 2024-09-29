@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/base_component.dart';
@@ -23,7 +21,7 @@ class WebBtcAdnrContent extends BaseComponent {
     final session = ref.watch(webSessionProvider);
 
     final address = account.address;
-    final adnr = null; //TODO: get from explorer
+    const adnr = null; //TODO: get from explorer
 
     final rbxBalance = session.balance ?? 0;
 

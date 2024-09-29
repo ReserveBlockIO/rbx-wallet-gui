@@ -7,10 +7,8 @@ import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/services/explorer_service.dart';
 import 'package:rbx_wallet/core/theme/components.dart';
-import 'package:rbx_wallet/features/bridge/providers/status_provider.dart';
 import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -19,7 +17,6 @@ import '../../../core/theme/colors.dart';
 import '../../bridge/providers/log_provider.dart';
 import '../../home/components/home_buttons.dart';
 import '../../home/components/log_item.dart';
-import '../../navigation/components/root_container_rotating_cube.dart';
 
 class OperationsScreen extends BaseScreen {
   const OperationsScreen({super.key});

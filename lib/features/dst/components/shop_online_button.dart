@@ -7,7 +7,6 @@ import '../../../core/providers/session_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../providers/dec_shop_provider.dart';
 import '../services/dst_service.dart';
-import '../../../utils/toast.dart';
 
 class ShopOnlineButton extends BaseComponent {
   const ShopOnlineButton({super.key});

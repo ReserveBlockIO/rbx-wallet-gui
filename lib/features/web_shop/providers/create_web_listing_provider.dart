@@ -5,12 +5,10 @@ import 'package:intl/intl.dart';
 import 'web_listing_full_list_provider.dart';
 import '../../../core/services/explorer_service.dart';
 import '../../nft/models/nft.dart';
-import '../../nft/models/web_nft.dart';
 import '../models/web_collection.dart';
 import '../models/web_shop.dart';
 import 'web_listing_list_provider.dart';
 
-import '../../../core/dialogs.dart';
 import '../../../utils/toast.dart';
 import '../models/web_listing.dart';
 import '../services/web_shop_service.dart';

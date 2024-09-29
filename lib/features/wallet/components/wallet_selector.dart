@@ -436,7 +436,7 @@ class WalletSelector extends BaseComponent {
               }
               final isSelected = currentWallet != null && wallet.address == currentWallet.address;
 
-              final color = wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color;
+              final color = wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyLarge!.color;
 
               list.add(
                 PopupMenuItem(

@@ -36,7 +36,7 @@ class WebMenu extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     final tabsRouter = AutoTabsRouter.of(context);
 
-    final color = Theme.of(context).textTheme.bodyText1!.color;
+    final color = Theme.of(context).textTheme.bodyLarge!.color;
     final activeColor = Theme.of(context).colorScheme.secondary;
     return Column(
       children: [

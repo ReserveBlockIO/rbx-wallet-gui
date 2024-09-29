@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:intl/intl.dart';
 
 part 'latest_chat_message.freezed.dart';
 part 'latest_chat_message.g.dart';

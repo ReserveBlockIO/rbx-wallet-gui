@@ -10,7 +10,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
-import '../../bridge/providers/log_provider.dart';
 import '../../raw/raw_service.dart';
 import 'sc_wizard_log_provider.dart';
 import '../../../core/utils.dart';

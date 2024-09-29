@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../app.dart';
 import '../../../core/app_router.gr.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../dst/models/dec_shop.dart';
-import '../../global_loader/global_loading_provider.dart';
 import '../models/shop_data.dart';
 import 'saved_shops_provider.dart';
 import 'shop_loading_provider.dart';

@@ -85,7 +85,7 @@ class LearnMoreContent extends BaseComponent {
                                       child: Text(
                                         "${entry.key + 1}",
                                         textAlign: TextAlign.center,
-                                        style: Theme.of(context).textTheme.headline3!.copyWith(
+                                        style: Theme.of(context).textTheme.displaySmall!.copyWith(
                                               color: Theme.of(context).colorScheme.primary,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -98,7 +98,7 @@ class LearnMoreContent extends BaseComponent {
                                   child: Text(
                                     step.title,
                                     textAlign: TextAlign.center,
-                                    style: Theme.of(context).textTheme.headline4!.copyWith(
+                                    style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                                           color: Theme.of(context).colorScheme.secondary,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -165,8 +165,7 @@ class LearnMoreContent extends BaseComponent {
                 height: 45,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
-                    onPrimary: Colors.black,
+                    foregroundColor: Colors.black, backgroundColor: Colors.white,
                     textStyle: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,

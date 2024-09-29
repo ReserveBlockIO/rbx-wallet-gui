@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/base_component.dart';
-import '../../../core/components/badges.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/providers/session_provider.dart';
-import '../../../core/theme/app_theme.dart';
 import '../../dst/models/bid.dart';
 import 'bid_status_indicator.dart';
 import '../services/remote_shop_service.dart';

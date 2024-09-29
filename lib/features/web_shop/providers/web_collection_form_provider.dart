@@ -2,9 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import '../../../core/app_router.gr.dart';
-import '../../../core/env.dart';
 import '../../../core/web_router.gr.dart';
-import '../../dst/providers/collection_list_provider.dart';
 
 import '../models/web_collection.dart';
 import '../models/web_shop.dart';

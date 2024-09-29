@@ -10,12 +10,9 @@ import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_screen.dart';
-import '../../../core/breakpoints.dart';
 import '../../../core/web_router.gr.dart';
-import '../../../generated/assets.gen.dart';
 import '../../../utils/guards.dart';
 import '../../nft/providers/nft_detail_provider.dart';
-import '../../wallet/components/wallet_selector.dart';
 import '../providers/create_smart_contract_provider.dart';
 
 class SmartContractsScreen extends BaseScreen {
@@ -32,7 +29,7 @@ class SmartContractsScreen extends BaseScreen {
       title: const Text("Smart Contracts"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      leading: BackToHomeButton(),
+      // leading: BackToHomeButton(),
     );
   }
 

@@ -7,14 +7,12 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/btc/models/btc_transaction.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_transaction_list_provider.dart';
 import 'package:rbx_wallet/features/navigation/components/root_container_balance_item.dart';
-import 'package:rbx_wallet/features/navigation/components/root_container_balance_row_conector.dart';
 import 'package:rbx_wallet/features/navigation/constants.dart';
 import 'package:rbx_wallet/features/navigation/root_container.dart';
 import 'package:rbx_wallet/features/navigation/utils.dart';
 import 'package:rbx_wallet/features/transactions/models/transaction.dart';
 import 'package:rbx_wallet/features/wallet/utils.dart';
 import 'package:collection/collection.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/base_component.dart';
 import '../../../core/providers/session_provider.dart';
@@ -30,7 +28,6 @@ import '../../misc/providers/global_balances_expanded_provider.dart';
 import '../../transactions/providers/transaction_list_provider.dart';
 import '../../wallet/providers/wallet_list_provider.dart';
 import '../../wallet/screens/accounts_screen.dart';
-import 'root_container_top_balance_item.dart';
 
 class RootContainerBalanceRow extends BaseComponent {
   final bool isHovering;
@@ -295,7 +292,6 @@ class RootContainerBalanceRow extends BaseComponent {
 
 class _LatestBtcTx extends BaseComponent {
   const _LatestBtcTx({
-    super.key,
     required this.tx,
   });
 
@@ -351,7 +347,6 @@ class _LatestBtcTx extends BaseComponent {
 
 class _LatestVfxTx extends BaseComponent {
   const _LatestVfxTx({
-    super.key,
     required this.tx,
   });
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/base_component.dart';
@@ -9,18 +8,15 @@ import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/env.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/theme/components.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
 import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
 import 'package:rbx_wallet/features/btc/models/btc_fee_rate_preset.dart';
-import 'package:rbx_wallet/features/btc/models/btc_recommended_fees.dart';
 import 'package:rbx_wallet/features/btc/models/tokenized_bitcoin.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_pending_tokenized_address_list_provider.dart';
 import 'package:rbx_wallet/features/btc/providers/tokenized_bitcoin_list_provider.dart';
-import 'package:rbx_wallet/features/btc/providers/tokenized_btc_onboard_provider.dart';
 import 'package:rbx_wallet/features/btc/services/btc_fee_rate_service.dart';
 import 'package:rbx_wallet/features/btc/services/btc_service.dart';
 import 'package:rbx_wallet/features/btc/utils.dart';
@@ -31,7 +27,6 @@ import 'package:rbx_wallet/features/nft/utils.dart';
 import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -279,7 +274,7 @@ class TokenizedBtcActionButtons extends BaseComponent {
                                                       padding: const EdgeInsets.only(top: 4.0),
                                                       child: Text(
                                                         customFeeLabel,
-                                                        style: Theme.of(context).textTheme.caption,
+                                                        style: Theme.of(context).textTheme.bodySmall,
                                                       ),
                                                     )
                                                   ]),
@@ -405,9 +400,9 @@ class TokenizedBtcActionButtons extends BaseComponent {
                                                     type: AppButtonType.Text,
                                                     onPressed: () {
                                                       if (Env.isTestNet) {
-                                                        launchUrlString("https://mempool.space/testnet4/tx/${txHash}");
+                                                        launchUrlString("https://mempool.space/testnet4/tx/$txHash");
                                                       } else {
-                                                        launchUrlString("https://mempool.space/tx/${txHash}");
+                                                        launchUrlString("https://mempool.space/tx/$txHash");
                                                       }
                                                     },
                                                   )
@@ -823,7 +818,6 @@ class _TransferSharesModal extends BaseComponent {
   final TokenizedBitcoin token;
   final bool forWithdrawl;
   _TransferSharesModal({
-    super.key,
     required this.token,
     required this.forWithdrawl,
   });
@@ -891,7 +885,7 @@ class _TransferSharesModal extends BaseComponent {
               ),
               Text(
                 "This is a Multi-signature. The fee rate has been calculated for you.",
-                style: Theme.of(context).textTheme.caption,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
               // if (forWithdrawl)
               //   Builder(

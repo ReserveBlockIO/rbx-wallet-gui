@@ -4,8 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/token/components/token_card.dart';
-import 'package:rbx_wallet/features/token/models/token_account.dart';
-import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
 import 'package:rbx_wallet/features/token/providers/token_list_provider.dart';
 
 import '../../../core/app_router.gr.dart';

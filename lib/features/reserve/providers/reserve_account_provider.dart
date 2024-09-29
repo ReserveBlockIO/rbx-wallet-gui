@@ -14,7 +14,6 @@ import '../../../core/theme/app_theme.dart';
 import '../../bridge/models/log_entry.dart';
 import '../../bridge/providers/log_provider.dart';
 import '../../bridge/services/bridge_service.dart';
-import '../models/new_reserve_account.dart';
 import 'pending_activation_provider.dart';
 import '../services/reserve_account_service.dart';
 import '../../wallet/components/wallet_selector.dart';
@@ -104,7 +103,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
             children: [
               Text("You must now fund your Vault Account with a minimum of 5 VFX. 4 VFX will be burned upon activation."),
               Text(""),
-              SelectableText("Please send funds to ${walletAddress}"),
+              SelectableText("Please send funds to $walletAddress"),
               Text(""),
               Text(
                   "You have an account with a sufficient balance.\n\nWould you like to send 5 VFX from:\n${fundingWallet.address}\n[Balance: ${fundingWallet.balance} VFX]?"),
@@ -120,7 +119,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
 
         final confirmed = await ConfirmDialog.show(
           title: "Please Confirm",
-          body: "Sending:\n$amount VFX\n\nTo:\n${walletAddress}\n\nFrom:\n${fundingWallet.address}",
+          body: "Sending:\n$amount VFX\n\nTo:\n$walletAddress\n\nFrom:\n${fundingWallet.address}",
           confirmText: "Send",
           cancelText: "Cancel",
         );
@@ -187,7 +186,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
               children: [
                 Text("You must now fund your Vault Account with a minimum of 5 VFX."),
                 Text(""),
-                Text("Please send funds to ${walletAddress}"),
+                Text("Please send funds to $walletAddress"),
                 Divider(),
                 AppButton(
                   label: "Copy Address",

@@ -4,12 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_component.dart';
 import '../../../core/components/empty_placeholder.dart';
-import '../../../core/theme/app_theme.dart';
 import '../../../core/theme/components.dart';
-import '../../dst/models/dec_shop.dart';
 import '../providers/connected_shop_provider.dart';
-import '../services/remote_shop_service.dart';
-import '../utils.dart';
 
 class RemoteShopDetails extends BaseComponent {
   const RemoteShopDetails({super.key});
