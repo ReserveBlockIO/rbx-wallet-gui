@@ -103,6 +103,21 @@ class AppContainer extends ConsumerWidget {
             ResponsiveBreakpoint.autoScale(1600, name: '4K'),
           ],
         );
+
+        // if (MediaQuery.of(context).size.width >= 1600) {
+        //   return ResponsiveWrapper.builder(
+        //     AppContent(
+        //       child: child,
+        //     ),
+        //     breakpoints: [
+        //       ResponsiveBreakpoint.autoScale(1600, name: '4K'),
+        //     ],
+        //   );
+        // }
+
+        // return AppContent(
+        //   child: child,
+        // );
       },
       title: 'VFX Wallet',
     );
@@ -119,12 +134,11 @@ class AppContent extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          color: Platform.isMacOS ? Colors.white.withOpacity(0.25) : Colors.transparent,
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(Platform.isMacOS ? 1.0 : 0),
+      backgroundColor: Platform.isMacOS ? Color.fromARGB(255, 83, 83, 83) : Colors.transparent,
+      body: Padding(
+        padding: EdgeInsets.all(Platform.isMacOS ? 1.0 : 0),
+        child: Container(
+          color: Colors.black,
           child: WindowBorder(
             width: 1,
             color: AppColors.getBlue(ColorShade.s400),

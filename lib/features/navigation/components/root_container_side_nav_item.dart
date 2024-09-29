@@ -94,16 +94,20 @@ class _RootContainerSideNavItemState extends State<RootContainerSideNavItem> {
                       child: AnimatedOpacity(
                         duration: ROOT_CONTAINER_TRANSITION_DURATION,
                         opacity: widget.isExpanded ? 1 : 0,
-                        child: Text(
-                          widget.title,
-                          overflow: TextOverflow.visible,
-                          softWrap: false,
-                          style: TextStyle(
-                            color: widget.isActive
-                                ? AppColors.getBlue(ColorShade.s100)
-                                : isHovering
-                                    ? AppColors.getWhite(ColorShade.s200)
-                                    : AppColors.getWhite(ColorShade.s400),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 6.0),
+                          child: Text(
+                            widget.title,
+                            overflow: TextOverflow.visible,
+                            softWrap: false,
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: widget.isActive
+                                  ? AppColors.getBlue(ColorShade.s100)
+                                  : isHovering
+                                      ? AppColors.getWhite(ColorShade.s200)
+                                      : AppColors.getWhite(ColorShade.s400).withOpacity(0.9),
+                            ),
                           ),
                         ),
                       ),
