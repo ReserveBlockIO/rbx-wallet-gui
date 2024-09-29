@@ -164,7 +164,12 @@ class AdnrScreen extends BaseScreen {
                           ],
                         ),
                       ),
-                      Expanded(child: AdnrList(wallets: wallets)),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 6.0),
+                          child: AdnrList(wallets: wallets),
+                        ),
+                      ),
                     ],
                   );
                 case CurrencyType.btc:

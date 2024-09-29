@@ -43,7 +43,7 @@ class NewHomeScreen extends BaseScreen {
       child: Column(
         children: [
           SizedBox(
-            height: 160,
+            height: 186,
             child: Row(
               children: [
                 Expanded(
