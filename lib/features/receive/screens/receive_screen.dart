@@ -12,6 +12,7 @@ import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 import '../../../core/base_screen.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/providers/session_provider.dart';
+import '../../../core/theme/pretty_icons.dart';
 import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';
 import '../../encrypt/utils.dart';
@@ -113,6 +114,7 @@ class ReceiveScreen extends BaseScreen {
                           children: [
                             AppVerticalIconButton(
                               label: "Copy\nAddress",
+                              prettyIconType: PrettyIconType.custom,
                               icon: Icons.copy,
                               onPressed: () {
                                 _handleCopyAddress(currentWallet.address);
@@ -120,6 +122,7 @@ class ReceiveScreen extends BaseScreen {
                             ),
                             AppVerticalIconButton(
                               label: "New\nAccount",
+                              prettyIconType: PrettyIconType.custom,
                               icon: Icons.add,
                               onPressed: () async {
                                 if (!await passwordRequiredGuard(context, ref)) return;
@@ -128,6 +131,7 @@ class ReceiveScreen extends BaseScreen {
                             ),
                             AppVerticalIconButton(
                               label: "Import\nKey",
+                              prettyIconType: PrettyIconType.custom,
                               icon: Icons.upload,
                               onPressed: () async {
                                 if (!await passwordRequiredGuard(context, ref)) return;

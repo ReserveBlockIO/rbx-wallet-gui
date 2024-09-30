@@ -9,6 +9,7 @@ import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dar
 import 'package:rbx_wallet/core/theme/components.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/models/web_session_model.dart';
+import '../../../core/theme/pretty_icons.dart';
 import '../../btc/models/btc_account.dart';
 import '../../btc/models/btc_fee_rate_preset.dart';
 import '../../btc/models/btc_recommended_fees.dart';
@@ -403,20 +404,19 @@ class SendForm extends BaseComponent {
                     : Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          IconButton(
-                            icon: const Icon(Icons.paste),
+                          PrettyIconButton(
+                            type: PrettyIconType.custom,
+                            customIcon: Icons.paste,
                             onPressed: () {
                               _pasteAddress(formProvider);
                             },
                           ),
                           if (!kIsWeb)
-                            IconButton(
-                              icon: const Icon(
-                                FontAwesomeIcons.folderOpen,
-                                size: 18,
-                              ),
+                            PrettyIconButton(
+                              type: PrettyIconType.custom,
+                              iconScale: .75,
+                              customIcon: FontAwesomeIcons.folderOpen,
                               onPressed: () {
-                                // _pasteAddress(formProvider);
                                 chooseAddress(context, ref, formProvider);
                               },
                             ),

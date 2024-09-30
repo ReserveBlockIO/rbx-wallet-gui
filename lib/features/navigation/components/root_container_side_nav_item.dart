@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/colors.dart';
+import '../../../core/theme/pretty_icons.dart';
 import '../root_container.dart';
 
 class RootContainerSideNavItem extends StatefulWidget {
   final String title;
   final VoidCallback onPressed;
-  final IconData icon;
   final bool isActive;
   final bool isExpanded;
-  final String? iconName;
-  const RootContainerSideNavItem(
-      {super.key, required this.title, required this.onPressed, required this.icon, required this.isActive, required this.isExpanded, this.iconName});
+  final PrettyIconType iconType;
+  const RootContainerSideNavItem({
+    super.key,
+    required this.title,
+    required this.onPressed,
+    required this.isActive,
+    required this.isExpanded,
+    required this.iconType,
+  });
 
   @override
   State<RootContainerSideNavItem> createState() => _RootContainerSideNavItemState();
@@ -71,24 +77,11 @@ class _RootContainerSideNavItemState extends State<RootContainerSideNavItem> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Tooltip(
-                        message: widget.isExpanded ? "" : widget.title,
-                        child: widget.iconName != null
-                            ? Image.asset(
-                                'assets/images/sidenav/${widget.iconName}.png',
-                                width: 24,
-                                height: 24,
-                                isAntiAlias: true,
-                              )
-                            : Icon(
-                                widget.icon,
-                                size: 20,
-                                color: widget.isActive
-                                    ? AppColors.getBlue(ColorShade.s100)
-                                    : isHovering
-                                        ? Colors.white
-                                        : AppColors.getWhite(ColorShade.s400),
-                              ),
-                      ),
+                          message: widget.isExpanded ? "" : widget.title,
+                          child: PrettyIcon(
+                            type: widget.iconType,
+                            glow: isHovering || widget.isActive,
+                          )),
                     ),
                     Flexible(
                       child: AnimatedOpacity(
