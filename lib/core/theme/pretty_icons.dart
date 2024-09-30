@@ -47,12 +47,12 @@ class PrettyIcon extends StatelessWidget {
       width: 24,
       height: 24,
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
+        duration: Duration(milliseconds: 200),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: glow ? Color(0xffffedce).withOpacity(0.34) : Colors.transparent,
+              color: glow ? Color(0xffffedce).withOpacity(0.44) : Colors.transparent,
               blurRadius: 8.0,
               spreadRadius: 0,
             ),
