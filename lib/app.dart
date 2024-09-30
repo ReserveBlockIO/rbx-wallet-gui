@@ -9,6 +9,7 @@ import 'package:rbx_wallet/core/theme/colors.dart';
 import 'package:rbx_wallet/main.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'core/base_component.dart';
+import 'features/bridge/services/bridge_service.dart';
 import 'features/remote_shop/providers/shop_loading_provider.dart';
 import 'generated/assets.gen.dart';
 
@@ -370,7 +371,12 @@ class _WindowsTopRightButtonsState extends State<_WindowsTopRightButtons> {
                 colors: buttonColors,
                 onPressed: maximizeOrRestore,
               ),
-        CloseWindowButton(colors: buttonColors),
+        CloseWindowButton(
+            colors: buttonColors,
+            onPressed: () async {
+              await BridgeService().killCli();
+              exit(0);
+            }),
       ],
     );
   }
