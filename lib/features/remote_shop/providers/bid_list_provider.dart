@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/app.dart';
 import '../../web_shop/services/web_shop_service.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/dialogs.dart';
@@ -47,7 +48,6 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     }
 
     final myBids = await DstService().listBuyerBids(listingId);
-
     // List<Bid> globalBids = listing != null ? listing.bids : [];
     final bids = [...myBids];
 
@@ -99,7 +99,7 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     }
 
     final confirmed = await ConfirmDialog.show(
-      context: context,
+      context: rootNavigatorKey.currentContext,
       title: "Buy Now",
       body: "Are you sure you want to buy now for ${listing.buyNowPrice} VFX?",
       confirmText: "Buy Now",

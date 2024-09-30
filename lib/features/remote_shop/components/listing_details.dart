@@ -1179,29 +1179,39 @@ class _Properties extends StatelessWidget {
             children: nft.properties
                 .where((element) => element.name != BACKUP_URL_PROPERTY_NAME)
                 .map((p) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 2),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 2),
-                            child: Builder(builder: (context) {
-                              switch (p.type) {
-                                case ScPropertyType.color:
-                                  return Icon(
-                                    Icons.color_lens,
-                                    color: colorFromHex(p.value),
-                                    size: 14,
-                                  );
-                                case ScPropertyType.number:
-                                  return Icon(Icons.numbers, size: 14);
-                                default:
-                                  return Icon(Icons.text_fields, size: 14);
-                              }
-                            }),
-                          ),
-                          Text(" ${p.name}: ${p.value}"),
-                        ],
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: AppCard(
+                        padding: 8,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 4),
+                              child: Builder(builder: (context) {
+                                switch (p.type) {
+                                  case ScPropertyType.color:
+                                    return Icon(
+                                      Icons.color_lens,
+                                      color: colorFromHex(p.value),
+                                      size: 14,
+                                    );
+                                  case ScPropertyType.number:
+                                    return Icon(Icons.numbers, size: 14);
+                                  default:
+                                    return Icon(Icons.text_fields, size: 14);
+                                }
+                              }),
+                            ),
+                            Expanded(
+                                child: Text(
+                              " ${p.name}: ${p.value}",
+                              style: TextStyle(
+                                height: 1,
+                              ),
+                            )),
+                          ],
+                        ),
                       ),
                     ))
                 .toList(),
