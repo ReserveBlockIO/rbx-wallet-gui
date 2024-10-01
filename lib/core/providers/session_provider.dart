@@ -9,10 +9,26 @@ import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:intl/intl.dart';
 import 'package:process/process.dart';
 import 'package:process_run/shell.dart';
+import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dart';
+
+import 'package:rbx_wallet/features/balance/models/balance.dart';
+import 'package:rbx_wallet/features/bridge/services/bridge_service_v2.dart';
+import '../../features/btc/providers/electrum_connected_provider.dart';
+import '../../features/btc/providers/tokenized_bitcoin_list_provider.dart';
+import '../../features/price/providers/price_detail_providers.dart';
+import '../../features/token/providers/token_list_provider.dart';
+
+import '../../features/btc/models/btc_account.dart';
+import '../../features/btc/models/btc_account_sync_info.dart';
+import '../../features/btc/models/btc_address_type.dart';
+import '../../features/btc/models/btc_recommended_fees.dart';
+import '../../features/btc/providers/btc_account_list_provider.dart';
+import '../../features/btc/services/btc_fee_rate_service.dart';
+import '../../features/btc/services/btc_service.dart';
+
 import '../api_token_manager.dart';
 import '../utils.dart';
 import '../../features/chat/providers/chat_notification_provider.dart';
-import '../../features/dst/providers/dec_shop_provider.dart';
 import '../../features/dst/providers/listed_nfts_provider.dart';
 import '../../features/dst/services/dst_service.dart';
 import '../../features/remote_info/components/snapshot_downloader.dart';
@@ -77,6 +93,14 @@ class SessionModel {
   final RemoteInfo? remoteInfo;
   final String? windowsLauncherPath;
 
+  final List<Balance> balances;
+
+  final BtcAddressType btcAddressType;
+  final BtcAccount? currentBtcAccount;
+  final bool btcSelected;
+  final BtcAccountSyncInfo? btcAccountSyncInfo;
+  final BtcRecommendedFees? btcRecommendedFees;
+
   const SessionModel({
     this.currentWallet,
     this.startTime,
@@ -93,6 +117,12 @@ class SessionModel {
     this.timezoneName = "America/Los_Angeles",
     this.remoteInfo,
     this.windowsLauncherPath,
+    this.balances = const [],
+    this.btcAddressType = BtcAddressType.segwit,
+    this.currentBtcAccount,
+    this.btcSelected = false,
+    this.btcAccountSyncInfo,
+    this.btcRecommendedFees,
   });
 
   SessionModel copyWith({
@@ -111,6 +141,12 @@ class SessionModel {
     String? timezoneName,
     RemoteInfo? remoteInfo,
     String? windowsLauncherPath,
+    List<Balance>? balances,
+    BtcAddressType? btcAddressType,
+    BtcAccount? currentBtcAccount,
+    bool? btcSelected,
+    BtcAccountSyncInfo? btcAccountSyncInfo,
+    BtcRecommendedFees? btcRecommendedFees,
   }) {
     return SessionModel(
       startTime: startTime ?? this.startTime,
@@ -128,6 +164,14 @@ class SessionModel {
       timezoneName: timezoneName ?? this.timezoneName,
       remoteInfo: remoteInfo ?? this.remoteInfo,
       windowsLauncherPath: windowsLauncherPath ?? this.windowsLauncherPath,
+
+      balances: balances ?? this.balances,
+
+      btcAddressType: btcAddressType ?? this.btcAddressType,
+      currentBtcAccount: currentBtcAccount ?? this.currentBtcAccount,
+      btcSelected: btcSelected ?? this.btcSelected,
+      btcAccountSyncInfo: btcAccountSyncInfo ?? this.btcAccountSyncInfo,
+      btcRecommendedFees: btcRecommendedFees ?? this.btcRecommendedFees,
     );
   }
 
@@ -135,7 +179,7 @@ class SessionModel {
     if (startTime == null) {
       return "-";
     }
-    return DateFormat('MM/dd – HH:mm').format(startTime!);
+    return DateFormat('MM/dd - HH:mm').format(startTime!);
   }
 
   bool get updateAvailable {
@@ -162,14 +206,14 @@ class SessionProvider extends StateNotifier<SessionModel> {
   Future<void> init(bool inLoop) async {
     final token = kDebugMode ? DEV_API_TOKEN : generateRandomString(32).toLowerCase();
 
-    ref.read(logProvider.notifier).append(LogEntry(message: "Welcome to RBXWallet version $APP_VERSION"));
+    ref.read(logProvider.notifier).append(LogEntry(message: "Welcome to VerifiedX Wallet version $APP_VERSION"));
 
     bool cliStarted = state.cliStarted;
     if (!cliStarted) {
-      ref.read(logProvider.notifier).append(LogEntry(message: "Starting RBXCore..."));
+      ref.read(logProvider.notifier).append(LogEntry(message: "Starting VFXCore..."));
       cliStarted = await _startCli(token);
     } else {
-      ref.read(logProvider.notifier).append(LogEntry(message: "RBXCore already running."));
+      ref.read(logProvider.notifier).append(LogEntry(message: "VFXCore already running."));
     }
 
     if (!cliStarted) {
@@ -199,9 +243,12 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     // mainLoop();
     mainLoop(inLoop);
+    btcLoop(inLoop);
     smartContractLoop(inLoop);
     checkGuiUpdateStatus(inLoop);
     ref.read(beaconListProvider.notifier).refresh();
+
+    updateBtcFeeRates();
 
     Future.delayed(const Duration(milliseconds: 300)).then((_) async {
       ref.read(walletInfoProvider.notifier).infoLoop(inLoop);
@@ -252,7 +299,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
     final confirmUpdate = await ConfirmDialog.show(
       title: "GUI Update",
       body:
-          "The RBX GUI download will be launched in your browser. Once launched, the CLI will be shutdown and your wallet will be closed to ensure a safe update.",
+          "The VFX GUI download will be launched in your browser. Once launched, the CLI will be shutdown and your wallet will be closed to ensure a safe update.",
       confirmText: "Update",
       cancelText: "Cancel",
     );
@@ -351,11 +398,17 @@ class SessionProvider extends StateNotifier<SessionModel> {
     }
   }
 
-  Future<void> promptForSnapshotImport() async {
+  Future<void> promptForSnapshotImport([RemoteInfo? remoteInfoOverride]) async {
     // final context = rootNavigatorKey.currentContext!;
 
+    final remoteInfo = remoteInfoOverride ?? state.remoteInfo;
+
     final blockHeight = ref.read(walletInfoProvider)!.blockHeight;
-    final snapshotHeight = state.remoteInfo!.snapshot.height;
+    if (remoteInfo == null) {
+      Toast.error("Could not determine latest snapshot state");
+      return;
+    }
+    final snapshotHeight = remoteInfo.snapshot.height;
 
     final confirmed = await ConfirmDialog.show(
       title: "Import Snapshot?",
@@ -431,6 +484,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
   Future<void> mainLoop([inLoop = true]) async {
     if (state.cliStarted) {
       loadWallets();
+      loadBalances();
       loadValidators();
       // await loadMasterNodes();
       // await loadPeerInfo();
@@ -466,6 +520,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       ref.read(mintedNftListProvider.notifier).reloadCurrentPage();
       ref.read(draftsSmartContractProvider.notifier).load();
       ref.read(listedNftsProvider.notifier).refresh();
+      ref.read(tokenListProvider.notifier).reloadCurrentPage();
     }
 
     if (inLoop) {
@@ -592,6 +647,14 @@ class SessionProvider extends StateNotifier<SessionModel> {
     }
   }
 
+  Future<void> loadBalances() async {
+    final balances = await BridgeServiceV2().getBalances(ref);
+
+    if (balances != null) {
+      state = state.copyWith(balances: balances);
+    }
+  }
+
   Future<void> loadValidators() async {
     if (state.currentWallet == null) {
       return;
@@ -635,14 +698,14 @@ class SessionProvider extends StateNotifier<SessionModel> {
       TransactionListType.Success,
       TransactionListType.Failed,
       TransactionListType.Pending,
-      TransactionListType.Mined,
+      TransactionListType.Validated,
     ]) {
       await ref.read(transactionListProvider(type).notifier).load();
     }
   }
 
-  void setCurrentWallet(Wallet wallet) {
-    state = state.copyWith(currentWallet: wallet);
+  void setCurrentWallet(Wallet wallet, [bool updateGlobalCurrency = true]) {
+    state = state.copyWith(currentWallet: wallet, btcSelected: false);
     singleton<Storage>().setString(Storage.CURRENT_WALLET_ADDRESS_KEY, wallet.address);
 
     final validators = ref.read(validatorListProvider);
@@ -652,6 +715,17 @@ class SessionProvider extends StateNotifier<SessionModel> {
     ref.read(currentValidatorProvider.notifier).set(currentValidator);
 
     setupChatListeners();
+    if (updateGlobalCurrency) {
+      ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.vfx);
+    }
+  }
+
+  void setCurrentBtcAccount(BtcAccount account, [bool updateGlobalCurrency = true]) {
+    state = state.copyWith(currentBtcAccount: account, btcSelected: true);
+    singleton<Storage>().setString(Storage.CURRENT_BTC_ACCOUNT_ADDRESS_KEY, account.address);
+    if (updateGlobalCurrency) {
+      ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.btc);
+    }
   }
 
   void setFilteringTransactions(bool val) {
@@ -675,7 +749,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       return '';
     }
     if (Platform.isMacOS) {
-      return '/Applications/RBXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore';
+      return '/Applications/VFXWallet.app/Contents/Resources/RBXCore/ReserveBlockCore';
     } else {
       if (state.windowsLauncherPath == null) {
         final appPath = Directory.current.path;
@@ -706,7 +780,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     final isRunning = await _cliIsActive();
     if (isRunning) {
-      ref.read(logProvider.notifier).append(LogEntry(message: "ReserveBlockCore Started Successfully", variant: AppColorVariant.Success));
+      ref.read(logProvider.notifier).append(LogEntry(message: "VerifedX Wallet Started Successfully", variant: AppColorVariant.Success));
       await fetchConfig();
       final cliVersion = await BridgeService().getCliVersion();
       ref.read(logProvider.notifier).append(LogEntry(message: "CLI Version: $cliVersion", variant: AppColorVariant.Info));
@@ -745,7 +819,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
       startupDataLoop();
 
       final cliPath = Env.cliPathOverride ?? getCliPath();
-      List<String> options = Env.isTestNet ? ['enableapi', 'gui'] : ['enableapi', 'gui', 'apitoken=$apiToken'];
+      List<String> options = Env.isTestNet ? ['enableapi', 'gui', 'blockv2'] : ['enableapi', 'gui', 'blockv2', 'apitoken=$apiToken'];
 
       if (Env.isTestNet) {
         options.add("testnet");
@@ -771,8 +845,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
           pm.run(params).then((result) {
             ref.read(logProvider.notifier).append(LogEntry(message: "Command ran successfully."));
           });
-          print("PARAMS: $params");
-          print("***********");
+
           singleton<ApiTokenManager>().set(apiToken);
 
           await Future.delayed(const Duration(seconds: 3));
@@ -795,7 +868,7 @@ class SessionProvider extends StateNotifier<SessionModel> {
         final shell = Shell(
           throwOnError: false,
           stdout: Env.hideCliOutput ? stdOutController.sink : null,
-          workingDirectory: "/Applications/RBXWallet.app/Contents/MacOS/",
+          workingDirectory: "/Applications/VFXWallet.app/Contents/MacOS/",
         );
         cmd = '"$cliPath" ${options.join(' ')}';
 
@@ -863,6 +936,55 @@ class SessionProvider extends StateNotifier<SessionModel> {
           ));
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<void> btcLoop([bool inLoop = false]) async {
+    final addressType = await BtcService().addressType();
+
+    if (addressType != state.btcAddressType) {
+      state = state.copyWith(btcAddressType: addressType);
+    }
+
+    ref.read(btcAccountListProvider.notifier).load();
+
+    final btcAccountSyncInfo = await BtcService().accountSyncInfo();
+    state = state.copyWith(btcAccountSyncInfo: btcAccountSyncInfo);
+
+    ref.read(tokenizedBitcoinListProvider.notifier).refresh();
+
+    ref.read(electrumConnectedProvider.notifier).checkStatus();
+
+    ref.invalidate(vfxPriceDataDetailProvider);
+    ref.invalidate(btcPriceDataDetailProvider);
+
+    if (inLoop) {
+      await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS_BTC));
+      btcLoop(true);
+    }
+  }
+
+  void updateBtcFeeRates() {
+    BtcFeeRateService().recommended().then((value) {
+      state = state.copyWith(btcRecommendedFees: value);
+    });
+  }
+
+  void toggleToVfxWallet([bool updateWallet = true]) {
+    final wallets = ref.read(walletListProvider);
+    if (wallets.isNotEmpty && updateWallet) {
+      state = state.copyWith(btcSelected: false, currentWallet: wallets.first);
+    } else {
+      state = state.copyWith(btcSelected: false);
+    }
+  }
+
+  void toggleToBtcWallet([bool updateWallet = true]) {
+    final accounts = ref.read(btcAccountListProvider);
+    if (accounts.isNotEmpty && updateWallet) {
+      state = state.copyWith(btcSelected: true, currentBtcAccount: accounts.first);
+    } else {
+      state = state.copyWith(btcSelected: true);
     }
   }
 }

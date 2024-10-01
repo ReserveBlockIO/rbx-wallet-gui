@@ -1,9 +1,10 @@
-import 'package:rbx_wallet/core/env.dart';
+import '../../core/env.dart';
 
 String? paymentUrl({
   String fiatType = "USD",
   required double amount,
   required String walletAddress,
+  required String currency,
 }) {
   final domain = Env.paymentDomain;
 
@@ -12,9 +13,8 @@ String? paymentUrl({
     return null;
   }
 
-  const COIN_TYPE = "RBX";
-
-  final url = "$domain/?coinType=$COIN_TYPE&fiatType=$fiatType&coinAmount=$amount&blockchain=$COIN_TYPE&walletAddress=$walletAddress";
+  final url =
+      "$domain/?coinType=${currency.toUpperCase()}&fiatType=$fiatType&coinAmount=$amount&blockchain=${currency.toUpperCase()}&walletAddress=$walletAddress";
   print(url);
   return url;
 }

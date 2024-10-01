@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/env.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/theme/app_theme.dart';
@@ -78,7 +77,7 @@ class NotificationOverlay extends BaseComponent {
                                         children: [
                                           Text(
                                             n.title,
-                                            style: Theme.of(context).textTheme.bodyMedium,
+                                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(height: 1),
                                           ),
                                           if (n.body != null)
                                             Padding(
@@ -87,6 +86,7 @@ class NotificationOverlay extends BaseComponent {
                                                 n.body!,
                                                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
                                                       fontSize: 12,
+                                                      height: 1,
                                                     ),
                                               ),
                                             )

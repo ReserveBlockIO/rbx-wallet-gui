@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:archive/archive_io.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
-import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
-import 'package:rbx_wallet/features/smart_contracts/features/evolve/evolve_phase.dart';
+import '../../sc_property/models/sc_property.dart';
+import '../../smart_contracts/features/evolve/evolve_phase.dart';
 import '../../asset/web_asset.dart';
 import 'package:timeago/timeago.dart' as timeago;
 

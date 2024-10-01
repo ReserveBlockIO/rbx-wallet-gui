@@ -27,7 +27,10 @@ class MotherChildCard extends StatelessWidget {
           children: [
             Text(
               child.validatorName,
-              style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall!
+                  .copyWith(color: Colors.white),
             ),
             const Divider(),
             Card(
@@ -40,7 +43,7 @@ class MotherChildCard extends StatelessWidget {
                   children: [
                     _Row(
                       label: "Balance",
-                      value: "${child.balance} RBX",
+                      value: "${child.balance} VFX",
                     ),
                     const Divider(),
                     _Row(
@@ -56,13 +59,17 @@ class MotherChildCard extends StatelessWidget {
                     _Row(
                       label: "Is Validating?",
                       value: child.activeWithValidating ? 'Yes' : 'No',
-                      color: child.activeWithValidating ? AppColorVariant.Success : AppColorVariant.Danger,
+                      color: child.activeWithValidating
+                          ? AppColorVariant.Success
+                          : AppColorVariant.Danger,
                     ),
                     const Divider(),
                     _Row(
                       label: "Is Connected to Mother?",
                       value: child.activeWithMother ? 'Yes' : 'No',
-                      color: child.activeWithMother ? AppColorVariant.Success : AppColorVariant.Danger,
+                      color: child.activeWithMother
+                          ? AppColorVariant.Success
+                          : AppColorVariant.Danger,
                     ),
                   ],
                 ),
@@ -74,7 +81,8 @@ class MotherChildCard extends StatelessWidget {
                 child: AppButton(
                   label: "Open in Explorer",
                   onPressed: () {
-                    launchUrlString("${Env.baseExplorerUrl}/validators/${child.address}");
+                    launchUrlString(
+                        "${Env.baseExplorerUrl}/validators/${child.address}");
                   },
                 ),
               ),
@@ -88,7 +96,7 @@ class MotherChildCard extends StatelessWidget {
                   const Divider(),
                   Text(
                     child.address,
-                    style: Theme.of(context).textTheme.caption,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
               ),

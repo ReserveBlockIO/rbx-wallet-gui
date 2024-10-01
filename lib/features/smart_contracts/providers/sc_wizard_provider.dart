@@ -10,9 +10,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
-import 'package:rbx_wallet/features/raw/raw_service.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/sc_wizard_log_provider.dart';
+import '../../raw/raw_service.dart';
+import 'sc_wizard_log_provider.dart';
 import '../../../core/utils.dart';
 import '../../sc_property/models/sc_property.dart';
 import '../features/evolve/evolve.dart';
@@ -751,7 +750,7 @@ class ScWizardProvider extends StateNotifier<List<ScWizardItem>> {
       final owner = kIsWeb ? ref.read(webSessionProvider).currentWallet : ref.read(sessionProvider).currentWallet;
 
       if (owner == null) {
-        Toast.error("No wallet selected.");
+        Toast.error("No account selected.");
         return;
       }
 

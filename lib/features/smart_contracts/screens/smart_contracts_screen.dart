@@ -2,19 +2,17 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/big_button.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/components/big_button.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../utils/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_screen.dart';
-import '../../../core/breakpoints.dart';
 import '../../../core/web_router.gr.dart';
-import '../../../generated/assets.gen.dart';
 import '../../../utils/guards.dart';
 import '../../nft/providers/nft_detail_provider.dart';
-import '../../wallet/components/wallet_selector.dart';
 import '../providers/create_smart_contract_provider.dart';
 
 class SmartContractsScreen extends BaseScreen {
@@ -31,7 +29,7 @@ class SmartContractsScreen extends BaseScreen {
       title: const Text("Smart Contracts"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      actions: const [WalletSelector()],
+      // leading: BackToHomeButton(),
     );
   }
 
@@ -71,7 +69,7 @@ class SmartContractsScreen extends BaseScreen {
                 // ),
                 BigButton(
                   title: "Create a Smart Contract & Mint",
-                  iconData: Icons.create,
+                  iconData: Icons.receipt_long,
                   body: "Start with a baseline smart contract and add customized features",
                   onPressed: () async {
                     if (!kDebugMode) {
@@ -80,8 +78,13 @@ class SmartContractsScreen extends BaseScreen {
                       }
                     }
 
+                    if (ref.read(sessionProvider).btcSelected) {
+                      Toast.error("Please choose a VFX account to begin creating a smart contract.");
+                      return;
+                    }
+
                     if (ref.read(sessionProvider).currentWallet?.isReserved == true) {
-                      Toast.error("Reserve Accounts cannot mint smart contracts");
+                      Toast.error("Vault Accounts cannot mint smart contracts");
                       return;
                     }
 
@@ -92,7 +95,7 @@ class SmartContractsScreen extends BaseScreen {
                       ref.read(nftDetailProvider("$id").notifier).init();
                       ref.read(createSmartContractProvider.notifier).clearSmartContract();
 
-                      AutoRouter.of(context).push(NftDetailScreenRoute(id: "$id"));
+                      // AutoRouter.of(context).push(NftDetailScreenRoute(id: "$id"));
                     }
                   },
                 ),

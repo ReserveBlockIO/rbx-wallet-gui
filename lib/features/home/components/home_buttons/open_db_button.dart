@@ -23,11 +23,11 @@ class OpenDbFolderButton extends BaseComponent {
         // String appDocPath = appDocDir.path;
 
         // if (Platform.isMacOS) {
-        //   appDocPath = appDocPath.replaceAll("/Documents", Env.isTestNet ? "/rbxtest" : "/rbx");
+        //   appDocPath = appDocPath.replaceAll("/Documents", Env.isTestNet ? "/rbxtest" : "/vfx");
         // } else {
         //   final winDir = await getApplicationSupportDirectory();
         //   appDocPath = winDir.path;
-        //   appDocPath = appDocPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\${Env.isTestNet ? 'RBXTest' : 'RBX'}");
+        //   appDocPath = appDocPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\${Env.isTestNet ? 'RBXTest' : 'VFX'}");
         // }
 
         final path = await dbPath();
@@ -36,7 +36,7 @@ class OpenDbFolderButton extends BaseComponent {
 
         // String cmd = "";
         // if (Platform.isMacOS) {
-        //   appDocPath = appDocPath.replaceAll("/Documents", "/rbx");
+        //   appDocPath = appDocPath.replaceAll("/Documents", "/vfx");
         //   cmd = "open $appDocPath";
         // } else {
         //   appDocDir = await getApplicationSupportDirectory();
@@ -45,7 +45,7 @@ class OpenDbFolderButton extends BaseComponent {
 
         //   appDocPath = appDocPath.replaceAll(
         //       "\\Roaming\\com.example\\rbx_wallet_gui",
-        //       "\\Local\\rbx");
+        //       "\\Local\\vfx");
         //   cmd = "start $appDocPath";
         // }
 

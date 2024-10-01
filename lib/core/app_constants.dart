@@ -1,23 +1,25 @@
 // ignore_for_file: constant_identifier_names
-import 'package:flutter/foundation.dart';
 
-const APP_V = "4.0.2";
+const APP_V = "5.0.26";
 const APP_VERSION = "beta$APP_V";
+const APP_VERSION_NICKNAME = "Switchblade";
 
 const ALLOW_PAYMENT = true;
 
 const REFRESH_TIMEOUT_SECONDS = 10;
 const REFRESH_TIMEOUT_SECONDS_INACTIVE = 300;
+const REFRESH_TIMEOUT_SECONDS_BTC = 30;
 const ALLOW_DOUBLE_MINTES = false;
 const MIN_RBX_FOR_SC_ACTION = 0.001;
 const DELETE_DRAFT_ON_MINT = true;
 const USD_TO_RBX = 5.0;
-const ASSURED_AMOUNT_TO_VALIDATE = 12000.0;
+const ASSURED_AMOUNT_TO_VALIDATE = 50000.0;
 const ADNR_COST = 5.0;
 // const ADNR_TRANSFER_COST = 1.0;
 // const ADNR_DELETE_COST = 0.0;
 const ADNR_TRANSFER_COST = 5.0;
 const ADNR_DELETE_COST = 5.0;
+const BTC_ADNR_MAX_LENGTH = 65;
 
 const VOTE_TOPIC_COST = 10.0;
 const MAX_COMPILE_QUANTITY = 10;
@@ -27,6 +29,13 @@ const SHOP_PUBLISH_COST = 10.0;
 const SHOP_DELETE_COST = 1.0;
 const SHOP_UPDATE_COST = 1.0;
 const RA_ACTIVATION_COST = 4.0;
+
+const BTC_SATOSHI_MULTIPLIER = 0.00000001;
+const BTC_TX_EXPECTED_BYTES = 140;
+const BTC_MINIMUM_TX_AMOUNT = 0.00001;
+const BTC_WITHDRAWL_FEE_RATE = 10;
+
+const BACKUP_URL_PROPERTY_NAME = "MEDIA_BACKUP_URL";
 
 class TxType {
   static const int rbxTransfer = 0;
@@ -40,6 +49,8 @@ class TxType {
   static const int voteTopic = 8;
   static const int vote = 9;
   static const int reserve = 10;
+
+  static const int tokenMint = 17;
 }
 
 const DEFAULT_REJECTED_EXTENIONS = [
@@ -199,4 +210,12 @@ const MALWARE_FILE_EXTENSIONS = [
   "pr",
   "lok",
   "xnt",
+];
+
+const IMAGE_EXTENSIONS = [
+  'jpg',
+  'jpeg',
+  'gif',
+  'png',
+  'webp',
 ];

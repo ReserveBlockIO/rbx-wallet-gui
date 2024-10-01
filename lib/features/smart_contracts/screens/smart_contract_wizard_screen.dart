@@ -1,13 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/breakpoints.dart';
+import '../../../core/breakpoints.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/env.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
-import '../components/collection_form.dart';
 import '../components/sc_wizard_list.dart';
 import '../models/bulk_smart_contract_entry.dart';
 import 'sc_wizard_edit_item_screen.dart';
@@ -120,7 +119,7 @@ class SmartContractWizardScreen extends BaseScreen {
                     onPressed: () async {
                       final wallet = kIsWeb ? ref.read(webSessionProvider).currentWallet : ref.read(sessionProvider).currentWallet;
                       if (wallet == null) {
-                        Toast.error("No wallet selected.");
+                        Toast.error("No account selected.");
 
                         return;
                       }
@@ -132,7 +131,7 @@ class SmartContractWizardScreen extends BaseScreen {
 
                       if (!kIsWeb) {
                         if (wallet.balance < MIN_RBX_FOR_SC_ACTION) {
-                          Toast.error("Not enough RBX balance to mint a smart contract.");
+                          Toast.error("Not enough VFX balance to mint a smart contract.");
                           return;
                         }
                       }

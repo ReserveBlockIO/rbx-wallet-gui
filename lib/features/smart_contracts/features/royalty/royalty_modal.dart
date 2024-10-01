@@ -129,7 +129,6 @@ class RoyaltyModal extends BaseComponent {
   FormGroupHeader buildHeader() {
     return const FormGroupHeader(
       "Royalty",
-      withBg: false,
     );
   }
 
@@ -185,7 +184,7 @@ class RoyaltyModal extends BaseComponent {
       decoration: InputDecoration(
           label: const Text("Percentage"),
           labelStyle: const TextStyle(color: Colors.white),
-          suffix: Text(_model.type == RoyaltyType.percent ? "%" : "RBX"),
+          suffix: Text(_model.type == RoyaltyType.percent ? "%" : "VFX"),
           prefixIcon: HelpButton(_model.type == RoyaltyType.percent ? HelpType.royaltyPercent : HelpType.royaltyFlat, subtle: true)),
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
       validator: _provider.amountValidator,

@@ -59,7 +59,8 @@ class _SnapshotDownloaderState extends State<SnapshotDownloader> {
     final downloadDirectory = await getTemporaryDirectory();
     final path = "${downloadDirectory.path}/snapshot.zip";
 
-    Dio().download(widget.downloadUrl, path, onReceiveProgress: (value1, value2) {
+    Dio().download(widget.downloadUrl, path,
+        onReceiveProgress: (value1, value2) {
       setState(() {
         progress = value1;
         total = value2;
@@ -83,15 +84,19 @@ class _SnapshotDownloaderState extends State<SnapshotDownloader> {
     final dir = Directory(_dbPath);
 
     final date = DateTime.now();
-    String backupDirName = "${_dbPath.replaceAll('rbx', '').replaceAll('RBX', '')}\\RBX_BACKUP_${(date.microsecondsSinceEpoch / 1000).round()}";
+    String backupDirName =
+        "${_dbPath.replaceAll('vfx', '').replaceAll('VFX', '')}\\RBX_BACKUP_${(date.microsecondsSinceEpoch / 1000).round()}";
     if (Platform.isMacOS) {
-      backupDirName = backupDirName.toLowerCase().replaceAll("\\", '/').replaceAll('//', '/');
+      backupDirName = backupDirName
+          .toLowerCase()
+          .replaceAll("\\", '/')
+          .replaceAll('//', '/');
     }
     setState(() {
       backupDir = backupDirName;
     });
 
-    installLogAdd("Backing up current RBX folder as '$backupDirName'...");
+    installLogAdd("Backing up current VFX folder as '$backupDirName'...");
 
     await dir.rename(backupDirName);
     installLogAdd("Backed up.");
@@ -167,7 +172,7 @@ class _SnapshotDownloaderState extends State<SnapshotDownloader> {
                   itemBuilder: (context, index) {
                     return Text(
                       installLog[index],
-                      style: Theme.of(context).textTheme.caption,
+                      style: Theme.of(context).textTheme.bodySmall,
                     );
                   },
                 ),
@@ -201,7 +206,7 @@ class _SnapshotDownloaderState extends State<SnapshotDownloader> {
                 if (total != null)
                   Text(
                     "${readableFileSize(progress)} / ${readableFileSize(total!)}",
-                    style: Theme.of(context).textTheme.caption,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
               ],
             );
@@ -228,7 +233,7 @@ class _SnapshotDownloaderState extends State<SnapshotDownloader> {
                 if (backupDir != null) ...[
                   Text(
                     "Note: In case your mistakenly imported this snapshot, your previous database folder was backed up to\n$backupDir",
-                    style: Theme.of(context).textTheme.caption,
+                    style: Theme.of(context).textTheme.bodySmall,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(

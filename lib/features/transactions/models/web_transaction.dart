@@ -121,11 +121,11 @@ class WebTransaction with _$WebTransaction {
 
       case 6:
         if (nftDataValue('Function') == "AdnrCreate()") {
-          return "RBX Domain (Create)";
+          return "VFX Domain (Create)";
         } else if (nftDataValue('Function') == "AdnrTransfer()") {
-          return "RBX Domain (Transfer)";
+          return "VFX Domain (Transfer)";
         } else if (nftDataValue('Function') == "AdnrDelete()") {
-          return "RBX Domain (Delete)";
+          return "VFX Domain (Delete)";
         }
 
         return "Address";
@@ -145,14 +145,37 @@ class WebTransaction with _$WebTransaction {
 
       case 10:
         if (nftDataValue('Function') == "CallBack()") {
-          return "Reserve (Callback)";
+          return "Vault (Callback)";
         } else if (nftDataValue('Function') == "Register()") {
-          return "Reserve (Register)";
+          return "Vault (Register)";
         } else if (nftDataValue('Function') == "Recover()") {
-          return "Reserve (Recover)";
+          return "Vault (Recover)";
         }
-        return "Reserve";
+        return "Vault";
+      case 11:
+        return "Smart Contract Mint";
+      case 12:
+        return "Smart Contract TX";
+      case 13:
+        return "Smart Contract Burn";
+      case 14:
+        return "Fungible Token Mint";
+      case 15:
+        return "Fungible Token TX";
+      case 16:
+        return "Fungible Token Burn";
+      case 17:
+        if (data != null) {
+          if (nftDataValue('Function') == "TokenDeploy()") {
+            return "Fungible Token Deploy";
+          }
+        }
 
+        return "Tokenization Mint";
+      case 18:
+        return "Tokenization TX";
+      case 19:
+        return "Tokenization Burn";
       default:
         return "-";
     }

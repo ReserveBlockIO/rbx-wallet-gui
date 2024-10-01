@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
 import '../../sc_property/models/sc_property.dart';
 
 import '../../../core/app_constants.dart';
@@ -47,10 +48,12 @@ abstract class SmartContract with _$SmartContract {
     @Default([]) List<Fractional> fractionals,
     @Default([]) List<Pair> pairs,
     @Default([]) List<SoulBound> soulBounds,
+    @Default(false) includesBtcTokenization,
     @Default("") String code,
     @Default(false) bool isCompiled,
     @Default(false) bool isPublished,
     @Default([]) List<ScProperty> properties,
+    TokenScFeature? token,
   }) = _SmartContract;
 
   factory SmartContract.fromJson(Map<String, dynamic> json) => _$SmartContractFromJson(json);
@@ -139,15 +142,15 @@ abstract class SmartContract with _$SmartContract {
       features.add(Feature(type: FeatureType.soulBound, data: item.toJson()));
     }
 
+    if (includesBtcTokenization) {
+      features.add(Feature(type: FeatureType.btcTokenization));
+    }
+
     return features;
   }
 
   Map<String, dynamic> serializeForCompiler(String timezoneName) {
     final List<Map<String, dynamic>> features = [];
-    print("------------");
-
-    print(evolves);
-    print("------------");
 
     for (final r in royalties) {
       final f = {'FeatureName': Royalty.compilerEnum, 'FeatureFeatures': r.serializeForCompiler()};
@@ -173,6 +176,15 @@ abstract class SmartContract with _$SmartContract {
       final f = {'FeatureName': MultiAsset.compilerEnum, 'FeatureFeatures': m.serializeForCompiler(minterName)};
       features.add(f);
     }
+
+    if (token != null) {
+      final f = {
+        'FeatureName': TokenScFeature.compilerEnum,
+        'FeatureFeatures': token!.toJson(),
+      };
+      features.add(f);
+    }
+
     Map<String, String>? propertiesOutput;
     if (properties.isNotEmpty) {
       propertiesOutput = {};

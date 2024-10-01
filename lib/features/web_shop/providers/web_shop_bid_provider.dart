@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:math';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,25 +9,19 @@ import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../../../core/services/explorer_service.dart';
 import '../../dst/models/bid.dart';
-import '../../dst/services/dst_service.dart';
 import '../../keygen/models/keypair.dart';
 import '../../nft/models/nft.dart';
 import '../../raw/raw_service.dart';
-import '../../remote_shop/models/shop_data.dart';
-import '../../remote_shop/providers/connected_shop_provider.dart';
 import '../../remote_shop/services/remote_shop_service.dart';
 import '../../smart_contracts/features/royalty/royalty.dart';
-import '../../transactions/providers/web_transaction_list_provider.dart';
 import '../../web/utils/raw_transaction.dart';
 import '../models/web_listing.dart';
 import 'web_auth_token_provider.dart';
-import 'web_collection_detail_provider.dart';
 import 'web_listing_list_provider.dart';
 import '../services/web_shop_service.dart';
 import '../../../utils/guards.dart';
 import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';
-import 'package:collection/collection.dart';
 
 import '../../global_loader/global_loading_provider.dart';
 
@@ -83,7 +75,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     final wallet = ref.read(sessionProvider).currentWallet;
 
     if (wallet == null) {
-      Toast.error("No wallet selected");
+      Toast.error("No account selected");
       return false;
     }
 
@@ -127,7 +119,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     final keypair = ref.read(webSessionProvider).keypair;
 
     if (keypair == null) {
-      Toast.error("no wallet", surpressErrors);
+      Toast.error("no account", surpressErrors);
       return;
     }
 
@@ -509,7 +501,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     final confirmed = await ConfirmDialog.show(
       context: context,
       title: "Buy Now",
-      body: "Are you sure you want to buy now for ${listing.buyNowPrice} RBX?",
+      body: "Are you sure you want to buy now for ${listing.buyNowPrice} VFX?",
       confirmText: "Buy Now",
       cancelText: "Cancel",
     );
@@ -521,7 +513,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
 
     final address = kIsWeb ? ref.read(webSessionProvider).keypair?.address : ref.read(sessionProvider).currentWallet?.address;
     if (address == null) {
-      Toast.error("No Wallet");
+      Toast.error("No Account");
       ref.read(globalLoadingProvider.notifier).complete();
 
       return null;
@@ -533,7 +525,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     if (kIsWeb) {
       final keypair = ref.read(webSessionProvider).keypair;
       if (keypair == null) {
-        Toast.error("No Wallet");
+        Toast.error("No Account");
         ref.read(globalLoadingProvider.notifier).complete();
 
         return null;
@@ -600,7 +592,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
         String body = "Please wait for the transaction to be finalized.";
         if (listing.collection.shop!.isThirdParty) {
           body +=
-              "\nBecause this auction house is hosted on the RBX Web Wallet, the seller will need to authorize the Sale Start transaction. You will see that in your transaction list once it's been sent.";
+              "\nBecause this auction house is hosted on the VFX Web Wallet, the seller will need to authorize the Sale Start transaction. You will see that in your transaction list once it's been sent.";
         }
         InfoDialog.show(contextOverride: context, title: "Buy Now TX broadcasted.", body: body);
       }
@@ -647,7 +639,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     final address = kIsWeb ? ref.read(webSessionProvider).keypair?.address : ref.read(sessionProvider).currentWallet?.address;
 
     if (address == null) {
-      Toast.error("No wallet");
+      Toast.error("No account");
       return null;
     }
 
@@ -657,8 +649,8 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
       contextOverride: context,
       title: "Place Bid",
       validator: (val) => formValidatorNumber(val, "Bid Amount"),
-      labelText: "Bid Amount (RBX)",
-      footer: "Must be greater than $minimumBid RBX",
+      labelText: "Bid Amount (VFX)",
+      footer: "Must be greater than $minimumBid VFX",
       confirmText: "Continue",
       cancelText: "Cancel",
     );
@@ -679,13 +671,13 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     }
 
     if (amount <= listing.auction!.currentBidPrice!) {
-      Toast.error("Your bid must be greater than the current highest bid (${listing.auction!.currentBidPrice} RBX)");
+      Toast.error("Your bid must be greater than the current highest bid (${listing.auction!.currentBidPrice} VFX)");
       return null;
     }
 
     if (amount <= listing.auction!.currentBidPrice! + listing.auction!.incrementAmount) {
       Toast.error(
-          "The minimum increment amount is ${listing.auction!.incrementAmount} RBX. A bid grater than ${listing.auction!.currentBidPrice! + listing.auction!.incrementAmount} RBX is required.");
+          "The minimum increment amount is ${listing.auction!.incrementAmount} VFX. A bid grater than ${listing.auction!.currentBidPrice! + listing.auction!.incrementAmount} VFX is required.");
       return null;
     }
 
@@ -698,7 +690,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
     final confirmed = await ConfirmDialog.show(
       context: context,
       title: "Place Bid",
-      body: "Are you sure you want to place a bid of $amount RBX${amount != maxAmount ? ' with a max bid of $maxAmount RBX' : ''}?",
+      body: "Are you sure you want to place a bid of $amount VFX${amount != maxAmount ? ' with a max bid of $maxAmount VFX' : ''}?",
       confirmText: "Place Bid",
       cancelText: "Cancel",
     );
@@ -714,7 +706,7 @@ class WebBidListProvider extends StateNotifier<List<Bid>> {
       final keypair = ref.read(webSessionProvider).keypair;
       if (keypair == null) {
         ref.read(globalLoadingProvider.notifier).complete();
-        Toast.error("No Wallet");
+        Toast.error("No Account");
         return null;
       }
 

@@ -1,13 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
 
-import '../../../core/singletons.dart';
-import '../../../core/storage.dart';
 import '../../../core/utils.dart';
 import '../../dst/models/bid.dart';
 import '../../dst/models/dec_shop.dart';
 import '../../web_shop/services/web_shop_service.dart';
-import '../../../generated/assets.gen.dart';
 import '../../../utils/toast.dart';
 
 import '../../../core/services/base_service.dart';

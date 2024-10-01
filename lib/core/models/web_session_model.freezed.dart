@@ -22,18 +22,24 @@ WebSessionModel _$WebSessionModelFromJson(Map<String, dynamic> json) {
 mixin _$WebSessionModel {
   Keypair? get keypair => throw _privateConstructorUsedError;
   RaKeypair? get raKeypair => throw _privateConstructorUsedError;
+  BtcWebAccount? get btcKeypair => throw _privateConstructorUsedError;
   double? get balance => throw _privateConstructorUsedError;
   double? get balanceTotal => throw _privateConstructorUsedError;
   double? get balanceLocked => throw _privateConstructorUsedError;
   double? get raBalance => throw _privateConstructorUsedError;
   double? get raBalanceTotal => throw _privateConstructorUsedError;
   double? get raBalanceLocked => throw _privateConstructorUsedError;
-  String? get adnr => throw _privateConstructorUsedError;
-  bool get usingRa => throw _privateConstructorUsedError;
+  String? get adnr =>
+      throw _privateConstructorUsedError; // @Default(false) bool usingRa,
+  WalletType get selectedWalletType => throw _privateConstructorUsedError;
   bool get raActivated => throw _privateConstructorUsedError;
   bool get isAuthenticated => throw _privateConstructorUsedError;
   String get timezoneName => throw _privateConstructorUsedError;
   bool get rememberMe => throw _privateConstructorUsedError;
+  int get currentRbxWalletIndex => throw _privateConstructorUsedError;
+  int get currentRaWalletIndex => throw _privateConstructorUsedError;
+  int get currentBtcWalletIndex => throw _privateConstructorUsedError;
+  BtcWebBalanceInfo? get btcBalanceInfo => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,6 +56,7 @@ abstract class $WebSessionModelCopyWith<$Res> {
   $Res call(
       {Keypair? keypair,
       RaKeypair? raKeypair,
+      BtcWebAccount? btcKeypair,
       double? balance,
       double? balanceTotal,
       double? balanceLocked,
@@ -57,14 +64,20 @@ abstract class $WebSessionModelCopyWith<$Res> {
       double? raBalanceTotal,
       double? raBalanceLocked,
       String? adnr,
-      bool usingRa,
+      WalletType selectedWalletType,
       bool raActivated,
       bool isAuthenticated,
       String timezoneName,
-      bool rememberMe});
+      bool rememberMe,
+      int currentRbxWalletIndex,
+      int currentRaWalletIndex,
+      int currentBtcWalletIndex,
+      BtcWebBalanceInfo? btcBalanceInfo});
 
   $KeypairCopyWith<$Res>? get keypair;
   $RaKeypairCopyWith<$Res>? get raKeypair;
+  $BtcWebAccountCopyWith<$Res>? get btcKeypair;
+  $BtcWebBalanceInfoCopyWith<$Res>? get btcBalanceInfo;
 }
 
 /// @nodoc
@@ -82,6 +95,7 @@ class _$WebSessionModelCopyWithImpl<$Res, $Val extends WebSessionModel>
   $Res call({
     Object? keypair = freezed,
     Object? raKeypair = freezed,
+    Object? btcKeypair = freezed,
     Object? balance = freezed,
     Object? balanceTotal = freezed,
     Object? balanceLocked = freezed,
@@ -89,11 +103,15 @@ class _$WebSessionModelCopyWithImpl<$Res, $Val extends WebSessionModel>
     Object? raBalanceTotal = freezed,
     Object? raBalanceLocked = freezed,
     Object? adnr = freezed,
-    Object? usingRa = null,
+    Object? selectedWalletType = null,
     Object? raActivated = null,
     Object? isAuthenticated = null,
     Object? timezoneName = null,
     Object? rememberMe = null,
+    Object? currentRbxWalletIndex = null,
+    Object? currentRaWalletIndex = null,
+    Object? currentBtcWalletIndex = null,
+    Object? btcBalanceInfo = freezed,
   }) {
     return _then(_value.copyWith(
       keypair: freezed == keypair
@@ -104,6 +122,10 @@ class _$WebSessionModelCopyWithImpl<$Res, $Val extends WebSessionModel>
           ? _value.raKeypair
           : raKeypair // ignore: cast_nullable_to_non_nullable
               as RaKeypair?,
+      btcKeypair: freezed == btcKeypair
+          ? _value.btcKeypair
+          : btcKeypair // ignore: cast_nullable_to_non_nullable
+              as BtcWebAccount?,
       balance: freezed == balance
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
@@ -132,10 +154,10 @@ class _$WebSessionModelCopyWithImpl<$Res, $Val extends WebSessionModel>
           ? _value.adnr
           : adnr // ignore: cast_nullable_to_non_nullable
               as String?,
-      usingRa: null == usingRa
-          ? _value.usingRa
-          : usingRa // ignore: cast_nullable_to_non_nullable
-              as bool,
+      selectedWalletType: null == selectedWalletType
+          ? _value.selectedWalletType
+          : selectedWalletType // ignore: cast_nullable_to_non_nullable
+              as WalletType,
       raActivated: null == raActivated
           ? _value.raActivated
           : raActivated // ignore: cast_nullable_to_non_nullable
@@ -152,6 +174,22 @@ class _$WebSessionModelCopyWithImpl<$Res, $Val extends WebSessionModel>
           ? _value.rememberMe
           : rememberMe // ignore: cast_nullable_to_non_nullable
               as bool,
+      currentRbxWalletIndex: null == currentRbxWalletIndex
+          ? _value.currentRbxWalletIndex
+          : currentRbxWalletIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentRaWalletIndex: null == currentRaWalletIndex
+          ? _value.currentRaWalletIndex
+          : currentRaWalletIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentBtcWalletIndex: null == currentBtcWalletIndex
+          ? _value.currentBtcWalletIndex
+          : currentBtcWalletIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      btcBalanceInfo: freezed == btcBalanceInfo
+          ? _value.btcBalanceInfo
+          : btcBalanceInfo // ignore: cast_nullable_to_non_nullable
+              as BtcWebBalanceInfo?,
     ) as $Val);
   }
 
@@ -178,6 +216,30 @@ class _$WebSessionModelCopyWithImpl<$Res, $Val extends WebSessionModel>
       return _then(_value.copyWith(raKeypair: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BtcWebAccountCopyWith<$Res>? get btcKeypair {
+    if (_value.btcKeypair == null) {
+      return null;
+    }
+
+    return $BtcWebAccountCopyWith<$Res>(_value.btcKeypair!, (value) {
+      return _then(_value.copyWith(btcKeypair: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BtcWebBalanceInfoCopyWith<$Res>? get btcBalanceInfo {
+    if (_value.btcBalanceInfo == null) {
+      return null;
+    }
+
+    return $BtcWebBalanceInfoCopyWith<$Res>(_value.btcBalanceInfo!, (value) {
+      return _then(_value.copyWith(btcBalanceInfo: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -191,6 +253,7 @@ abstract class _$$_WebSessionModelCopyWith<$Res>
   $Res call(
       {Keypair? keypair,
       RaKeypair? raKeypair,
+      BtcWebAccount? btcKeypair,
       double? balance,
       double? balanceTotal,
       double? balanceLocked,
@@ -198,16 +261,24 @@ abstract class _$$_WebSessionModelCopyWith<$Res>
       double? raBalanceTotal,
       double? raBalanceLocked,
       String? adnr,
-      bool usingRa,
+      WalletType selectedWalletType,
       bool raActivated,
       bool isAuthenticated,
       String timezoneName,
-      bool rememberMe});
+      bool rememberMe,
+      int currentRbxWalletIndex,
+      int currentRaWalletIndex,
+      int currentBtcWalletIndex,
+      BtcWebBalanceInfo? btcBalanceInfo});
 
   @override
   $KeypairCopyWith<$Res>? get keypair;
   @override
   $RaKeypairCopyWith<$Res>? get raKeypair;
+  @override
+  $BtcWebAccountCopyWith<$Res>? get btcKeypair;
+  @override
+  $BtcWebBalanceInfoCopyWith<$Res>? get btcBalanceInfo;
 }
 
 /// @nodoc
@@ -223,6 +294,7 @@ class __$$_WebSessionModelCopyWithImpl<$Res>
   $Res call({
     Object? keypair = freezed,
     Object? raKeypair = freezed,
+    Object? btcKeypair = freezed,
     Object? balance = freezed,
     Object? balanceTotal = freezed,
     Object? balanceLocked = freezed,
@@ -230,11 +302,15 @@ class __$$_WebSessionModelCopyWithImpl<$Res>
     Object? raBalanceTotal = freezed,
     Object? raBalanceLocked = freezed,
     Object? adnr = freezed,
-    Object? usingRa = null,
+    Object? selectedWalletType = null,
     Object? raActivated = null,
     Object? isAuthenticated = null,
     Object? timezoneName = null,
     Object? rememberMe = null,
+    Object? currentRbxWalletIndex = null,
+    Object? currentRaWalletIndex = null,
+    Object? currentBtcWalletIndex = null,
+    Object? btcBalanceInfo = freezed,
   }) {
     return _then(_$_WebSessionModel(
       keypair: freezed == keypair
@@ -245,6 +321,10 @@ class __$$_WebSessionModelCopyWithImpl<$Res>
           ? _value.raKeypair
           : raKeypair // ignore: cast_nullable_to_non_nullable
               as RaKeypair?,
+      btcKeypair: freezed == btcKeypair
+          ? _value.btcKeypair
+          : btcKeypair // ignore: cast_nullable_to_non_nullable
+              as BtcWebAccount?,
       balance: freezed == balance
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
@@ -273,10 +353,10 @@ class __$$_WebSessionModelCopyWithImpl<$Res>
           ? _value.adnr
           : adnr // ignore: cast_nullable_to_non_nullable
               as String?,
-      usingRa: null == usingRa
-          ? _value.usingRa
-          : usingRa // ignore: cast_nullable_to_non_nullable
-              as bool,
+      selectedWalletType: null == selectedWalletType
+          ? _value.selectedWalletType
+          : selectedWalletType // ignore: cast_nullable_to_non_nullable
+              as WalletType,
       raActivated: null == raActivated
           ? _value.raActivated
           : raActivated // ignore: cast_nullable_to_non_nullable
@@ -293,6 +373,22 @@ class __$$_WebSessionModelCopyWithImpl<$Res>
           ? _value.rememberMe
           : rememberMe // ignore: cast_nullable_to_non_nullable
               as bool,
+      currentRbxWalletIndex: null == currentRbxWalletIndex
+          ? _value.currentRbxWalletIndex
+          : currentRbxWalletIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentRaWalletIndex: null == currentRaWalletIndex
+          ? _value.currentRaWalletIndex
+          : currentRaWalletIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentBtcWalletIndex: null == currentBtcWalletIndex
+          ? _value.currentBtcWalletIndex
+          : currentBtcWalletIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      btcBalanceInfo: freezed == btcBalanceInfo
+          ? _value.btcBalanceInfo
+          : btcBalanceInfo // ignore: cast_nullable_to_non_nullable
+              as BtcWebBalanceInfo?,
     ));
   }
 }
@@ -303,6 +399,7 @@ class _$_WebSessionModel extends _WebSessionModel {
   _$_WebSessionModel(
       {this.keypair,
       this.raKeypair,
+      this.btcKeypair,
       this.balance,
       this.balanceTotal,
       this.balanceLocked,
@@ -310,11 +407,15 @@ class _$_WebSessionModel extends _WebSessionModel {
       this.raBalanceTotal,
       this.raBalanceLocked,
       this.adnr,
-      this.usingRa = false,
+      this.selectedWalletType = WalletType.rbx,
       this.raActivated = false,
       this.isAuthenticated = false,
       this.timezoneName = "America/Los_Angeles",
-      this.rememberMe = false})
+      this.rememberMe = false,
+      this.currentRbxWalletIndex = 0,
+      this.currentRaWalletIndex = 0,
+      this.currentBtcWalletIndex = 0,
+      this.btcBalanceInfo})
       : super._();
 
   factory _$_WebSessionModel.fromJson(Map<String, dynamic> json) =>
@@ -324,6 +425,8 @@ class _$_WebSessionModel extends _WebSessionModel {
   final Keypair? keypair;
   @override
   final RaKeypair? raKeypair;
+  @override
+  final BtcWebAccount? btcKeypair;
   @override
   final double? balance;
   @override
@@ -338,9 +441,10 @@ class _$_WebSessionModel extends _WebSessionModel {
   final double? raBalanceLocked;
   @override
   final String? adnr;
+// @Default(false) bool usingRa,
   @override
   @JsonKey()
-  final bool usingRa;
+  final WalletType selectedWalletType;
   @override
   @JsonKey()
   final bool raActivated;
@@ -353,10 +457,21 @@ class _$_WebSessionModel extends _WebSessionModel {
   @override
   @JsonKey()
   final bool rememberMe;
+  @override
+  @JsonKey()
+  final int currentRbxWalletIndex;
+  @override
+  @JsonKey()
+  final int currentRaWalletIndex;
+  @override
+  @JsonKey()
+  final int currentBtcWalletIndex;
+  @override
+  final BtcWebBalanceInfo? btcBalanceInfo;
 
   @override
   String toString() {
-    return 'WebSessionModel(keypair: $keypair, raKeypair: $raKeypair, balance: $balance, balanceTotal: $balanceTotal, balanceLocked: $balanceLocked, raBalance: $raBalance, raBalanceTotal: $raBalanceTotal, raBalanceLocked: $raBalanceLocked, adnr: $adnr, usingRa: $usingRa, raActivated: $raActivated, isAuthenticated: $isAuthenticated, timezoneName: $timezoneName, rememberMe: $rememberMe)';
+    return 'WebSessionModel(keypair: $keypair, raKeypair: $raKeypair, btcKeypair: $btcKeypair, balance: $balance, balanceTotal: $balanceTotal, balanceLocked: $balanceLocked, raBalance: $raBalance, raBalanceTotal: $raBalanceTotal, raBalanceLocked: $raBalanceLocked, adnr: $adnr, selectedWalletType: $selectedWalletType, raActivated: $raActivated, isAuthenticated: $isAuthenticated, timezoneName: $timezoneName, rememberMe: $rememberMe, currentRbxWalletIndex: $currentRbxWalletIndex, currentRaWalletIndex: $currentRaWalletIndex, currentBtcWalletIndex: $currentBtcWalletIndex, btcBalanceInfo: $btcBalanceInfo)';
   }
 
   @override
@@ -367,6 +482,8 @@ class _$_WebSessionModel extends _WebSessionModel {
             (identical(other.keypair, keypair) || other.keypair == keypair) &&
             (identical(other.raKeypair, raKeypair) ||
                 other.raKeypair == raKeypair) &&
+            (identical(other.btcKeypair, btcKeypair) ||
+                other.btcKeypair == btcKeypair) &&
             (identical(other.balance, balance) || other.balance == balance) &&
             (identical(other.balanceTotal, balanceTotal) ||
                 other.balanceTotal == balanceTotal) &&
@@ -379,7 +496,8 @@ class _$_WebSessionModel extends _WebSessionModel {
             (identical(other.raBalanceLocked, raBalanceLocked) ||
                 other.raBalanceLocked == raBalanceLocked) &&
             (identical(other.adnr, adnr) || other.adnr == adnr) &&
-            (identical(other.usingRa, usingRa) || other.usingRa == usingRa) &&
+            (identical(other.selectedWalletType, selectedWalletType) ||
+                other.selectedWalletType == selectedWalletType) &&
             (identical(other.raActivated, raActivated) ||
                 other.raActivated == raActivated) &&
             (identical(other.isAuthenticated, isAuthenticated) ||
@@ -387,27 +505,41 @@ class _$_WebSessionModel extends _WebSessionModel {
             (identical(other.timezoneName, timezoneName) ||
                 other.timezoneName == timezoneName) &&
             (identical(other.rememberMe, rememberMe) ||
-                other.rememberMe == rememberMe));
+                other.rememberMe == rememberMe) &&
+            (identical(other.currentRbxWalletIndex, currentRbxWalletIndex) ||
+                other.currentRbxWalletIndex == currentRbxWalletIndex) &&
+            (identical(other.currentRaWalletIndex, currentRaWalletIndex) ||
+                other.currentRaWalletIndex == currentRaWalletIndex) &&
+            (identical(other.currentBtcWalletIndex, currentBtcWalletIndex) ||
+                other.currentBtcWalletIndex == currentBtcWalletIndex) &&
+            (identical(other.btcBalanceInfo, btcBalanceInfo) ||
+                other.btcBalanceInfo == btcBalanceInfo));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      keypair,
-      raKeypair,
-      balance,
-      balanceTotal,
-      balanceLocked,
-      raBalance,
-      raBalanceTotal,
-      raBalanceLocked,
-      adnr,
-      usingRa,
-      raActivated,
-      isAuthenticated,
-      timezoneName,
-      rememberMe);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        keypair,
+        raKeypair,
+        btcKeypair,
+        balance,
+        balanceTotal,
+        balanceLocked,
+        raBalance,
+        raBalanceTotal,
+        raBalanceLocked,
+        adnr,
+        selectedWalletType,
+        raActivated,
+        isAuthenticated,
+        timezoneName,
+        rememberMe,
+        currentRbxWalletIndex,
+        currentRaWalletIndex,
+        currentBtcWalletIndex,
+        btcBalanceInfo
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -427,6 +559,7 @@ abstract class _WebSessionModel extends WebSessionModel {
   factory _WebSessionModel(
       {final Keypair? keypair,
       final RaKeypair? raKeypair,
+      final BtcWebAccount? btcKeypair,
       final double? balance,
       final double? balanceTotal,
       final double? balanceLocked,
@@ -434,11 +567,15 @@ abstract class _WebSessionModel extends WebSessionModel {
       final double? raBalanceTotal,
       final double? raBalanceLocked,
       final String? adnr,
-      final bool usingRa,
+      final WalletType selectedWalletType,
       final bool raActivated,
       final bool isAuthenticated,
       final String timezoneName,
-      final bool rememberMe}) = _$_WebSessionModel;
+      final bool rememberMe,
+      final int currentRbxWalletIndex,
+      final int currentRaWalletIndex,
+      final int currentBtcWalletIndex,
+      final BtcWebBalanceInfo? btcBalanceInfo}) = _$_WebSessionModel;
   _WebSessionModel._() : super._();
 
   factory _WebSessionModel.fromJson(Map<String, dynamic> json) =
@@ -448,6 +585,8 @@ abstract class _WebSessionModel extends WebSessionModel {
   Keypair? get keypair;
   @override
   RaKeypair? get raKeypair;
+  @override
+  BtcWebAccount? get btcKeypair;
   @override
   double? get balance;
   @override
@@ -462,8 +601,8 @@ abstract class _WebSessionModel extends WebSessionModel {
   double? get raBalanceLocked;
   @override
   String? get adnr;
-  @override
-  bool get usingRa;
+  @override // @Default(false) bool usingRa,
+  WalletType get selectedWalletType;
   @override
   bool get raActivated;
   @override
@@ -472,6 +611,14 @@ abstract class _WebSessionModel extends WebSessionModel {
   String get timezoneName;
   @override
   bool get rememberMe;
+  @override
+  int get currentRbxWalletIndex;
+  @override
+  int get currentRaWalletIndex;
+  @override
+  int get currentBtcWalletIndex;
+  @override
+  BtcWebBalanceInfo? get btcBalanceInfo;
   @override
   @JsonKey(ignore: true)
   _$$_WebSessionModelCopyWith<_$_WebSessionModel> get copyWith =>

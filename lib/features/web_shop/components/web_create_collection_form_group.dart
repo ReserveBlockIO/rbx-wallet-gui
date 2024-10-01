@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/config/constants.dart';
+import '../../config/constants.dart';
 import '../providers/web_collection_form_provider.dart';
 
 import '../../../core/base_component.dart';

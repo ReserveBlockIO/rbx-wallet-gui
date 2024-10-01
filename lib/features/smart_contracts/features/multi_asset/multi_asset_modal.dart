@@ -19,7 +19,6 @@ class MultiAssetModal extends BaseComponent {
     return ModalContainer(children: [
       const FormGroupHeader(
         "Assets",
-        withBg: false,
       ),
       ListView.builder(
         shrinkWrap: true,

@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/components/big_button.dart';
+import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_screen.dart';
-import '../../../generated/assets.gen.dart';
 import '../../wallet/components/wallet_selector.dart';
 
 class DstLandingScreen extends BaseScreen {
@@ -22,7 +22,13 @@ class DstLandingScreen extends BaseScreen {
       title: const Text("P2P Auctions"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      actions: const [WalletSelector()],
+      actions: const [
+        WalletSelector(
+          includeBtc: false,
+          withOptions: false,
+        )
+      ],
+      // leading: BackToHomeButton(),
     );
   }
 
@@ -64,7 +70,7 @@ class DstLandingScreen extends BaseScreen {
                 BigButton(
                   title: "Manage my Auction House",
                   iconData: Icons.house,
-                  body: "Manage your wallet's auction house and trade NFTs.",
+                  body: "Manage your account's auction house and trade NFTs.",
                   onPressed: () async {
                     AutoRouter.of(context).push(MyCollectionsListScreenRoute());
                   },

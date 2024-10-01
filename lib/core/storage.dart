@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class Storage {
   static const CURRENT_WALLET_ADDRESS_KEY = "CURRENT_WALLET_ADDRESS_KEY";
+  static const CURRENT_BTC_ACCOUNT_ADDRESS_KEY = "CURRENT_BTC_ACCOUNT_ADDRESS_KEY";
   static const DELETED_WALLETS_KEY = "DELETED_WALLETS";
   static const RENAMED_WALLETS_KEY = "RENAMED_WALLETS";
   static const LOCAL_SMART_CONTRACTS = "LOCAL_SMART_CONTRACTS2";
@@ -26,6 +27,8 @@ abstract class Storage {
   static const BUYER_CHAT_THREADS = "BUYER_CHAT_THREADS_V3";
   static const SELLER_CHAT_THREADS = "SELLER_CHAT_THREADS_V3";
   static const WEB_AUTH_TOKEN = "WEB_AUTH_TOKEN";
+  static const WEB_BTC_KEYPAIR = "WEB_BTC_KEYPAIR";
+  static const WEB_SELECTED_WALLET_TYPE = "WEB_SELECTED_WALLET_TYPE";
 
   bool isInitialized = false;
 

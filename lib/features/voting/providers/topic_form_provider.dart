@@ -41,7 +41,8 @@ class TopicFormProvider extends StateNotifier<NewTopic> {
   }
 
   String? nameValidator(String? val) => formValidatorNotEmpty(val, "Name");
-  String? descriptionValidator(String? val) => formValidatorNotEmpty(val, "Description");
+  String? descriptionValidator(String? val) =>
+      formValidatorNotEmpty(val, "Description");
 
   List<ValueLabel> categoryOptions(BuildContext context) {
     return voteTopicCategoryValueLabels(context);
@@ -85,7 +86,8 @@ class TopicFormProvider extends StateNotifier<NewTopic> {
 
       final charLength = jsonEncode(adjVoteData).length;
       if (charLength > 2800) {
-        Toast.error("The 'Vote Adjudicator In' submission is too long. Please reduce the content.");
+        Toast.error(
+            "The 'Vote Adjudicator In' submission is too long. Please reduce the content.");
         return null;
       }
     } else {
@@ -96,9 +98,10 @@ class TopicFormProvider extends StateNotifier<NewTopic> {
 
     final balance = ref.read(sessionProvider).currentWallet?.balance;
 
-    if (balance == null || (balance - ASSURED_AMOUNT_TO_VALIDATE) < VOTE_TOPIC_COST) {
+    if (balance == null ||
+        (balance - ASSURED_AMOUNT_TO_VALIDATE) < VOTE_TOPIC_COST) {
       Toast.error(
-          "Submitting a topic costs $VOTE_TOPIC_COST RBX. Since you are validating, you need at least ${ASSURED_AMOUNT_TO_VALIDATE + VOTE_TOPIC_COST} RBX.");
+          "Submitting a topic costs $VOTE_TOPIC_COST VFX. Since you are validating, you need at least ${ASSURED_AMOUNT_TO_VALIDATE + VOTE_TOPIC_COST} VFX.");
       return null;
     }
 
@@ -117,6 +120,7 @@ class TopicFormProvider extends StateNotifier<NewTopic> {
   }
 }
 
-final topicFormProvider = StateNotifierProvider<TopicFormProvider, NewTopic>((ref) {
+final topicFormProvider =
+    StateNotifierProvider<TopicFormProvider, NewTopic>((ref) {
   return TopicFormProvider(ref, NewTopic.empty());
 });

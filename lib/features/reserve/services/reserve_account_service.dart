@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 import '../models/new_reserve_account.dart';
-import '../../wallet/models/wallet.dart';
 import '../../../utils/toast.dart';
 
 import '../../../core/services/base_service.dart';
@@ -244,5 +243,23 @@ class ReserveAccountService extends BaseService {
       Toast.error("A problem occurred");
       return false;
     }
+  }
+
+  Future<bool> isUnlockedV2(String address) async {
+    final response = await getText("/UnlockReserveAccount/$address/0/checking", cleanPath: false);
+    final data = jsonDecode(response);
+
+    print(data);
+
+    return data['AlreadyUnlocked'] == true;
+  }
+
+  Future<bool> unlockV2(String address, String password) async {
+    final response = await getText("/UnlockReserveAccount/$address/0/$password", cleanPath: false);
+    final data = jsonDecode(response);
+
+    print(data);
+
+    return data['Success'] == true;
   }
 }

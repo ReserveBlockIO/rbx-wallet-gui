@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../bridge/services/bridge_service.dart';
-import '../../../remote_info/services/remote_info_service.dart';
-import '../../../../utils/toast.dart';
+import 'package:rbx_wallet/core/env.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/components/buttons.dart';
 import '../../../../core/providers/session_provider.dart';
+import '../../../../utils/toast.dart';
+import '../../../bridge/services/bridge_service.dart';
+import '../../../remote_info/services/remote_info_service.dart';
 
 class ImportSnapshotButton extends BaseComponent {
   const ImportSnapshotButton({
@@ -21,6 +22,11 @@ class ImportSnapshotButton extends BaseComponent {
       icon: Icons.settings_backup_restore,
       onPressed: cliStarted
           ? () async {
+              if (Env.isTestNet) {
+                Toast.error("Snapshots are not available on Testnet.");
+                return;
+              }
+
               final data = await BridgeService().walletInfo();
               final int? blockHeight = int.tryParse(data['BlockHeight']);
 
@@ -37,7 +43,7 @@ class ImportSnapshotButton extends BaseComponent {
               final snapshotHeight = remoteInfo.snapshot.height;
 
               if (blockHeight < snapshotHeight) {
-                ref.read(sessionProvider.notifier).promptForSnapshotImport();
+                ref.read(sessionProvider.notifier).promptForSnapshotImport(remoteInfo);
               } else {
                 Toast.message("Your local blockheight is further along than the snapshot.");
               }

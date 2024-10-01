@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/components/buttons.dart';
-import '../../../core/components/empty_placeholder.dart';
 import '../../../core/theme/app_theme.dart';
 import 'web_collection_list_tile.dart';
 import '../providers/web_collection_form_provider.dart';
@@ -61,7 +60,6 @@ class _CreateCollectionButton extends BaseComponent {
   final int shopId;
   final AppButtonType buttonType;
   const _CreateCollectionButton({
-    super.key,
     required this.shopId,
     this.buttonType = AppButtonType.Elevated,
   });

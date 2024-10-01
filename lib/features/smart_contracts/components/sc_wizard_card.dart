@@ -13,7 +13,6 @@ import '../features/evolve/evolve.dart';
 import '../features/evolve/evolve_phase.dart';
 import '../features/evolve/evolve_phase_wizard_form_provider.dart';
 import '../models/bulk_smart_contract_entry.dart';
-import '../models/property.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/dialogs.dart';
@@ -368,7 +367,7 @@ class ScWizedCard extends BaseComponent {
                 if (entry.royalty != null)
                   Text(
                     "${entry.royalty!.amountWithSuffix} to ${entry.royalty!.address}",
-                    style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 11),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 11),
                   ),
                 const Divider(),
                 Row(
@@ -670,6 +669,11 @@ class ScWizedCard extends BaseComponent {
                             case ScPropertyType.number:
                               return Icon(
                                 Icons.numbers,
+                                size: 18,
+                              );
+                            case ScPropertyType.url:
+                              return Icon(
+                                Icons.link,
                                 size: 18,
                               );
                             case ScPropertyType.color:

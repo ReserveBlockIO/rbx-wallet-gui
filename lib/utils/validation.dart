@@ -1,4 +1,4 @@
-import 'package:rbx_wallet/features/config/constants.dart';
+import '../features/config/constants.dart';
 
 import '../core/env.dart';
 
@@ -153,12 +153,15 @@ String? formValidatorDecName(String? value) {
 
 String? formValidatorRbxAddress(String? value, [bool allowAdnr = false]) {
   if (value == null || value.isEmpty) {
-    return allowAdnr ? "Address or RBX domain required" : "Address required";
+    return allowAdnr ? "Address or VFX domain required" : "Address required";
   }
 
-  if (allowAdnr && value.contains(".rbx")) {
+  if (allowAdnr && value.contains(".vfx")) {
     return null;
   }
+
+  print(value);
+  print("----");
 
   if (!isValidRbxAddress(value)) {
     return "Invalid Address.";

@@ -25,8 +25,8 @@ class CreateBeaconModal extends BaseComponent {
       children: [
         const Text("Create Beacon"),
         Text(
-          "Create a beacon if you want to be the owner of the relay of assets. Setup your wallet as a beacon to partipate in media transferring on the RBX network. The name is a friendly name only visible to you. You can configure a specific port or just use the default setting. You can also configure whether your beacon is private and how long assets should remain cached.",
-          style: Theme.of(context).textTheme.caption,
+          "Create a beacon if you want to be the owner of the relay of assets. Setup your wallet as a beacon to partipate in media transferring on the VFX network. The name is a friendly name only visible to you. You can configure a specific port or just use the default setting. You can also configure whether your beacon is private and how long assets should remain cached.",
+          style: Theme.of(context).textTheme.bodySmall,
         ),
         Form(
           key: provider.formKey,
@@ -43,7 +43,8 @@ class CreateBeaconModal extends BaseComponent {
                         label: Text("Beacon Name"),
                       ),
                       inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]')),
+                        FilteringTextInputFormatter.allow(
+                            RegExp('[a-zA-Z0-9]')),
                       ],
                     ),
                   ),
@@ -52,7 +53,8 @@ class CreateBeaconModal extends BaseComponent {
                     width: 240,
                     child: TextFormField(
                       controller: provider.portController,
-                      decoration: const InputDecoration(label: Text("Port (leave blank for default)")),
+                      decoration: const InputDecoration(
+                          label: Text("Port (leave blank for default)")),
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     ),
                   ),
@@ -61,7 +63,9 @@ class CreateBeaconModal extends BaseComponent {
                     width: 240,
                     child: TextFormField(
                       controller: provider.periodController,
-                      decoration: const InputDecoration(label: Text("Days to retain files (0 for unlimited)")),
+                      decoration: const InputDecoration(
+                          label:
+                              Text("Days to retain files (0 for unlimited)")),
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     ),
                   ),
@@ -112,7 +116,8 @@ class CreateBeaconModal extends BaseComponent {
 
                 final confirmed = await ConfirmDialog.show(
                   title: "Beacon Created",
-                  body: "A CLI restart is required for this to take affect.\n\nRestart Now?",
+                  body:
+                      "A CLI restart is required for this to take affect.\n\nRestart Now?",
                   confirmText: "Restart",
                   cancelText: "Later",
                 );

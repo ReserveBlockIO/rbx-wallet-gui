@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_window_close/flutter_window_close.dart';
-import 'package:rbx_wallet/core/utils.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/payment/components/payment_disclaimer.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
+import 'utils.dart';
+import '../features/global_loader/global_loading_provider.dart';
+import '../features/payment/components/payment_disclaimer.dart';
 
 import '../app.dart';
 import '../features/bridge/services/bridge_service.dart';
@@ -23,11 +24,20 @@ class InfoDialog {
     String? closeText,
     IconData? icon,
     Color? headerColor = Colors.white,
+    Color? buttonColorOverride,
+    bool withBackArrow = false,
   }) {
     return AlertDialog(
       title: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
+          if (withBackArrow)
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(Icons.navigate_before),
+            ),
           if (icon != null)
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
@@ -64,7 +74,7 @@ class InfoDialog {
           child: Text(
             closeText ?? "Close",
             style: TextStyle(
-              color: Theme.of(context).colorScheme.secondary,
+              color: buttonColorOverride ?? Theme.of(context).colorScheme.secondary,
             ),
           ),
         )
@@ -80,21 +90,23 @@ class InfoDialog {
     IconData? icon,
     Color? headerColor = Colors.white,
     BuildContext? contextOverride,
+    Color? buttonColorOverride,
+    bool withBackArrow = false,
   }) async {
     final context = rootNavigatorKey.currentContext!;
 
     return await showDialog(
       context: contextOverride ?? context,
       builder: (context) {
-        return alert(
-          context,
-          title: title,
-          body: body,
-          content: content,
-          closeText: closeText,
-          icon: icon,
-          headerColor: headerColor,
-        );
+        return alert(context,
+            title: title,
+            body: body,
+            content: content,
+            closeText: closeText,
+            icon: icon,
+            headerColor: headerColor,
+            buttonColorOverride: buttonColorOverride,
+            withBackArrow: withBackArrow);
       },
     );
   }
@@ -273,6 +285,7 @@ class PromptModal {
     bool popOnValidSubmission = true,
     Widget? titleTrailing,
     String? prefixText,
+    Color? labelColor,
   }) async {
     // final context = rootNavigatorKey.currentContext!;
     final context = contextOverride ?? rootNavigatorKey.currentContext!;
@@ -307,7 +320,7 @@ class PromptModal {
           contentPadding: tightPadding ? const EdgeInsets.all(12.0) : const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
           insetPadding: tightPadding ? const EdgeInsets.all(8.0) : const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
           content: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 500),
+            constraints: const BoxConstraints(maxWidth: 600, minWidth: 400),
             child: Form(
               key: _formKey,
               child: Column(
@@ -328,7 +341,10 @@ class PromptModal {
                             maxLines: lines,
                             keyboardType: keyboardType,
                             decoration: InputDecoration(
-                              label: Text(labelText),
+                              label: Text(
+                                labelText,
+                                style: TextStyle(color: labelColor ?? Theme.of(context).colorScheme.secondary),
+                              ),
                               prefixText: prefixText,
                             ),
                             validator: validator,
@@ -453,7 +469,7 @@ class AuthModal {
       barrierDismissible: true,
       builder: (context) {
         return AlertDialog(
-          title: Text(forCreate ? "Create Wallet" : "Login",
+          title: Text(forCreate ? "Create Account" : "Login",
               style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -472,7 +488,7 @@ class AuthModal {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     if (withExplanation)
-                      const Text("A wallet is required to continue.\nPlease create your account now with your email address and a password."),
+                      const Text("An account is required to continue.\nPlease create your account now with your email address and a password."),
                     const Text(
                       "Your email and password is used to seed your private key which is processed in this browser and will never be transmitted across the internet.",
                       style: TextStyle(
@@ -634,6 +650,78 @@ class PaymentTermsDialog {
               ],
             );
           },
+        );
+      },
+    );
+  }
+}
+
+class SpecialDialog<T> {
+  Future<T?> show(
+    BuildContext context, {
+    required Widget content,
+    bool dissmissible = true,
+    double maxWidth = 500.0,
+    String? title,
+  }) async {
+    return await showGeneralDialog(
+      context: context,
+      barrierColor: Colors.black45,
+      pageBuilder: (context, anim1, anim2) {
+        return content;
+      },
+      barrierDismissible: dissmissible,
+      transitionDuration: Duration(milliseconds: 200),
+      barrierLabel: '',
+      transitionBuilder: (context, a1, a2, widget) {
+        return Transform.scale(
+          scale: a1.value,
+          child: Opacity(
+            opacity: a1.value,
+            child: Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: maxWidth),
+                child: IntrinsicHeight(
+                  child: AppCard(
+                    padding: 0,
+                    child: Stack(
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (title != null)
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  title,
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ),
+                            if (title == null && dissmissible) SizedBox(height: 18 + 8 + 8),
+                            Container(color: Colors.black12, child: widget),
+                          ],
+                        ),
+                        if (dissmissible)
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 3.0),
+                              child: IconButton(
+                                icon: Icon(Icons.close),
+                                iconSize: 14,
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ),
+                          )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         );
       },
     );

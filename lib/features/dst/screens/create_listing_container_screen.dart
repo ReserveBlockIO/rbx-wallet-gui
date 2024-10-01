@@ -49,67 +49,59 @@ class CreateListingContainerScreen extends BaseScreen {
     final model = ref.watch(listingFormProvider);
     bool isCreating = model.id == 0;
 
-    return Column(
-      children: [
-        const SizedBox(
-          height: 16,
-        ),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const CreateListingFormGroup(),
-              ],
-            ),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 16,
           ),
-        ),
-        Container(
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            color: Color(0xFF040f26),
-          ),
-          child: Padding(
+          const CreateListingFormGroup(),
+          Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppButton(
-                  label: isCreating ? "Discard Changes" : "Delete Listing",
-                  variant: AppColorVariant.Danger,
-                  icon: isCreating ? null : Icons.delete,
-                  onPressed: () async {
-                    if (isCreating) {
-                      final confirmed = await ConfirmDialog.show(
-                        title: "Are you sure you want to discard the listing?",
-                        body: "All unsaved changes will be lost.",
-                        cancelText: "Cancel",
-                        confirmText: "Continue",
-                      );
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 600),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AppButton(
+                    label: isCreating ? "Discard Changes" : "Delete Listing",
+                    variant: AppColorVariant.Danger,
+                    icon: isCreating ? null : Icons.delete,
+                    onPressed: () async {
+                      if (isCreating) {
+                        final confirmed = await ConfirmDialog.show(
+                          title: "Are you sure you want to discard the listing?",
+                          body: "All unsaved changes will be lost.",
+                          cancelText: "Cancel",
+                          confirmText: "Continue",
+                        );
 
-                      if (confirmed == true) {
-                        AutoRouter.of(context).pop();
-                        provider.clear();
-                        ref.invalidate(storeFormProvider);
+                        if (confirmed == true) {
+                          AutoRouter.of(context).pop();
+                          provider.clear();
+                          ref.invalidate(storeFormProvider);
+                        }
+                      } else {
+                        provider.delete(context, collectionId, model);
                       }
-                    } else {
-                      provider.delete(context, collectionId, model);
-                    }
-                  },
-                ),
-                AppButton(
-                  label: isCreating ? 'Create' : 'Update',
-                  variant: AppColorVariant.Success,
-                  onPressed: () async {
-                    await provider.complete(context, collectionId);
-                  },
-                )
-              ],
+                    },
+                  ),
+                  AppButton(
+                    label: isCreating ? 'Create' : 'Update',
+                    variant: AppColorVariant.Success,
+                    onPressed: () async {
+                      await provider.complete(context, collectionId);
+                    },
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+          SizedBox(
+            height: 32,
+          ),
+        ],
+      ),
     );
   }
 }

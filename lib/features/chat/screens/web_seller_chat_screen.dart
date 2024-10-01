@@ -1,9 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/base_screen.dart';
-import '../../../core/components/centered_loader.dart';
 import '../../../core/dialogs.dart';
 import '../components/new_chat_message.dart';
 import '../components/shop_chat_list.dart';
@@ -12,7 +10,6 @@ import '../providers/web_seller_chat_list_provider.dart';
 import '../services/web_chat_service.dart';
 import '../../dst/providers/dec_shop_provider.dart';
 import '../../global_loader/global_loading_provider.dart';
-import '../../web_shop/providers/web_shop_detail_provider.dart';
 import '../../web_shop/services/web_shop_service.dart';
 import '../../../utils/toast.dart';
 

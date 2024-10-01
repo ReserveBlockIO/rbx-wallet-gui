@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
+import '../../../core/providers/web_session_provider.dart';
 import '../../../core/services/explorer_service.dart';
 
 import '../../../core/models/paginated_response.dart';
@@ -62,6 +62,7 @@ class NftListProvider extends StateNotifier<NftListModel> {
       return;
     }
     final data = await NftService().list(page, search: state.search);
+
     state = state.copyWith(data: data, page: page, currentSearch: state.search);
   }
 

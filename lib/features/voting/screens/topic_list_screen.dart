@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_screen.dart';
@@ -33,6 +34,7 @@ class TopicListScreen extends BaseScreen {
     return AppBar(
       title: const Text("Validator Voting Topics"),
       backgroundColor: Colors.black54,
+      leading: BackToHomeButton(),
       actions: [
         Row(
           mainAxisSize: MainAxisSize.min,
@@ -42,7 +44,7 @@ class TopicListScreen extends BaseScreen {
               variant: AppColorVariant.Light,
               onPressed: () async {
                 if (!currentWalletIsValidating(ref)) {
-                  Toast.error("Your active wallet must be a validator to create a topic.");
+                  Toast.error("Your active account must be a validator to create a topic.");
                   return;
                 }
 
@@ -60,7 +62,7 @@ class TopicListScreen extends BaseScreen {
                 }
 
                 if (balance < 1002) {
-                  Toast.error("Balance will not be sufficent to validate due to the cost of creating a topic (1 RBX + fee)");
+                  Toast.error("Balance will not be sufficent to validate due to the cost of creating a topic (1 VFX + fee)");
                   return;
                 }
 

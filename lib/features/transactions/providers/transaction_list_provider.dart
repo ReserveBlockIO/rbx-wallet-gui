@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../validator/providers/validating_status_provider.dart';
 import '../models/transaction.dart';
 import '../services/local_transaction_service.dart';
 import 'transaction_signal_provider.dart';
@@ -10,7 +11,7 @@ enum TransactionListType {
   Success,
   Failed,
   Pending,
-  Mined,
+  Validated,
   Reserved,
 }
 
@@ -38,10 +39,10 @@ class TransactionListProvider extends StateNotifier<List<Transaction>> {
 
     switch (type) {
       case TransactionListType.All:
-        transactions = await LocalTransactionService().transactionsAll();
+        transactions = (await LocalTransactionService().transactionsAll()).where((tx) => tx.fromAddress != 'Coinbase_BlkRwd').toList();
         break;
       case TransactionListType.Success:
-        transactions = await LocalTransactionService().transactionsSuccess();
+        transactions = (await LocalTransactionService().transactionsSuccess()).where((tx) => tx.fromAddress != 'Coinbase_BlkRwd').toList(); {}
         break;
       case TransactionListType.Failed:
         transactions = await LocalTransactionService().transactionsFailed();
@@ -49,7 +50,7 @@ class TransactionListProvider extends StateNotifier<List<Transaction>> {
       case TransactionListType.Pending:
         transactions = await LocalTransactionService().transactionsPending();
         break;
-      case TransactionListType.Mined:
+      case TransactionListType.Validated:
         transactions = await LocalTransactionService().transactionsMined();
         break;
       case TransactionListType.Reserved:
@@ -61,7 +62,14 @@ class TransactionListProvider extends StateNotifier<List<Transaction>> {
 
     if (type == TransactionListType.Success) {
       final recentTimestamp = (DateTime.now().millisecondsSinceEpoch / 1000).round() - (5 * 60); // 5 min
-      final recentTransactions = transactions.where((t) => t.timestamp > recentTimestamp).toList();
+
+      late final List<Transaction> recentTransactions;
+      if (ref.read(validatingStatusProvider)) {
+        recentTransactions = transactions.where((t) => t.timestamp > recentTimestamp && t.height != 0).toList();
+      } else {
+        recentTransactions = transactions.where((t) => t.timestamp > recentTimestamp).toList();
+      }
+
       ref.read(transactionSignalProvider.notifier).insertAll(recentTransactions);
     }
   }

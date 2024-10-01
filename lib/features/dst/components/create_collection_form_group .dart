@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/config/constants.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
+import '../../config/constants.dart';
 import '../providers/collection_form_provider.dart';
 
 import '../../../core/base_component.dart';
@@ -22,31 +23,41 @@ class CreateCollectionFormGroup extends BaseComponent {
           Center(
               child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 600),
-            child: Form(
-              key: provider.formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (model.id == 0)
-                    Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (model.id == 0)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 24.0),
+                    child: Center(
                       child: Text(
                         "You are creating a new collection in your auction house.\nAfter creating the new collection you will be able to create listings.",
                         textAlign: TextAlign.center,
                       ),
                     ),
-                  Flexible(
-                    child: _CollectionName(),
                   ),
-                  Flexible(
-                    child: _CollectionDescription(),
+                AppCard(
+                  child: Form(
+                    key: provider.formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Flexible(
+                          child: _CollectionName(),
+                        ),
+                        Flexible(
+                          child: _CollectionDescription(),
+                        ),
+                        SizedBox(
+                          height: 6,
+                        ),
+                        Flexible(child: _IsLiveCheckbox()),
+                      ],
+                    ),
                   ),
-                  SizedBox(
-                    height: 6,
-                  ),
-                  Flexible(child: _IsLiveCheckbox()),
-                ],
-              ),
+                ),
+              ],
             ),
           )),
         ],

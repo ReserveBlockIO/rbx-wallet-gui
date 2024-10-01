@@ -7,7 +7,7 @@ import '../../../core/components/badges.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/components/centered_loader.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../asset/polling_image_preview.dart';
+import '../../../core/theme/components.dart';
 
 import '../../../core/app_router.gr.dart';
 import '../providers/listing_detail_provider.dart';
@@ -67,169 +67,173 @@ class ListingDetailScreen extends BaseScreen {
               ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Table(
-                defaultColumnWidth: IntrinsicColumnWidth(),
-                border: TableBorder.all(
-                  color: Colors.white10,
+              child: AppCard(
+                child: Table(
+                  defaultColumnWidth: IntrinsicColumnWidth(),
+                  border: TableBorder(
+                    horizontalInside: BorderSide(
+                      color: Colors.white10,
+                    ),
+                  ),
+                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                  children: [
+                    TableRow(children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'NFT',
+                          style: headingStyle,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Builder(builder: (context) {
+                          if (listing.nft != null) {
+                            final nft = listing.nft!;
+                            return ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              title: Text(nft.name),
+                              subtitle: Text(nft.id),
+                              leading: FutureBuilder(
+                                future: listing.thumbnail(),
+                                builder: (context, AsyncSnapshot<Widget> snapshot) {
+                                  if (snapshot.hasData) {
+                                    return snapshot.data!;
+                                  }
+
+                                  return SizedBox();
+                                },
+                              ),
+                            );
+                          }
+
+                          return Text(listing.smartContractUid);
+                        }),
+                      ),
+                    ]),
+                    TableRow(children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Owner',
+                          style: headingStyle,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(listing.ownerAddress),
+                      ),
+                    ]),
+                    TableRow(children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Dates',
+                          style: headingStyle,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "${DateFormat.yMd().format(listing.startDate)} ${DateFormat("HH:mm").format(listing.startDate)}  - ${DateFormat.yMd().format(listing.endDate)} ${DateFormat("HH:mm").format(listing.endDate)}",
+                        ),
+                      ),
+                    ]),
+                    TableRow(children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Options',
+                          style: headingStyle,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                listing.isBuyNow
+                                    ? Icon(
+                                        Icons.check,
+                                        color: Theme.of(context).colorScheme.success,
+                                      )
+                                    : Icon(
+                                        Icons.close,
+                                        color: Theme.of(context).colorScheme.danger,
+                                      ),
+                                Text(" Buy Now"),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                listing.isAuction
+                                    ? Icon(
+                                        Icons.check,
+                                        color: Theme.of(context).colorScheme.success,
+                                      )
+                                    : Icon(
+                                        Icons.close,
+                                        color: Theme.of(context).colorScheme.danger,
+                                      ),
+                                Text(" Auction"),
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                    ]),
+                    listing.buyNowPrice != null && listing.buyNowPrice != 0
+                        ? TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Buy Now Price',
+                                style: headingStyle,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("${listing.buyNowPrice.toString()} VFX"),
+                            )
+                          ])
+                        : TableRow(children: [Container(), Container()]),
+                    listing.floorPrice != null && listing.floorPrice != 0
+                        ? TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Auction Floor Price',
+                                style: headingStyle,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("${listing.floorPrice.toString()} VFX"),
+                            )
+                          ])
+                        : TableRow(children: [Container(), Container()]),
+                    listing.reservePrice != null && listing.reservePrice != 0 && listing.reservePrice != listing.floorPrice
+                        ? TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Auction Reserve Price',
+                                style: headingStyle,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("${listing.reservePrice.toString()} VFX"),
+                            )
+                          ])
+                        : TableRow(children: [Container(), Container()]),
+                  ],
                 ),
-                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                children: [
-                  TableRow(children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'NFT',
-                        style: headingStyle,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Builder(builder: (context) {
-                        if (listing.nft != null) {
-                          final nft = listing.nft!;
-                          return ListTile(
-                            contentPadding: EdgeInsets.zero,
-                            title: Text(nft.name),
-                            subtitle: Text(nft.id),
-                            leading: FutureBuilder(
-                              future: listing.thumbnail(),
-                              builder: (context, AsyncSnapshot<Widget> snapshot) {
-                                if (snapshot.hasData) {
-                                  return snapshot.data!;
-                                }
-
-                                return SizedBox();
-                              },
-                            ),
-                          );
-                        }
-
-                        return Text(listing.smartContractUid);
-                      }),
-                    ),
-                  ]),
-                  TableRow(children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Owner',
-                        style: headingStyle,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(listing.ownerAddress),
-                    ),
-                  ]),
-                  TableRow(children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Dates',
-                        style: headingStyle,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "${DateFormat.yMd().format(listing.startDate)} ${DateFormat("HH:mm").format(listing.startDate)}  - ${DateFormat.yMd().format(listing.endDate)} ${DateFormat("HH:mm").format(listing.endDate)}",
-                      ),
-                    ),
-                  ]),
-                  TableRow(children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Options',
-                        style: headingStyle,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              listing.isBuyNow
-                                  ? Icon(
-                                      Icons.check,
-                                      color: Theme.of(context).colorScheme.success,
-                                    )
-                                  : Icon(
-                                      Icons.close,
-                                      color: Theme.of(context).colorScheme.danger,
-                                    ),
-                              Text(" Buy Now"),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              listing.isAuction
-                                  ? Icon(
-                                      Icons.check,
-                                      color: Theme.of(context).colorScheme.success,
-                                    )
-                                  : Icon(
-                                      Icons.close,
-                                      color: Theme.of(context).colorScheme.danger,
-                                    ),
-                              Text(" Auction"),
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
-                  ]),
-                  listing.buyNowPrice != null && listing.buyNowPrice != 0
-                      ? TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Buy Now Price',
-                              style: headingStyle,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("${listing.buyNowPrice.toString()} RBX"),
-                          )
-                        ])
-                      : TableRow(children: [Container(), Container()]),
-                  listing.floorPrice != null && listing.floorPrice != 0
-                      ? TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Auction Floor Price',
-                              style: headingStyle,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("${listing.floorPrice.toString()} RBX"),
-                          )
-                        ])
-                      : TableRow(children: [Container(), Container()]),
-                  listing.reservePrice != null && listing.reservePrice != 0 && listing.reservePrice != listing.floorPrice
-                      ? TableRow(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Auction Reserve Price',
-                              style: headingStyle,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("${listing.reservePrice.toString()} RBX"),
-                          )
-                        ])
-                      : TableRow(children: [Container(), Container()]),
-                ],
               ),
             ),
             if (listing.isAuction)
@@ -244,36 +248,30 @@ class ListingDetailScreen extends BaseScreen {
                 ),
               ),
             Expanded(child: SizedBox.shrink()),
-            Container(
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                color: Color(0xFF040f26),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    if (!listing.deactivateForSeller)
-                      AppButton(
-                        label: 'Edit Listing',
-                        icon: Icons.edit,
-                        variant: AppColorVariant.Light,
-                        onPressed: () {
-                          ref.read(listingFormProvider.notifier).load(listing);
-                          AutoRouter.of(context).push(CreateListingContainerScreenRoute(collectionId: listing.collectionId));
-                        },
-                      ),
+            Padding(
+              padding: const EdgeInsets.all(16.0).copyWith(bottom: 48),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  if (!listing.deactivateForSeller)
                     AppButton(
-                      label: 'Delete Listing',
-                      variant: AppColorVariant.Danger,
-                      icon: Icons.delete,
+                      label: 'Edit Listing',
+                      icon: Icons.edit,
+                      variant: AppColorVariant.Light,
                       onPressed: () {
-                        ref.read(listingFormProvider.notifier).delete(context, listing.collectionId, listing);
+                        ref.read(listingFormProvider.notifier).load(listing);
+                        AutoRouter.of(context).push(CreateListingContainerScreenRoute(collectionId: listing.collectionId));
                       },
-                    )
-                  ],
-                ),
+                    ),
+                  AppButton(
+                    label: 'Delete Listing',
+                    variant: AppColorVariant.Danger,
+                    icon: Icons.delete,
+                    onPressed: () {
+                      ref.read(listingFormProvider.notifier).delete(context, listing.collectionId, listing);
+                    },
+                  )
+                ],
               ),
             )
           ],

@@ -18,27 +18,27 @@ enum _Environment {
   WebLocalEnv,
 }
 
-_Environment _env = _Environment.Release;
+_Environment _env = _Environment.ReleaseTestNet;
 
 class Env {
   static init() async {
     String? envPath;
 
-    const envOverride = String.fromEnvironment("ENV");
+    // const envOverride = String.fromEnvironment("ENV");
 
-    if (envOverride.isNotEmpty) {
-      if (envOverride == "web") {
-        _env = _Environment.Web;
-      } else if (envOverride == "web_testnet") {
-        _env = _Environment.WebTestNet;
-      } else if (envOverride == "web_local") {
-        _env = _Environment.WebLocalEnv;
-      } else if (envOverride == "testnet") {
-        _env = _Environment.ReleaseTestNet;
-      } else if (envOverride == "mainnet") {
-        _env = _Environment.Release;
-      }
-    }
+    // if (envOverride.isNotEmpty) {
+    //   if (envOverride == "web") {
+    //     _env = _Environment.Web;
+    //   } else if (envOverride == "web_testnet") {
+    //     _env = _Environment.WebTestNet;
+    //   } else if (envOverride == "web_local") {
+    //     _env = _Environment.WebLocalEnv;
+    //   } else if (envOverride == "testnet") {
+    //     _env = _Environment.ReleaseTestNet;
+    //   } else if (envOverride == "mainnet") {
+    //     _env = _Environment.Release;
+    //   }
+    // }
 
     switch (_env) {
       case _Environment.Dev:
@@ -157,6 +157,10 @@ class Env {
     return DotEnv.dotenv.env['VALIDATOR_PORT'] ?? '3338';
   }
 
+  static String get validatorSecondaryPort {
+    return DotEnv.dotenv.env['VALIDATOR_SECONDARY_PORT'] ?? '3339';
+  }
+
   static String get portCheckerUrl {
     return DotEnv.dotenv.env['PORT_CHECKER_URL'] ?? "https://us-central1-portpingr.cloudfunctions.net/pinger";
   }
@@ -182,10 +186,14 @@ class Env {
   }
 
   static String get paymentEmbedUrl {
-    return DotEnv.dotenv.env['PAYMENT_EMBED_URL'] ?? "https://rbx-payment-integration.vercel.app/";
+    return DotEnv.dotenv.env['PAYMENT_EMBED_URL'] ?? "https://vfx-payment-integration.vercel.app/";
   }
 
   static String? get paymentDomain {
     return DotEnv.dotenv.env['PAYMENT_DOMAIN'];
+  }
+
+  static bool get rbxNetworkDown {
+    return DotEnv.dotenv.env['RBX_NETWORK_DOWN'] == 'true';
   }
 }

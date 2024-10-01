@@ -1,19 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/home/components/home_buttons/import_media_button.dart';
-import 'package:rbx_wallet/features/home/components/home_buttons/verify_nft_ownership_button.dart';
-import 'package:rbx_wallet/features/payment/payment_utils.dart';
+import 'package:rbx_wallet/features/home/components/home_buttons.dart';
+import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import '../../../core/app_constants.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/theme/app_theme.dart';
+
+import '../../payment/payment_utils.dart';
 import '../../../core/env.dart';
-import '../../bridge/providers/wallet_info_provider.dart';
-import '../components/home_buttons/import_snapshot_button.dart';
-import '../components/home_buttons/mother_button.dart';
-import '../components/home_buttons/reserve_accounts_button.dart';
-import '../components/home_buttons/validating_check_button.dart';
+
 import 'package:rbx_wallet/features/keygen/components/keygen_cta.dart'
     if (dart.library.io) 'package:rbx_wallet/features/keygen/components/keygen_cta_mock.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
@@ -21,16 +19,7 @@ import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/providers/session_provider.dart';
-import '../../hd/components/restore_hd_wallet_button.dart';
-import '../components/home_buttons/backup_button.dart';
-import '../components/home_buttons/encrypt_wallet_button.dart';
-import '../components/home_buttons/hd_wallet_button.dart';
-import '../components/home_buttons/open_db_button.dart';
-import '../components/home_buttons/open_log_button.dart';
-import '../components/home_buttons/print_addresses_button.dart';
-import '../components/home_buttons/print_validators_button.dart';
-import '../components/home_buttons/restart_cli_button.dart';
-import '../components/home_buttons/show_debug_data_button.dart';
+
 import '../components/log_window.dart';
 import '../components/transaction_window.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -50,7 +39,7 @@ class HomeScreen extends BaseScreen {
       title: const Text("Dashboard"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      leadingWidth: address == null || !ALLOW_PAYMENT ? null : 140,
+      leadingWidth: address == null || !ALLOW_PAYMENT ? null : 180,
       centerTitle: true,
       // leading: IconButton(
       //   onPressed: () {
@@ -64,22 +53,7 @@ class HomeScreen extends BaseScreen {
           ? SizedBox()
           : Padding(
               padding: const EdgeInsets.only(left: 4.0),
-              child: AppButton(
-                onPressed: () async {
-                  final agreed = await PaymentTermsDialog.show(context);
-
-                  if (agreed != true) {
-                    return;
-                  }
-
-                  final url = paymentUrl(amount: 1000, walletAddress: address);
-                  if (url != null) {
-                    launchUrl(Uri.parse(url));
-                  }
-                },
-                label: "Get \$RBX Now",
-                variant: AppColorVariant.Success,
-              ),
+              child: GetVfxButton(address: address),
             ),
       actions: const [WalletSelector()],
     );
@@ -99,39 +73,14 @@ class HomeScreen extends BaseScreen {
               if (kIsWeb)
                 Text(
                   "Keys",
-                  style: Theme.of(context).textTheme.subtitle2,
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
               if (kIsWeb) const Divider(),
               if (kIsWeb) const KeygenCta(),
-              if (!kIsWeb)
-                Text(
-                  "General Tools",
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
               if (!kIsWeb) const Divider(),
               if (!kIsWeb)
-                Wrap(
-                  alignment: WrapAlignment.spaceEvenly,
-                  spacing: 12.0,
-                  runSpacing: 12.0,
-                  children: [
-                    const RestartCliButton(),
-                    const HdWalletButton(),
-                    if (ref.watch(walletListProvider).isEmpty) const RestoreHdWalletButton(),
-                    const EncryptWalletButton(),
-                    const ReserveAccountsButton(),
-                    const PrintAdressesButton(),
-                    const PrintValidatorsButton(),
-                    const ValidatingCheckButton(),
-                    const MotherButton(),
-                    const ShowDebugDataButton(),
-                    const OpenDbFolderButton(),
-                    const OpenLogButton(),
-                    const VerifyNftOwnershipButton(),
-                    const BackupButton(),
-                    const ImportMediaButton(),
-                    if (Env.promptForUpdates) const ImportSnapshotButton(),
-                  ],
+                HomeButtons(
+                  includeRestoreHd: ref.watch(walletListProvider).isEmpty,
                 ),
               const Divider(),
               const LogWindow(),
@@ -141,6 +90,101 @@ class HomeScreen extends BaseScreen {
           ),
         ),
       ),
+    );
+  }
+}
+
+class GetVfxButton extends StatelessWidget {
+  final String address;
+  final bool vfxOnly;
+
+  const GetVfxButton({
+    super.key,
+    required this.address,
+    this.vfxOnly = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AppButton(
+      onPressed: () async {
+        String? type = vfxOnly ? 'vfx' : null;
+
+        if (!vfxOnly) {
+          type = await showModalBottomSheet(
+              context: context,
+              builder: (context) {
+                return ModalContainer(
+                  withDecor: false,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(boxShadow: glowingBox),
+                      child: Card(
+                        color: Colors.black,
+                        child: ListTile(
+                          title: Text("Get \$VFX Now"),
+                          onTap: () {
+                            Navigator.of(context).pop("vfx");
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(boxShadow: glowingBoxBtc),
+                      child: Card(
+                        color: Colors.black,
+                        child: ListTile(
+                          title: Text("Get \$BTC Now"),
+                          onTap: () {
+                            Navigator.of(context).pop("btc");
+                          },
+                        ),
+                      ),
+                    )
+                  ],
+                );
+              });
+        }
+
+        if (type == "vfx") {
+          if (Env.isTestNet) {
+            launchUrlString("https://testnet.rbx.network/faucet");
+            return;
+          }
+
+          final agreed = await PaymentTermsDialog.show(context);
+
+          if (agreed != true) {
+            return;
+          }
+
+          final url = paymentUrl(amount: 5000, walletAddress: address, currency: "VFX");
+          if (url != null) {
+            launchUrl(Uri.parse(url));
+          }
+        } else if (type == "btc") {
+          if (Env.isTestNet) {
+            launchUrlString("https://mempool.space/testnet4/faucet");
+            return;
+          }
+
+          final agreed = await PaymentTermsDialog.show(context);
+
+          if (agreed != true) {
+            return;
+          }
+
+          final url = paymentUrl(amount: 5000, walletAddress: address, currency: "BTC");
+          if (url != null) {
+            launchUrl(Uri.parse(url));
+          }
+        }
+      },
+      label: vfxOnly ? "Get \$VFX" : "Get \$VFX/\$BTC Now",
+      variant: AppColorVariant.Success,
     );
   }
 }

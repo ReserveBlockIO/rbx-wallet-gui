@@ -1,29 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/auth/auth_utils.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
-import 'package:rbx_wallet/features/raw/raw_service.dart';
-import 'package:rbx_wallet/features/web/components/web_activate_ra_button.dart';
-import 'package:rbx_wallet/features/web/components/web_fund_ra_account_button.dart';
-import 'package:rbx_wallet/features/web/components/web_recover_ra_button.dart';
-import 'package:rbx_wallet/features/web/components/web_restore_ra_button.dart';
-import 'package:rbx_wallet/features/web/providers/web_ra_pending_recovery_provider.dart';
-import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/components/badges.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../auth/auth_utils.dart';
+import '../../web/components/web_activate_ra_button.dart';
+import '../../web/components/web_fund_ra_account_button.dart';
+import '../../web/components/web_recover_ra_button.dart';
+import '../../web/components/web_restore_ra_button.dart';
+import '../../web/providers/web_ra_pending_recovery_provider.dart';
+import '../../../generated/assets.gen.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/base_screen.dart';
 
-import '../providers/reserve_account_provider.dart';
 
 class WebReserveAccountOverviewScreen extends BaseScreen {
   const WebReserveAccountOverviewScreen({Key? key})
@@ -35,7 +29,7 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text("Your Reserve Account"),
+      title: Text("Your Vault Account"),
       backgroundColor: Colors.black,
       actions: [],
     );
@@ -75,7 +69,7 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
                       color: Colors.black,
                       child: ListTile(
                         title: Text(keypair.address),
-                        subtitle: Text("$balance RBX"),
+                        subtitle: Text("$balance VFX"),
                         leading: IconButton(
                           icon: Icon(Icons.copy),
                           onPressed: () async {
@@ -88,7 +82,7 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
                           onPressed: () async {
                             final confirmed = await ConfirmDialog.show(
                               title: "Reveal Private Key?",
-                              body: "Are you sure you want to reveal your private key for your Reserve Account?",
+                              body: "Are you sure you want to reveal your private key for your Vault Account?",
                               confirmText: "Reveal",
                               cancelText: "Cancel",
                             );
@@ -171,7 +165,7 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
                                   SizedBox(
                                     height: 8,
                                   ),
-                                  Text("To activate, you must first transfer 5.0 RBX to this address."),
+                                  Text("To activate, you must first transfer 5.0 VFX to this address."),
                                   SizedBox(
                                     height: 16,
                                   ),
@@ -252,19 +246,19 @@ class _Top extends BaseComponent {
                           color: Theme.of(context).colorScheme.secondary,
                         )),
                     TextSpan(
-                      text: "] is a Cold Storage and On-Chain Escrow Feature to keep your RBX Funds and your Digital Assets Safe.\n\n",
+                      text: "] is a Cold Storage and On-Chain Escrow Feature to keep your VFX Funds and your Digital Assets Safe.\n\n",
                     ),
                     TextSpan(
                       style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
                       text:
-                          "This feature is separate from your RBX instant settlement address and enables both recovery and call-back on-chain escrow features that allows you to be able to recover funds and assets back to your Reserve Account in the event of theft, misplacement, or from a recipient that requires trustless escrow within 24 hours of occurrence or within a user pre-set defined time.\n\n",
+                          "This feature is separate from your VFX instant settlement address and enables both recovery and call-back on-chain escrow features that allows you to be able to recover funds and assets back to your Vault Account in the event of theft, misplacement, or from a recipient that requires trustless escrow within 24 hours of occurrence or within a user pre-set defined time.\n\n",
                     ),
                     TextSpan(
                       text: "These features are all on-chain and all peers are aware of their current state.\n",
                       style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     TextSpan(
-                      text: "Note: Activating this feature requires a 5 RBX deposit, 4 of which will be burned upon activation.",
+                      text: "Note: Activating this feature requires a 5 VFX deposit, 4 of which will be burned upon activation.",
                       style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                   ],

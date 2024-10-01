@@ -17,21 +17,18 @@ class InvalidWallet extends StatelessWidget {
         children: [
           Text(
             message,
-            style: Theme.of(context).textTheme.headline4,
+            style: Theme.of(context).textTheme.headlineMedium,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
           const Divider(),
           Text(
-            "Change Wallet:",
-            style: Theme.of(context).textTheme.caption,
+            "Change Account:",
+            style: Theme.of(context).textTheme.bodySmall,
           ),
-          const SizedBox(
-            width: 350,
-            child: WalletSelector(
-              truncatedLabel: false,
-              withOptions: false,
-            ),
+          WalletSelector(
+            truncatedLabel: false,
+            withOptions: false,
           )
         ],
       ),

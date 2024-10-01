@@ -2,11 +2,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/features/btc/providers/tokenized_bitcoin_list_provider.dart';
+import '../../../../core/theme/app_theme.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/providers/session_provider.dart';
 import '../../../../generated/assets.gen.dart';
 import '../../../../utils/toast.dart';
+
+import '../../../../features/btc/providers/btc_balance_provider.dart';
 
 class MainMenu extends BaseComponent {
   // ignoreing this because otherwise dartfix will try to make it a const which screws up rebuilds
@@ -20,6 +25,15 @@ class MainMenu extends BaseComponent {
     final tabsRouter = AutoTabsRouter.of(context);
 
     final totalBalance = ref.watch(sessionProvider).totalBalance;
+    final btcBalance = ref.watch(btcBalanceProvider);
+    final btcAccountSyncInfo = ref.watch(sessionProvider).btcAccountSyncInfo;
+
+    double vBtcBalance = 0;
+    for (final a in ref.watch(tokenizedBitcoinListProvider)) {
+      vBtcBalance += a.myBalance;
+    }
+
+    // final vBtcBalance = ref.watch(tokenizedBitcoinListProvider).fold<double>(0.0, (previousValue, element) => previousValue + element.myBalance);
 
     return Scrollbar(
       controller: scrollController,
@@ -46,29 +60,48 @@ class MainMenu extends BaseComponent {
                   Container(
                     color: Colors.black,
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Center(
-                        child: Image.asset(
-                          Assets.images.rbxWallet.path,
-                          width: 160,
-                          height: 27,
-                          fit: BoxFit.contain,
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Verified",
+                                style: TextStyle(
+                                  color: Colors.white.withOpacity(0.7),
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: 'Mukta',
+                                  letterSpacing: 0,
+                                ),
+                              ),
+                              Text(
+                                "X",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.secondary,
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: 'Mukta',
+                                  letterSpacing: 0,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                        // child: Center(
+                        //     child: Text(
+                        //   "RBXWallet",
+                        //   style: Theme.of(context)
+                        //       .textTheme
+                        //       .headline4!
+                        //       .copyWith(color: Colors.white70, letterSpacing: 2),
+                        // )),
                         ),
-                      ),
-                      // child: Center(
-                      //     child: Text(
-                      //   "RBXWallet",
-                      //   style: Theme.of(context)
-                      //       .textTheme
-                      //       .headline4!
-                      //       .copyWith(color: Colors.white70, letterSpacing: 2),
-                      // )),
-                    ),
                   ),
                   Container(
                     color: Colors.black,
-                    child: const Center(
-                      child: _RotatingCube(),
+                    child: Center(
+                      child: _RotatingCube(btc: ref.watch(sessionProvider).btcSelected),
                     ),
                   ),
                   Container(
@@ -77,10 +110,68 @@ class MainMenu extends BaseComponent {
                       padding: const EdgeInsets.all(8.0).copyWith(top: 0),
                       child: Center(
                         child: Text(
-                          totalBalance != null ? "$totalBalance RBX" : "",
-                          style: Theme.of(context).textTheme.caption!.copyWith(
+                          totalBalance != null ? "$totalBalance VFX" : "0.0 VFX",
+                          style: Theme.of(context).textTheme.bodySmall!.copyWith(
                                 fontWeight: FontWeight.w600,
+                                color: Theme.of(context).colorScheme.secondary,
                               ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // if (btcBalance > 0)
+                  Container(
+                    color: Colors.black,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0).copyWith(top: 0),
+                      child: Center(
+                        child: Tooltip(
+                          message: btcAccountSyncInfo != null
+                              ? "Last Sync: ${btcAccountSyncInfo.lastSyncFormatted}\nNext Sync: ${btcAccountSyncInfo.nextSyncFormatted}"
+                              : "",
+                          child: Text(
+                            "${btcBalance.toStringAsFixed(9)} BTC",
+                            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: Theme.of(context).colorScheme.btcOrange,
+                                ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    color: Colors.black,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0).copyWith(top: 0),
+                      child: Center(
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                            children: [
+                              TextSpan(
+                                text: "$vBtcBalance",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              TextSpan(
+                                text: " ",
+                              ),
+                              TextSpan(
+                                text: "v",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.secondary,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "BTC",
+                                style: TextStyle(color: Colors.white70),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -96,6 +187,14 @@ class MainMenu extends BaseComponent {
                       }
                     },
                     isActive: tabsRouter.activeIndex == 0,
+                  ),
+                  _NavButton(
+                    title: "Vault Accounts",
+                    icon: Icons.security,
+                    onPressed: () {
+                      tabsRouter.setActiveIndex(14);
+                    },
+                    isActive: tabsRouter.activeIndex == 14,
                   ),
                   _NavButton(
                     title: "Send",
@@ -123,7 +222,7 @@ class MainMenu extends BaseComponent {
                   ),
                   if (!kIsWeb)
                     _NavButton(
-                      title: "Masternode",
+                      title: "Validator",
                       icon: Icons.check_circle,
                       onPressed: () {
                         tabsRouter.setActiveIndex(4);
@@ -131,35 +230,35 @@ class MainMenu extends BaseComponent {
                       isActive: tabsRouter.activeIndex == 4,
                     ),
 
-                  if (!kIsWeb)
-                    _NavButton(
-                      title: "Validator Pool",
-                      icon: Icons.wifi,
-                      onPressed: () {
-                        tabsRouter.setActiveIndex(6);
-                      },
-                      isActive: tabsRouter.activeIndex == 6,
-                    ),
-                  if (!kIsWeb)
-                    _NavButton(
-                      title: "Validator Voting",
-                      icon: Icons.how_to_vote,
-                      onPressed: () {
-                        tabsRouter.setActiveIndex(11);
-                      },
-                      isActive: tabsRouter.activeIndex == 11,
-                    ),
-                  _NavButton(
-                    title: "Beacons",
-                    icon: Icons.satellite_alt,
-                    onPressed: () {
-                      tabsRouter.setActiveIndex(12);
-                    },
-                    isActive: tabsRouter.activeIndex == 12,
-                  ),
+                  // if (!kIsWeb)
+                  //   _NavButton(
+                  //     title: "Validator Pool",
+                  //     icon: Icons.wifi,
+                  //     onPressed: () {
+                  //       tabsRouter.setActiveIndex(6);
+                  //     },
+                  //     isActive: tabsRouter.activeIndex == 6,
+                  //   ),
+                  // if (!kIsWeb)
+                  //   _NavButton(
+                  //     title: "Validator Voting",
+                  //     icon: Icons.how_to_vote,
+                  //     onPressed: () {
+                  //       tabsRouter.setActiveIndex(11);
+                  //     },
+                  //     isActive: tabsRouter.activeIndex == 11,
+                  //   ),
+                  // _NavButton(
+                  //   title: "Beacons",
+                  //   icon: Icons.satellite_alt,
+                  //   onPressed: () {
+                  //     tabsRouter.setActiveIndex(12);
+                  //   },
+                  //   isActive: tabsRouter.activeIndex == 12,
+                  // ),
 
                   _NavButton(
-                    title: "RBX Domains",
+                    title: "VFX/BTC Domains",
                     icon: Icons.link,
                     onPressed: () {
                       tabsRouter.setActiveIndex(10);
@@ -167,17 +266,38 @@ class MainMenu extends BaseComponent {
                     isActive: tabsRouter.activeIndex == 10,
                   ),
                   _NavButton(
+                    title: "Tokenize Bitcoin",
+                    icon: FontAwesomeIcons.bitcoin,
+                    activeColorOverride: Theme.of(context).colorScheme.btcOrange,
+                    onPressed: () {
+                      tabsRouter.setActiveIndex(15);
+                    },
+                    isActive: tabsRouter.activeIndex == 15,
+                  ),
+                  _NavButton(
                     title: "Smart Contracts",
                     icon: Icons.receipt_long,
                     onPressed: () {
                       if (ref.read(sessionProvider).currentWallet == null) {
-                        Toast.error("A wallet is required to access this section.");
+                        Toast.error("An account is required to access this section.");
                         return;
                       }
                       tabsRouter.setActiveIndex(8);
                       tabsRouter.popTop();
                     },
                     isActive: tabsRouter.activeIndex == 8,
+                  ),
+                  _NavButton(
+                    title: "Fungible Tokens",
+                    icon: Icons.toll,
+                    onPressed: () {
+                      if (tabsRouter.activeIndex == 13) {
+                        tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
+                      } else {
+                        tabsRouter.setActiveIndex(13);
+                      }
+                    },
+                    isActive: tabsRouter.activeIndex == 13,
                   ),
 
                   // if (!kIsWeb)
@@ -194,7 +314,7 @@ class MainMenu extends BaseComponent {
                     icon: Icons.lightbulb_outline,
                     onPressed: () {
                       if (ref.read(sessionProvider).currentWallet == null) {
-                        Toast.error("A wallet is required to access this section.");
+                        Toast.error("An account is required to access this section.");
                         return;
                       }
                       tabsRouter.setActiveIndex(7);
@@ -215,15 +335,6 @@ class MainMenu extends BaseComponent {
                     },
                     isActive: tabsRouter.activeIndex == 9,
                   ),
-                  // if (kDebugMode)
-                  //   _NavButton(
-                  //     title: "WEB P2P Auctions",
-                  //     icon: Icons.leak_add,
-                  //     onPressed: () {
-                  //       tabsRouter.setActiveIndex(13);
-                  //     },
-                  //     isActive: tabsRouter.activeIndex == 13,
-                  //   ),
                 ],
               ),
             ],
@@ -235,19 +346,25 @@ class MainMenu extends BaseComponent {
 }
 
 class _RotatingCube extends StatelessWidget {
+  final bool btc;
   const _RotatingCube({
-    Key? key,
-  }) : super(key: key);
+    required this.btc,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.black,
       width: 100,
-      child: Image.asset(
-        Assets.images.animatedCube.path,
-        scale: 1,
-      ),
+      child: btc
+          ? Image.asset(
+              Assets.images.animatedCubeBtc.path,
+              scale: 1,
+            )
+          : Image.asset(
+              Assets.images.animatedCube.path,
+              scale: 1,
+            ),
     );
   }
 }
@@ -257,6 +374,7 @@ class _NavButton extends StatelessWidget {
   final Function() onPressed;
   final IconData icon;
   final bool isActive;
+  final Color? activeColorOverride;
 
   const _NavButton({
     Key? key,
@@ -264,11 +382,12 @@ class _NavButton extends StatelessWidget {
     required this.onPressed,
     required this.icon,
     this.isActive = false,
+    this.activeColorOverride,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final textColor = isActive ? Theme.of(context).colorScheme.secondary : Theme.of(context).textTheme.bodyText1!.color;
+    final textColor = isActive ? activeColorOverride ?? Theme.of(context).colorScheme.secondary : Theme.of(context).textTheme.bodyLarge!.color;
 
     return Container(
       decoration: const BoxDecoration(
@@ -279,8 +398,7 @@ class _NavButton extends StatelessWidget {
       width: double.infinity,
       child: TextButton.icon(
         style: TextButton.styleFrom(
-          primary: textColor,
-          padding: const EdgeInsets.all(22.0),
+          foregroundColor: textColor, padding: const EdgeInsets.all(22.0),
           alignment: Alignment.centerLeft,
         ),
         icon: Icon(

@@ -4,11 +4,12 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:archive/archive_io.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rbx_wallet/features/btc/services/btc_service.dart';
 import '../features/transactions/models/transaction.dart';
 
 import '../features/wallet/providers/wallet_list_provider.dart';
@@ -18,7 +19,7 @@ import 'env.dart';
 
 Future<bool> backupKeys(BuildContext context, WidgetRef ref) async {
   try {
-    final wallets = ref.read(walletListProvider);
+    final wallets = ref.read(walletListProvider).where((w) => !w.isReserved);
 
     String output = "";
 
@@ -38,15 +39,28 @@ Future<bool> backupKeys(BuildContext context, WidgetRef ref) async {
     }
     output += "\n===================================\n\n";
 
+    final btcAccounts = await BtcService().listAccounts(false);
+
+    if (btcAccounts.isNotEmpty) {
+      output += "BTC Accounts:\n\n";
+
+      for (final b in btcAccounts) {
+        output += "Addresss: \n${b.address}\n\n";
+        output += "Private Key: \n${b.privateKey}\n\n";
+        output += "WIF Private Key: \n${b.wifKey}\n\n";
+        output += "===================================\n\n";
+      }
+    }
+
     List<int> bytes = utf8.encode(output);
 
     final date = DateTime.now();
     final d = "${date.year}-${date.month}-${date.day}";
     if (Platform.isMacOS) {
-      await FileSaver.instance.saveAs(name: "rbx-keys-backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
+      await FileSaver.instance.saveAs(name: "vfx-keys-backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
     } else {
       final data =
-          await FileSaver.instance.saveFile(name: "rbx-keys-backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
+          await FileSaver.instance.saveFile(name: "vfx-keys-backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
       Toast.message("Saved to $data");
     }
 
@@ -112,9 +126,9 @@ Future<bool> backupMedia(BuildContext context, WidgetRef ref) async {
     final assetsFolderName = Env.isTestNet ? "AssetsTestNet" : "Assets";
 
     if (Platform.isMacOS) {
-      rbxPath = rbxPath.replaceAll("/Documents", Env.isTestNet ? "/rbxtest" : "/rbx");
+      rbxPath = rbxPath.replaceAll("/Documents", Env.isTestNet ? "/rbxtest" : "/vfx");
     } else {
-      rbxPath = rbxPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\RBX${Env.isTestNet ? 'Test' : ''}");
+      rbxPath = rbxPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\VFX${Env.isTestNet ? 'Test' : ''}");
     }
 
     String inputPath = "$rbxPath${Platform.isWindows ? '\\' : '/'}$assetsFolderName";
@@ -130,10 +144,10 @@ Future<bool> backupMedia(BuildContext context, WidgetRef ref) async {
     final date = DateTime.now();
     final d = "${date.year}-${date.month}-${date.day}";
     if (Platform.isMacOS) {
-      await FileSaver.instance.saveAs(name: "rbx-media-backup-$d", ext: "zip", mimeType: MimeType.zip, bytes: Uint8List.fromList(bytes));
+      await FileSaver.instance.saveAs(name: "vfx-media-backup-$d", ext: "zip", mimeType: MimeType.zip, bytes: Uint8List.fromList(bytes));
     } else {
       final data =
-          await FileSaver.instance.saveFile(name: "rbx-media-backup-$d", ext: "zip", mimeType: MimeType.zip, bytes: Uint8List.fromList(bytes));
+          await FileSaver.instance.saveFile(name: "vfx-media-backup-$d", ext: "zip", mimeType: MimeType.zip, bytes: Uint8List.fromList(bytes));
       Toast.message("Saved to $data");
     }
 
@@ -191,7 +205,14 @@ Map<String, dynamic>? parseNftData(Transaction transaction) {
 }
 
 String? nftDataValue(Map<String, dynamic> nftData, String key) {
-  return nftData.containsKey(key) ? nftData[key].toString() : null;
+  if (nftData.containsKey(key)) {
+    final val = nftData[key];
+    if (val is double) {
+      return formatDecimal(val);
+    }
+    return nftData[key].toString();
+  }
+  return null;
 }
 
 String getExtensionFromMimeType(String mimeType) {
@@ -217,4 +238,32 @@ String getExtensionFromMimeType(String mimeType) {
     default:
       return '';
   }
+}
+
+String? cleanPhoneNumber(String phoneNumber) {
+  String cleanedNumber = phoneNumber.replaceAll(RegExp(r'[^\d]'), '');
+  if (cleanedNumber.length >= 10) {
+    // Check if the number is valid
+    if (cleanedNumber.length == 10) {
+      // If it's a 10-digit number, add "+1" at the beginning
+      cleanedNumber = '1$cleanedNumber';
+    }
+    return "+$cleanedNumber";
+  }
+  return null;
+}
+
+String formatDecimal(double number) {
+  NumberFormat formatter = NumberFormat('#.##########'); // Adjust the number of '#' as needed
+  String formatted = formatter.format(number);
+
+  // Ensure at least one decimal place if it's an integer
+  if (formatted.contains('.')) {
+    formatted = formatted.replaceAll(RegExp(r'0*$'), '');
+    formatted = formatted.replaceAll(RegExp(r'\.$'), '.0');
+  } else {
+    formatted = '$formatted.0';
+  }
+
+  return formatted;
 }

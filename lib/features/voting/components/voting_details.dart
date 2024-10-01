@@ -71,6 +71,7 @@ class _VotingDetailsState extends BaseComponentState<VotingDetails> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Card(
+          color: Colors.white.withOpacity(0.05),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -112,6 +113,7 @@ class _VotingDetailsState extends BaseComponentState<VotingDetails> {
         ),
         const SizedBox(width: 16),
         Card(
+          color: Colors.white.withOpacity(0.05),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -154,7 +156,10 @@ class _VotingDetailsState extends BaseComponentState<VotingDetails> {
         PieChart(
           chartRadius: 100,
           chartType: ChartType.ring,
-          chartValuesOptions: const ChartValuesOptions(decimalPlaces: 0),
+          chartValuesOptions: const ChartValuesOptions(
+            decimalPlaces: 0,
+            showChartValues: false,
+          ),
           colorList: [
             Theme.of(context).colorScheme.success,
             Theme.of(context).colorScheme.danger,

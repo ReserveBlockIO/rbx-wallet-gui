@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
 
 import '../../../core/base_component.dart';
 import '../../../utils/validation.dart';
@@ -24,35 +24,33 @@ class CreateDecShopFormGroup extends BaseComponent {
           Center(
               child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 600),
-            child: Form(
-              key: provider.formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (model.id == 0)
-                    Center(
-                      child: Text(
-                        "Create your auction house / gallery and publish it to the network.\nThen you'll be able to create collections and add listings to them.",
-                        textAlign: TextAlign.center,
+            child: AppCard(
+              child: Form(
+                key: provider.formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (model.id == 0)
+                      Center(
+                        child: Text(
+                          "Create your auction house / gallery and publish it to the network.\nThen you'll be able to create collections and add listings to them.",
+                          textAlign: TextAlign.center,
+                        ),
                       ),
+                    Flexible(
+                      child: _DecShopName(),
                     ),
-                  Flexible(
-                    child: _DecShopName(),
-                  ),
-                  Flexible(
-                    child: _DecShopDescription(),
-                  ),
-                  Flexible(
-                    child: _DecUrl(),
-                  ),
-                  SizedBox(
-                    height: 6,
-                  ),
-                  Flexible(
-                    child: Card(
-                      color: Colors.white.withOpacity(0.03),
-                      margin: EdgeInsets.zero,
+                    Flexible(
+                      child: _DecShopDescription(),
+                    ),
+                    Flexible(
+                      child: _DecUrl(),
+                    ),
+                    SizedBox(
+                      height: 6,
+                    ),
+                    Flexible(
                       child: ListTile(
                         onTap: model.id == 0
                             ? () async {
@@ -69,30 +67,30 @@ class CreateDecShopFormGroup extends BaseComponent {
                         trailing: model.id == 0 ? Icon(Icons.folder_copy_outlined) : null,
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 6,
-                  ),
-                  // Flexible(
-                  //   child: Row(
-                  //     mainAxisSize: MainAxisSize.min,
-                  //     children: [
-                  //       Checkbox(
-                  //         value: model.autoUpdateNetworkDns,
-                  //         onChanged: (val) {
-                  //           if (val != null) {
-                  //             provider.updateAutoUpdateNetworkDns(val);
-                  //           }
-                  //         },
-                  //       ),
-                  //       SizedBox(
-                  //         width: 8,
-                  //       ),
-                  //       Text("Auto Update on DNS Change")
-                  //     ],
-                  //   ),
-                  // )
-                ],
+                    SizedBox(
+                      height: 6,
+                    ),
+                    // Flexible(
+                    //   child: Row(
+                    //     mainAxisSize: MainAxisSize.min,
+                    //     children: [
+                    //       Checkbox(
+                    //         value: model.autoUpdateNetworkDns,
+                    //         onChanged: (val) {
+                    //           if (val != null) {
+                    //             provider.updateAutoUpdateNetworkDns(val);
+                    //           }
+                    //         },
+                    //       ),
+                    //       SizedBox(
+                    //         width: 8,
+                    //       ),
+                    //       Text("Auto Update on DNS Change")
+                    //     ],
+                    //   ),
+                    // )
+                  ],
+                ),
               ),
             ),
           )),

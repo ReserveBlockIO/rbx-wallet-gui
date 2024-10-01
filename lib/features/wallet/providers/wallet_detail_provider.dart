@@ -18,8 +18,8 @@ class WalletDetailProvider extends StateNotifier<Wallet> {
   void delete() {
     if (state.isValidating) {
       InfoDialog.show(
-        title: 'This wallet is validating',
-        body: "You can't hide a wallet that is validating",
+        title: 'This account is validating',
+        body: "You can't hide an account that is validating",
       );
       return;
     }

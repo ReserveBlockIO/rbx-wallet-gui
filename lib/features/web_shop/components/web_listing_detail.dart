@@ -4,15 +4,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:context_menus/context_menus.dart';
-import 'package:dio/dio.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/countdown.dart';
-import 'package:rbx_wallet/utils/files.dart';
+import '../../../core/components/countdown.dart';
+import '../../../utils/files.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../core/base_component.dart';
@@ -232,7 +231,6 @@ class WebListingDetails extends BaseComponent {
 
 class _Preview extends StatefulWidget {
   const _Preview({
-    super.key,
     required this.listing,
   });
 
@@ -483,7 +481,6 @@ class _PreviewState extends State<_Preview> {
 class _Details extends BaseComponent {
   final WebListing listing;
   const _Details({
-    super.key,
     required this.listing,
   });
 
@@ -655,7 +652,6 @@ class _QRCode extends StatelessWidget {
   final double size;
   final Nft nft;
   const _QRCode({
-    super.key,
     required this.nft,
     this.size = 260,
   });
@@ -683,13 +679,9 @@ class _QRCode extends StatelessWidget {
 }
 
 class _Properties extends StatelessWidget {
-  final double size;
-
   final Nft nft;
   const _Properties({
-    super.key,
     required this.nft,
-    this.size = 260,
   });
 
   @override
@@ -698,14 +690,14 @@ class _Properties extends StatelessWidget {
       return SizedBox.shrink();
     }
     return ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: size),
+      constraints: BoxConstraints(maxWidth: 260),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Properties:",
-            style: Theme.of(context).textTheme.headline5,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
           SizedBox(height: 6),
           Column(
@@ -751,7 +743,7 @@ class _Properties extends StatelessWidget {
 
 class _Features extends StatelessWidget {
   final Nft nft;
-  const _Features({super.key, required this.nft});
+  const _Features({required this.nft});
 
   @override
   Widget build(BuildContext context) {
@@ -761,7 +753,7 @@ class _Features extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("NFT Features:", style: Theme.of(context).textTheme.headline5),
+          Text("NFT Features:", style: Theme.of(context).textTheme.headlineSmall),
           Builder(
             builder: (context) {
               if (nft.features.isEmpty) {
@@ -816,7 +808,7 @@ class _Features extends StatelessWidget {
 
 class _WebNftDetails extends StatelessWidget {
   final Nft nft;
-  const _WebNftDetails({super.key, required this.nft});
+  const _WebNftDetails({required this.nft});
 
   @override
   Widget build(BuildContext context) {
@@ -857,7 +849,6 @@ class _WebNftData extends StatelessWidget {
   final Nft nft;
 
   const _WebNftData({
-    super.key,
     required this.nft,
   });
 
@@ -952,7 +943,7 @@ class _WebNftData extends StatelessWidget {
               buildDetailRow(context, "Minted By", nft.minterName),
               buildDetailRow(context, "Minter Address", nft.minterAddress, true),
               buildDetailRow(context, "Owned by", nft.currentOwner, true),
-              buildDetailRow(context, "Chain", "RBX"),
+              buildDetailRow(context, "Chain", "VFX"),
               //TODO: Auction stuff
             ],
           ),
@@ -964,7 +955,7 @@ class _WebNftData extends StatelessWidget {
 
 class _BuyNow extends BaseComponent {
   final WebListing listing;
-  const _BuyNow({super.key, required this.listing});
+  const _BuyNow({required this.listing});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -1026,12 +1017,9 @@ class _BuyNow extends BaseComponent {
 class _Price extends StatelessWidget {
   final String label;
   final double amount;
-  final Color priceColor;
   const _Price({
-    super.key,
     required this.label,
     required this.amount,
-    this.priceColor = Colors.white,
   });
 
   @override
@@ -1049,11 +1037,11 @@ class _Price extends StatelessWidget {
           ),
         ),
         Text(
-          "$amount RBX",
+          "$amount VFX",
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: priceColor,
+            color: Colors.white,
           ),
         )
       ],
@@ -1064,7 +1052,6 @@ class _Price extends StatelessWidget {
 class _Auction extends BaseComponent {
   final WebListing listing;
   const _Auction({
-    super.key,
     required this.listing,
   });
 
@@ -1153,7 +1140,7 @@ class _Auction extends BaseComponent {
 
 class _Countdown extends StatelessWidget {
   final WebListing listing;
-  const _Countdown({super.key, required this.listing});
+  const _Countdown({required this.listing});
 
   @override
   Widget build(BuildContext context) {
@@ -1184,7 +1171,6 @@ class _Countdown extends StatelessWidget {
 
 class _AuctionInfoDialogContent extends StatelessWidget {
   const _AuctionInfoDialogContent({
-    super.key,
     required this.auction,
   });
 
@@ -1210,7 +1196,7 @@ class _AuctionInfoDialogContent extends StatelessWidget {
                 style: labelStyle,
               ),
               Text(
-                "${auction.currentBidPrice} RBX",
+                "${auction.currentBidPrice} VFX",
                 style: valueStyle,
               )
             ],
@@ -1222,7 +1208,7 @@ class _AuctionInfoDialogContent extends StatelessWidget {
                 style: labelStyle,
               ),
               Text(
-                "${auction.incrementAmount} RBX",
+                "${auction.incrementAmount} VFX",
                 style: valueStyle,
               )
             ],
@@ -1259,7 +1245,6 @@ class _AuctionInfoDialogContent extends StatelessWidget {
 
 class _BidHistoryButton extends BaseComponent {
   const _BidHistoryButton({
-    super.key,
     required this.listing,
   });
 
@@ -1299,7 +1284,6 @@ class _BidHistoryButton extends BaseComponent {
 class _BidHistoryModal extends BaseComponent {
   final List<WebBid> bids;
   const _BidHistoryModal({
-    super.key,
     required this.bids,
   });
 
@@ -1327,7 +1311,7 @@ class _BidHistoryModal extends BaseComponent {
             (bid) {
               return ListTile(
                 leading: _BidStatusIndicator(bid),
-                title: Text("${bid.amount} RBX"),
+                title: Text("${bid.amount} VFX"),
                 subtitle: SelectableText(isMobile ? "${bid.address} \n${timeago.format(bid.sendDateTime)}" : bid.address),
                 trailing: Builder(builder: (context) {
                   final currentAddress = kIsWeb ? ref.watch(webSessionProvider).keypair?.address : ref.watch(sessionProvider).currentWallet?.address;
@@ -1355,10 +1339,7 @@ class _BidHistoryModal extends BaseComponent {
 
 class _BidStatusIndicator extends StatelessWidget {
   final WebBid bid;
-  const _BidStatusIndicator(
-    this.bid, {
-    super.key,
-  });
+  const _BidStatusIndicator(this.bid);
 
   @override
   Widget build(BuildContext context) {

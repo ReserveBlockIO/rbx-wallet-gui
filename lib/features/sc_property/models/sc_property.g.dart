@@ -25,4 +25,5 @@ const _$ScPropertyTypeEnumMap = {
   ScPropertyType.text: 'text',
   ScPropertyType.number: 'number',
   ScPropertyType.color: 'color',
+  ScPropertyType.url: 'url',
 };

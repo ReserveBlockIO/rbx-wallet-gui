@@ -1,9 +1,8 @@
-import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
+import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/components/centered_loader.dart';
 import '../../../core/dialogs.dart';
@@ -83,54 +82,48 @@ class MyCollectionDetailScreen extends BaseScreen {
             ),
             Divider(),
             Expanded(child: ListingList(collectionId)),
-            Container(
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                color: Color(0xFF040f26),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    AppButton(
-                      label: 'Edit Collection',
-                      icon: Icons.edit,
-                      variant: AppColorVariant.Light,
-                      onPressed: () {
-                        ref.read(storeFormProvider.notifier).load(store);
-                        AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
-                      },
-                    ),
-                    AppButton(
-                      label: 'Create Listing',
-                      icon: Icons.add,
-                      variant: AppColorVariant.Success,
-                      onPressed: () {
-                        AutoRouter.of(context).push(CreateListingContainerScreenRoute(collectionId: collectionId));
-                      },
-                    ),
-                    AppButton(
-                      label: 'Delete Collection',
-                      variant: AppColorVariant.Danger,
-                      icon: Icons.delete,
-                      onPressed: () async {
-                        final confirmed = await ConfirmDialog.show(
-                          title: "Delete Collection",
-                          body: "Are you sure you want to delete this store?",
-                          destructive: true,
-                          confirmText: "Delete",
-                          cancelText: "Cancel",
-                        );
+            Padding(
+              padding: const EdgeInsets.all(16.0).copyWith(bottom: 48),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  AppButton(
+                    label: 'Edit Collection',
+                    icon: Icons.edit,
+                    variant: AppColorVariant.Light,
+                    onPressed: () {
+                      ref.read(storeFormProvider.notifier).load(store);
+                      AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
+                    },
+                  ),
+                  AppButton(
+                    label: 'Create Listing',
+                    icon: Icons.add,
+                    variant: AppColorVariant.Success,
+                    onPressed: () {
+                      AutoRouter.of(context).push(CreateListingContainerScreenRoute(collectionId: collectionId));
+                    },
+                  ),
+                  AppButton(
+                    label: 'Delete Collection',
+                    variant: AppColorVariant.Danger,
+                    icon: Icons.delete,
+                    onPressed: () async {
+                      final confirmed = await ConfirmDialog.show(
+                        title: "Delete Collection",
+                        body: "Are you sure you want to delete this store?",
+                        destructive: true,
+                        confirmText: "Delete",
+                        cancelText: "Cancel",
+                      );
 
-                        if (confirmed == true) {
-                          ref.read(storeFormProvider.notifier).delete(context, store);
-                          Toast.message("Collection deleted.");
-                        }
-                      },
-                    )
-                  ],
-                ),
+                      if (confirmed == true) {
+                        ref.read(storeFormProvider.notifier).delete(context, store);
+                        Toast.message("Collection deleted.");
+                      }
+                    },
+                  )
+                ],
               ),
             )
           ],

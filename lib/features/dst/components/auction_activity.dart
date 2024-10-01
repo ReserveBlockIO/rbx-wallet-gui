@@ -28,7 +28,7 @@ class AuctionActivity extends BaseComponent {
 
         return ListTile(
           leading: BidStatusIndicator(bid),
-          title: Text("${bid.bidAmount} RBX"),
+          title: Text("${bid.bidAmount} VFX"),
           subtitle: Text(bid.bidAddress),
           trailing: Text(bid.bidSendTimeLabel),
         );

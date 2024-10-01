@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/badges.dart';
@@ -26,12 +27,13 @@ class NodeListScreen extends BaseScreen {
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
       actions: const [WalletSelector()],
-      leading: IconButton(
-        icon: const Icon(Icons.refresh),
-        onPressed: () {
-          ref.read(nodeListProvider.notifier).load();
-        },
-      ),
+      leading: BackToHomeButton(),
+      // leading: IconButton(
+      //   icon: const Icon(Icons.refresh),
+      //   onPressed: () {
+      //     ref.read(nodeListProvider.notifier).load();
+      //   },
+      // ),
     );
   }
 
@@ -89,7 +91,7 @@ class NodeListScreen extends BaseScreen {
         ),
         Text(
           "* Must be the name exactly",
-          style: Theme.of(context).textTheme.caption!.copyWith(color: Colors.white),
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.white),
         ),
         ConstrainedBox(
           constraints: const BoxConstraints(maxHeight: 500),
@@ -120,7 +122,7 @@ class NodeListScreen extends BaseScreen {
             alignment: Alignment.centerLeft,
             child: Text(
               "Validator",
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
           ),
         if (_validators.isNotEmpty)

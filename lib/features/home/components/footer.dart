@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/app_router.gr.dart';
@@ -28,15 +29,16 @@ class Footer extends BaseComponent {
                 children: [
                   Wrap(
                     spacing: 12.0,
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       IconButton(
                         iconSize: 16,
                         onPressed: () {
                           launchUrl(Uri.parse("https://discord.com/invite/PnS2HRETDh"));
                         },
-                        icon: const FaIcon(
+                        icon: FaIcon(
                           FontAwesomeIcons.discord,
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                       IconButton(
@@ -44,16 +46,25 @@ class Footer extends BaseComponent {
                         onPressed: () {
                           launchUrl(Uri.parse("https://github.com/ReserveBlockIO"));
                         },
-                        icon: const FaIcon(
+                        icon: FaIcon(
                           FontAwesomeIcons.github,
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
-                      )
+                      ),
+                      InkWell(
+                        onTap: () {
+                          launchUrlString("https://wiki.reserveblock.io/docs/introduction/what-is-rbx/");
+                        },
+                        child: Text(
+                          "Wiki",
+                          style: TextStyle(color: Theme.of(context).colorScheme.secondary, fontSize: 12, decoration: TextDecoration.underline),
+                        ),
+                      ),
                     ],
                   ),
                   Text(
                     "RBXWallet version $APP_VERSION ${Env.isTestNet ? '[TESTNET]' : ''}",
-                    style: Theme.of(context).textTheme.caption!.copyWith(
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           fontSize: 9,
                         ),
                   ),

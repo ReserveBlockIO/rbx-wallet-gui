@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../core/base_component.dart';
-import '../../../core/theme/app_theme.dart';
+import '../../../core/theme/components.dart';
 import '../../nft/models/nft.dart';
 import 'listing_details.dart';
 import '../models/shop_data.dart';
@@ -30,32 +30,26 @@ class ListingDetailsListTile extends BaseComponent {
       children: [
         Padding(
           padding: const EdgeInsets.only(bottom: 16.0, left: 8, right: 8),
-          child: Container(
-            decoration: BoxDecoration(
-              boxShadow: glowingBox,
-              color: Colors.black,
-            ),
-            child: Card(
-              margin: EdgeInsets.zero,
-              color: Colors.white.withOpacity(0.03),
-              child: ListTile(
-                title: Text(nft.name),
-                subtitle: Text(
-                  nft.description,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                trailing: isExpanded ? Icon(Icons.arrow_drop_up) : Icon(Icons.arrow_drop_down),
-                onTap: () {
-                  if (isExpanded) {
-                    ref.read(remoteShopExpandedListingsProvider.notifier).remove(nft.id);
-                  } else {
-                    ref.read(remoteShopExpandedListingsProvider.notifier).add(nft.id);
-                  }
-                },
-                leading: _Thumbnail(
-                  nft: nft,
-                ),
+          child: AppCard(
+            padding: 0,
+            margin: EdgeInsets.zero,
+            child: ListTile(
+              title: Text(nft.name),
+              subtitle: Text(
+                nft.description,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              trailing: isExpanded ? Icon(Icons.arrow_drop_up) : Icon(Icons.arrow_drop_down),
+              onTap: () {
+                if (isExpanded) {
+                  ref.read(remoteShopExpandedListingsProvider.notifier).remove(nft.id);
+                } else {
+                  ref.read(remoteShopExpandedListingsProvider.notifier).add(nft.id);
+                }
+              },
+              leading: _Thumbnail(
+                nft: nft,
               ),
             ),
           ),
@@ -69,7 +63,6 @@ class ListingDetailsListTile extends BaseComponent {
 class _Thumbnail extends StatefulWidget {
   final Nft nft;
   const _Thumbnail({
-    super.key,
     required this.nft,
   });
 

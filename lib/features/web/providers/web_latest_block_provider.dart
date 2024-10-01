@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/env.dart';
 
 import '../../../core/services/explorer_service.dart';
 import '../models/web_block.dart';
@@ -15,6 +16,8 @@ class WebLatestBlockProvider extends StateNotifier<WebBlock?> {
   }
 
   Future<void> _update() async {
+    if (Env.rbxNetworkDown) return;
+
     final block = await ExplorerService().getLatestBlock();
 
     if (block != null) {

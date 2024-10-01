@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,11 +18,9 @@ class NftGrid extends BaseComponent {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final NftListModel _model = ref.watch(minted ? mintedNftListProvider : nftListProvider);
-    // final searchController = ref.read(minted ? mintedNftListProvider.notifier : nftListProvider.notifier).searchController;
 
     return Column(
       children: [
-        // if (!kIsWeb)
         Padding(
           padding: const EdgeInsets.all(6.0),
           child: NftNavigator(minted: minted),

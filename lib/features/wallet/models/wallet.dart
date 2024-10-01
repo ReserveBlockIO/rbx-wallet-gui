@@ -21,12 +21,16 @@ class Wallet with _$Wallet {
     @JsonKey(name: "ADNR") String? adnr,
     @JsonKey(name: "RecoveryAddress") String? recoveryAddress,
     @JsonKey(name: "RecoveryPrivateKey") String? recoveryPrivateKey,
-    @JsonKey(name: "RecoveryEncryptedDecryptKey") String? recoveryEncryptedDecryptKey,
+    @JsonKey(name: "RecoveryEncryptedDecryptKey")
+        String? recoveryEncryptedDecryptKey,
     @JsonKey(name: "EncryptedDecryptKey") String? encryptedDecryptKey,
     @JsonKey(name: "AvailableBalance") @Default(0.0) double availableBalance,
     @JsonKey(name: "LockedBalance") @Default(0.0) double lockedBalance,
     @JsonKey(name: "TotalBalance") @Default(0.0) double totalBalance,
-    @JsonKey(name: "IsNetworkProtected") @Default(false) bool isNetworkProtected,
+    @JsonKey(name: "IsNetworkProtected")
+    @Default(false)
+        bool isNetworkProtected,
+    String? btcWif,
 
     // @Default(false) bool adnrPending,
   }) = _Wallet;
@@ -54,10 +58,10 @@ class Wallet with _$Wallet {
 
   String get balanceLabel {
     if (isReserved) {
-      return "Available: $availableBalance RBX";
+      return "Available: $availableBalance VFX";
     }
 
-    return "$balance RBX";
+    return "$balance VFX";
   }
 
   String get label {

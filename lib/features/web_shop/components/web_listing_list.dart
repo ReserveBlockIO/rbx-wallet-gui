@@ -1,16 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/breakpoints.dart';
-import '../../../core/components/buttons.dart';
-import '../../../core/components/empty_placeholder.dart';
-import '../../../core/env.dart';
-import '../../../core/theme/app_theme.dart';
-import '../../../core/web_router.gr.dart';
 import 'web_listing_detail.dart';
 import 'web_listing_detail_tile.dart';
-import '../models/web_listing.dart';
-import '../providers/create_web_listing_provider.dart';
 import '../providers/web_listing_full_list_provider.dart';
 
 import '../../../core/base_component.dart';

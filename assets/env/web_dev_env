@@ -1,8 +1,9 @@
 ENVIRONMENT_NAME=web_dev
 STORAGE_PREFIX=web_dev
-EXPLORER_API_BASE_URL=https://rbx-explorer-service-testnet.herokuapp.com/api
+EXPLORER_API_BASE_URL=https://testnet-data.rbx.network/api
 LAUNCH_CLI=false
 ALLOW_VALIDATING=false
 IS_WEB=true
 IS_TEST_NET=true
 PAYMENT_DOMAIN=https://rbx.banxa.com
+RBX_NETWORK_DOWN=false

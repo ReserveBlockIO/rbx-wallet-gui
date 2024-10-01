@@ -1,18 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_router.gr.dart';
-import '../../../core/app_constants.dart';
-import '../../../core/providers/web_session_provider.dart';
 import '../../dst/components/publish_shop_button.dart';
 import '../../dst/components/shop_online_button.dart';
-import '../../dst/providers/dec_shop_provider.dart';
-import '../../dst/providers/dst_tx_pending_provider.dart';
-import '../../dst/services/dst_service.dart';
-import '../providers/web_shop_detail_provider.dart';
-import '../services/web_shop_service.dart';
-import '../utils/shop_publishing.dart';
-import '../../../utils/toast.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';

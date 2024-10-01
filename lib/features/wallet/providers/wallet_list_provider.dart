@@ -50,13 +50,13 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text("Wallet Created"),
+            title: const Text("Account Created"),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Here is your wallet details. Please ensure to back up your private key in a safe place."),
+                  child: Text("Here are your wallet details. Please ensure to back up your private key in a safe place."),
                 ),
                 ListTile(
                   leading: const Icon(Icons.account_balance_wallet),
@@ -102,19 +102,19 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
     }
   }
 
-  Future<void> create() async {
-    if (!guardWalletIsNotResyncing(ref)) return;
+  Future<Wallet?> create() async {
+    if (!guardWalletIsNotResyncing(ref)) return null;
 
     final data = await BridgeService().newAddress();
 
     if (data == null) {
       Toast.error("An error occurred");
-      return;
+      return null;
     }
     final json = jsonDecode(data);
     final privateKey = json[0]['PrivateKey'];
 
-    await import(privateKey, true);
+    return await import(privateKey, true);
   }
 
   // void saveAll() {

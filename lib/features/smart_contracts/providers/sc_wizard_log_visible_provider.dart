@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/sc_wizard_log_provider.dart';
+import 'sc_wizard_log_provider.dart';
 
 class ScWizardLogVisibleProvider extends StateNotifier<bool> {
   final Ref ref;

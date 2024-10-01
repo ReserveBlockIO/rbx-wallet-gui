@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:intl/intl.dart';
+
 import 'web_shop.dart';
 
 part 'web_collection.freezed.dart';

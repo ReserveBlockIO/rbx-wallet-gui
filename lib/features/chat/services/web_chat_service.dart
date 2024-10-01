@@ -1,4 +1,4 @@
-import 'package:rbx_wallet/features/chat/models/latest_chat_message.dart';
+import '../models/latest_chat_message.dart';
 
 import '../../../core/env.dart';
 import '../../../core/models/paginated_response.dart';
@@ -14,6 +14,8 @@ class WebChatService extends BaseService {
         );
 
   Future<ServerPaginatedReponse<WebChatThread>> listThreads({int page = 1, String? buyerAddress, String? shopUrl}) async {
+    if (Env.rbxNetworkDown) ServerPaginatedReponse.empty();
+
     if (buyerAddress == null && shopUrl == null) {
       print("buyerAddress and shopUrl can not both be null, silly goose.");
       return ServerPaginatedReponse.empty();
@@ -46,6 +48,7 @@ class WebChatService extends BaseService {
   }
 
   Future<List<LatestChatMessage>?> listNewMessages(String address) async {
+    return [];
     try {
       final data = await getJson("/chat/new-messages", params: {'address': address});
 

@@ -96,6 +96,27 @@ class $AssetsEnvGen {
 class $AssetsFontsGen {
   const $AssetsFontsGen();
 
+  /// File path: assets/fonts/Mukta-Bold.ttf
+  String get muktaBold => 'assets/fonts/Mukta-Bold.ttf';
+
+  /// File path: assets/fonts/Mukta-ExtraBold.ttf
+  String get muktaExtraBold => 'assets/fonts/Mukta-ExtraBold.ttf';
+
+  /// File path: assets/fonts/Mukta-ExtraLight.ttf
+  String get muktaExtraLight => 'assets/fonts/Mukta-ExtraLight.ttf';
+
+  /// File path: assets/fonts/Mukta-Light.ttf
+  String get muktaLight => 'assets/fonts/Mukta-Light.ttf';
+
+  /// File path: assets/fonts/Mukta-Medium.ttf
+  String get muktaMedium => 'assets/fonts/Mukta-Medium.ttf';
+
+  /// File path: assets/fonts/Mukta-Regular.ttf
+  String get muktaRegular => 'assets/fonts/Mukta-Regular.ttf';
+
+  /// File path: assets/fonts/Mukta-SemiBold.ttf
+  String get muktaSemiBold => 'assets/fonts/Mukta-SemiBold.ttf';
+
   /// File path: assets/fonts/NotoColorEmoji-Regular.ttf
   String get notoColorEmojiRegular => 'assets/fonts/NotoColorEmoji-Regular.ttf';
 
@@ -103,7 +124,17 @@ class $AssetsFontsGen {
   String get robotoMonoRegular => 'assets/fonts/RobotoMono-Regular.ttf';
 
   /// List of all assets
-  List<String> get values => [notoColorEmojiRegular, robotoMonoRegular];
+  List<String> get values => [
+        muktaBold,
+        muktaExtraBold,
+        muktaExtraLight,
+        muktaLight,
+        muktaMedium,
+        muktaRegular,
+        muktaSemiBold,
+        notoColorEmojiRegular,
+        robotoMonoRegular
+      ];
 }
 
 class $AssetsHtmlGen {
@@ -123,9 +154,21 @@ class $AssetsImagesGen {
   AssetGenImage get animatedCube =>
       const AssetGenImage('assets/images/animated_cube.gif');
 
+  /// File path: assets/images/animated_cube_btc.gif
+  AssetGenImage get animatedCubeBtc =>
+      const AssetGenImage('assets/images/animated_cube_btc.gif');
+
   /// File path: assets/images/animated_cube_fast.gif
   AssetGenImage get animatedCubeFast =>
       const AssetGenImage('assets/images/animated_cube_fast.gif');
+
+  /// File path: assets/images/connector1.png
+  AssetGenImage get connector1 =>
+      const AssetGenImage('assets/images/connector1.png');
+
+  /// File path: assets/images/connector2.png
+  AssetGenImage get connector2 =>
+      const AssetGenImage('assets/images/connector2.png');
 
   /// File path: assets/images/decor_bottom.png
   AssetGenImage get decorBottom =>
@@ -246,6 +289,9 @@ class $AssetsImagesGen {
   AssetGenImage get tutRoyalty3 =>
       const AssetGenImage('assets/images/tut_royalty_3.gif');
 
+  /// File path: assets/images/vbtc.gif
+  AssetGenImage get vbtc => const AssetGenImage('assets/images/vbtc.gif');
+
   /// File path: assets/images/wordmark.png
   AssetGenImage get wordmark =>
       const AssetGenImage('assets/images/wordmark.png');
@@ -257,7 +303,10 @@ class $AssetsImagesGen {
   /// List of all assets
   List<AssetGenImage> get values => [
         animatedCube,
+        animatedCubeBtc,
         animatedCubeFast,
+        connector1,
+        connector2,
         decorBottom,
         decorBottomLeft,
         decorBottomRight,
@@ -289,6 +338,7 @@ class $AssetsImagesGen {
         tutRoyalty1,
         tutRoyalty2,
         tutRoyalty3,
+        vbtc,
         wordmark,
         wordmarkWeb
       ];
@@ -296,6 +346,12 @@ class $AssetsImagesGen {
 
 class $AssetsJsGen {
   const $AssetsJsGen();
+
+  /// File path: assets/js/btc-testnet.js
+  String get btcTestnet => 'assets/js/btc-testnet.js';
+
+  /// File path: assets/js/btc.js
+  String get btc => 'assets/js/btc.js';
 
   /// File path: assets/js/keygen-v2.js
   String get keygenV2 => 'assets/js/keygen-v2.js';
@@ -307,7 +363,7 @@ class $AssetsJsGen {
   String get keygen => 'assets/js/keygen.js';
 
   /// List of all assets
-  List<String> get values => [keygenV2, keygenV3, keygen];
+  List<String> get values => [btcTestnet, btc, keygenV2, keygenV3, keygen];
 }
 
 class Assets {

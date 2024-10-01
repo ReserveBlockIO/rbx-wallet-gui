@@ -7,7 +7,6 @@ import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dart_bip66/dart_bip66.dart';
 import 'package:hex/hex.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/features/keygen/models/keypair.dart';
 import 'package:rbx_wallet/features/raw/raw_service.dart';
 import 'package:secp256k1/secp256k1.dart' as secp256k1;
@@ -98,6 +97,12 @@ class RawTransaction {
 
     if (verifyTransactionData == null) {
       print("Transaction not valid");
+      return null;
+    }
+
+    if (verifyTransactionData['Result'] == "Fail") {
+      print("Transaction Not Verified");
+      print(verifyTransactionData['Message']);
       return null;
     }
 

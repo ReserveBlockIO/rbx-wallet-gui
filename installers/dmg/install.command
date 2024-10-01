@@ -1,1 +1,1 @@
-xattr -cr /Applications/RBXWallet.app && open /Applications/RBXWallet.app
+xattr -cr /Applications/VFXWallet.app && open /Applications/VFXWallet.app

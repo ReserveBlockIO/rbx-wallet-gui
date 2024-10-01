@@ -4,6 +4,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/core/theme/colors.dart';
+import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
+import '../../../../core/theme/components.dart';
 import '../../../sc_property/components/properties_manager.dart';
 
 import '../../../../core/app_constants.dart';
@@ -78,14 +82,14 @@ class SmartContractCreatorMain extends BaseComponent {
 
     if (!kIsWeb) {
       if (ref.read(sessionProvider).currentWallet!.balance < MIN_RBX_FOR_SC_ACTION) {
-        Toast.error("Not enough RBX balance to mint a smart contract.");
+        Toast.error("Not enough VFX balance to mint a smart contract.");
         return;
       }
     }
 
     if (kIsWeb) {
       if (ref.read(webSessionProvider).currentWallet == null) {
-        Toast.error("No wallet");
+        Toast.error("No account");
         return;
       }
     }
@@ -115,6 +119,28 @@ class SmartContractCreatorMain extends BaseComponent {
       if (amountInt > MAX_COMPILE_QUANTITY) {
         Toast.error("The maxium number you can mint at one time is $MAX_COMPILE_QUANTITY.");
         return;
+      }
+    }
+
+    if (!kIsWeb) {
+      final String? backupUrl = await PromptModal.show(
+        contextOverride: context,
+        title: "Backup URL (Optional)",
+        body: "Paste in a public URL to a hosted zipfile containing the assets.",
+        validator: (value) {
+          return null;
+        },
+        labelText: "URL (Optional)",
+        confirmText: "Continue",
+      );
+
+      if (backupUrl != null) {
+        ref.read(createSmartContractProvider.notifier).addProperty(
+              ScProperty(
+                name: BACKUP_URL_PROPERTY_NAME,
+                value: backupUrl,
+              ),
+            );
       }
     }
 
@@ -263,7 +289,6 @@ class SmartContractCreatorMain extends BaseComponent {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const BasicPropertiesFormGroup(),
                 Row(
                   children: const [
                     Expanded(child: PrimaryAssetFormGroup()),
@@ -275,11 +300,9 @@ class SmartContractCreatorMain extends BaseComponent {
             ),
           ),
         ),
-        Container(
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            color: Color(0xFF040f26),
-          ),
+        AppCard(
+          padding: 0,
+          color: AppColors.getGray(ColorShade.s300),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Center(child: buildCompileButton(ref, _model, context)),
@@ -293,45 +316,47 @@ class SmartContractCreatorMain extends BaseComponent {
   Widget desktopBody(BuildContext context, WidgetRef ref) {
     final _model = ref.watch(createSmartContractProvider);
 
-    return Column(
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const BasicPropertiesFormGroup(),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Expanded(child: PropertiesManager()),
-                    const Expanded(child: PrimaryAssetFormGroup()),
-                  ],
-                ),
-                const FeaturesFormGroup(),
-              ],
+    return AppCard(
+      margin: EdgeInsets.all(16),
+      child: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const BasicPropertiesFormGroup(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Expanded(child: PropertiesManager()),
+                      const Expanded(child: PrimaryAssetFormGroup()),
+                    ],
+                  ),
+                  const FeaturesFormGroup(),
+                ],
+              ),
             ),
           ),
-        ),
-        Container(
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            color: Color(0xFF040f26),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                buildSaveButton(_model, ref),
-                buildCompileButton(ref, _model, context),
-                if (!_model.isCompiled) buildDeleteButton(_model, context, ref),
-              ],
+          AppCard(
+            padding: 0,
+            color: AppColors.getGray(ColorShade.s300),
+            fullWidth: true,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  // buildSaveButton(_model, ref),
+                  buildCompileButton(ref, _model, context),
+                  // if (!_model.isCompiled) buildDeleteButton(_model, context, ref),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -350,20 +375,84 @@ class SmartContractCreatorMain extends BaseComponent {
     );
   }
 
-  AppButton buildCompileButton(WidgetRef ref, SmartContract _model, BuildContext context) {
-    return AppButton(
-      label: "Compile & Mint",
-      helpType: HelpType.compile,
-      variant: AppColorVariant.Success,
-      disabled: ref.watch(sessionProvider).isMintingOrCompiling,
-      onPressed: _model.isPublished
-          ? null
-          : () async {
-              if (!await passwordRequiredGuard(context, ref)) return;
-              compileAndMint(context, ref);
-            },
-      icon: Icons.computer,
-    );
+  Widget buildCompileButton(WidgetRef ref, SmartContract _model, BuildContext context) {
+    final disabled = ref.watch(sessionProvider).isMintingOrCompiling;
+    bool hovering = false;
+
+    return StatefulBuilder(builder: (context, setState) {
+      return MouseRegion(
+        onEnter: (_) {
+          setState(() {
+            hovering = true;
+          });
+        },
+        onExit: (_) {
+          setState(() {
+            hovering = false;
+          });
+        },
+        child: InkWell(
+          onTap: disabled || _model.isPublished
+              ? null
+              : () async {
+                  if (!await passwordRequiredGuard(context, ref)) return;
+                  compileAndMint(context, ref);
+                },
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 300),
+            decoration: BoxDecoration(
+              color: disabled ? Colors.white54 : Theme.of(context).colorScheme.secondary,
+              borderRadius: BorderRadius.circular(4.0),
+              border: Border.all(color: Theme.of(context).colorScheme.secondary.withOpacity(hovering ? 0.5 : 0.3), width: 1),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Theme.of(context).colorScheme.secondary.withOpacity(hovering ? 0.3 : 0.5),
+                  Theme.of(context).colorScheme.secondary.withOpacity(hovering ? 0.1 : 0.3),
+                ],
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black,
+                  blurRadius: 8,
+                )
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12).copyWith(top: 9),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Transform.translate(
+                    offset: Offset(0, -2),
+                    child: Icon(
+                      FontAwesomeIcons.gear,
+                      size: 16,
+                      color: Colors.white70,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    "Compile & Mint",
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Mukta',
+                      height: 1,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    });
   }
 
   Widget buildSaveButton(SmartContract _model, WidgetRef ref) {

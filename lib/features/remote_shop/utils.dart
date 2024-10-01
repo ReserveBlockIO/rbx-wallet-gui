@@ -51,11 +51,14 @@ Future<bool> connectToShop({
   }
 
   print("Trying to connect to shop $shopUrl. Attempt # $attempt");
-
+  final path = "/ConnectToDecShop/$myAddress/$shopUrl";
+  print("PATH: $path");
   final data = await service.getText(
-    "/ConnectToDecShop/$myAddress/$shopUrl",
+    path,
     cleanPath: false,
   );
+
+  print("DATA: $data");
 
   if (data == "true") {
     print("Connected");

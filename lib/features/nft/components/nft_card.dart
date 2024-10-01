@@ -5,11 +5,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
+
 import 'package:rbx_wallet/features/nft/providers/sale_provider.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/badges.dart';
-import '../../../core/components/buttons.dart';
 import '../../../core/env.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../utils/toast.dart';
@@ -68,7 +69,8 @@ class NftCard extends BaseComponent {
           : () {
               _showDetails(context, ref);
             },
-      child: Card(
+      child: AppCard(
+        padding: 16,
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -84,7 +86,7 @@ class NftCard extends BaseComponent {
                     )
                   : nft.currentEvolveAssetWeb != null
                       ? const Icon(Icons.file_present_outlined)
-                      : const Text("NFT assets have not been transfered to the RBX Web Wallet."),
+                      : const Text("NFT assets have not been transfered to the VFX Web Wallet."),
             if (!kIsWeb)
               nft.currentEvolveAsset.isImage
                   ? AspectRatio(
@@ -124,7 +126,7 @@ class NftCard extends BaseComponent {
                     padding: const EdgeInsets.symmetric(vertical: 4.0),
                     child: Text(
                       nft.id,
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         shadows: [
                           const Shadow(
                             color: Colors.black87,
@@ -305,14 +307,14 @@ class _UploadProgressModalState extends State<UploadProgressModal> {
     String location = "";
 
     if (Platform.isMacOS) {
-      appDocPath = appDocPath.replaceAll("/Documents", Env.isTestNet ? "/rbxtest" : "/rbx");
+      appDocPath = appDocPath.replaceAll("/Documents", Env.isTestNet ? "/rbxtest" : "/vfx");
       location = "$appDocPath/Databases${Env.isTestNet ? 'TestNet' : ''}/beaconlog.txt";
     } else {
       appDocDir = await getApplicationSupportDirectory();
 
       appDocPath = appDocDir.path;
 
-      appDocPath = appDocPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\RBX${Env.isTestNet ? 'Test' : ''}");
+      appDocPath = appDocPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\VFX${Env.isTestNet ? 'Test' : ''}");
       location = "$appDocPath\\Databases${Env.isTestNet ? 'TestNet' : ''}\\beaconlog.txt";
     }
 

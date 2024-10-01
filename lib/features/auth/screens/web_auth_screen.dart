@@ -16,7 +16,6 @@ import '../../../core/storage.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/web_router.gr.dart';
 import '../../../generated/assets.gen.dart';
-import '../../../utils/validation.dart';
 import '../auth_utils.dart';
 import '../components/auth_type_modal.dart';
 
@@ -139,7 +138,7 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   AppButton(
-                    label: "Create Wallet",
+                    label: "Create account",
                     icon: Icons.add,
                     onPressed: () {
                       // AuthModal.show(
@@ -163,7 +162,7 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
                           return AuthTypeModal(
                             handleMneumonic: () async {
                               final success =
-                                  await ConfirmDialog.show(title: 'Mneumonic', body: 'Are you sure you want to create a Mneumonic wallet?');
+                                  await ConfirmDialog.show(title: 'Mneumonic', body: 'Are you sure you want to create a Mneumonic account?');
                               if (success == true) {
                                 await handleCreateWithMnemonic(context, ref);
                                 if (ref.read(webSessionProvider).isAuthenticated) {

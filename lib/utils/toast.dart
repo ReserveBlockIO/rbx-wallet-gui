@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:rbx_wallet/core/theme/colors.dart';
 
 import '../app.dart';
 import '../core/dialogs.dart';
@@ -23,7 +24,7 @@ class Toast {
           fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : null,
         ),
       ),
-      backgroundColor: Theme.of(context).colorScheme.success,
+      backgroundColor: AppColors.getSpringGreen(),
       action: SnackBarAction(
         label: "Dismiss",
         textColor: Colors.white70,

@@ -1,5 +1,6 @@
 import 'package:date_count_down/date_count_down.dart';
 import 'package:flutter/material.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
 
 class AppCountdown extends StatelessWidget {
   final DateTime dueDate;
@@ -22,20 +23,10 @@ class AppCountdown extends StatelessWidget {
           fontWeight: FontWeight.w500,
         );
 
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFF040f26),
-        boxShadow: [
-          BoxShadow(
-            offset: Offset.zero,
-            blurRadius: 5,
-            color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
-            spreadRadius: 4,
-          )
-        ],
-      ),
+    return AppCard(
+      padding: 8,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(left: 6.0),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,

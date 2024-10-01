@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
 
 import '../../core/dialogs.dart';
 import '../../core/providers/session_provider.dart';
@@ -43,13 +44,54 @@ Future<bool> passwordRequiredGuard(
   return false;
 }
 
-Future<bool?> promptForPassword(BuildContext context, WidgetRef ref, [bool forValidating = false]) async {
+Future<bool> passwordRequiredGuardV2(
+  BuildContext context,
+  WidgetRef ref,
+  String address, [
+  bool prompt = true,
+  bool forValidating = false,
+]) async {
+  if (kIsWeb) {
+    return true;
+  }
+
+  final alreadyUnlocked = await ReserveAccountService().isUnlockedV2(address);
+  if (alreadyUnlocked) {
+    return true;
+  }
+
   final password = await PromptModal.show(
-    title: "Unlock Wallet",
+    title: "Unlock Account",
     contextOverride: context,
     validator: (value) => formValidatorNotEmpty(value, "Password"),
     labelText: "Password",
     obscureText: true,
+    revealObscure: true,
+    lines: 1,
+    tightPadding: true,
+  );
+  if (password == null) {
+    return false;
+  }
+
+  final unlocked = await ReserveAccountService().unlockV2(address, password);
+  if (unlocked) {
+    return true;
+  }
+
+  Toast.error("Incorrect decryption password.");
+
+  return false;
+}
+
+Future<bool?> promptForPassword(BuildContext context, WidgetRef ref, [bool forValidating = false]) async {
+  final password = await PromptModal.show(
+    title: "Unlock Account",
+    contextOverride: context,
+    validator: (value) => formValidatorNotEmpty(value, "Password"),
+    labelText: "Password",
+    obscureText: true,
+    revealObscure: true,
     lines: 1,
     tightPadding: true,
   );
@@ -61,9 +103,9 @@ Future<bool?> promptForPassword(BuildContext context, WidgetRef ref, [bool forVa
     final success = await ref.read(passwordRequiredProvider.notifier).unlock(password);
     if (success) {
       if (forValidating) {
-        Toast.message("Wallet unlocked.");
+        Toast.message("Account unlocked.");
       } else {
-        Toast.message("Wallet unlocked for 10 minutes.");
+        Toast.message("Account unlocked for 10 minutes.");
       }
       return true;
     }

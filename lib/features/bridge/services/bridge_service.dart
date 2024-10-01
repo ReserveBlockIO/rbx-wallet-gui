@@ -53,7 +53,7 @@ class BridgeService extends BaseService {
 
       return "A problem occurred";
     } catch (e) {
-      print("Unlock Wallet Error");
+      print("Unlock Account Error");
       print(e);
       return "$e";
     }
@@ -69,7 +69,7 @@ class BridgeService extends BaseService {
       }
       return false;
     } catch (e) {
-      print("Unlock Wallet Error");
+      print("Unlock Account Error");
       print(e);
       return false;
     }
@@ -85,7 +85,7 @@ class BridgeService extends BaseService {
       }
       return false;
     } catch (e) {
-      print("Lock Wallet Error");
+      print("Lock Account Error");
       print(e);
       return false;
     }
@@ -170,7 +170,7 @@ class BridgeService extends BaseService {
       return null;
     }
 
-    if (response == "This is not a valid RBX address to send to. Please verify again.") {
+    if (response == "This is not a valid VFX address to send to. Please verify again.") {
       Toast.error(response);
       return null;
     }
@@ -211,9 +211,12 @@ class BridgeService extends BaseService {
     }
   }
 
-  Future<Block?> blockInfo(int height) async {
-    final response = await getText("/SendBlock/$height");
+  Future<Block?> blockInfo(int height, Block? fallback) async {
+    final response = await getText("/SendBlock/$height", cleanPath: false);
     try {
+      if (response == "NNB") {
+        return fallback;
+      }
       final data = jsonDecode(response);
       return Block.fromJson(data);
     } catch (e) {
@@ -254,6 +257,11 @@ class BridgeService extends BaseService {
 
   Future<String> getDebugInfo() async {
     return await getText("/GetDebugInfo");
+  }
+
+  Future<String?> getMempool() async {
+    final data = await getText("/GetMemPool");
+    return data == 'null' ? null : data;
   }
 
   Future<bool> rollback(String id) async {
@@ -350,6 +358,8 @@ class BridgeService extends BaseService {
   Future<bool> validateSendToAddress(String address) async {
     try {
       final response = await getText("/ValidateAddress/$address", cleanPath: false);
+
+      print("---------_$response----");
       if (response.toLowerCase() == "true") {
         return true;
       }
@@ -406,12 +416,12 @@ class BridgeService extends BaseService {
     String? filename;
     if (Platform.isMacOS) {
       if (osVersion.contains("macos_x64")) {
-        filename = "rbx-corecli-mac-intel.zip";
+        filename = "vfx-corecli-mac-intel.zip";
       } else {
-        filename = "rbx-corecli-mac-arm.zip";
+        filename = "vfx-corecli-mac-arm.zip";
       }
     } else if (Platform.isWindows) {
-      filename = "rbx-corecli-win7-x64.zip";
+      filename = "vfx-corecli-win7-x64.zip";
     }
 
     if (filename == null) {

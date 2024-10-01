@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:intl/intl.dart';
 import '../../nft/models/nft.dart';
 import '../../../utils/files.dart';
 
@@ -57,16 +56,24 @@ class Listing with _$Listing {
     @JsonKey(name: "IsBuyNowOnly") @Default(false) bool isBuyNowOnly,
     @JsonKey(name: "IsRoyaltyEnforced") @Default(false) bool isRoyaltyEnforced,
     @JsonKey(name: "IsCancelled") @Default(false) bool isCancelled,
-    @JsonKey(name: "RequireBalanceCheck") @Default(true) bool requireBalanceCheck,
+    @JsonKey(name: "RequireBalanceCheck")
+    @Default(true)
+        bool requireBalanceCheck,
     @JsonKey(name: "IsAuctionStarted") @Default(false) bool isAuctionStarted,
     @JsonKey(name: "IsAuctionEnded") @Default(false) bool isAuctionEnded,
     @JsonKey(name: "IsSaleComplete") @Default(false) bool isSaleComplete,
     @JsonKey(name: "FloorPrice") double? floorPrice,
     @JsonKey(name: "ReservePrice") double? reservePrice,
-    @JsonKey(name: "StartDate", fromJson: startDateFromJson, toJson: stateDateToJson) required DateTime startDate,
-    @JsonKey(name: "EndDate", fromJson: endDateFromJson, toJson: endDateToJson) required DateTime endDate,
-    @JsonKey(name: "IsVisibleBeforeStartDate") @Default(true) bool isVisibleBeforeStartDate,
-    @JsonKey(name: "IsVisibleAfterEndDate") @Default(true) bool isVisibleAfterEndDate,
+    @JsonKey(name: "StartDate", fromJson: startDateFromJson, toJson: stateDateToJson)
+        required DateTime startDate,
+    @JsonKey(name: "EndDate", fromJson: endDateFromJson, toJson: endDateToJson)
+        required DateTime endDate,
+    @JsonKey(name: "IsVisibleBeforeStartDate")
+    @Default(true)
+        bool isVisibleBeforeStartDate,
+    @JsonKey(name: "IsVisibleAfterEndDate")
+    @Default(true)
+        bool isVisibleAfterEndDate,
     @JsonKey(name: "FinalPrice") double? finalPrice,
     @JsonKey(name: "WinningAddress") String? winningAddress,
     @JsonKey(name: "CollectionId") required int collectionId,
@@ -78,7 +85,8 @@ class Listing with _$Listing {
     @JsonKey(ignore: true) Nft? nft,
   }) = _Listing;
 
-  factory Listing.fromJson(Map<String, dynamic> json) => _$ListingFromJson(json);
+  factory Listing.fromJson(Map<String, dynamic> json) =>
+      _$ListingFromJson(json);
 
   factory Listing.empty() => Listing(
         id: 0,
@@ -116,12 +124,12 @@ class Listing with _$Listing {
 
     final List<String> components = [];
     if (isBuyNow) {
-      components.add("Buy Now: $buyNowPrice RBX");
+      components.add("Buy Now: $buyNowPrice VFX");
     }
     if (isAuction) {
-      components.add("Floor: $floorPrice RBX");
+      components.add("Floor: $floorPrice VFX");
       if (floorPrice != reservePrice) {
-        components.add("Reserve: $reservePrice RBX");
+        components.add("Reserve: $reservePrice VFX");
       }
     }
 
@@ -148,11 +156,16 @@ class Listing with _$Listing {
     String? filePath;
 
     String thumbsPath = await assetsPath();
-    thumbsPath = Platform.isMacOS ? "$thumbsPath/${nft!.id.replaceAll(':', '')}/thumbs/" : "$thumbsPath\\${nft!.id.replaceAll(':', '')}\\thumbs\\";
+    thumbsPath = Platform.isMacOS
+        ? "$thumbsPath/${nft!.id.replaceAll(':', '')}/thumbs/"
+        : "$thumbsPath\\${nft!.id.replaceAll(':', '')}\\thumbs\\";
 
     if (a.isImage) {
-      filePath =
-          "$thumbsPath${a.fileName}".replaceAll(".png", ".jpg").replaceAll(".jpeg", ".jpg").replaceAll(".gif", ".jpg").replaceAll(".webp", ".jpg");
+      filePath = "$thumbsPath${a.fileName}"
+          .replaceAll(".png", ".jpg")
+          .replaceAll(".jpeg", ".jpg")
+          .replaceAll(".gif", ".jpg")
+          .replaceAll(".webp", ".jpg");
     } else if (a.isPdf) {
       filePath = "$thumbsPath${a.fileName.replaceAll('.pdf', '.jpg')}";
     }

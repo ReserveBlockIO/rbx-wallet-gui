@@ -7,6 +7,7 @@ enum ScPropertyType {
   text,
   number,
   color,
+  url,
 }
 
 @freezed
@@ -22,6 +23,7 @@ class ScProperty with _$ScProperty {
   factory ScProperty.fromJson(Map<String, dynamic> json) => _$ScPropertyFromJson(json);
 
   factory ScProperty.empty() => ScProperty();
+
   String get typeLabel {
     switch (type) {
       case ScPropertyType.text:
@@ -30,6 +32,8 @@ class ScProperty with _$ScProperty {
         return "Number";
       case ScPropertyType.color:
         return "Color";
+      case ScPropertyType.url:
+        return "URL";
     }
   }
 }

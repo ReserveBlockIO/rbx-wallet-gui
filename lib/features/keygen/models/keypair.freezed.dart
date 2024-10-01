@@ -26,6 +26,7 @@ mixin _$Keypair {
   String? get email =>
       throw _privateConstructorUsedError; // @JsonKey(toJson: null) ECPrivateKey? ecPrivateKey,
   String? get mneumonic => throw _privateConstructorUsedError;
+  String? get btcWif => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -42,7 +43,8 @@ abstract class $KeypairCopyWith<$Res> {
       String address,
       String public,
       String? email,
-      String? mneumonic});
+      String? mneumonic,
+      String? btcWif});
 }
 
 /// @nodoc
@@ -63,6 +65,7 @@ class _$KeypairCopyWithImpl<$Res, $Val extends Keypair>
     Object? public = null,
     Object? email = freezed,
     Object? mneumonic = freezed,
+    Object? btcWif = freezed,
   }) {
     return _then(_value.copyWith(
       private: null == private
@@ -85,6 +88,10 @@ class _$KeypairCopyWithImpl<$Res, $Val extends Keypair>
           ? _value.mneumonic
           : mneumonic // ignore: cast_nullable_to_non_nullable
               as String?,
+      btcWif: freezed == btcWif
+          ? _value.btcWif
+          : btcWif // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -101,7 +108,8 @@ abstract class _$$_KeypairCopyWith<$Res> implements $KeypairCopyWith<$Res> {
       String address,
       String public,
       String? email,
-      String? mneumonic});
+      String? mneumonic,
+      String? btcWif});
 }
 
 /// @nodoc
@@ -119,6 +127,7 @@ class __$$_KeypairCopyWithImpl<$Res>
     Object? public = null,
     Object? email = freezed,
     Object? mneumonic = freezed,
+    Object? btcWif = freezed,
   }) {
     return _then(_$_Keypair(
       private: null == private
@@ -141,6 +150,10 @@ class __$$_KeypairCopyWithImpl<$Res>
           ? _value.mneumonic
           : mneumonic // ignore: cast_nullable_to_non_nullable
               as String?,
+      btcWif: freezed == btcWif
+          ? _value.btcWif
+          : btcWif // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -153,7 +166,8 @@ class _$_Keypair extends _Keypair {
       required this.address,
       required this.public,
       this.email,
-      this.mneumonic})
+      this.mneumonic,
+      this.btcWif})
       : super._();
 
   factory _$_Keypair.fromJson(Map<String, dynamic> json) =>
@@ -170,10 +184,12 @@ class _$_Keypair extends _Keypair {
 // @JsonKey(toJson: null) ECPrivateKey? ecPrivateKey,
   @override
   final String? mneumonic;
+  @override
+  final String? btcWif;
 
   @override
   String toString() {
-    return 'Keypair(private: $private, address: $address, public: $public, email: $email, mneumonic: $mneumonic)';
+    return 'Keypair(private: $private, address: $address, public: $public, email: $email, mneumonic: $mneumonic, btcWif: $btcWif)';
   }
 
   @override
@@ -186,13 +202,14 @@ class _$_Keypair extends _Keypair {
             (identical(other.public, public) || other.public == public) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.mneumonic, mneumonic) ||
-                other.mneumonic == mneumonic));
+                other.mneumonic == mneumonic) &&
+            (identical(other.btcWif, btcWif) || other.btcWif == btcWif));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, private, address, public, email, mneumonic);
+  int get hashCode => Object.hash(
+      runtimeType, private, address, public, email, mneumonic, btcWif);
 
   @JsonKey(ignore: true)
   @override
@@ -214,7 +231,8 @@ abstract class _Keypair extends Keypair {
       required final String address,
       required final String public,
       final String? email,
-      final String? mneumonic}) = _$_Keypair;
+      final String? mneumonic,
+      final String? btcWif}) = _$_Keypair;
   _Keypair._() : super._();
 
   factory _Keypair.fromJson(Map<String, dynamic> json) = _$_Keypair.fromJson;
@@ -229,6 +247,8 @@ abstract class _Keypair extends Keypair {
   String? get email;
   @override // @JsonKey(toJson: null) ECPrivateKey? ecPrivateKey,
   String? get mneumonic;
+  @override
+  String? get btcWif;
   @override
   @JsonKey(ignore: true)
   _$$_KeypairCopyWith<_$_Keypair> get copyWith =>

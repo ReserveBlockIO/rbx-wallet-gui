@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/nft/providers/transferred_provider.dart';
+import '../../nft/providers/transferred_provider.dart';
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
@@ -34,6 +34,7 @@ class CallbackButton extends BaseComponent {
           lines: 1,
           obscureText: true,
           labelText: "Password",
+          revealObscure: true,
         );
 
         if (password != null) {

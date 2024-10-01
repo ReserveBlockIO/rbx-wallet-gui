@@ -56,12 +56,7 @@ class SmartContractService extends BaseService {
     final Map<String, dynamic> p = {...payload}..remove('hash');
 
     try {
-      final response = await postJson("/CreateSmartContract", params: p, timeout: 0);
-      print("___________________");
-
-      print(jsonEncode(response['data']));
-      print("___________________");
-
+      final response = await postJson("/CreateSmartContract", params: p, timeout: 0, inspect: true);
       final csc = CompilerResponse.fromJson(response['data'][0]);
       return csc;
     } catch (e, stackTrace) {
@@ -130,7 +125,10 @@ class SmartContractService extends BaseService {
       final response = await getText(
         "/MintSmartContract/$id",
         timeout: 0,
+        inspect: true,
       );
+
+      print(response);
 
       if (response == "Smart contract has been published to mempool") {
         return true;

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +24,8 @@ abstract class Asset with _$Asset {
     @JsonKey(name: "Location") String? location,
     @JsonKey(name: "Extension") String? extension,
     @JsonKey(name: "FileSize") required int fileSize,
-    @JsonKey(toJson: bytesToNull, fromJson: nullToNull) Uint8List? bytes,
-    String? localPath,
+    @JsonKey(toJson: bytesToNull, fromJson: nullToNull, includeToJson: false) Uint8List? bytes,
+    @JsonKey(includeToJson: false) String? localPath,
   }) = _Asset;
 
   factory Asset.fromJson(Map<String, dynamic> json) => _$AssetFromJson(json);

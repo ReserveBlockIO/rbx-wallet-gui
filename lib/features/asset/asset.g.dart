@@ -24,6 +24,4 @@ Map<String, dynamic> _$$_AssetToJson(_$_Asset instance) => <String, dynamic>{
       'Location': instance.location,
       'Extension': instance.extension,
       'FileSize': instance.fileSize,
-      'bytes': bytesToNull(instance.bytes),
-      'localPath': instance.localPath,
     };

@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../metrics/models/network_metrics.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../block/block.dart';
+import '../../metrics/models/network_metrics.dart';
 import '../models/log_entry.dart';
 import '../services/bridge_service.dart';
 import 'log_provider.dart';
@@ -91,7 +91,7 @@ class WalletInfoProvider extends StateNotifier<WalletInfoModel?> {
       final bool connectedToMother = data['ConnectedToMother'].toString().toLowerCase() == 'true';
       final String blockchainVersion = data['BlockVersion'].toString();
 
-      final latestBlock = blockHeight > 0 ? await BridgeService().blockInfo(blockHeight) : null;
+      final latestBlock = blockHeight > 0 ? await BridgeService().blockInfo(blockHeight, state?.lastestBlock) : null;
 
       final prevBlockHeight = state?.blockHeight;
       final prevPeerCount = state?.peerCount;

@@ -6,7 +6,8 @@ import '../../../../../generated/assets.gen.dart';
 
 class CompileAnimation extends StatefulWidget {
   final bool mint;
-  const CompileAnimation(this.mint, {Key? key}) : super(key: key);
+  final bool btc;
+  const CompileAnimation(this.mint, {Key? key, this.btc = false}) : super(key: key);
 
   @override
   State<CompileAnimation> createState() => _CompileAnimationState();
@@ -62,7 +63,7 @@ class _CompileAnimationState extends State<CompileAnimation> with TickerProvider
                       width: 100,
                       height: 100,
                       child: Image.asset(
-                        Assets.images.animatedCube.path,
+                        widget.btc ? Assets.images.vbtc.path : Assets.images.animatedCube.path,
                         scale: 1,
                       ),
                     ),
@@ -72,7 +73,7 @@ class _CompileAnimationState extends State<CompileAnimation> with TickerProvider
                 Text(
                   widget.mint ? "Minting…" : "Compiling & Minting…",
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white, letterSpacing: 1),
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white, letterSpacing: 1),
                 )
               ],
             ),
@@ -85,7 +86,12 @@ class _CompileAnimationState extends State<CompileAnimation> with TickerProvider
 
 class CompileAnimationComplete extends StatefulWidget {
   final bool mint;
-  const CompileAnimationComplete(this.mint, {Key? key}) : super(key: key);
+  final bool btc;
+  const CompileAnimationComplete(
+    this.mint, {
+    Key? key,
+    this.btc = false,
+  }) : super(key: key);
 
   @override
   State<CompileAnimationComplete> createState() => _CompileAnimationCompleteState();
@@ -114,10 +120,6 @@ class _CompileAnimationCompleteState extends State<CompileAnimationComplete> wit
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,12 +147,12 @@ class _CompileAnimationCompleteState extends State<CompileAnimationComplete> wit
                   },
                   duration: const Duration(milliseconds: 500),
                   startIconColor: Colors.transparent,
-                  endIconColor: Theme.of(context).colorScheme.success,
+                  endIconColor: widget.btc ? Theme.of(context).colorScheme.btcOrange : Theme.of(context).colorScheme.success,
                   clockwise: false,
                 ),
                 Text(
                   widget.mint ? "Minted!" : "Compiled!",
-                  style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white, letterSpacing: 1),
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white, letterSpacing: 1),
                 ),
               ],
             ),

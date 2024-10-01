@@ -30,7 +30,7 @@ class AdjVoteForm extends BaseComponent {
           _FormRow(
             children: [
               _FormField(
-                label: "RBX Address to Nominate",
+                label: "VFX Address to Nominate",
                 controller: provider.rbxAddressController,
                 validator: provider.rbxAddressValidator,
               ),
@@ -263,7 +263,10 @@ class _FormField extends StatelessWidget {
       maxLines: lines != null ? lines! * 2 : null,
       maxLength: maxLength,
       decoration: InputDecoration(label: Text(label), hintText: hintText),
-      onTap: selectOnFocus ? () => controller.selection = TextSelection(baseOffset: 0, extentOffset: controller.value.text.length) : () => {},
+      onTap: selectOnFocus
+          ? () => controller.selection = TextSelection(
+              baseOffset: 0, extentOffset: controller.value.text.length)
+          : () => {},
       validator: required
           ? (val) => formValidatorNotEmpty(val, label)
           : (val) {
@@ -299,7 +302,7 @@ class _FormDropDown<T> extends StatelessWidget {
         const SizedBox(height: 10),
         Text(
           label,
-          style: Theme.of(context).textTheme.caption!.copyWith(
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(
                 color: Theme.of(context).colorScheme.secondary,
               ),
         ),

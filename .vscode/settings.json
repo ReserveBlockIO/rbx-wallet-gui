@@ -1,16 +1,14 @@
 {
-    "makefile.extensionOutputFolder": "./.vscode",
-    "dart.flutterSdkPath": ".fvm/flutter_sdk",
-    // Remove .fvm files from search
-    "search.exclude": {
-        "**/.fvm": true,
-        ".dart_tool": true,
-        "build/": true,
-        "lib/generated": true,
-        "*.svg": true,
-    },
-    // Remove from file watching
-    "files.watcherExclude": {
-        "**/.fvm": true
-    }
+  "makefile.extensionOutputFolder": "./.vscode",
+  "dart.flutterSdkPath": ".fvm/versions/3.7.12",
+  "search.exclude": {
+    "**/.fvm": true,
+    ".dart_tool": true,
+    "build/": true,
+    "lib/generated": true,
+    "*.svg": true
+  },
+  "files.watcherExclude": {
+    "**/.fvm": true
+  }
 }

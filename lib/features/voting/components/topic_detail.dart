@@ -29,23 +29,26 @@ class TopicDetail extends BaseComponent {
                   children: [
                     Text(
                       topic.name,
-                      style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium!
+                          .copyWith(color: Colors.white),
                     ),
                     const SizedBox(height: 4),
                     VotingCategoryBadge(topic: topic),
                     const SizedBox(height: 4),
                     SelectableText(
                       "UID: ${topic.uid}",
-                      style: Theme.of(context).textTheme.caption,
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ],
                 ),
               ),
-              _DateCard(
+              DateCard(
                 label: "Topic Created",
                 value: topic.createdAtFormatted,
               ),
-              _DateCard(
+              DateCard(
                 label: "Voting Ends",
                 value: topic.endsAtFormatted,
               )
@@ -56,7 +59,8 @@ class TopicDetail extends BaseComponent {
           SelectableText("Topic Owner: ${topic.ownerAddress}"),
           const Divider(),
           const SizedBox(height: 6),
-          topic.category == VoteTopicCategory.AdjVoteIn && topic.descriptionIsJson
+          topic.category == VoteTopicCategory.AdjVoteIn &&
+                  topic.descriptionIsJson
               ? AdjudicatorInVoteDetails(
                   topic: topic,
                 )
@@ -76,7 +80,8 @@ class TopicDetail extends BaseComponent {
 }
 
 class AdjudicatorInVoteDetails extends BaseComponent {
-  const AdjudicatorInVoteDetails({Key? key, required this.topic}) : super(key: key);
+  const AdjudicatorInVoteDetails({Key? key, required this.topic})
+      : super(key: key);
   final Topic topic;
   @override
   Widget build(BuildContext context, ref) {
@@ -85,7 +90,7 @@ class AdjudicatorInVoteDetails extends BaseComponent {
     return Column(
       children: [
         _AdjudicatorDetailValue(
-          label: 'Adjudicator to be RBX Address: ',
+          label: 'Adjudicator to be VFX Address: ',
           value: details.rbxAddress,
         ),
         _AdjudicatorDetailValue(
@@ -137,7 +142,8 @@ class AdjudicatorInVoteDetails extends BaseComponent {
             ),
             _AdjudicatorDetailValue(
               label: 'HD Size: ',
-              value: details.machineRam.toString() + details.machineHDDSpecifier.name.toUpperCase(),
+              value: details.machineRam.toString() +
+                  details.machineHDDSpecifier.name.toUpperCase(),
             ),
           ],
         ),
@@ -159,7 +165,9 @@ class AdjudicatorInVoteDetails extends BaseComponent {
             ),
             _AdjudicatorDetailValue(
               label: 'Bandwith (TB): ',
-              value: details.bandwith != 0 ? details.bandwith.toString() : 'Unlimitted',
+              value: details.bandwith != 0
+                  ? details.bandwith.toString()
+                  : 'Unlimitted',
             ),
           ],
         ),
@@ -187,7 +195,9 @@ class AdjudicatorInVoteDetails extends BaseComponent {
 }
 
 class _AdjudicatorDetailValue extends StatelessWidget {
-  const _AdjudicatorDetailValue({Key? key, required this.label, required this.value, this.maxLines = 1}) : super(key: key);
+  const _AdjudicatorDetailValue(
+      {Key? key, required this.label, required this.value, this.maxLines = 1})
+      : super(key: key);
   final int maxLines;
   final String label;
   final String value;
@@ -213,10 +223,10 @@ class _AdjudicatorDetailValue extends StatelessWidget {
   }
 }
 
-class _DateCard extends StatelessWidget {
+class DateCard extends StatelessWidget {
   final String label;
   final String value;
-  const _DateCard({
+  const DateCard({
     Key? key,
     required this.label,
     required this.value,
@@ -240,7 +250,7 @@ class _DateCard extends StatelessWidget {
             ),
             Text(
               label,
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
           ],
         ),

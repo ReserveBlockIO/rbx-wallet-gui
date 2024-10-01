@@ -6,7 +6,6 @@ import '../../../../../utils/validation.dart';
 import '../../../models/smart_contract.dart';
 import '../../../providers/create_smart_contract_provider.dart';
 import '../common/form_group_container.dart';
-import '../common/form_group_header.dart';
 import '../common/help_button.dart';
 
 class BasicPropertiesFormGroup extends BaseComponent {
@@ -22,7 +21,7 @@ class BasicPropertiesFormGroup extends BaseComponent {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const FormGroupHeader("Baseline Properties", helpType: HelpType.baselineProperties),
+          // const FormGroupHeader("Properties", helpType: HelpType.baselineProperties),
           _SmartContractName(model: model, provider: provider),
           _CreatorName(model: model, provider: provider),
           _Description(model: model, provider: provider)
@@ -41,10 +40,10 @@ class BasicPropertiesFormGroup extends BaseComponent {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const FormGroupHeader(
-            "Baseline Properties",
-            helpType: HelpType.baselineProperties,
-          ),
+          // const FormGroupHeader(
+          //   "Properties",
+          //   helpType: HelpType.baselineProperties,
+          // ),
           Row(
             children: [
               Expanded(

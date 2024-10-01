@@ -204,7 +204,7 @@ class __$$_PairCopyWithImpl<$Res> extends _$PairCopyWithImpl<$Res, _$_Pair>
 class _$_Pair extends _Pair {
   const _$_Pair(
       {this.id = "",
-      this.network = "RBX",
+      this.network = "VFX",
       this.nftAddress = "",
       this.description = "",
       this.reason = "",

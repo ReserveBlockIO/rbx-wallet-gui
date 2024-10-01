@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/features/btc/services/btc_service.dart';
 import '../../../core/services/explorer_service.dart';
 import '../../raw/raw_service.dart';
 import '../../reserve/services/reserve_account_service.dart';
@@ -114,7 +115,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
       }
 
       if (wallet.balance < MIN_RBX_FOR_SC_ACTION) {
-        Toast.error("Not enough RBX do this action");
+        Toast.error("Not enough VFX do this action");
         return false;
       }
     }
@@ -122,10 +123,11 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     return true;
   }
 
-  Future<bool> transfer(String address, String? url) async {
+  Future<bool> transfer(String address, String? url, [bool isToken = false]) async {
     // if (!canTransact()) return false;
     ref.read(globalLoadingProvider.notifier).start();
-    final success = await SmartContractService().transfer(id, address, url);
+
+    final success = isToken ? await BtcService().transferTokenOwnership(id, address, url) : await SmartContractService().transfer(id, address, url);
     ref.read(globalLoadingProvider.notifier).complete();
     if (success) {
       ref.read(transferredProvider.notifier).addId(id);
@@ -140,7 +142,12 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     required String password,
     required int delayHours,
     String? backupUrl,
+    bool isToken = false,
   }) async {
+    if (isToken) {
+      Toast.error("Unimplemented");
+      return false;
+    }
     // if (!canTransact()) return false;
     ref.read(globalLoadingProvider.notifier).start();
     final success = await ReserveAccountService().transferFromReserveAccount(
@@ -169,7 +176,7 @@ class NftDetailProvider extends StateNotifier<Nft?> {
     final public = !usingRa ? keyPair?.public : raKeypair?.public;
 
     if (address == null || private == null || public == null) {
-      Toast.error("No wallet");
+      Toast.error("No account");
       return null;
     }
 

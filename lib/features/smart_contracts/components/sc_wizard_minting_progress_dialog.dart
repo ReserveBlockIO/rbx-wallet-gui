@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/app.dart';
 import '../providers/sc_wizard_provider.dart';
 
 import '../../../core/base_component.dart';
@@ -55,7 +54,7 @@ class ScWizardMintingProgressDialog extends BaseComponent {
             const SizedBox(height: 4),
             Text(
               "${(model.percent * 100).round()}%",
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
           ],
         ),

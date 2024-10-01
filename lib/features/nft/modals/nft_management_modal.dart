@@ -4,8 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
+import '../../../core/providers/web_session_provider.dart';
 import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -142,7 +141,7 @@ class NftMangementModal extends BaseComponent {
             children: [
               Text(
                 "Managing ${nft.name}",
-                style: Theme.of(context).textTheme.headline4!.copyWith(color: Colors.white),
+                style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
               ),
               Builder(builder: (context) {
                 final nftIds = ref.watch(nftListProvider).data.results.map((n) => n.id).toList();
@@ -194,7 +193,7 @@ class NftMangementModal extends BaseComponent {
               const Divider(),
               Text(
                 nft.evolveIsDynamic ? "Evolution" : "Manage Evolution",
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               EvolutionStateRow(
                 nft.baseEvolutionPhase,
@@ -292,7 +291,7 @@ class EvolutionStateRow extends BaseComponent {
                       child: Center(
                         child: Text(
                           "${phase.evolutionState}.",
-                          style: Theme.of(context).textTheme.headline4,
+                          style: Theme.of(context).textTheme.headlineMedium,
                         ),
                       ),
                     ),
@@ -420,7 +419,7 @@ class EvolutionStateRow extends BaseComponent {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Name: ${phase.name}", style: Theme.of(context).textTheme.headline4),
+                            Text("Name: ${phase.name}", style: Theme.of(context).textTheme.headlineMedium),
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 4.0),
                               child: Text(

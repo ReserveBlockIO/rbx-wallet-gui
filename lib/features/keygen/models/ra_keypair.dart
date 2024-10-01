@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/keygen/models/keypair.dart';
+import 'keypair.dart';
 
 part 'ra_keypair.freezed.dart';
 part 'ra_keypair.g.dart';

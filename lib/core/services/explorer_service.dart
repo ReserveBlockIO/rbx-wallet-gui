@@ -1,12 +1,10 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
-import '../app_constants.dart';
-import '../../features/adnr/models/adnr_response.dart';
+import 'package:rbx_wallet/features/price/models/price_data.dart';
+import '../../features/price/models/price_history_item.dart';
 import '../../features/nft/models/web_nft.dart';
 import '../../features/web/models/web_address.dart';
 import '../../utils/toast.dart';
-import '../../features/keygen/models/keypair.dart';
 
 import '../../features/nft/models/nft.dart';
 import '../../features/node/models/masternode.dart';
@@ -16,7 +14,6 @@ import '../../features/web/models/web_block.dart';
 import '../env.dart';
 import 'base_service.dart';
 import 'package:dio/dio.dart';
-import '../../features/web/utils/raw_transaction.dart';
 
 class ExplorerService extends BaseService {
   ExplorerService()
@@ -25,6 +22,7 @@ class ExplorerService extends BaseService {
         );
 
   Future<List<Masternode>> searchValidators(String query) async {
+    if (Env.rbxNetworkDown) return [];
     try {
       final response = await getJson('/masternodes/name/$query/');
 
@@ -43,6 +41,8 @@ class ExplorerService extends BaseService {
   }
 
   Future<WebAddress> getWebAddress(String address) async {
+    if (Env.rbxNetworkDown) return WebAddress(address: address, balance: 0.0);
+
     try {
       final data = await getJson('/addresses/$address');
       return WebAddress.fromJson(data);
@@ -63,6 +63,7 @@ class ExplorerService extends BaseService {
   // }
 
   Future<WebTransaction?> retrieveTransaction(String hash) async {
+    if (Env.rbxNetworkDown) return null;
     try {
       final data = await getJson('/transaction/$hash');
       return WebTransaction.fromJson(data);
@@ -72,12 +73,43 @@ class ExplorerService extends BaseService {
     }
   }
 
+  Future<PriceData?> retrievePriceData(String cointype) async {
+    try {
+      final result = await getJson('/cmc-price/$cointype');
+      if (result.containsKey('success') && result['success'] == true) {
+        return PriceData.fromJson(result['data']);
+      }
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<List<PriceHistoryItem>> listPriceHistory(String cointype) async {
+    try {
+      final result = await getJson('/cmc-price/$cointype/history/');
+      if (result.containsKey('success') && result['success'] == true) {
+        final List<dynamic> data = result['data'];
+
+        return data.map((e) => PriceHistoryItem(DateTime.fromMillisecondsSinceEpoch((e[1] * 1000).round()), e[0])).toList();
+      }
+
+      print(result[['message']]);
+      return [];
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
   Future<PaginatedResponse<WebTransaction>> getTransactions({
     required int page,
     required String address,
     int limit = 10,
   }) async {
     try {
+      if (Env.rbxNetworkDown) return PaginatedResponse.empty();
       final params = {
         'page': page,
         'limit': limit,
@@ -95,6 +127,7 @@ class ExplorerService extends BaseService {
   }
 
   Future<WebBlock?> getLatestBlock() async {
+    if (Env.rbxNetworkDown) return null;
     try {
       final response = await getJson('/blocks', params: {'limit': 1});
 
@@ -113,6 +146,8 @@ class ExplorerService extends BaseService {
     int page = 1,
     String? search,
   }) async {
+    if (Env.rbxNetworkDown) return [];
+
     try {
       final params = {
         'owner_address': ownerAddress,
@@ -139,6 +174,7 @@ class ExplorerService extends BaseService {
     String? search,
   }) async {
     try {
+      if (Env.rbxNetworkDown) return [];
       final params = {
         'minter_address': minterAddress,
         'page': page,
@@ -159,6 +195,7 @@ class ExplorerService extends BaseService {
   }
 
   Future<List<String>> listedNftIds(String ownerAddress) async {
+    if (Env.rbxNetworkDown) return [];
     try {
       final response = await getJson('/nft/listed/$ownerAddress/');
       return response['results'].map<String>((id) => id.toString()).toList() as List<String>;
@@ -169,6 +206,7 @@ class ExplorerService extends BaseService {
   }
 
   Future<Nft?> retrieveNft(String id) async {
+    if (Env.rbxNetworkDown) return null;
     try {
       final response = await getJson('/nft/$id');
 
@@ -180,6 +218,7 @@ class ExplorerService extends BaseService {
   }
 
   Future<WebNft?> retrieveWebNft(String id) async {
+    if (Env.rbxNetworkDown) return null;
     try {
       final response = await getJson('/nft/$id');
 
@@ -191,6 +230,7 @@ class ExplorerService extends BaseService {
   }
 
   Future<bool> adnrAvailable(String adnr) async {
+    if (Env.rbxNetworkDown) return false;
     try {
       await getJson('/addresses/adnr/$adnr');
       return false;
@@ -200,6 +240,7 @@ class ExplorerService extends BaseService {
   }
 
   Future<String?> uploadAsset(Uint8List bytes, String filename, String? ext) async {
+    if (Env.rbxNetworkDown) return null;
     FormData body = FormData();
 
     final MultipartFile file = MultipartFile.fromBytes(bytes, filename: filename);
@@ -212,5 +253,86 @@ class ExplorerService extends BaseService {
     if (!response.containsKey("url")) return null;
 
     return response['url'];
+  }
+
+  Future<int?> validatorCount() async {
+    try {
+      final response = await getJson('/masternodes/', params: {'limit': 0}, inspect: true);
+
+      return response['count'];
+    } catch (e) {
+      print("Explorer masternodes");
+      print(e);
+      return null;
+    }
+  }
+
+  Future<double> faucetInfo() async {
+    try {
+      final response = await getJson('/faucet/request');
+      return response['max_amount'] ?? 0;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  Future<String> faucetRequest(String phone, double amount, String address) async {
+    final params = {
+      'phone': phone,
+      'amount': amount,
+      'address': address,
+    };
+
+    print(params);
+    try {
+      final response = await postJson(
+        '/faucet/request/',
+        params: params,
+        validateStatus: (status) {
+          return status != null && status < 500;
+        },
+      );
+
+      print(response);
+      final data = response['data'];
+
+      if (data['uuid'] != null) {
+        return data['uuid'];
+      }
+
+      Toast.error(data['message']);
+      throw Exception(data['message']);
+    } catch (e) {
+      Toast.error(e.toString());
+      throw Exception(e);
+    }
+  }
+
+  Future<String> faucetVerify(
+    String uuid,
+    String code,
+  ) async {
+    try {
+      final response = await postJson(
+        '/faucet/verify/',
+        params: {
+          'uuid': uuid,
+          'verification_code': code,
+        },
+        validateStatus: (status) {
+          return status != null && status < 500;
+        },
+      );
+
+      final data = response['data'];
+
+      if (data['hash'] != null) {
+        return data['hash'];
+      }
+
+      throw Exception(data['message']);
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 }

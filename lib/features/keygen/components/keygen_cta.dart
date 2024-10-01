@@ -110,7 +110,7 @@ class KeygenCta extends BaseComponent {
             children: [
               const Align(
                 alignment: Alignment.centerLeft,
-                child: Text("Here is your wallet details. Please ensure to back up your private key in a safe place."),
+                child: Text("Here is your account details. Please ensure to back up your private key in a safe place."),
               ),
               if (keypair.mneumonic != null)
                 ListTile(

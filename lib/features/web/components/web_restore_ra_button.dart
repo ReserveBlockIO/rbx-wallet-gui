@@ -2,14 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/singletons.dart';
-import 'package:rbx_wallet/core/storage.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/keygen/models/ra_keypair.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/singletons.dart';
+import '../../../core/storage.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../keygen/models/ra_keypair.dart';
 import 'package:rbx_wallet/features/keygen/services/keygen_service.dart'
     if (dart.library.io) 'package:rbx_wallet/features/keygen/services/keygen_service_mock.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -22,15 +22,15 @@ class WebRestoreRaButton extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppButton(
-      label: "Restore Reserve Account",
+      label: "Restore Vault Account",
       icon: Icons.refresh,
       type: AppButtonType.Text,
       variant: AppColorVariant.Light,
       onPressed: () async {
         final confirmed = await ConfirmDialog.show(
-          title: "Restore Reserve Account",
+          title: "Restore Vault Account",
           body:
-              "Importing an existing Reserve Account will replace the current one tied to your login. To revert you can logout and login again.\n\nContinue?",
+              "Importing an existing Vault Account will replace the current one tied to your login. To revert you can logout and login again.\n\nContinue?",
         );
 
         if (confirmed != true) {
@@ -40,7 +40,7 @@ class WebRestoreRaButton extends BaseComponent {
         final restoreCode = await PromptModal.show(
           contextOverride: context,
           title: "Restore Code",
-          body: "Paste in your RESTORE CODE to import your existing Reserve Account.",
+          body: "Paste in your RESTORE CODE to import your existing Vault Account.",
           validator: (v) => null,
           labelText: "Restore Code",
         );
@@ -76,7 +76,7 @@ class WebRestoreRaButton extends BaseComponent {
           singleton<Storage>().setMap(Storage.WEB_RA_KEYPAIR, raKeypair.toJson());
         }
 
-        Toast.message("Reserve Account restored");
+        Toast.message("Vault Account restored");
       },
     );
   }

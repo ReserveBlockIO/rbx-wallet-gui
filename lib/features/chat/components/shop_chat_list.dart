@@ -1,15 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/base_component.dart';
-import '../../../core/providers/session_provider.dart';
 import '../models/chat_message.dart';
 import '../providers/chat_list_provider_interface.dart';
-import '../providers/chat_notification_provider.dart';
 import '../providers/shop_chat_list_provider.dart';
 import '../providers/seller_chat_list_provider.dart';
 import '../providers/web_seller_chat_list_provider.dart';
@@ -116,7 +112,6 @@ class _ChatMessageCard extends StatelessWidget {
   final ChatListProviderInterface provider;
 
   const _ChatMessageCard({
-    super.key,
     required this.message,
     required this.provider,
     this.continued = false,
@@ -223,7 +218,6 @@ class _DateHeader extends StatelessWidget {
   final ChatMessage message;
 
   const _DateHeader({
-    super.key,
     required this.message,
   });
 
@@ -257,7 +251,6 @@ class _ChatPoller extends StatefulWidget {
   final Function pollFunction;
   // final Function markAsReadFunction;
   const _ChatPoller({
-    super.key,
     required this.pollFunction,
     // required this.markAsReadFunction,
   });

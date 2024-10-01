@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/web_shop/providers/web_shop_list_provider.dart';
-import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
-import 'package:rbx_wallet/features/web_shop/utils/shop_publishing.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/app_constants.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../services/web_shop_service.dart';
+import '../utils/shop_publishing.dart';
+import '../../../utils/toast.dart';
 
 class WebImportShopButton extends BaseComponent {
   final AppColorVariant variant;
@@ -31,7 +30,7 @@ class WebImportShopButton extends BaseComponent {
       onPressed: () async {
         final myAddress = ref.read(webSessionProvider).keypair?.address;
         if (myAddress == null) {
-          Toast.error("No wallet found");
+          Toast.error("No account found");
           return;
         }
 
@@ -67,7 +66,7 @@ class WebImportShopButton extends BaseComponent {
         final confirmed = await ConfirmDialog.show(
           title: "Ready to Import",
           body:
-              "Are you sure you want to import this shop? A $SHOP_UPDATE_COST RBX fee will be charged to publish this change to the network.\n\nThis is a destructive action and will not carry over your collections and listings.",
+              "Are you sure you want to import this shop? A $SHOP_UPDATE_COST VFX fee will be charged to publish this change to the network.\n\nThis is a destructive action and will not carry over your collections and listings.",
           confirmText: "Import & Publish",
           cancelText: "Cancel",
         );

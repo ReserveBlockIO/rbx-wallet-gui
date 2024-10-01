@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/dst/providers/collection_form_provider.dart';
+import '../providers/collection_form_provider.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
@@ -49,24 +49,19 @@ class CreateCollectionContainerScreen extends BaseScreen {
         const SizedBox(
           height: 16,
         ),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const CreateCollectionFormGroup(),
-              ],
-            ),
+        SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CreateCollectionFormGroup(),
+            ],
           ),
         ),
-        Container(
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            color: Color(0xFF040f26),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 600),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

@@ -24,7 +24,7 @@ class BulkImportWalletModal extends BaseComponent {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Bulk Wallet Importer",
+              "Bulk Account Importer",
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     color: Colors.white,
                   ),

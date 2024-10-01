@@ -24,7 +24,6 @@ class PairModal extends BaseComponent {
       child: ModalContainer(children: [
         const FormGroupHeader(
           "Pair/Wrap with Existing NFT",
-          withBg: false,
         ),
         Row(
           children: [
@@ -46,7 +45,7 @@ class PairModal extends BaseComponent {
                 controller: _provider.nftAddressController,
               ),
             ),
-            if (_model.network != "RBX") ...[
+            if (_model.network != "VFX") ...[
               const SizedBox(
                 width: 8,
               ),

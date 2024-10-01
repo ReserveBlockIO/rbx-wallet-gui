@@ -27,6 +27,7 @@ class ShowDebugDataButton extends BaseComponent {
               final data = await BridgeService().getDebugInfo();
               InfoDialog.show(
                 title: "Debug Data",
+                withBackArrow: true,
                 content: Container(
                   color: Colors.black54,
                   child: Padding(

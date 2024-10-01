@@ -4,12 +4,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/nft/services/nft_service.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
+import '../nft/services/nft_service.dart';
+import '../smart_contracts/components/sc_creator/common/modal_container.dart';
 import '../../core/dialogs.dart';
 import '../reserve/services/reserve_account_service.dart';
 import '../../utils/toast.dart';
-import '../../utils/validation.dart';
 
 import '../../core/components/buttons.dart';
 import '../nft/providers/minted_nft_list_provider.dart';
@@ -109,7 +108,7 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
-              "Since this is a Reserve Account you'll need to authorize the download.",
+              "Since this is a Vault Account you'll need to authorize the download.",
               style: TextStyle(color: Colors.deepPurple.shade200),
             ),
             const SizedBox(
@@ -119,11 +118,12 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
               label: "Authorize Now",
               onPressed: () async {
                 final password = await PromptModal.show(
-                  title: "Reserve Account Password",
+                  title: "Vault Account Password",
                   validator: (_) => null,
                   labelText: "Password",
                   lines: 1,
                   obscureText: true,
+                  revealObscure: true,
                 );
                 if (password == null) {
                   return;
@@ -140,7 +140,7 @@ class _DownloadOrAssociateState extends State<DownloadOrAssociate> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Media asset file not found on your machine (${widget.asset.fileName})."),
-            const Text("Please check any other wallets with the same address for the media."),
+            const Text("Please check any other account with the same address for the media."),
             const SizedBox(
               height: 12,
             ),

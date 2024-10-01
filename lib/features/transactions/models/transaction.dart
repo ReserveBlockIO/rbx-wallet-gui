@@ -58,8 +58,21 @@ class Transaction with _$Transaction {
       case 1:
         return "Node";
       case 2:
+        final data = parseNftData(this);
+        if (data != null) {
+          if (nftDataValue(data, 'Function') == "TokenDeploy()") {
+            return "NFT Mint (Tokenized)";
+          }
+        }
         return "NFT Mint";
       case 3:
+        final data = parseNftData(this);
+        if (data != null) {
+          if (nftDataValue(data, 'Function') == "Transfer()") {
+            return "NFT Transfer";
+          }
+        }
+
         return "NFT Tx";
       case 4:
         return "NFT Burn";
@@ -78,6 +91,30 @@ class Transaction with _$Transaction {
         }
         return "NFT Sale";
       case 6:
+        final data = parseNftData(this);
+        if (data != null) {
+          if (nftDataValue(data, "Function") == "AdnrCreate()") {
+            return "ADNR Create";
+          }
+          if (nftDataValue(data, "Function") == "AdnrTransfer()") {
+            return "ADNR Transfer";
+          }
+
+          if (nftDataValue(data, "Function") == "AdnrDelete()") {
+            return "ADNR Delete";
+          }
+
+          if (nftDataValue(data, "Function") == "BTCAdnrCreate()") {
+            return "BTC ADNR Create";
+          }
+          if (nftDataValue(data, "Function") == "BTCAdnrTransfer()") {
+            return "BTC ADNR Transfer";
+          }
+
+          if (nftDataValue(data, "Function") == "BTCAdnrDelete()") {
+            return "BTC ADNR Delete";
+          }
+        }
         return "ADNR";
       case 7:
         return "DST Registration";
@@ -89,18 +126,130 @@ class Transaction with _$Transaction {
         final data = parseNftData(this);
         if (data != null) {
           if (nftDataValue(data, 'Function') == "CallBack()") {
-            return "Reserve (Callback)";
+            return "Vault (Callback)";
           } else if (nftDataValue(data, 'Function') == "Register()") {
-            return "Reserve (Register)";
+            return "Vault (Register)";
           } else if (nftDataValue(data, 'Function') == "Recover()") {
-            return "Reserve (Recover)";
+            return "Vault (Recover)";
+          }
+        }
+        return "Vault";
+      case 11:
+        return "Smart Contract Mint";
+      case 12:
+        return "Smart Contract TX";
+      case 13:
+        return "Smart Contract Burn";
+      case 14:
+        return "Fungible Token Mint";
+      case 15:
+        final data = parseNftData(this);
+        if (data != null) {
+          final amount = nftDataValue(data, 'Amount');
+          final ticker = nftDataValue(data, 'TokenTicker');
+          if (nftDataValue(data, 'Function') == "TokenMint()") {
+            return "Fungible Token Mint${amount != null ? ' ($amount${ticker != null ? ' $ticker' : ''})' : ''}";
+          }
+          if (nftDataValue(data, 'Function') == "TokenBurn()") {
+            return "Fungible Token Burn${amount != null ? ' ($amount${ticker != null ? ' $ticker' : ''})' : ''}";
+          }
+
+          if (nftDataValue(data, 'Function') == "TokenTransfer()") {
+            return "Fungible Token Transfer${amount != null ? ' ($amount${ticker != null ? ' $ticker' : ''})' : ''}";
+          }
+
+          if (nftDataValue(data, 'Function') == "TokenBurn()") {
+            return "Fungible Token Burn${amount != null ? ' ($amount${ticker != null ? ' $ticker' : ''})' : ''}";
+          }
+
+          if (nftDataValue(data, 'Function') == "TokenContractOwnerChange()") {
+            return "Fungible Token Ownership Change${ticker != null ? ' ($ticker)' : ''}";
+          }
+          if (nftDataValue(data, 'Function') == "TokenPause()") {
+            final isPause = nftDataValue(data, 'Pause') == "true";
+            return "Fungible Token ${isPause ? 'Pause' : 'Resume'}${ticker != null ? ' ($ticker)' : ''}";
+          }
+
+          if (nftDataValue(data, 'Function') == "TokenBanAddress()") {
+            return "Fungible Token Ban Address${ticker != null ? ' ($ticker)' : ''}";
+          }
+
+          if (nftDataValue(data, 'Function') == "TokenVoteTopicCast()") {
+            return "Fungible Token Vote Cast${ticker != null ? ' ($ticker)' : ''}";
+          }
+          if (nftDataValue(data, 'Function') == "TokenVoteTopicCreate()") {
+            return "Fungible Token Topic Created${ticker != null ? ' ($ticker)' : ''}";
           }
         }
 
-        return "Reserve";
+        return "Fungible Token TX";
+
+      case 16:
+        final data = parseNftData(this);
+        if (data != null) {
+          final amount = nftDataValue(data, 'Amount');
+          final ticker = nftDataValue(data, 'TokenTicker');
+          if (nftDataValue(data, 'Function') == "TokenBurn()") {
+            return "Fungible Token Burn${amount != null ? ' ($amount${ticker != null ? ' $ticker' : ''})' : ''}";
+          }
+        }
+        return "Fungible Token Burn";
+      case 17:
+        final data = parseNftData(this);
+        if (data != null) {
+          if (nftDataValue(data, 'Function') == "TokenDeploy()") {
+            return "Fungible Token Deploy";
+          }
+        }
+        return "Tokenization Mint";
+      case 18:
+        final data = parseNftData(this);
+        if (data != null) {
+          final function = nftDataValue(data, 'Function');
+          final amount = nftDataValue(data, 'Amount');
+          if (function == "TransferCoin()") {
+            return "vBTC Transfer Coin ($amount vBTC)";
+          }
+
+          if (function == "Transfer()") {
+            return "vBTC Token Ownership Transfer";
+          }
+        }
+        return "Tokenization TX";
+
+      case 19:
+        return "Tokenization Burn";
       default:
         return type.toString();
     }
+  }
+
+  bool get isVbtcTx {
+    if (type == 17) {
+      final data = parseNftData(this);
+      if (data != null) {
+        if (nftDataValue(data, 'Function') == "TokenDeploy()") {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    if (type == 18) {
+      final data = parseNftData(this);
+      if (data != null) {
+        final function = nftDataValue(data, 'Function');
+
+        if (function == "TransferCoin()") {
+          return true;
+        }
+
+        if (function == "Transfer()") {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   String get statusLabel {
@@ -112,7 +261,7 @@ class Transaction with _$Transaction {
       case TransactionStatus.Fail:
         return "Fail";
       case TransactionStatus.Reserved:
-        return "Reserved";
+        return "Vault";
       case TransactionStatus.CalledBack:
         return "Called Back";
       case TransactionStatus.Recovered:

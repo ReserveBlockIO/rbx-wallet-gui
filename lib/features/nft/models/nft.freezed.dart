@@ -65,6 +65,8 @@ mixin _$Nft {
 // Map<String, dynamic>? assetUrls,
   @JsonKey(ignore: true)
   String? get thumbsPath => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  TokenDetails? get tokenStateDetails => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -117,9 +119,12 @@ abstract class $NftCopyWith<$Res> {
       @JsonKey(ignore: true)
           List<EvolvePhase> updatedEvolutionPhases,
       @JsonKey(ignore: true)
-          String? thumbsPath});
+          String? thumbsPath,
+      @JsonKey(ignore: true)
+          TokenDetails? tokenStateDetails});
 
   $AssetCopyWith<$Res> get primaryAsset;
+  $TokenDetailsCopyWith<$Res>? get tokenStateDetails;
 }
 
 /// @nodoc
@@ -155,6 +160,7 @@ class _$NftCopyWithImpl<$Res, $Val extends Nft> implements $NftCopyWith<$Res> {
     Object? additionalLocalAssets = null,
     Object? updatedEvolutionPhases = null,
     Object? thumbsPath = freezed,
+    Object? tokenStateDetails = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -241,6 +247,10 @@ class _$NftCopyWithImpl<$Res, $Val extends Nft> implements $NftCopyWith<$Res> {
           ? _value.thumbsPath
           : thumbsPath // ignore: cast_nullable_to_non_nullable
               as String?,
+      tokenStateDetails: freezed == tokenStateDetails
+          ? _value.tokenStateDetails
+          : tokenStateDetails // ignore: cast_nullable_to_non_nullable
+              as TokenDetails?,
     ) as $Val);
   }
 
@@ -249,6 +259,18 @@ class _$NftCopyWithImpl<$Res, $Val extends Nft> implements $NftCopyWith<$Res> {
   $AssetCopyWith<$Res> get primaryAsset {
     return $AssetCopyWith<$Res>(_value.primaryAsset, (value) {
       return _then(_value.copyWith(primaryAsset: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TokenDetailsCopyWith<$Res>? get tokenStateDetails {
+    if (_value.tokenStateDetails == null) {
+      return null;
+    }
+
+    return $TokenDetailsCopyWith<$Res>(_value.tokenStateDetails!, (value) {
+      return _then(_value.copyWith(tokenStateDetails: value) as $Val);
     });
   }
 }
@@ -300,10 +322,14 @@ abstract class _$$_NftCopyWith<$Res> implements $NftCopyWith<$Res> {
       @JsonKey(ignore: true)
           List<EvolvePhase> updatedEvolutionPhases,
       @JsonKey(ignore: true)
-          String? thumbsPath});
+          String? thumbsPath,
+      @JsonKey(ignore: true)
+          TokenDetails? tokenStateDetails});
 
   @override
   $AssetCopyWith<$Res> get primaryAsset;
+  @override
+  $TokenDetailsCopyWith<$Res>? get tokenStateDetails;
 }
 
 /// @nodoc
@@ -336,6 +362,7 @@ class __$$_NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res, _$_Nft>
     Object? additionalLocalAssets = null,
     Object? updatedEvolutionPhases = null,
     Object? thumbsPath = freezed,
+    Object? tokenStateDetails = freezed,
   }) {
     return _then(_$_Nft(
       name: null == name
@@ -422,6 +449,10 @@ class __$$_NftCopyWithImpl<$Res> extends _$NftCopyWithImpl<$Res, _$_Nft>
           ? _value.thumbsPath
           : thumbsPath // ignore: cast_nullable_to_non_nullable
               as String?,
+      tokenStateDetails: freezed == tokenStateDetails
+          ? _value.tokenStateDetails
+          : tokenStateDetails // ignore: cast_nullable_to_non_nullable
+              as TokenDetails?,
     ));
   }
 }
@@ -471,7 +502,9 @@ class _$_Nft extends _Nft with DiagnosticableTreeMixin {
       @JsonKey(ignore: true)
           final List<EvolvePhase> updatedEvolutionPhases = const [],
       @JsonKey(ignore: true)
-          this.thumbsPath})
+          this.thumbsPath,
+      @JsonKey(ignore: true)
+          this.tokenStateDetails})
       : _additionalAssetsWeb = additionalAssetsWeb,
         _features = features,
         _properties = properties,
@@ -583,10 +616,13 @@ class _$_Nft extends _Nft with DiagnosticableTreeMixin {
   @override
   @JsonKey(ignore: true)
   final String? thumbsPath;
+  @override
+  @JsonKey(ignore: true)
+  final TokenDetails? tokenStateDetails;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Nft(name: $name, description: $description, currentOwner: $currentOwner, minterAddress: $minterAddress, minterName: $minterName, id: $id, primaryAsset: $primaryAsset, primaryAssetWeb: $primaryAssetWeb, additionalAssetsWeb: $additionalAssetsWeb, isPublic: $isPublic, isPublished: $isPublished, isMinter: $isMinter, features: $features, properties: $properties, nextOwner: $nextOwner, isLocked: $isLocked, isProcessing: $isProcessing, code: $code, additionalLocalAssets: $additionalLocalAssets, updatedEvolutionPhases: $updatedEvolutionPhases, thumbsPath: $thumbsPath)';
+    return 'Nft(name: $name, description: $description, currentOwner: $currentOwner, minterAddress: $minterAddress, minterName: $minterName, id: $id, primaryAsset: $primaryAsset, primaryAssetWeb: $primaryAssetWeb, additionalAssetsWeb: $additionalAssetsWeb, isPublic: $isPublic, isPublished: $isPublished, isMinter: $isMinter, features: $features, properties: $properties, nextOwner: $nextOwner, isLocked: $isLocked, isProcessing: $isProcessing, code: $code, additionalLocalAssets: $additionalLocalAssets, updatedEvolutionPhases: $updatedEvolutionPhases, thumbsPath: $thumbsPath, tokenStateDetails: $tokenStateDetails)';
   }
 
   @override
@@ -615,7 +651,8 @@ class _$_Nft extends _Nft with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('additionalLocalAssets', additionalLocalAssets))
       ..add(
           DiagnosticsProperty('updatedEvolutionPhases', updatedEvolutionPhases))
-      ..add(DiagnosticsProperty('thumbsPath', thumbsPath));
+      ..add(DiagnosticsProperty('thumbsPath', thumbsPath))
+      ..add(DiagnosticsProperty('tokenStateDetails', tokenStateDetails));
   }
 
   @override
@@ -660,7 +697,9 @@ class _$_Nft extends _Nft with DiagnosticableTreeMixin {
             const DeepCollectionEquality().equals(
                 other._updatedEvolutionPhases, _updatedEvolutionPhases) &&
             (identical(other.thumbsPath, thumbsPath) ||
-                other.thumbsPath == thumbsPath));
+                other.thumbsPath == thumbsPath) &&
+            (identical(other.tokenStateDetails, tokenStateDetails) ||
+                other.tokenStateDetails == tokenStateDetails));
   }
 
   @JsonKey(ignore: true)
@@ -687,7 +726,8 @@ class _$_Nft extends _Nft with DiagnosticableTreeMixin {
         code,
         const DeepCollectionEquality().hash(_additionalLocalAssets),
         const DeepCollectionEquality().hash(_updatedEvolutionPhases),
-        thumbsPath
+        thumbsPath,
+        tokenStateDetails
       ]);
 
   @JsonKey(ignore: true)
@@ -746,7 +786,9 @@ abstract class _Nft extends Nft {
       @JsonKey(ignore: true)
           final List<EvolvePhase> updatedEvolutionPhases,
       @JsonKey(ignore: true)
-          final String? thumbsPath}) = _$_Nft;
+          final String? thumbsPath,
+      @JsonKey(ignore: true)
+          final TokenDetails? tokenStateDetails}) = _$_Nft;
   _Nft._() : super._();
 
   factory _Nft.fromJson(Map<String, dynamic> json) = _$_Nft.fromJson;
@@ -814,6 +856,9 @@ abstract class _Nft extends Nft {
 // Map<String, dynamic>? assetUrls,
   @JsonKey(ignore: true)
   String? get thumbsPath;
+  @override
+  @JsonKey(ignore: true)
+  TokenDetails? get tokenStateDetails;
   @override
   @JsonKey(ignore: true)
   _$$_NftCopyWith<_$_Nft> get copyWith => throw _privateConstructorUsedError;

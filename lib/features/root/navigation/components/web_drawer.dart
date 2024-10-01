@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../../core/providers/web_session_provider.dart';
+import '../../../../utils/toast.dart';
 import '../../../../core/dialogs.dart';
 
 import '../../../../core/base_component.dart';
@@ -36,7 +36,7 @@ class WebMenu extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     final tabsRouter = AutoTabsRouter.of(context);
 
-    final color = Theme.of(context).textTheme.bodyText1!.color;
+    final color = Theme.of(context).textTheme.bodyLarge!.color;
     final activeColor = Theme.of(context).colorScheme.secondary;
     return Column(
       children: [
@@ -153,7 +153,7 @@ class WebMenu extends BaseComponent {
         ),
         ListTile(
           title: Text(
-            "RBX Domains",
+            "VFX Domains",
             style: TextStyle(
               color: tabsRouter.activeIndex == WebRouteIndex.adnrs ? activeColor : color,
             ),
@@ -162,7 +162,7 @@ class WebMenu extends BaseComponent {
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
             if (ref.read(webSessionProvider).usingRa) {
-              Toast.error("Reserve Accounts can not create domains.");
+              Toast.error("Vault Accounts can not create domains.");
               return;
             }
 
@@ -223,7 +223,7 @@ class WebMenu extends BaseComponent {
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
             if (ref.read(webSessionProvider).usingRa) {
-              Toast.error("Reserve Accounts can not create auction houses.");
+              Toast.error("Vault Accounts can not create auction houses.");
               return;
             }
 
@@ -250,7 +250,7 @@ class WebMenu extends BaseComponent {
           onTap: () async {
             final confirmed = await ConfirmDialog.show(
               title: "Logout",
-              body: "Are you sure you want to logout of the RBX Web Wallet?",
+              body: "Are you sure you want to logout of the VFX Web Wallet?",
               destructive: true,
               confirmText: "Logout",
               cancelText: "Cancel",

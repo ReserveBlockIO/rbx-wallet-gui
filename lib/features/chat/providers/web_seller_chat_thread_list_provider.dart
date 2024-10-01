@@ -1,11 +1,6 @@
-import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/singletons.dart';
-import '../../../core/storage.dart';
 import '../models/chat_thread.dart';
-import '../services/chat_service.dart';
-import 'package:collection/collection.dart';
 import '../services/web_chat_service.dart';
 import '../../web_shop/services/web_shop_service.dart';
 

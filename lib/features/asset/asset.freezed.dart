@@ -32,8 +32,9 @@ mixin _$Asset {
   String? get extension => throw _privateConstructorUsedError;
   @JsonKey(name: "FileSize")
   int get fileSize => throw _privateConstructorUsedError;
-  @JsonKey(toJson: bytesToNull, fromJson: nullToNull)
+  @JsonKey(toJson: bytesToNull, fromJson: nullToNull, includeToJson: false)
   Uint8List? get bytes => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
   String? get localPath => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,14 +48,22 @@ abstract class $AssetCopyWith<$Res> {
       _$AssetCopyWithImpl<$Res, Asset>;
   @useResult
   $Res call(
-      {@JsonKey(name: "AssetId") String id,
-      @JsonKey(name: "Name") String? name,
-      @JsonKey(name: "AssetAuthorName") String? authorName,
-      @JsonKey(name: "Location") String? location,
-      @JsonKey(name: "Extension") String? extension,
-      @JsonKey(name: "FileSize") int fileSize,
-      @JsonKey(toJson: bytesToNull, fromJson: nullToNull) Uint8List? bytes,
-      String? localPath});
+      {@JsonKey(name: "AssetId")
+          String id,
+      @JsonKey(name: "Name")
+          String? name,
+      @JsonKey(name: "AssetAuthorName")
+          String? authorName,
+      @JsonKey(name: "Location")
+          String? location,
+      @JsonKey(name: "Extension")
+          String? extension,
+      @JsonKey(name: "FileSize")
+          int fileSize,
+      @JsonKey(toJson: bytesToNull, fromJson: nullToNull, includeToJson: false)
+          Uint8List? bytes,
+      @JsonKey(includeToJson: false)
+          String? localPath});
 }
 
 /// @nodoc
@@ -123,14 +132,22 @@ abstract class _$$_AssetCopyWith<$Res> implements $AssetCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "AssetId") String id,
-      @JsonKey(name: "Name") String? name,
-      @JsonKey(name: "AssetAuthorName") String? authorName,
-      @JsonKey(name: "Location") String? location,
-      @JsonKey(name: "Extension") String? extension,
-      @JsonKey(name: "FileSize") int fileSize,
-      @JsonKey(toJson: bytesToNull, fromJson: nullToNull) Uint8List? bytes,
-      String? localPath});
+      {@JsonKey(name: "AssetId")
+          String id,
+      @JsonKey(name: "Name")
+          String? name,
+      @JsonKey(name: "AssetAuthorName")
+          String? authorName,
+      @JsonKey(name: "Location")
+          String? location,
+      @JsonKey(name: "Extension")
+          String? extension,
+      @JsonKey(name: "FileSize")
+          int fileSize,
+      @JsonKey(toJson: bytesToNull, fromJson: nullToNull, includeToJson: false)
+          Uint8List? bytes,
+      @JsonKey(includeToJson: false)
+          String? localPath});
 }
 
 /// @nodoc
@@ -193,14 +210,22 @@ class __$$_AssetCopyWithImpl<$Res> extends _$AssetCopyWithImpl<$Res, _$_Asset>
 @JsonSerializable(explicitToJson: true)
 class _$_Asset extends _Asset with DiagnosticableTreeMixin {
   _$_Asset(
-      {@JsonKey(name: "AssetId") required this.id,
-      @JsonKey(name: "Name") this.name,
-      @JsonKey(name: "AssetAuthorName") this.authorName,
-      @JsonKey(name: "Location") this.location,
-      @JsonKey(name: "Extension") this.extension,
-      @JsonKey(name: "FileSize") required this.fileSize,
-      @JsonKey(toJson: bytesToNull, fromJson: nullToNull) this.bytes,
-      this.localPath})
+      {@JsonKey(name: "AssetId")
+          required this.id,
+      @JsonKey(name: "Name")
+          this.name,
+      @JsonKey(name: "AssetAuthorName")
+          this.authorName,
+      @JsonKey(name: "Location")
+          this.location,
+      @JsonKey(name: "Extension")
+          this.extension,
+      @JsonKey(name: "FileSize")
+          required this.fileSize,
+      @JsonKey(toJson: bytesToNull, fromJson: nullToNull, includeToJson: false)
+          this.bytes,
+      @JsonKey(includeToJson: false)
+          this.localPath})
       : super._();
 
   factory _$_Asset.fromJson(Map<String, dynamic> json) =>
@@ -225,9 +250,10 @@ class _$_Asset extends _Asset with DiagnosticableTreeMixin {
   @JsonKey(name: "FileSize")
   final int fileSize;
   @override
-  @JsonKey(toJson: bytesToNull, fromJson: nullToNull)
+  @JsonKey(toJson: bytesToNull, fromJson: nullToNull, includeToJson: false)
   final Uint8List? bytes;
   @override
+  @JsonKey(includeToJson: false)
   final String? localPath;
 
   @override
@@ -311,9 +337,10 @@ abstract class _Asset extends Asset {
           final String? extension,
       @JsonKey(name: "FileSize")
           required final int fileSize,
-      @JsonKey(toJson: bytesToNull, fromJson: nullToNull)
+      @JsonKey(toJson: bytesToNull, fromJson: nullToNull, includeToJson: false)
           final Uint8List? bytes,
-      final String? localPath}) = _$_Asset;
+      @JsonKey(includeToJson: false)
+          final String? localPath}) = _$_Asset;
   _Asset._() : super._();
 
   factory _Asset.fromJson(Map<String, dynamic> json) = _$_Asset.fromJson;
@@ -337,9 +364,10 @@ abstract class _Asset extends Asset {
   @JsonKey(name: "FileSize")
   int get fileSize;
   @override
-  @JsonKey(toJson: bytesToNull, fromJson: nullToNull)
+  @JsonKey(toJson: bytesToNull, fromJson: nullToNull, includeToJson: false)
   Uint8List? get bytes;
   @override
+  @JsonKey(includeToJson: false)
   String? get localPath;
   @override
   @JsonKey(ignore: true)

@@ -57,7 +57,7 @@ class _SecretButtonState extends State<SecretButton> {
             duration: const Duration(milliseconds: 300),
             child: Text(
               widget.label,
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
           ),
         ),

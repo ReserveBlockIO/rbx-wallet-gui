@@ -4,6 +4,9 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
+import 'package:rbx_wallet/features/token/models/token_details.dart';
+import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
 import '../../../core/utils.dart';
 import '../../asset/web_asset.dart';
 import '../../dst/providers/listed_nfts_provider.dart';
@@ -32,15 +35,16 @@ propertiesFromJson(Map<String, dynamic>? properties) {
   final List<ScProperty> output = [];
   for (final kv in properties.entries) {
     final key = kv.key;
-    final String value = kv.value;
+    final String? value = kv.value;
+    if (value == null) continue;
 
     ScPropertyType type = ScPropertyType.text;
 
-    if (isNumeric(value)) {
+    if (key == BACKUP_URL_PROPERTY_NAME) {
+      type = ScPropertyType.url;
+    } else if (isNumeric(value)) {
       type = ScPropertyType.number;
-    }
-
-    if (value.length == 7 && value.startsWith("#")) {
+    } else if (value.length == 7 && value.startsWith("#")) {
       type = ScPropertyType.color;
     }
 
@@ -81,6 +85,7 @@ abstract class Nft with _$Nft {
     // @JsonKey(defaultValue: false) required bool assetsAvailable,
     // Map<String, dynamic>? assetUrls,
     @JsonKey(ignore: true) String? thumbsPath,
+    @JsonKey(ignore: true) TokenDetails? tokenStateDetails,
   }) = _Nft;
 
   factory Nft.fromJson(Map<String, dynamic> json) => _$NftFromJson(json);
@@ -94,6 +99,29 @@ abstract class Nft with _$Nft {
     if (values.isNotEmpty) {
       return values.join(', ');
     }
+    return null;
+  }
+
+  bool get isToken {
+    for (final feature in featureList) {
+      if (feature.type == FeatureType.token) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  TokenScFeature? get tokenDetails {
+    if (!isToken) {
+      return null;
+    }
+    for (final feature in featureList) {
+      if (feature.type == FeatureType.token) {
+        return TokenScFeature.fromJson(feature.data);
+      }
+    }
+
     return null;
   }
 

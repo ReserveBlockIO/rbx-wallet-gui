@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/web_shop/services/web_shop_service.dart';
+import 'package:rbx_wallet/app.dart';
+import '../../web_shop/services/web_shop_service.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/providers/session_provider.dart';
@@ -47,7 +48,6 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     }
 
     final myBids = await DstService().listBuyerBids(listingId);
-
     // List<Bid> globalBids = listing != null ? listing.bids : [];
     final bids = [...myBids];
 
@@ -70,7 +70,7 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     final wallet = ref.read(sessionProvider).currentWallet;
 
     if (wallet == null) {
-      Toast.error("No wallet selected");
+      Toast.error("No account selected");
       return false;
     }
 
@@ -99,9 +99,9 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     }
 
     final confirmed = await ConfirmDialog.show(
-      context: context,
+      context: rootNavigatorKey.currentContext,
       title: "Buy Now",
-      body: "Are you sure you want to buy now for ${listing.buyNowPrice} RBX?",
+      body: "Are you sure you want to buy now for ${listing.buyNowPrice} VFX?",
       confirmText: "Buy Now",
       cancelText: "Cancel",
     );
@@ -148,7 +148,7 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     final wallet = ref.read(sessionProvider).currentWallet;
 
     if (wallet == null) {
-      Toast.error("No wallet selected");
+      Toast.error("No account selected");
       return null;
     }
 
@@ -157,8 +157,8 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     final amountStr = await PromptModal.show(
       title: "Place Bid",
       validator: (val) => formValidatorNumber(val, "Bid Amount"),
-      labelText: "Bid Amount (RBX)",
-      footer: "Must be greater than $minimumBid RBX",
+      labelText: "Bid Amount (VFX)",
+      footer: "Must be greater than $minimumBid VFX",
       confirmText: "Continue",
       cancelText: "Cancel",
     );
@@ -174,13 +174,13 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     }
 
     if (amount <= listing.auction!.currentBidPrice) {
-      Toast.error("Your bid must be greater than the current highest bid (${listing.auction!.currentBidPrice} RBX)");
+      Toast.error("Your bid must be greater than the current highest bid (${listing.auction!.currentBidPrice} VFX)");
       return null;
     }
 
     if (amount <= listing.auction!.currentBidPrice + listing.auction!.incrementAmount) {
       Toast.error(
-          "The minimum increment amount is ${listing.auction!.incrementAmount} RBX. A bid grater than ${listing.auction!.currentBidPrice + listing.auction!.incrementAmount} RBX is required.");
+          "The minimum increment amount is ${listing.auction!.incrementAmount} VFX. A bid grater than ${listing.auction!.currentBidPrice + listing.auction!.incrementAmount} VFX is required.");
       return null;
     }
 
@@ -192,7 +192,7 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     //   body: "You can set the maximum amount you are willing to bid here.",
     //   initialValue: "$amount",
     //   validator: (val) => formValidatorNumber(val, "Bid Amount"),
-    //   labelText: "Bid Amount (RBX)",
+    //   labelText: "Bid Amount (VFX)",
     //   confirmText: "Continue",
     //   cancelText: "Cancel",
     // );
@@ -213,7 +213,7 @@ class BidListProvider extends StateNotifier<List<Bid>> {
     final confirmed = await ConfirmDialog.show(
       context: context,
       title: "Place Bid",
-      body: "Are you sure you want to place a bid of $amount RBX${amount != maxAmount ? ' with a max bid of $maxAmount RBX' : ''}?",
+      body: "Are you sure you want to place a bid of $amount VFX${amount != maxAmount ? ' with a max bid of $maxAmount VFX' : ''}?",
       confirmText: "Place Bid",
       cancelText: "Cancel",
     );

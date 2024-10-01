@@ -3,7 +3,7 @@ import 'dart:html';
 import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/env.dart';
+import '../../../core/env.dart';
 
 class WebPaymentIFrameContainer extends StatefulWidget {
   final String fiatType;
@@ -22,7 +22,8 @@ class WebPaymentIFrameContainer extends StatefulWidget {
   });
 
   @override
-  State<WebPaymentIFrameContainer> createState() => _WebPaymentIFrameContainerState();
+  State<WebPaymentIFrameContainer> createState() =>
+      _WebPaymentIFrameContainerState();
 }
 
 class _WebPaymentIFrameContainerState extends State<WebPaymentIFrameContainer> {
@@ -49,7 +50,9 @@ class _WebPaymentIFrameContainerState extends State<WebPaymentIFrameContainer> {
 
     iframeElement.height = '${widget.width}';
     iframeElement.width = '${widget.height}';
-    iframeElement.src = kDebugMode ? "/assets/html/payment.html" : "/assets/assets/html/payment.html";
+    iframeElement.src = kDebugMode
+        ? "/assets/html/payment.html"
+        : "/assets/assets/html/payment.html";
     iframeElement.style.border = 'none';
 
     // ignore: undefined_prefixed_name
@@ -68,7 +71,7 @@ class _WebPaymentIFrameContainerState extends State<WebPaymentIFrameContainer> {
         "width": widget.width,
         "height": widget.height,
         "fiatType": widget.fiatType,
-        "coinType": "RBX",
+        "coinType": "VFX",
         "coinAmount": widget.coinAmount,
         "walletAddress": widget.walletAddress,
       };
