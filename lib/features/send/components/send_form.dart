@@ -131,7 +131,7 @@ class SendForm extends BaseComponent {
     Color color = Colors.white;
 
     if (isBtc) {
-      balance = kIsWeb ? ((ref.watch(webSessionProvider).btcBalanceInfo?.btcFinalBalance) ?? 0.0) : btcAccount!.balance;
+      balance = kIsWeb ? ((ref.watch(webSessionProvider).btcBalanceInfo?.btcBalance) ?? 0.0) : btcAccount!.balance;
       color = btcColor;
     } else {
       balance = isWeb
@@ -334,7 +334,7 @@ class SendForm extends BaseComponent {
                                 children: [
                                   AppBadge(
                                     label: kIsWeb
-                                        ? "${ref.watch(webSessionProvider).btcBalanceInfo?.btcFinalBalance ?? 0} BTC"
+                                        ? "${ref.watch(webSessionProvider).btcBalanceInfo?.btcBalance ?? 0} BTC"
                                         : "${btcAccount!.balance} BTC",
                                     variant: AppColorVariant.Btc,
                                   ),

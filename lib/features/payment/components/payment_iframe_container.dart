@@ -11,6 +11,7 @@ class WebPaymentIFrameContainer extends StatefulWidget {
   final String walletAddress;
   final double width;
   final double height;
+  final String coinType;
 
   const WebPaymentIFrameContainer({
     super.key,
@@ -19,11 +20,11 @@ class WebPaymentIFrameContainer extends StatefulWidget {
     required this.walletAddress,
     this.width = 400,
     this.height = 400,
+    this.coinType = 'rbx',
   });
 
   @override
-  State<WebPaymentIFrameContainer> createState() =>
-      _WebPaymentIFrameContainerState();
+  State<WebPaymentIFrameContainer> createState() => _WebPaymentIFrameContainerState();
 }
 
 class _WebPaymentIFrameContainerState extends State<WebPaymentIFrameContainer> {
@@ -50,9 +51,7 @@ class _WebPaymentIFrameContainerState extends State<WebPaymentIFrameContainer> {
 
     iframeElement.height = '${widget.width}';
     iframeElement.width = '${widget.height}';
-    iframeElement.src = kDebugMode
-        ? "/assets/html/payment.html"
-        : "/assets/assets/html/payment.html";
+    iframeElement.src = kDebugMode ? "/assets/html/payment.html" : "/assets/assets/html/payment.html";
     iframeElement.style.border = 'none';
 
     // ignore: undefined_prefixed_name
@@ -71,7 +70,7 @@ class _WebPaymentIFrameContainerState extends State<WebPaymentIFrameContainer> {
         "width": widget.width,
         "height": widget.height,
         "fiatType": widget.fiatType,
-        "coinType": "VFX",
+        "coinType": widget.coinType,
         "coinAmount": widget.coinAmount,
         "walletAddress": widget.walletAddress,
       };

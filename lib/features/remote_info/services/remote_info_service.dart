@@ -3,7 +3,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:dio/adapter.dart';
+import 'package:dio/io.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:rbx_wallet/core/env.dart';

@@ -38,6 +38,7 @@ _$_WebSessionModel _$$_WebSessionModelFromJson(Map<String, dynamic> json) =>
           ? null
           : BtcWebBalanceInfo.fromJson(
               json['btcBalanceInfo'] as Map<String, dynamic>),
+      ready: json['ready'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_WebSessionModelToJson(_$_WebSessionModel instance) =>
@@ -61,6 +62,7 @@ Map<String, dynamic> _$$_WebSessionModelToJson(_$_WebSessionModel instance) =>
       'currentRaWalletIndex': instance.currentRaWalletIndex,
       'currentBtcWalletIndex': instance.currentBtcWalletIndex,
       'btcBalanceInfo': instance.btcBalanceInfo,
+      'ready': instance.ready,
     };
 
 const _$WalletTypeEnumMap = {

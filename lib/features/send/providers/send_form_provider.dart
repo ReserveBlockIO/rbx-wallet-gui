@@ -116,7 +116,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
           return "No account selected";
         }
 
-        final btcBalance = ref.read(webSessionProvider).btcBalanceInfo?.btcFinalBalance ?? 0;
+        final btcBalance = ref.read(webSessionProvider).btcBalanceInfo?.btcBalance ?? 0;
 
         if (btcBalance < parsed) {
           return "Not enough balance in BTC account";
@@ -302,7 +302,7 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
           return;
         }
 
-        final balance = ref.read(webSessionProvider).btcBalanceInfo?.btcFinalBalance;
+        final balance = ref.read(webSessionProvider).btcBalanceInfo?.btcBalance;
         if (balance == null || balance < amountDouble) {
           Toast.error("Not enough balance");
           return;

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/colors.dart';
-import 'dart:ui' as ui;
 import '../root_container.dart';
 
 class RootContainerExpander extends StatelessWidget {
@@ -11,7 +10,7 @@ class RootContainerExpander extends StatelessWidget {
     required this.isExpanded,
   });
 
-  final ui.VoidCallback onToggleExpanded;
+  final VoidCallback onToggleExpanded;
   final bool isExpanded;
 
   @override

@@ -23,7 +23,6 @@ import '../../root/web_dashboard_container.dart';
 import '../../web/components/web_latest_block.dart';
 import '../../web/components/web_wallet_details.dart';
 
-
 class WebHomeScreen extends BaseScreen {
   const WebHomeScreen({Key? key})
       : super(
@@ -75,28 +74,6 @@ class WebHomeScreen extends BaseScreen {
             ),
             const _Brand(),
             const _Actions(),
-            const SizedBox(height: 16),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Opacity(
-                    opacity: 0.5,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 0),
-                      child: Image.asset(
-                        Assets.images.decorBottomRight.path,
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                ),
-                const WebLatestBlock(),
-              ],
-            ),
           ],
         ),
       ),
@@ -105,42 +82,22 @@ class WebHomeScreen extends BaseScreen {
 
   @override
   Widget desktopBody(BuildContext context, WidgetRef ref) {
-    return Stack(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: const [
-                  SizedBox(height: 4),
-                  WebWalletDetails(),
-                  SizedBox(height: 32),
-                ],
-              ),
-            ),
-            const _Brand(),
-            const _Actions(),
-            const WebLatestBlock(),
-          ],
-        ),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Opacity(
-            opacity: 0.5,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 240.0),
-              child: Image.asset(
-                Assets.images.decorBottomRight.path,
-                width: 200,
-                height: 200,
-                fit: BoxFit.contain,
-              ),
-            ),
+        Padding(
+          padding: const EdgeInsets.all(0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              SizedBox(height: 4),
+              WebWalletDetails(),
+              SizedBox(height: 32),
+            ],
           ),
         ),
+        const _Brand(),
+        const _Actions(),
       ],
     );
   }
@@ -313,21 +270,6 @@ class _Actions extends BaseComponent {
                       AutoRouter.of(context).replace(const WebAuthRouter());
                     },
                   ),
-
-                AppButton(
-                  label: "TEST BUTTON1",
-                  onPressed: () async {
-                    final btcWebService = BtcWebService();
-
-                    // await btcWebService.listTransactions("tb1qh0nx4epkftfz3gmztkg9qmcyez604q36snzg0n");
-
-                    const senderWif = "cPQ5kbnuj8YmBoCaFmsPsZENVykN1GGmF18mg6sEZsJPX2np6PRa";
-                    const senderAddress = "tb1qh0nx4epkftfz3gmztkg9qmcyez604q36snzg0n";
-                    const recipientAddress = "tb1q4lahda9feljf695q473z4m8m7xhgzv35n6226q";
-                    const amount = 0.000002;
-                    await btcWebService.sendTransaction(senderWif, senderAddress, recipientAddress, amount);
-                  },
-                ),
               ],
             ),
           ),

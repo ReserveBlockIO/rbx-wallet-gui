@@ -41,17 +41,13 @@ class NftListProvider extends StateNotifier<NftListModel> {
     this.ref,
     this.refresh,
     NftListModel model,
-  ) : super(model) {
-    load(1);
-  }
+  ) : super(model);
 
-  Future<void> load(int page) async {
+  Future<void> load(int page, [String? address]) async {
     // email ??= ref.read(webSessionProvider).keypair?.email;
     // address ??= ref.read(webSessionProvider).keypair?.address;
 
     if (kIsWeb) {
-      final address = ref.read(webSessionProvider).currentWallet?.address;
-
       if (address == null) {
         return;
       }

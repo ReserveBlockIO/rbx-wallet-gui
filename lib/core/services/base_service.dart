@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
 import '../api_token_manager.dart';
 import '../singletons.dart';
@@ -53,8 +53,8 @@ class BaseService {
     return BaseOptions(
       baseUrl: baseUrl,
       headers: _headers(auth, json),
-      connectTimeout: timeout,
-      receiveTimeout: timeout,
+      connectTimeout: Duration(milliseconds: timeout),
+      receiveTimeout: Duration(milliseconds: timeout),
       validateStatus: validateStatus,
     );
   }

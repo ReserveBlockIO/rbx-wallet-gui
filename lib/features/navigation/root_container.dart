@@ -231,14 +231,9 @@ class _LayoutState extends State<_Layout> {
                     children: [
                       Column(
                         children: [
-                          // Padding(
-                          //   padding: const EdgeInsets.symmetric(horizontal: 16),
-                          //   child: _BalanceRow(),
-                          // ),
                           Container(
                             height: 57,
                           ),
-
                           Expanded(
                             child: Container(
                               decoration: BoxDecoration(),

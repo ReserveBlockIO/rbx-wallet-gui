@@ -44,33 +44,24 @@ class WebMenu extends BaseComponent {
           color: Colors.black,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: GestureDetector(
-              onTap: () {
-                // if (ref.read(webSessionProvider).keypair != null) {
-                //   AutoRouter.of(context).push(WebDashboardContainerRoute());
-                // } else {
-                //   AutoRouter.of(context).push(WebAuthRouter());
-                // }
-              },
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: Image.asset(
-                      Assets.images.animatedCube.path,
-                      scale: 1,
-                    ),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: Image.asset(
+                    Assets.images.animatedCube.path,
+                    scale: 1,
                   ),
-                  const SizedBox(width: 8),
-                  Image.asset(
-                    Assets.images.rbxWallet.path,
-                    width: 120,
-                    height: 20,
-                    fit: BoxFit.contain,
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(width: 8),
+                Image.asset(
+                  Assets.images.rbxWallet.path,
+                  width: 120,
+                  height: 20,
+                  fit: BoxFit.contain,
+                ),
+              ],
             ),
           ),
         ),

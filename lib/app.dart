@@ -48,7 +48,7 @@ class App extends ConsumerWidget {
     if (kIsWeb) {
       ref.read(webSessionProvider.notifier);
 
-      return const AppContainer();
+      return const WebAppContainer();
     }
 
     ref.read(sessionProvider.notifier);
@@ -68,10 +68,7 @@ class AppContainer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appRouter = singleton<AppRouter>();
-    final webRouter = singleton<WebRouter>();
-
-    final router = Env.isWeb ? webRouter : appRouter;
+    final router = singleton<AppRouter>();
 
     return MaterialApp.router(
       restorationScopeId: "app",
@@ -86,10 +83,6 @@ class AppContainer extends ConsumerWidget {
       // routerDelegate: router.delegate(),
       builder: (context, child) {
         if (!ref.watch(readyProvider)) {
-          if (kIsWeb) {
-            return const CenteredLoader();
-          }
-
           return const Material(
             color: Colors.black87,
             child: Center(child: BootContainer()),
@@ -104,21 +97,38 @@ class AppContainer extends ConsumerWidget {
             ResponsiveBreakpoint.autoScale(1600, name: '4K'),
           ],
         );
+      },
+      title: 'VFX Wallet',
+    );
+  }
+}
 
-        // if (MediaQuery.of(context).size.width >= 1600) {
-        //   return ResponsiveWrapper.builder(
-        //     AppContent(
-        //       child: child,
-        //     ),
-        //     breakpoints: [
-        //       ResponsiveBreakpoint.autoScale(1600, name: '4K'),
-        //     ],
-        //   );
-        // }
+class WebAppContainer extends ConsumerWidget {
+  const WebAppContainer({Key? key}) : super(key: key);
 
-        // return AppContent(
-        //   child: child,
-        // );
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = singleton<WebRouter>();
+
+    return MaterialApp.router(
+      restorationScopeId: "app",
+      debugShowCheckedModeBanner: false,
+      scaffoldMessengerKey: rootScaffoldMessengerKey,
+      theme: AppTheme.dark().themeData,
+      routeInformationParser: router.defaultRouteParser(includePrefixMatches: true),
+      routerDelegate: AutoRouterDelegate(
+        router,
+        navigatorObservers: () => [AutoRouteObserver()],
+      ),
+      // routerDelegate: router.delegate(),
+      builder: (context, child) {
+        if (!ref.watch(webSessionProvider.select((value) => value.ready))) {
+          return const CenteredLoader();
+        }
+
+        return WebAppContent(
+          child: child,
+        );
       },
       title: 'VFX Wallet',
     );
@@ -157,87 +167,144 @@ class AppContent extends BaseComponent {
                         alignment: Alignment.topRight,
                         child: NotificationOverlay(),
                       ),
-                      if (ref.watch(globalLoadingProvider))
-                        Container(
-                          color: Colors.black54,
-                          child: Center(
-                            child: Text(
-                              "Loading...",
-                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                            ),
-                          ),
-                        ),
-                      if (ref.watch(shopLoadingProvider) != null)
-                        Container(
-                          color: Colors.black54,
-                          child: Stack(
-                            children: [
-                              Center(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Container(
-                                      width: 120,
-                                      height: 120,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(16),
-                                        color: Colors.black,
-                                      ),
-                                      child: Center(
-                                        child: SizedBox(
-                                          width: 100,
-                                          height: 100,
-                                          child: Image.asset(
-                                            Assets.images.animatedCube.path,
-                                            scale: 1,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 16,
-                                    ),
-                                    Text(
-                                      ref.watch(shopLoadingProvider)!,
-                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                            color: Colors.white,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 72.0),
-                                    child: Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        onTap: () => ref.read(shopLoadingProvider.notifier).complete(),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            "[CLOSE]",
-                                            style: Theme.of(context).textTheme.bodySmall,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ))
-                            ],
-                          ),
-                        ),
+                      if (ref.watch(globalLoadingProvider)) _GlobalLoadingComponent(),
+                      if (ref.watch(shopLoadingProvider) != null) _ShopLoadingComponent(),
                     ],
                   ),
                 ),
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class WebAppContent extends BaseComponent {
+  final Widget? child;
+  const WebAppContent({
+    super.key,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      body: Container(
+        color: Colors.black,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  ContextMenuOverlay(
+                    child: child!,
+                  ),
+                  const Align(
+                    alignment: Alignment.topRight,
+                    child: NotificationOverlay(),
+                  ),
+                  if (ref.watch(globalLoadingProvider)) _GlobalLoadingComponent(),
+                  if (ref.watch(shopLoadingProvider) != null) _ShopLoadingComponent(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ShopLoadingComponent extends BaseComponent {
+  const _ShopLoadingComponent({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      color: Colors.black54,
+      child: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 120,
+                  height: 120,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: Colors.black,
+                  ),
+                  child: Center(
+                    child: SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: Image.asset(
+                        Assets.images.animatedCube.path,
+                        scale: 1,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Text(
+                  ref.watch(shopLoadingProvider)!,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                      ),
+                ),
+              ],
+            ),
+          ),
+          Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 72.0),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () => ref.read(shopLoadingProvider.notifier).complete(),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "[CLOSE]",
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ),
+                  ),
+                ),
+              ))
+        ],
+      ),
+    );
+  }
+}
+
+class _GlobalLoadingComponent extends StatelessWidget {
+  const _GlobalLoadingComponent({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.black54,
+      child: Center(
+        child: Text(
+          "Loading...",
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
         ),
       ),
     );

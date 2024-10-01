@@ -69,10 +69,9 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
       });
       state = state.copyWith(isAuthenticated: false);
     }
-    ref.read(readyProvider.notifier).setReady(true);
 
     final timezoneName = DateTime.now().timeZoneName.toString();
-    state = state.copyWith(timezoneName: timezoneName);
+    state = state.copyWith(timezoneName: timezoneName, ready: true);
   }
 
   void setRememberMe(bool val) {
@@ -115,8 +114,8 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     state = state.copyWith(selectedWalletType: type);
 
     if (type != WalletType.btc) {
-      ref.read(mintedNftListProvider.notifier).load(1);
-      ref.read(nftListProvider.notifier).load(1);
+      ref.read(mintedNftListProvider.notifier).load(1, state.currentWallet?.address);
+      ref.read(nftListProvider.notifier).load(1, state.currentWallet?.address);
     }
 
     if (save) {
@@ -183,7 +182,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
       return;
     }
     ref.read(nftListProvider.notifier).reloadCurrentPage(address: state.keypair!.address);
-    ref.read(webListedNftsProvider.notifier).refresh();
+    ref.read(webListedNftsProvider.notifier).refresh(state.keypair!.address);
   }
 
   void updateBtcKeypair(BtcWebAccount? account, bool andSave) {
