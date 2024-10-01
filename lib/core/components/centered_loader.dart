@@ -16,7 +16,6 @@ class _Animation extends StatelessWidget {
         final t = index >= 4 ? (8 - index) / 4 : index / 4;
 
         final c = tween.lerp(t);
-        print(t);
 
         return DecoratedBox(decoration: BoxDecoration(color: c));
       },

@@ -19,6 +19,7 @@ import '../../../core/providers/session_provider.dart';
 
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/components.dart';
+import '../../../core/theme/pretty_icons.dart';
 import '../../btc/providers/btc_account_list_provider.dart';
 import '../../btc/providers/btc_balance_provider.dart';
 import '../../btc/providers/tokenized_bitcoin_list_provider.dart';
@@ -119,7 +120,7 @@ class RootContainerBalanceRow extends BaseComponent {
                       },
                       icon: Icons.wallet,
                       label: "View\nAddress",
-                      size: AppVerticalIconButtonSize.sm,
+                      prettyIconType: PrettyIconType.custom,
                     ),
                     AppVerticalIconButton(
                       onPressed: () {
@@ -127,7 +128,7 @@ class RootContainerBalanceRow extends BaseComponent {
                       },
                       icon: Icons.add,
                       label: "New\nAddress",
-                      size: AppVerticalIconButtonSize.sm,
+                      prettyIconType: PrettyIconType.custom,
                     ),
                     AppVerticalIconButton(
                       onPressed: () {
@@ -135,7 +136,8 @@ class RootContainerBalanceRow extends BaseComponent {
                       },
                       icon: FontAwesomeIcons.coins,
                       label: "Get\nVFX",
-                      size: AppVerticalIconButtonSize.sm,
+                      prettyIconType: PrettyIconType.custom,
+                      iconScale: 0.75,
                     ),
                   ],
                   latestTx: latestVfxTx != null ? _LatestVfxTx(tx: latestVfxTx) : null,
@@ -175,8 +177,8 @@ class RootContainerBalanceRow extends BaseComponent {
                         RootContainerUtils.navigateToTab(context, RootTab.vbtc);
                       },
                       icon: FontAwesomeIcons.bitcoin,
+                      prettyIconType: PrettyIconType.custom,
                       label: "vBTC\nTokens",
-                      size: AppVerticalIconButtonSize.sm,
                     ),
                     AppVerticalIconButton(
                       onPressed: () {
@@ -187,9 +189,9 @@ class RootContainerBalanceRow extends BaseComponent {
                           maxWidth: 800,
                         );
                       },
-                      icon: Icons.help_rounded,
+                      prettyIconType: PrettyIconType.custom,
+                      icon: Icons.help,
                       label: "What's\nvBTC",
-                      size: AppVerticalIconButtonSize.sm,
                     ),
                   ],
                 ),
@@ -223,25 +225,26 @@ class RootContainerBalanceRow extends BaseComponent {
                           ),
                         );
                       },
+                      prettyIconType: PrettyIconType.custom,
                       icon: Icons.wallet,
                       label: "View\nAddresses",
-                      size: AppVerticalIconButtonSize.sm,
                     ),
                     AppVerticalIconButton(
                       onPressed: () {
                         AccountUtils.promptBtcNewOrImport(context, ref);
                       },
                       icon: Icons.add,
+                      prettyIconType: PrettyIconType.custom,
                       label: "New\nAddress",
-                      size: AppVerticalIconButtonSize.sm,
                     ),
                     AppVerticalIconButton(
                       onPressed: () {
                         AccountUtils.getCoin(context, ref, VfxOrBtcOption.btc);
                       },
-                      icon: FontAwesomeIcons.btc,
+                      icon: FontAwesomeIcons.coins,
+                      iconScale: 0.7,
                       label: "Get\nBTC",
-                      size: AppVerticalIconButtonSize.sm,
+                      prettyIconType: PrettyIconType.custom,
                     ),
                   ],
                   latestTx: latestBtcTx != null ? _LatestBtcTx(tx: latestBtcTx) : null,

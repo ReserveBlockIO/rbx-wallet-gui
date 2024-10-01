@@ -8,6 +8,8 @@ import 'package:rbx_wallet/core/theme/components.dart';
 import 'package:rbx_wallet/features/navigation/utils.dart';
 import 'package:rbx_wallet/features/wallet/utils.dart';
 
+import '../../../core/theme/pretty_icons.dart';
+
 class CommonActions extends BaseComponent {
   const CommonActions({super.key});
 
@@ -23,93 +25,84 @@ class CommonActions extends BaseComponent {
             children: [
               AppVerticalIconButton(
                 label: "Add\nAddress",
+                prettyIconType: PrettyIconType.custom,
                 icon: Icons.add,
                 onPressed: () async {
                   await AccountUtils.promptVfxOrBtc(rootNavigatorKey.currentContext!, ref);
                 },
-                size: AppVerticalIconButtonSize.sm,
                 color: AppColors.getWhite(ColorShade.s200),
-                hoverColor: AppColors.getWhite(),
               ),
               AppVerticalIconButton(
                 label: "Add\nVault",
                 icon: Icons.security,
-                size: AppVerticalIconButtonSize.sm,
+                prettyIconType: PrettyIconType.lock,
                 onPressed: () {
                   RootContainerUtils.navigateToTab(context, RootTab.reserve);
                 },
                 color: AppColors.getWhite(ColorShade.s200),
-                hoverColor: AppColors.getWhite(),
               ),
               AppVerticalIconButton(
                 label: "Add\nDomain",
                 icon: Icons.link,
-                size: AppVerticalIconButtonSize.sm,
+                prettyIconType: PrettyIconType.domain,
                 onPressed: () {
                   RootContainerUtils.navigateToTab(context, RootTab.adnr);
                 },
                 color: AppColors.getWhite(ColorShade.s200),
-                hoverColor: AppColors.getWhite(),
               ),
               AppVerticalIconButton(
                 label: "Send\nCoin",
+                prettyIconType: PrettyIconType.send,
                 icon: Icons.arrow_upward,
-                size: AppVerticalIconButtonSize.sm,
                 onPressed: () {
                   RootContainerUtils.navigateToTab(context, RootTab.send);
                 },
                 color: AppColors.getWhite(ColorShade.s200),
-                hoverColor: AppColors.getWhite(),
               ),
               AppVerticalIconButton(
                 label: "Receive\nCoin",
                 icon: Icons.arrow_downward,
-                size: AppVerticalIconButtonSize.sm,
+                prettyIconType: PrettyIconType.receive,
                 onPressed: () {
                   RootContainerUtils.navigateToTab(context, RootTab.receive);
                 },
                 color: AppColors.getWhite(ColorShade.s200),
-                hoverColor: AppColors.getWhite(),
               ),
               AppVerticalIconButton(
                 label: "TX\nHistory",
                 icon: Icons.history,
-                size: AppVerticalIconButtonSize.sm,
+                prettyIconType: PrettyIconType.transactions,
                 onPressed: () {
                   RootContainerUtils.navigateToTab(context, RootTab.transactions);
                 },
                 color: AppColors.getWhite(ColorShade.s200),
-                hoverColor: AppColors.getWhite(),
               ),
               AppVerticalIconButton(
                 label: "Mint\nNFT",
                 icon: Icons.lightbulb_outline,
-                size: AppVerticalIconButtonSize.sm,
+                prettyIconType: PrettyIconType.nft,
                 onPressed: () {
                   RootContainerUtils.navigateToTab(context, RootTab.smartContracts);
                 },
                 color: AppColors.getWhite(ColorShade.s200),
-                hoverColor: AppColors.getWhite(),
               ),
               AppVerticalIconButton(
                 label: "Mint\nToken",
+                prettyIconType: PrettyIconType.fungibleToken,
                 icon: Icons.toll,
-                size: AppVerticalIconButtonSize.sm,
                 onPressed: () {
                   RootContainerUtils.navigateToTab(context, RootTab.tokens);
                 },
                 color: AppColors.getWhite(ColorShade.s200),
-                hoverColor: AppColors.getWhite(),
               ),
               AppVerticalIconButton(
                 label: "Tokenize\nBTC",
+                prettyIconType: PrettyIconType.bitcoin,
                 icon: FontAwesomeIcons.bitcoin,
-                size: AppVerticalIconButtonSize.sm,
                 onPressed: () {
                   RootContainerUtils.navigateToTab(context, RootTab.vbtc);
                 },
                 color: AppColors.getWhite(ColorShade.s200),
-                hoverColor: AppColors.getWhite(),
               ),
             ],
           ),

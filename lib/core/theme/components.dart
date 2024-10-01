@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rbx_wallet/core/theme/colors.dart';
+import 'package:rbx_wallet/core/theme/pretty_icons.dart';
 
 class AppCard extends StatelessWidget {
   final Widget child;
@@ -52,39 +53,24 @@ class AppCard extends StatelessWidget {
   }
 }
 
-enum AppVerticalIconButtonSize {
-  sm(80, 28.8, 21.6, 14.4),
-  md(105, 38.4, 28.8, 19.2),
-  lg(160, 57.6, 43.2, 28.8);
-
-  final double wrapSize;
-  final double circleSize;
-  final double iconSize;
-  final double fontSize;
-  const AppVerticalIconButtonSize(
-    this.wrapSize,
-    this.circleSize,
-    this.iconSize,
-    this.fontSize,
-  );
-}
-
 class AppVerticalIconButton extends StatefulWidget {
   final VoidCallback onPressed;
   final IconData icon;
   final String label;
   final Color? color;
   final Color? hoverColor;
-  final AppVerticalIconButtonSize size;
-  const AppVerticalIconButton({
-    super.key,
-    required this.onPressed,
-    required this.icon,
-    required this.label,
-    this.color,
-    this.hoverColor,
-    this.size = AppVerticalIconButtonSize.sm,
-  });
+  final PrettyIconType? prettyIconType;
+  final double iconScale;
+
+  const AppVerticalIconButton(
+      {super.key,
+      required this.onPressed,
+      required this.icon,
+      this.prettyIconType,
+      required this.label,
+      this.color,
+      this.hoverColor,
+      this.iconScale = 1.0});
 
   @override
   State<AppVerticalIconButton> createState() => _AppVerticalIconButtonState();
@@ -112,7 +98,7 @@ class _AppVerticalIconButtonState extends State<AppVerticalIconButton> {
       child: GestureDetector(
         onTap: widget.onPressed,
         child: Container(
-          width: widget.size.wrapSize,
+          width: 80,
           color: Colors.transparent,
           child: Center(
             child: Padding(
@@ -120,35 +106,42 @@ class _AppVerticalIconButtonState extends State<AppVerticalIconButton> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  AnimatedContainer(
-                    duration: Duration(milliseconds: 200),
-                    width: widget.size.circleSize,
-                    height: widget.size.circleSize,
-                    decoration: BoxDecoration(
-                      color:
-                          isHovering ? widget.hoverColor ?? AppColors.getWhite(ColorShade.s50) : widget.color ?? AppColors.getWhite(ColorShade.s400),
-                      borderRadius: isHovering ? BorderRadius.circular(8) : BorderRadius.circular(widget.size.circleSize / 2),
-                    ),
-                    child: Center(
-                      child: Transform.scale(
-                        scale: isFontAwesome ? 0.7 : 1,
-                        child: Icon(
-                          widget.icon,
-                          color: Colors.black,
-                          size: widget.size.iconSize,
+                  widget.prettyIconType != null
+                      ? PrettyIcon(
+                          type: widget.prettyIconType!,
+                          customIcon: widget.icon,
+                          glow: isHovering,
+                          iconScale: widget.iconScale,
+                        )
+                      : AnimatedContainer(
+                          duration: Duration(milliseconds: 200),
+                          width: 24,
+                          height: 24,
+                          decoration: BoxDecoration(
+                            color: isHovering
+                                ? widget.hoverColor ?? AppColors.getWhite(ColorShade.s50)
+                                : widget.color ?? AppColors.getWhite(ColorShade.s400),
+                            borderRadius: isHovering ? BorderRadius.circular(8) : BorderRadius.circular(24 / 2),
+                          ),
+                          child: Center(
+                            child: Transform.scale(
+                              scale: isFontAwesome ? 0.7 : 1,
+                              child: Icon(
+                                widget.icon,
+                                color: Colors.black,
+                                size: 22,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
                   SizedBox(
                     height: 12,
                   ),
                   Text(
                     widget.label,
                     style: TextStyle(
-                      color:
-                          isHovering ? widget.hoverColor ?? AppColors.getWhite(ColorShade.s50) : widget.color ?? AppColors.getWhite(ColorShade.s400),
-                      fontSize: widget.size.fontSize,
+                      color: isHovering ? widget.hoverColor ?? AppColors.getBlue() : widget.color ?? AppColors.getWhite(ColorShade.s400),
+                      fontSize: 14,
                       height: 1.1,
                     ),
                     textAlign: TextAlign.center,

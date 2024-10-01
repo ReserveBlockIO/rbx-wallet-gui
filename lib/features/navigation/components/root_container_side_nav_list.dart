@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/providers/session_provider.dart';
+import '../../../core/theme/pretty_icons.dart';
 import '../../../utils/toast.dart';
 import 'root_container_side_nav_item.dart';
 
@@ -25,8 +26,7 @@ class RootContainerSideNavList extends BaseComponent {
       children: [
         RootContainerSideNavItem(
           title: "Dashboard",
-          iconName: 'Dashboard',
-          icon: Icons.dashboard,
+          iconType: PrettyIconType.dashboard,
           onPressed: () {
             if (tabsRouter.activeIndex == 0) {
               tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
@@ -39,8 +39,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Vault Accounts",
-          iconName: 'Lock',
-          icon: Icons.security,
+          iconType: PrettyIconType.lock,
           onPressed: () {
             tabsRouter.setActiveIndex(14);
           },
@@ -49,8 +48,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Domains",
-          iconName: 'Domain',
-          icon: Icons.link,
+          iconType: PrettyIconType.domain,
           onPressed: () {
             tabsRouter.setActiveIndex(10);
           },
@@ -59,8 +57,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Send",
-          iconName: 'Send',
-          icon: Icons.outbox,
+          iconType: PrettyIconType.send,
           onPressed: () {
             tabsRouter.setActiveIndex(1);
           },
@@ -69,8 +66,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Receive",
-          iconName: 'Receive',
-          icon: Icons.move_to_inbox,
+          iconType: PrettyIconType.receive,
           onPressed: () {
             tabsRouter.setActiveIndex(2);
           },
@@ -79,8 +75,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Transactions",
-          iconName: 'Transactions',
-          icon: Icons.paid,
+          iconType: PrettyIconType.transactions,
           onPressed: () {
             tabsRouter.setActiveIndex(3);
           },
@@ -89,8 +84,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Tokenize BTC",
-          icon: FontAwesomeIcons.bitcoin,
-          iconName: 'Bitcoin',
+          iconType: PrettyIconType.bitcoin,
           onPressed: () {
             tabsRouter.setActiveIndex(15);
           },
@@ -99,8 +93,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Fungible Tokens",
-          iconName: 'FungibleToken',
-          icon: Icons.toll,
+          iconType: PrettyIconType.fungibleToken,
           onPressed: () {
             if (tabsRouter.activeIndex == 13) {
               tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
@@ -113,8 +106,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Smart Contracts",
-          iconName: 'SmartContract',
-          icon: Icons.receipt_long,
+          iconType: PrettyIconType.smartContract,
           onPressed: () {
             if (ref.read(sessionProvider).currentWallet == null) {
               Toast.error("An account is required to access this section.");
@@ -128,8 +120,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Manage NFTs",
-          iconName: 'NFT',
-          icon: Icons.lightbulb_outline,
+          iconType: PrettyIconType.nft,
           onPressed: () {
             if (ref.read(sessionProvider).currentWallet == null) {
               Toast.error("An account is required to access this section.");
@@ -143,8 +134,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "P2P Auctions",
-          iconName: 'P2P',
-          icon: Icons.leak_add,
+          iconType: PrettyIconType.p2p,
           onPressed: () {
             if (tabsRouter.activeIndex == 9) {
               tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
@@ -157,8 +147,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Validator",
-          iconName: 'Validator',
-          icon: Icons.check_circle,
+          iconType: PrettyIconType.validator,
           onPressed: () {
             tabsRouter.setActiveIndex(4);
           },
@@ -167,8 +156,7 @@ class RootContainerSideNavList extends BaseComponent {
         ),
         RootContainerSideNavItem(
           title: "Operations",
-          iconName: 'Operations',
-          icon: Icons.bolt,
+          iconType: PrettyIconType.operations,
           onPressed: () {
             if (tabsRouter.activeIndex == 16) {
               tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
