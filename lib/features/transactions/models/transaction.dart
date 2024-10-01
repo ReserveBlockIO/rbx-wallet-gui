@@ -126,14 +126,14 @@ class Transaction with _$Transaction {
         final data = parseNftData(this);
         if (data != null) {
           if (nftDataValue(data, 'Function') == "CallBack()") {
-            return "Reserve (Callback)";
+            return "Vault (Callback)";
           } else if (nftDataValue(data, 'Function') == "Register()") {
-            return "Reserve (Register)";
+            return "Vault (Register)";
           } else if (nftDataValue(data, 'Function') == "Recover()") {
-            return "Reserve (Recover)";
+            return "Vault (Recover)";
           }
         }
-        return "Reserve";
+        return "Vault";
       case 11:
         return "Smart Contract Mint";
       case 12:
@@ -224,6 +224,34 @@ class Transaction with _$Transaction {
     }
   }
 
+  bool get isVbtcTx {
+    if (type == 17) {
+      final data = parseNftData(this);
+      if (data != null) {
+        if (nftDataValue(data, 'Function') == "TokenDeploy()") {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    if (type == 18) {
+      final data = parseNftData(this);
+      if (data != null) {
+        final function = nftDataValue(data, 'Function');
+
+        if (function == "TransferCoin()") {
+          return true;
+        }
+
+        if (function == "Transfer()") {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   String get statusLabel {
     switch (status) {
       case TransactionStatus.Success:
@@ -233,7 +261,7 @@ class Transaction with _$Transaction {
       case TransactionStatus.Fail:
         return "Fail";
       case TransactionStatus.Reserved:
-        return "Reserved";
+        return "Vault";
       case TransactionStatus.CalledBack:
         return "Called Back";
       case TransactionStatus.Recovered:

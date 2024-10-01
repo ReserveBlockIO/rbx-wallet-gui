@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/env.dart';
 import 'transaction_signal_provider.dart';
 
-import '../../../core/providers/web_session_provider.dart';
 import '../../../core/services/explorer_service.dart';
 import '../models/web_transaction.dart';
 import 'package:collection/collection.dart';

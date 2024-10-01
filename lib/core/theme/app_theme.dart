@@ -1,12 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:rbx_wallet/core/theme/colors.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/html_helpers.dart';
 
 // const _primaryColor = Color(0xFF031745);
 const _primaryColor = Color(0xFF303030);
-const _secondaryColor = Color(0xFF82e4fb);
+const _secondaryColor = Color(0xFF73c4fa);
 const _successColor = Color(0xFF43ae52);
 const _infoColor = Color(0xFFc4c4c4);
 const _warningColor = Color(0xFFd7bc23);
@@ -29,6 +30,8 @@ enum AppColorVariant {
   Light,
   Dark,
   Btc,
+  Reserve,
+  Vbtc,
 }
 
 enum AppSizeVariant {
@@ -79,6 +82,12 @@ extension CustomColorScheme on ColorScheme {
 
   Color get btcOrange => _btc;
   Color get onBtcOrange => Colors.black;
+
+  Color get reserve => Colors.deepPurple.shade200;
+  Color get onReserve => Colors.black;
+
+  Color get vbtc => Colors.pinkAccent.shade400;
+  Color get onVbtc => Colors.white;
 }
 
 class AppTheme {
@@ -88,25 +97,26 @@ class AppTheme {
     required this.themeData,
   });
 
-  factory AppTheme.light() {
-    final _themeData = ThemeData(
-      colorScheme: ColorScheme.fromSwatch(
-        brightness: Brightness.light,
-        primarySwatch: createMaterialColor(_primaryColor),
-        accentColor: _secondaryColor,
-      ),
-      inputDecorationTheme: const InputDecorationTheme(
-        labelStyle: TextStyle(color: _secondaryColor),
-        floatingLabelStyle: TextStyle(
-          color: _secondaryColor,
-        ),
-      ),
-      textTheme: _textTheme(),
-      fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : null,
-    );
+  // factory AppTheme.light() {
+  //   final _themeData = ThemeData(
+  //     colorScheme: ColorScheme.fromSwatch(
+  //       brightness: Brightness.light,
+  //       primarySwatch: createMaterialColor(_primaryColor),
+  //       accentColor: _secondaryColor,
+  //     ),
+  //     inputDecorationTheme: const InputDecorationTheme(
+  //       labelStyle: TextStyle(color: _secondaryColor),
+  //       floatingLabelStyle: TextStyle(
+  //         color: _secondaryColor,
+  //       ),
+  //     ),
+  //     splashFactory: NoSplash.splashFactory,
+  //     textTheme: _textTheme(),
+  //     fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : null,
+  //   );
 
-    return AppTheme(themeData: _themeData);
-  }
+  //   return AppTheme(themeData: _themeData);
+  // }
 
   factory AppTheme.dark() {
     final _themeData = ThemeData(
@@ -124,18 +134,51 @@ class AppTheme {
           borderSide: BorderSide(color: _infoColor),
         ),
       ),
+      tabBarTheme: TabBarTheme(
+        indicatorColor: AppColors.getBlue(),
+      ),
+      splashFactory: NoSplash.splashFactory,
       scaffoldBackgroundColor: Colors.black,
       dialogTheme: DialogTheme(
-          backgroundColor: Color(0xff070707),
-          shadowColor: _secondaryColor.withOpacity(0.3),
-          elevation: 4,
-          titleTextStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          )),
+        backgroundColor: AppColors.getGray(ColorShade.s200),
+        shadowColor: AppColors.getBlue().withOpacity(0.2),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        titleTextStyle: TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      appBarTheme: AppBarTheme(
+        titleTextStyle: TextStyle(
+          fontFamily: "Mukta",
+          fontSize: 20,
+          letterSpacing: 1,
+          fontWeight: FontWeight.w300,
+          color: Colors.white,
+          // color: Colors.white.withOpacity(0.8),
+        ),
+      ),
+      tooltipTheme: TooltipThemeData(
+        padding: EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+        decoration: BoxDecoration(
+          color: AppColors.getGray(ColorShade.s50).withOpacity(0.9),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.getBlue().withOpacity(0.3),
+              blurRadius: 8,
+            )
+          ],
+          borderRadius: BorderRadius.circular(8),
+        ),
+        textStyle: TextStyle(
+          color: Colors.white.withOpacity(0.85),
+        ),
+      ),
       textTheme: _textTheme(true),
-      fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : null,
+      fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : "Mukta",
       colorScheme: ColorScheme.fromSwatch(
         brightness: Brightness.dark,
         primarySwatch: createMaterialColor(_primaryColor),
@@ -148,32 +191,32 @@ class AppTheme {
 
   static TextTheme _textTheme([bool isDark = false]) {
     return TextTheme(
-      headline1: TextStyle(
+      displayLarge: TextStyle(
         fontSize: 42,
         fontWeight: FontWeight.w700,
         color: isDark ? _textColorLight : _textColorDark,
       ),
-      headline2: TextStyle(
+      displayMedium: TextStyle(
         fontSize: 36,
         fontWeight: FontWeight.w600,
         color: isDark ? _textColorLight : _textColorDark,
       ),
-      headline3: TextStyle(
+      displaySmall: TextStyle(
         fontSize: 30,
         fontWeight: FontWeight.w500,
         color: isDark ? _textColorLight : _textColorDark,
       ),
-      headline4: TextStyle(
+      headlineMedium: TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.w500,
         color: (isDark ? _textColorLight : _textColorDark).withOpacity(0.8),
       ),
-      headline5: TextStyle(
+      headlineSmall: TextStyle(
         fontSize: 20,
         fontWeight: FontWeight.w500,
         color: (isDark ? _textColorLight : _textColorDark).withOpacity(0.7),
       ),
-      headline6: TextStyle(
+      titleLarge: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.w500,
         color: (isDark ? _textColorLight : _textColorDark).withOpacity(0.6),
@@ -202,6 +245,10 @@ class AppTheme {
         return _colors.dark;
       case AppColorVariant.Btc:
         return _colors.btcOrange;
+      case AppColorVariant.Reserve:
+        return _colors.reserve;
+      case AppColorVariant.Vbtc:
+        return _colors.vbtc;
     }
   }
 }

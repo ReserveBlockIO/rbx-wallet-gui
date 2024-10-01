@@ -14,18 +14,17 @@ import 'package:rbx_wallet/utils/toast.dart';
 
 class TokenList extends BaseComponent {
   final String? filterByToken;
-  final Function()? handleManage;
   final bool shrinkWrap;
   const TokenList({
     super.key,
     this.filterByToken,
-    this.handleManage,
     this.shrinkWrap = false,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final accounts = ref.watch(sessionProvider).balances.where((b) => b.tokens.isNotEmpty).toList();
+
     if (accounts.isEmpty) {
       if (shrinkWrap) {
         return SizedBox();
@@ -35,11 +34,11 @@ class TokenList extends BaseComponent {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              "No Fungible Tokens with Supply",
+              "No Fungible Tokens",
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 8),
-            Text("You have no fungible tokens with supply in any of your wallets."),
+            Text("You have no fungible tokens with supply in any of your accounts."),
             SizedBox(height: 16),
             AppButton(
               label: "Create Token",
@@ -48,16 +47,6 @@ class TokenList extends BaseComponent {
                 AutoRouter.of(context).push(TokenCreateScreenRoute());
               },
             ),
-            SizedBox(height: 8),
-            if (handleManage != null)
-              AppButton(
-                label: "Manage Tokens",
-                type: AppButtonType.Text,
-                variant: AppColorVariant.Light,
-                onPressed: () {
-                  handleManage!();
-                },
-              ),
           ],
         ),
       );
@@ -121,15 +110,22 @@ class TokenList extends BaseComponent {
               height: 8,
             ),
             ...tokens.map((t) {
-              return TokenListTile(
-                tokenAccount: t,
-                address: account.address,
-                token: ref.read(tokenNftsProvider)[t.smartContractId],
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: TokenListTile(
+                  tokenAccount: t,
+                  address: account.address,
+                  token: ref.read(tokenNftsProvider)[t.smartContractId],
+                ),
               );
             }),
             SizedBox(
               height: 8,
             ),
+            if (index + 1 == accounts.length)
+              SizedBox(
+                height: 32,
+              ),
           ],
         );
       },

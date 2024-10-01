@@ -5,7 +5,6 @@ import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 
-import '../../../core/app_router.gr.dart';
 import '../../../core/base_screen.dart';
 import '../../../core/dialogs.dart';
 import '../providers/create_smart_contract_provider.dart';

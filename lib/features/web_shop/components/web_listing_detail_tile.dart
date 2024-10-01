@@ -1,18 +1,12 @@
-import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../core/base_component.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../nft/models/nft.dart';
-import '../../remote_shop/components/listing_details.dart';
 import '../../remote_shop/providers/remote_shop_expanded_listings_provider.dart';
 import 'web_listing_detail.dart';
-import '../../../utils/files.dart';
 
-import '../../nft/models/web_nft.dart';
 import '../models/web_listing.dart';
 
 class WebListingDetailsListTile extends BaseComponent {
@@ -73,7 +67,6 @@ class WebListingDetailsListTile extends BaseComponent {
 class _Thumbnail extends StatefulWidget {
   final WebListing listing;
   const _Thumbnail({
-    super.key,
     required this.listing,
   });
 

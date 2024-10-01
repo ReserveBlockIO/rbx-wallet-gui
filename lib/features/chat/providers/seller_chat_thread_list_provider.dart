@@ -5,7 +5,6 @@ import '../../../core/singletons.dart';
 import '../../../core/storage.dart';
 import '../models/chat_thread.dart';
 import '../services/chat_service.dart';
-import 'package:collection/collection.dart';
 import '../services/web_chat_service.dart';
 import '../../dst/providers/dec_shop_provider.dart';
 

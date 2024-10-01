@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_component.dart';
-import '../../../core/providers/session_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../providers/buyer_chat_thread_list_provider.dart';
-import '../providers/chat_notification_provider.dart';
-import 'package:collection/collection.dart';
 import '../../remote_shop/providers/connected_shop_provider.dart';
 
 class BuyerChatThreadList extends BaseComponent {

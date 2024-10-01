@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../core/env.dart';
-import '../btc/models/btc_account.dart';
 import '../btc_web/models/btc_web_account.dart';
 import '../btc_web/services/btc_web_service.dart';
 import '../keygen/models/ra_keypair.dart';
@@ -225,8 +224,7 @@ Future<dynamic> handleRememberMe(BuildContext context, WidgetRef ref) async {
           actions: [
             TextButton(
               style: TextButton.styleFrom(
-                primary: Theme.of(context).colorScheme.darkButtonBg,
-                textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                foregroundColor: Theme.of(context).colorScheme.darkButtonBg, textStyle: const TextStyle(fontWeight: FontWeight.bold),
               ),
               onPressed: () {
                 ref.read(webSessionProvider.notifier).setRememberMe(false);
@@ -241,8 +239,7 @@ Future<dynamic> handleRememberMe(BuildContext context, WidgetRef ref) async {
             ),
             TextButton(
               style: TextButton.styleFrom(
-                primary: Theme.of(context).colorScheme.info,
-                textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                foregroundColor: Theme.of(context).colorScheme.info, textStyle: const TextStyle(fontWeight: FontWeight.bold),
               ),
               onPressed: () {
                 ref.read(webSessionProvider.notifier).setRememberMe(true);
@@ -336,7 +333,7 @@ Future<void> showKeys(
           children: [
             Align(
               alignment: Alignment.centerLeft,
-              child: Text("Here are your${isBtc ? ' BTC' : ''} wallet details. Please ensure to back up your private key in a safe place."),
+              child: Text("Here are your${isBtc ? ' BTC' : ''} account details. Please ensure to back up your private key in a safe place."),
             ),
             if (keypair.mneumonic != null)
               ListTile(
@@ -405,7 +402,7 @@ Future<void> showKeys(
                   },
                 ),
               ),
-           
+
             ListTile(
               leading: isMobile ? null : const Icon(Icons.security),
               title: TextFormField(
@@ -463,7 +460,7 @@ Future<void> showRaKeys(
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        title: Text("Reserve Account Details"),
+        title: Text("Vault Account Details"),
         content: ConstrainedBox(
           constraints: BoxConstraints(maxWidth: 700),
           child: Column(
@@ -471,7 +468,7 @@ Future<void> showRaKeys(
             children: [
               const Align(
                 alignment: Alignment.centerLeft,
-                child: Text("Here are your Reserve Account wallet details. Please ensure to back up your private key in a safe place."),
+                child: Text("Here are your Vault Account details. Please ensure to back up your private key in a safe place."),
               ),
 
               ListTile(
@@ -575,7 +572,7 @@ Future<void> showRaKeys(
                     icon: Icons.copy,
                     onPressed: () async {
                       await Clipboard.setData(ClipboardData(text: keypair.backupContents));
-                      Toast.message("Reserve Account Data copied to clipboard");
+                      Toast.message("Vault Account Data copied to clipboard");
                     },
                   ),
                   SizedBox(

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:rbx_wallet/core/theme/colors.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../core/components/buttons.dart';
@@ -83,73 +84,74 @@ class NftQrCode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: bgColor ?? Colors.black54,
-      child: Padding(
-        padding: EdgeInsets.all(cardPadding),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              color: Colors.white,
-              child: QrImage(
-                data: data,
-                version: QrVersions.auto,
-                size: size,
-              ),
+    return Padding(
+      padding: EdgeInsets.all(cardPadding),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: AppColors.getBlue(ColorShade.s50),
+              borderRadius: BorderRadius.circular(12),
             ),
-            SizedBox(
-              height: iconButtons ? 6 : 16,
+            clipBehavior: Clip.antiAlias,
+            child: QrImage(
+              data: data,
+              version: QrVersions.auto,
+              size: size,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                iconButtons
-                    ? IconButton(
-                        icon: Icon(Icons.download),
-                        iconSize: 22,
-                        onPressed: () {
-                          handleDownload();
-                        },
-                      )
-                    : AppButton(
-                        label: "Save",
-                        onPressed: () async {
-                          handleDownload();
-                        },
-                        icon: Icons.download,
-                      ),
-                if (withOpen && !iconButtons)
-                  AppButton(
-                    icon: Icons.open_in_new,
-                    label: "Open",
-                    onPressed: () {
-                      print("OPEN: $data");
-                      launchUrlString(data);
-                    },
-                  ),
-                if (withOpen && iconButtons)
-                  IconButton(
-                    icon: Icon(Icons.open_in_new),
-                    iconSize: 22,
-                    onPressed: () {
-                      launchUrlString(data);
-                    },
-                  )
-              ],
-            ),
-            if (withClose)
-              TextButton(
+          ),
+          SizedBox(
+            height: iconButtons ? 6 : 16,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              iconButtons
+                  ? IconButton(
+                      icon: Icon(Icons.download),
+                      iconSize: 22,
+                      onPressed: () {
+                        handleDownload();
+                      },
+                    )
+                  : AppButton(
+                      label: "Save",
+                      onPressed: () async {
+                        handleDownload();
+                      },
+                      icon: Icons.download,
+                    ),
+              if (withOpen && !iconButtons)
+                AppButton(
+                  icon: Icons.open_in_new,
+                  label: "Open",
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    print("OPEN: $data");
+                    launchUrlString(data);
                   },
-                  child: const Text(
-                    "Close",
-                    style: TextStyle(color: Colors.white70),
-                  ))
-          ],
-        ),
+                ),
+              if (withOpen && iconButtons)
+                IconButton(
+                  icon: Icon(Icons.open_in_new),
+                  iconSize: 22,
+                  onPressed: () {
+                    launchUrlString(data);
+                  },
+                )
+            ],
+          ),
+          if (withClose)
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text(
+                  "Close",
+                  style: TextStyle(color: Colors.white70),
+                ))
+        ],
       ),
     );
   }

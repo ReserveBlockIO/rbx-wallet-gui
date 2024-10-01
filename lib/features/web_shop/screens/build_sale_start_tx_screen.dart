@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:base58check/base58.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/app_constants.dart';
@@ -12,7 +11,6 @@ import '../../auth/auth_utils.dart';
 import '../../auth/components/auth_type_modal.dart';
 import '../../global_loader/global_loading_provider.dart';
 import '../../raw/raw_service.dart';
-import '../../web/components/web_no_wallet.dart';
 import '../../web/utils/raw_transaction.dart';
 import '../providers/web_bid_detail_provider.dart';
 import '../../../utils/toast.dart';

@@ -9,7 +9,6 @@ class TokenCreateScreen extends BaseScreen {
   const TokenCreateScreen({super.key})
       : super(
           backgroundColor: Colors.black87,
-          horizontalPadding: 0,
           verticalPadding: 0,
         );
 
@@ -18,9 +17,6 @@ class TokenCreateScreen extends BaseScreen {
     return AppBar(
       backgroundColor: Colors.black54,
       title: Text("Create Fungible Token"),
-      actions: [
-        WalletSelector(),
-      ],
     );
   }
 
@@ -30,12 +26,28 @@ class TokenCreateScreen extends BaseScreen {
 
     if (currentWallet == null) {
       return Center(
-        child: Text("No Wallet Selected"),
+        child: Text("No account selected"),
       );
     }
     if (currentWallet.isReserved) {
       return Center(
-        child: Text("Reserve Accounts can not mint tokens"),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("Vault Accounts cann't mint tokens"),
+            SizedBox(
+              height: 8,
+            ),
+            WalletSelector(
+              includeRbx: true,
+              includeBtc: false,
+              includeRa: false,
+              withOptions: false,
+              truncatedLabel: false,
+              headerHasCopy: false,
+            ),
+          ],
+        ),
       );
     }
     return const SingleChildScrollView(

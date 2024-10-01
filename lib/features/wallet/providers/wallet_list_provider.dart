@@ -50,7 +50,7 @@ class WalletListProvider extends StateNotifier<List<Wallet>> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text("Wallet Created"),
+            title: const Text("Account Created"),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

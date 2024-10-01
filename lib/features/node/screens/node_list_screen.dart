@@ -91,7 +91,7 @@ class NodeListScreen extends BaseScreen {
         ),
         Text(
           "* Must be the name exactly",
-          style: Theme.of(context).textTheme.caption!.copyWith(color: Colors.white),
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.white),
         ),
         ConstrainedBox(
           constraints: const BoxConstraints(maxHeight: 500),
@@ -122,7 +122,7 @@ class NodeListScreen extends BaseScreen {
             alignment: Alignment.centerLeft,
             child: Text(
               "Validator",
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
           ),
         if (_validators.isNotEmpty)

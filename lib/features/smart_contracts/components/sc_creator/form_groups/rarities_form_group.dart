@@ -75,7 +75,7 @@ class _RarityCard extends StatelessWidget {
           width: 100,
           child: Text(
             rarity.percentLabel,
-            style: Theme.of(context).textTheme.headline3,
+            style: Theme.of(context).textTheme.displaySmall,
           ),
         ),
         title: Text(rarity.name),

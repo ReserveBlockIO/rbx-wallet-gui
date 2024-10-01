@@ -1,12 +1,10 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../../core/components/buttons.dart';
 import '../../web/components/web_callback_button.dart';
 import '../../../core/components/badges.dart';
-import '../providers/transaction_signal_provider.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/base_component.dart';

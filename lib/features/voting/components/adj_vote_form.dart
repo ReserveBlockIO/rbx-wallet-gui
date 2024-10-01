@@ -302,7 +302,7 @@ class _FormDropDown<T> extends StatelessWidget {
         const SizedBox(height: 10),
         Text(
           label,
-          style: Theme.of(context).textTheme.caption!.copyWith(
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(
                 color: Theme.of(context).colorScheme.secondary,
               ),
         ),

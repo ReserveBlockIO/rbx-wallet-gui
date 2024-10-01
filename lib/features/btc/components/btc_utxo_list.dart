@@ -5,6 +5,7 @@ import 'package:rbx_wallet/features/btc/providers/combined_btc_utxo_list_provide
 import '../../../core/base_component.dart';
 import '../../../core/components/badges.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/theme/components.dart';
 
 class BtcUtxoList extends BaseComponent {
   const BtcUtxoList({super.key});
@@ -40,11 +41,8 @@ class UtxoListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Color(0xFF050505),
-        boxShadow: glowingBoxBtc,
-      ),
+    return AppCard(
+      padding: 0,
       child: ListTile(
         dense: true,
         title: Text("Address: ${utxo.address}"),

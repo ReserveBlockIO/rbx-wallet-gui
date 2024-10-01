@@ -5,7 +5,6 @@ import 'package:rbx_wallet/core/app_router.gr.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/token/components/manage_token_grid.dart';
 import 'package:rbx_wallet/features/token/components/token_list.dart';
 import 'package:rbx_wallet/core/components/back_to_home_button.dart';
 
@@ -23,10 +22,10 @@ class TokenListScreen extends BaseScreen {
       backgroundColor: Colors.black54,
       centerTitle: true,
       title: Text("Fungible Tokens"),
-      leading: BackToHomeButton(),
+      // leading: BackToHomeButton(),
       actions: [
         Padding(
-          padding: const EdgeInsets.only(right: 8.0),
+          padding: const EdgeInsets.only(right: 20.0),
           child: AppButton(
             label: "Create Token",
             variant: AppColorVariant.Success,
@@ -41,37 +40,6 @@ class TokenListScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    return DefaultTabController(
-      length: 2,
-      child: Builder(builder: (context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const TabBar(
-              tabs: [
-                Tab(
-                  child: Text("Tokens with Supply"),
-                ),
-                Tab(
-                  child: Text("Manage Tokens"),
-                ),
-              ],
-            ),
-            Expanded(
-              child: TabBarView(
-                children: [
-                  TokenList(
-                    handleManage: () {
-                      DefaultTabController.of(context).animateTo(1);
-                    },
-                  ),
-                  ManageTokenGrid(),
-                ],
-              ),
-            )
-          ],
-        );
-      }),
-    );
+    return TokenList();
   }
 }

@@ -22,15 +22,15 @@ class WebRestoreRaButton extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppButton(
-      label: "Restore Reserve Account",
+      label: "Restore Vault Account",
       icon: Icons.refresh,
       type: AppButtonType.Text,
       variant: AppColorVariant.Light,
       onPressed: () async {
         final confirmed = await ConfirmDialog.show(
-          title: "Restore Reserve Account",
+          title: "Restore Vault Account",
           body:
-              "Importing an existing Reserve Account will replace the current one tied to your login. To revert you can logout and login again.\n\nContinue?",
+              "Importing an existing Vault Account will replace the current one tied to your login. To revert you can logout and login again.\n\nContinue?",
         );
 
         if (confirmed != true) {
@@ -40,7 +40,7 @@ class WebRestoreRaButton extends BaseComponent {
         final restoreCode = await PromptModal.show(
           contextOverride: context,
           title: "Restore Code",
-          body: "Paste in your RESTORE CODE to import your existing Reserve Account.",
+          body: "Paste in your RESTORE CODE to import your existing Vault Account.",
           validator: (v) => null,
           labelText: "Restore Code",
         );
@@ -76,7 +76,7 @@ class WebRestoreRaButton extends BaseComponent {
           singleton<Storage>().setMap(Storage.WEB_RA_KEYPAIR, raKeypair.toJson());
         }
 
-        Toast.message("Reserve Account restored");
+        Toast.message("Vault Account restored");
       },
     );
   }

@@ -87,7 +87,7 @@ Future<dynamic> initTransferNftProcess(
 
     Wallet? wallet = ref.read(walletListProvider).firstWhereOrNull((w) => w.address == nft.currentOwner);
     if (wallet == null) {
-      Toast.error("No wallet selected");
+      Toast.error("No account selected");
       return;
     }
 
@@ -108,11 +108,12 @@ Future<dynamic> initTransferNftProcess(
     }
     if (wallet.isReserved) {
       reservePassword = await PromptModal.show(
-        title: "Reserve Account Password",
+        title: "Vault Account Password",
         validator: (_) => null,
         labelText: "Password",
         lines: 1,
         obscureText: true,
+        revealObscure: true,
       );
       if (reservePassword == null) {
         return;

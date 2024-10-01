@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/env.dart';
 import 'package:rbx_wallet/features/btc/models/tokenized_bitcoin.dart';
 import 'package:rbx_wallet/features/smart_contracts/models/multi_asset.dart';
 import 'package:rbx_wallet/utils/toast.dart';

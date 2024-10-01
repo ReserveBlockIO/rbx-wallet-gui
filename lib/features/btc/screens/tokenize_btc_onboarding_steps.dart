@@ -1,7 +1,7 @@
 part of './tokenize_btc_onboarding_screen.dart';
 
 class _TransferBtcToVbtcStep extends BaseComponent {
-  const _TransferBtcToVbtcStep({super.key});
+  const _TransferBtcToVbtcStep();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -12,7 +12,7 @@ class _TransferBtcToVbtcStep extends BaseComponent {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("No BTC Wallet / Token Found."),
+          Text("No BTC account / Token Found."),
           AppButton(
             label: "Start Over",
             onPressed: () {
@@ -124,7 +124,7 @@ class _TransferBtcToVbtcStep extends BaseComponent {
                       ),
                       Text(
                         "Fee Estimate: ~$feeEstimate SATS | ~$feeEstimateBtc BTC    ($fee SATS /byte | $feeBtc BTC /byte)",
-                        style: Theme.of(context).textTheme.caption,
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
                   );
@@ -217,7 +217,7 @@ class _TransferBtcToVbtcStep extends BaseComponent {
 }
 
 class _TokenizeBtcStep extends BaseComponent {
-  const _TokenizeBtcStep({super.key});
+  const _TokenizeBtcStep();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -233,7 +233,7 @@ class _TokenizeBtcStep extends BaseComponent {
 }
 
 class _TransferBtcStep extends BaseComponent {
-  const _TransferBtcStep({super.key});
+  const _TransferBtcStep();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -244,7 +244,7 @@ class _TransferBtcStep extends BaseComponent {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("No BTC Wallet Found."),
+          Text("No BTC Account Found."),
           AppButton(
             label: "Start Over",
             onPressed: () {
@@ -290,9 +290,7 @@ class _TransferBtcStep extends BaseComponent {
 }
 
 class _CreateOrImportVfxWalletStep extends BaseComponent {
-  const _CreateOrImportVfxWalletStep({
-    super.key,
-  });
+  const _CreateOrImportVfxWalletStep();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -324,11 +322,11 @@ class _CreateOrImportVfxWalletStep extends BaseComponent {
                     if (w.balance >= VBTC_ONBOARD_VFX_AMOUNT) {
                       await InfoDialog.show(
                         title: "Balance Found!",
-                        body: "A balance of ${w.balance} VFX was found in this wallet. Skipping to step 3.",
+                        body: "A balance of ${w.balance} VFX was found in this account. Skipping to step 3.",
                       );
                     }
                     provider.setVfxWallet(w);
-                    Toast.message("VFX Wallet Imported Successfully");
+                    Toast.message("VFX Account Imported Successfully");
                   }
                 }
               },
@@ -341,7 +339,7 @@ class _CreateOrImportVfxWalletStep extends BaseComponent {
                 final w = await ref.read(walletListProvider.notifier).create();
                 if (w != null) {
                   provider.setVfxWallet(w);
-                  Toast.message("VFX Wallet Created Successfully");
+                  Toast.message("VFX account Created Successfully");
                 }
               },
               variant: AppColorVariant.Secondary,
@@ -352,19 +350,19 @@ class _CreateOrImportVfxWalletStep extends BaseComponent {
           SizedBox(
             height: 16,
           ),
-          Text("Or use one of your existing VFX Wallets:"),
+          Text("Or use one of your existing VFX Accounts:"),
+          SizedBox(
+            height: 8,
+          ),
           ...existingWallets
-              .map((w) => Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: InkWell(
-                        onTap: () {
-                          provider.setVfxWallet(w);
-                        },
-                        child: Text(
-                          w.address,
-                          style: TextStyle(fontSize: 16, color: Colors.white, decoration: TextDecoration.underline),
-                        )),
-                  ))
+              .map((w) => InkWell(
+                  onTap: () {
+                    provider.setVfxWallet(w);
+                  },
+                  child: Text(
+                    w.address,
+                    style: TextStyle(fontSize: 16, color: Colors.white, decoration: TextDecoration.underline),
+                  )))
               .toList(),
         ]
       ],
@@ -373,9 +371,7 @@ class _CreateOrImportVfxWalletStep extends BaseComponent {
 }
 
 class _FaucetWithdrawlStep extends BaseComponent {
-  const _FaucetWithdrawlStep({
-    super.key,
-  });
+  const _FaucetWithdrawlStep();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -386,7 +382,7 @@ class _FaucetWithdrawlStep extends BaseComponent {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("No VFX Wallet Found."),
+          Text("No VFX Account Found."),
           AppButton(
             label: "Start Over",
             onPressed: () {
@@ -447,9 +443,7 @@ class _FaucetWithdrawlStep extends BaseComponent {
 }
 
 class _CreateOrImportBtcAccountStep extends BaseComponent {
-  const _CreateOrImportBtcAccountStep({
-    super.key,
-  });
+  const _CreateOrImportBtcAccountStep();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -558,13 +552,13 @@ class _CreateOrImportBtcAccountStep extends BaseComponent {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: const Text("BTC Wallet Created"),
+                      title: const Text("BTC Account Created"),
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const Align(
                             alignment: Alignment.centerLeft,
-                            child: Text("Here are your BTC wallet details. Please ensure to back up your private key in a safe place."),
+                            child: Text("Here are your BTC account details. Please ensure to back up your private key in a safe place."),
                           ),
                           ListTile(
                             leading: const Icon(Icons.account_balance_wallet),
@@ -628,19 +622,19 @@ class _CreateOrImportBtcAccountStep extends BaseComponent {
           SizedBox(
             height: 16,
           ),
-          Text("Or use one of your existing BTC Wallets:"),
+          Text("Or use one of your existing BTC Accounts:"),
+          SizedBox(
+            height: 8,
+          ),
           ...existingAccounts
-              .map((a) => Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: InkWell(
-                        onTap: () {
-                          provider.setBtcAccount(a);
-                        },
-                        child: Text(
-                          a.address,
-                          style: TextStyle(fontSize: 16, color: Colors.white, decoration: TextDecoration.underline),
-                        )),
-                  ))
+              .map((a) => InkWell(
+                  onTap: () {
+                    provider.setBtcAccount(a);
+                  },
+                  child: Text(
+                    a.address,
+                    style: TextStyle(fontSize: 16, color: Colors.white, decoration: TextDecoration.underline),
+                  )))
               .toList(),
         ]
       ],

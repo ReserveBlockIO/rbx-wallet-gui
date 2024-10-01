@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,17 +6,14 @@ import '../../../core/base_component.dart';
 import '../providers/sc_wizard_log_provider.dart';
 import '../providers/sc_wizard_log_visible_provider.dart';
 import '../../global_loader/global_loading_provider.dart';
-import '../../../generated/assets.gen.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
-import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../wallet/components/wallet_selector.dart';
 import '../providers/sc_wizard_provider.dart';
 import 'smart_contract_wizard_screen.dart';
-import '../../../../utils/files.dart';
 
 class BulkCreateScreen extends BaseScreen {
   const BulkCreateScreen({Key? key})

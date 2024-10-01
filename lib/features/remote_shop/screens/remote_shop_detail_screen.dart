@@ -11,7 +11,6 @@ import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/components/centered_loader.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../wallet/components/wallet_selector.dart';
 
 class RemoteShopDetailScreen extends BaseScreen {
   final String shopUrl;

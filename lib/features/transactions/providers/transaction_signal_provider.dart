@@ -12,22 +12,13 @@ import 'package:rbx_wallet/features/reserve/providers/ra_auto_activate_provider.
 import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
 import 'package:rbx_wallet/features/token/providers/auto_mint_provider.dart';
 import 'package:rbx_wallet/features/token/providers/pending_token_pause_provider.dart';
-import 'package:rbx_wallet/features/token/providers/token_nfts_provider.dart';
 import 'package:rbx_wallet/features/token/services/token_service.dart';
-import 'package:rbx_wallet/features/web_shop/providers/web_listing_list_provider.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_list_provider.dart';
 
-import '../../nft/providers/sale_provider.dart';
-import '../../web_shop/providers/web_listing_list_provider.dart';
-import '../../web_shop/providers/web_shop_list_provider.dart';
 
-import '../../../app.dart';
-import '../../../core/dialogs.dart';
-import '../../../core/env.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../../dst/providers/dec_shop_provider.dart';
 import '../../dst/providers/dst_tx_pending_provider.dart';
-import '../../remote_shop/services/remote_shop_service.dart';
 import '../../token/providers/token_list_provider.dart';
 import 'web_transaction_list_provider.dart';
 import '../../../utils/toast.dart';
@@ -114,6 +105,10 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
     bool isIncoming = false,
   }) {
     if (isIncoming) {
+      if (transaction.fromAddress == "Coinbase_BlkRwd") {
+        return;
+      }
+
       _broadcastNotification(
         TransactionNotification(
           identifier: "${transaction.hash}_incoming",
@@ -133,7 +128,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         if (address != null && password != null) {
           ReserveAccountService().publish(address: address, password: password).then((success) {
             if (success) {
-              Toast.message("Reserve Account Auto Activation process initiated");
+              Toast.message("Vault Account Auto Activation process initiated");
             }
           });
         }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/theme/colors.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/theme/app_theme.dart';
@@ -34,42 +36,46 @@ class PropertiesManager extends BaseComponent {
     final properties = ref.watch(createSmartContractProvider).properties;
 
     return FormGroupContainer(
-      child: Container(
-        decoration: BoxDecoration(boxShadow: glowingBox, color: Colors.black),
+      child: AppCard(
+        color: AppColors.getGray(ColorShade.s300),
+        padding: 4,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const FormGroupHeader(
-              "Properties",
-              helpType: HelpType.properties,
+            Padding(
+              padding: const EdgeInsets.only(left: 12.0),
+              child: const FormGroupHeader(
+                "Properties",
+                helpType: HelpType.properties,
+              ),
+            ),
+            SizedBox(
+              height: 10,
             ),
             properties.isEmpty
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.0),
-                    child: Card(
-                      color: Colors.black54,
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 64,
-                        child: Padding(
-                          padding: EdgeInsets.all(14.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("No Properties"),
-                              AppButton(
-                                icon: Icons.add,
-                                label: "Add Property",
-                                onPressed: () async {
-                                  final property = await handleEdit(context, ref);
-                                  if (property != null) {
-                                    provider.addProperty(property);
-                                  }
-                                },
-                              )
-                            ],
-                          ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 64,
+                      child: Padding(
+                        padding: EdgeInsets.all(14.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("No Properties"),
+                            AppButton(
+                              icon: Icons.add,
+                              label: "Add Property",
+                              onPressed: () async {
+                                final property = await handleEdit(context, ref);
+                                if (property != null) {
+                                  provider.addProperty(property);
+                                }
+                              },
+                            )
+                          ],
                         ),
                       ),
                     ),
@@ -148,7 +154,7 @@ class PropertiesManager extends BaseComponent {
                     ),
                   ),
             SizedBox(
-              height: 13,
+              height: 11,
             )
           ],
         ),

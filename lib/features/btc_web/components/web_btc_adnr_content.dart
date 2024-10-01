@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/base_component.dart';
@@ -23,7 +21,7 @@ class WebBtcAdnrContent extends BaseComponent {
     final session = ref.watch(webSessionProvider);
 
     final address = account.address;
-    final adnr = null; //TODO: get from explorer
+    const adnr = null; //TODO: get from explorer
 
     final rbxBalance = session.balance ?? 0;
 
@@ -74,7 +72,7 @@ class WebBtcAdnrContent extends BaseComponent {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text(
-                      "Create a BTC Domain as an alias to your wallet's address for receiving funds.",
+                      "Create a BTC Domain as an alias to your account's address for receiving funds.",
                       style: TextStyle(
                         fontSize: 17,
                       ),
@@ -93,7 +91,7 @@ class WebBtcAdnrContent extends BaseComponent {
                       variant: AppColorVariant.Btc,
                       onPressed: () async {
                         if (rbxBalance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
-                          Toast.error("Not enough VFX in your wallet to create a VFX domain. $ADNR_COST RBX required (plus TX fee).");
+                          Toast.error("Not enough VFX in your account to create a VFX domain. $ADNR_COST RBX required (plus TX fee).");
                           return;
                         }
 

@@ -3,11 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../../core/components/buttons.dart';
-import '../../../core/services/explorer_service.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../web_shop/providers/web_shop_bid_provider.dart';
-import '../../web_shop/services/web_shop_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../web_shop/components/complete_sale_button.dart';
 

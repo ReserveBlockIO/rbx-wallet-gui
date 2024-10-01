@@ -14,7 +14,6 @@ import '../../../core/theme/app_theme.dart';
 import '../../bridge/models/log_entry.dart';
 import '../../bridge/providers/log_provider.dart';
 import '../../bridge/services/bridge_service.dart';
-import '../models/new_reserve_account.dart';
 import 'pending_activation_provider.dart';
 import '../services/reserve_account_service.dart';
 import '../../wallet/components/wallet_selector.dart';
@@ -38,8 +37,8 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
   Future<void> newAccount(BuildContext context) async {
     final password = await PromptModal.show(
       contextOverride: context,
-      title: "Setup Reserve Account",
-      body: "Create a password to continue. You must remember this password as it will be required for any transaction with this Reserve Account.",
+      title: "Setup Vault Account",
+      body: "Create a password to continue. You must remember this password as it will be required for any transaction with this Vault Account.",
       validator: (value) => formValidatorNotEmpty(value, "Password"),
       labelText: "Password",
       obscureText: true,
@@ -95,7 +94,6 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
 
     if (fundingWallet != null) {
       final shouldSendFunds = await ConfirmDialog.show(
-        context: context,
         title: "Fund Account",
         content: ConstrainedBox(
           constraints: BoxConstraints(maxWidth: 600),
@@ -103,12 +101,12 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("You must now fund your Reserve Account with a minimum of 5 VFX. 4 VFX will be burned upon activation."),
+              Text("You must now fund your Vault Account with a minimum of 5 VFX. 4 VFX will be burned upon activation."),
               Text(""),
-              SelectableText("Please send funds to ${walletAddress}"),
+              SelectableText("Please send funds to $walletAddress"),
               Text(""),
               Text(
-                  "You have a wallet with a sufficient balance.\n\nWould you like to send 5 VFX from:\n${fundingWallet.address}\n[Balance: ${fundingWallet.balance} VFX]?"),
+                  "You have an account with a sufficient balance.\n\nWould you like to send 5 VFX from:\n${fundingWallet.address}\n[Balance: ${fundingWallet.balance} VFX]?"),
             ],
           ),
         ),
@@ -120,9 +118,8 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
         const amount = 5.0;
 
         final confirmed = await ConfirmDialog.show(
-          context: context,
           title: "Please Confirm",
-          body: "Sending:\n$amount VFX\n\nTo:\n${walletAddress}\n\nFrom:\n${fundingWallet.address}",
+          body: "Sending:\n$amount VFX\n\nTo:\n$walletAddress\n\nFrom:\n${fundingWallet.address}",
           confirmText: "Send",
           cancelText: "Cancel",
         );
@@ -145,7 +142,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
           await InfoDialog.show(
             contextOverride: context,
             title: "Funds Sent",
-            body: "$amount VFX has been sent to $walletAddress.\n\nPlease wait for transaction to reflect and then activate your Reserve Account.",
+            body: "$amount VFX has been sent to $walletAddress.\n\nPlease wait for transaction to reflect and then activate your Vault Account.",
           );
           // Navigator.of(context).pop();
 
@@ -164,10 +161,13 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
               lines: 1,
               obscureText: true,
               labelText: "Password",
+              revealObscure: true,
             );
 
             if (password != null) {
               ref.read(reserveAccountAutoActivateProvider.notifier).add(txHash, walletAddress, password);
+              ref.read(pendingActivationProvider.notifier).addId(walletAddress);
+              Toast.message("Auto activate queued.");
             }
           }
         } else {
@@ -184,9 +184,9 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("You must now fund your Reserve Account with a minimum of 5 VFX."),
+                Text("You must now fund your Vault Account with a minimum of 5 VFX."),
                 Text(""),
-                Text("Please send funds to ${walletAddress}"),
+                Text("Please send funds to $walletAddress"),
                 Divider(),
                 AppButton(
                   label: "Copy Address",
@@ -206,7 +206,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
     final restoreCode = await PromptModal.show(
       contextOverride: context,
       title: "Restore Code",
-      body: "Paste in your RESTORE CODE to import your existing Reserve Account.",
+      body: "Paste in your RESTORE CODE to import your existing Vault Account.",
       validator: (v) => null,
       labelText: "Restore Code",
     );
@@ -219,6 +219,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
       lines: 1,
       obscureText: true,
       labelText: "Password",
+      revealObscure: true,
     );
     if (password == null) return;
 
@@ -240,7 +241,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
     final recoveryPhrase = await PromptModal.show(
       contextOverride: context,
       title: "Restore Code",
-      body: "Paste in your RESTORE CODE to import the recovery account for this Reserve Account.",
+      body: "Paste in your RESTORE CODE to import the recovery account for this Vault Account.",
       validator: (v) => null,
       labelText: "Restore Code",
     );
@@ -254,6 +255,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
       lines: 1,
       obscureText: true,
       labelText: "Password",
+      revealObscure: true,
     );
     if (password == null || password.isEmpty) return;
 
@@ -283,7 +285,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
     if (wallet.isReserved) {
       InfoDialog.show(
         contextOverride: context,
-        title: "Reserve Account Balance",
+        title: "Vault Account Balance",
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -346,7 +348,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
     Wallet wallet,
   ) async {
     if (!wallet.isReserved) {
-      Toast.error("Not a reserve account");
+      Toast.error("Not a Vault Account");
       return;
     }
 
@@ -358,7 +360,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
     final confirmed = await ConfirmDialog.show(
       context: context,
       title: "Activate on Network?",
-      body: "There is a cost of 4 VFX (which is burned) plus TX fee to activate this Reserve Account on the network.  Continue?",
+      body: "There is a cost of 4 VFX (which is burned) plus TX fee to activate this Vault Account on the network.  Continue?",
       confirmText: "Activate Now",
       cancelText: "Cancel",
     );
@@ -371,6 +373,7 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
         lines: 1,
         obscureText: true,
         labelText: "Password",
+        revealObscure: true,
       );
       if (password == null) {
         return;
@@ -381,8 +384,8 @@ class ReserveAccountProvider extends StateNotifier<List<Wallet>> {
       );
 
       if (success) {
-        OverlayToast.message(message: 'Reserve Account activation transaction sent.\n\nPlease wait for it to reflect as "Activated".');
-        // Toast.message("Reserve Account publish transaction sent.");
+        OverlayToast.message(message: 'Vault Account activation transaction sent.\n\nPlease wait for it to reflect as "Activated".');
+        // Toast.message("Vault Account publish transaction sent.");
         ref.read(pendingActivationProvider.notifier).addId(wallet.address);
       }
     }

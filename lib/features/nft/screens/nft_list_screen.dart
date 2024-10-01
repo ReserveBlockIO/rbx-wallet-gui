@@ -2,13 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/components/back_to_home_button.dart';
+import 'package:rbx_wallet/core/theme/colors.dart';
 
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../services/nft_service.dart';
-import '../../smart_contracts/services/smart_contract_service.dart';
 import '../../web/components/web_wallet_type_switcher.dart';
 import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';
@@ -37,7 +37,7 @@ class NftListScreen extends BaseScreen {
       title: const Text("NFTs"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
-      leading: BackToHomeButton(),
+      // leading: BackToHomeButton(),
       actions: [
         Row(
           mainAxisSize: MainAxisSize.min,
@@ -98,7 +98,8 @@ class NftListScreen extends BaseScreen {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const TabBar(
+            TabBar(
+              indicatorColor: AppColors.getBlue(),
               tabs: [
                 Tab(
                   child: Text("My NFTs"),

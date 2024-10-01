@@ -7,7 +7,6 @@ import '../models/chat_message.dart';
 import 'chat_list_provider_interface.dart';
 import '../services/web_chat_service.dart';
 import '../../web_shop/models/web_shop.dart';
-import '../../web_shop/services/web_shop_service.dart';
 import '../../../utils/toast.dart';
 
 class WebShopChatListProvider extends ChatListProviderInterface {
@@ -41,7 +40,7 @@ class WebShopChatListProvider extends ChatListProviderInterface {
 
     final fromAddress = kIsWeb ? ref.read(webSessionProvider).keypair?.address : ref.read(sessionProvider).currentWallet?.address;
     if (fromAddress == null) {
-      Toast.error("No wallet selected");
+      Toast.error("No account selected");
       return;
     }
 

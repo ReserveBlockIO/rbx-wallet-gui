@@ -4,11 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_component.dart';
 import '../../../core/components/empty_placeholder.dart';
-import '../../../core/theme/app_theme.dart';
-import '../../dst/models/dec_shop.dart';
+import '../../../core/theme/components.dart';
 import '../providers/connected_shop_provider.dart';
-import '../services/remote_shop_service.dart';
-import '../utils.dart';
 
 class RemoteShopDetails extends BaseComponent {
   const RemoteShopDetails({super.key});
@@ -63,33 +60,27 @@ class RemoteShopDetails extends BaseComponent {
                     final collection = shop.collections[index];
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          boxShadow: glowingBox,
-                          color: Colors.black,
-                        ),
-                        child: Card(
-                          margin: EdgeInsets.zero,
-                          color: Colors.white.withOpacity(0.03),
-                          child: ListTile(
-                            title: Text(collection.name),
-                            subtitle: Text(
-                              collection.description,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            trailing: Icon(Icons.chevron_right),
-                            onTap: () {
-                              // final List<String> scIds = [];
-
-                              // bulkGetNftAssets(service: RemoteShopService(), scIds: scIds);
-
-                              AutoRouter.of(context).push(RemoteShopCollectionScreenRoute(
-                                collectionId: collection.id,
-                                url: shop.decShop.url,
-                              ));
-                            },
+                      child: AppCard(
+                        padding: 0,
+                        margin: EdgeInsets.zero,
+                        child: ListTile(
+                          title: Text(collection.name),
+                          subtitle: Text(
+                            collection.description,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
+                          trailing: Icon(Icons.chevron_right),
+                          onTap: () {
+                            // final List<String> scIds = [];
+
+                            // bulkGetNftAssets(service: RemoteShopService(), scIds: scIds);
+
+                            AutoRouter.of(context).push(RemoteShopCollectionScreenRoute(
+                              collectionId: collection.id,
+                              url: shop.decShop.url,
+                            ));
+                          },
                         ),
                       ),
                     );

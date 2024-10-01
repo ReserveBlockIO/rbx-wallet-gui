@@ -20,7 +20,7 @@ class WebCreateBtcWalletModal extends StatelessWidget {
       withDecor: false,
       children: [
         Text(
-          "Add BTC Wallet (Segwit)",
+          "Add BTC Account (Segwit)",
           style: TextStyle(fontSize: 18),
         ),
         SizedBox(

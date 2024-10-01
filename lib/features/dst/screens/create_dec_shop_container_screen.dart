@@ -1,17 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/app_constants.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../beacon/providers/beacon_list_provider.dart';
-import '../../bridge/providers/wallet_info_provider.dart';
 import '../components/publish_shop_button.dart';
 import '../components/shop_online_button.dart';
 import '../providers/dec_shop_provider.dart';
 import '../providers/dst_tx_pending_provider.dart';
 import '../services/dst_service.dart';
 import '../../global_loader/global_loading_provider.dart';
-import '../../web_shop/services/web_shop_service.dart';
 import '../../../utils/toast.dart';
 
 import '../../../core/base_screen.dart';
@@ -19,12 +16,10 @@ import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
 import '../components/create_dec_shop_form_group.dart';
-import '../components/create_collection_form_group .dart';
 import '../providers/dec_shop_form_provider.dart';
 
 class CreateDecShopContainerScreen extends BaseScreen {
-  const CreateDecShopContainerScreen({Key? key})
-      : super(key: key, verticalPadding: 0, horizontalPadding: 0);
+  const CreateDecShopContainerScreen({Key? key}) : super(key: key, verticalPadding: 0, horizontalPadding: 0);
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
@@ -32,14 +27,12 @@ class CreateDecShopContainerScreen extends BaseScreen {
     final model = ref.read(decShopFormProvider);
 
     return AppBar(
-      title:
-          Text(model.id != 0 ? "Edit Auction House" : "Create Auction House"),
+      title: Text(model.id != 0 ? "Edit Auction House" : "Create Auction House"),
       backgroundColor: Colors.black,
       leading: IconButton(
         onPressed: () async {
           final confirmed = await ConfirmDialog.show(
-            title:
-                "Are you sure you want to close the shop ${model.id != 0 ? 'editing' : 'creation'} screen?",
+            title: "Are you sure you want to close the shop ${model.id != 0 ? 'editing' : 'creation'} screen?",
             body: "All unsaved changes will be lost.",
             cancelText: "Cancel",
             confirmText: "Continue",
@@ -72,24 +65,19 @@ class CreateDecShopContainerScreen extends BaseScreen {
         const SizedBox(
           height: 16,
         ),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const CreateDecShopFormGroup(),
-              ],
-            ),
+        SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CreateDecShopFormGroup(),
+            ],
           ),
         ),
-        Container(
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            color: Color(0xFF040f26),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
+        Padding(
+          padding: const EdgeInsets.all(16.0).copyWith(bottom: 48),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 600),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -98,8 +86,7 @@ class CreateDecShopContainerScreen extends BaseScreen {
                   variant: AppColorVariant.Danger,
                   onPressed: () async {
                     final confirmed = await ConfirmDialog.show(
-                      title:
-                          "Are you sure you want to close the shop ${model.id != 0 ? 'editing' : 'creation'} screen?",
+                      title: "Are you sure you want to close the shop ${model.id != 0 ? 'editing' : 'creation'} screen?",
                       body: "All unsaved changes will be lost.",
                       cancelText: "Cancel",
                       confirmText: "Continue",
@@ -129,9 +116,7 @@ class CreateDecShopContainerScreen extends BaseScreen {
                       ref.invalidate(decShopProvider);
 
                       if (confirmed == true) {
-                        final success = model.id == 0
-                            ? await DstService().publishShop()
-                            : await DstService().updateShop();
+                        final success = model.id == 0 ? await DstService().publishShop() : await DstService().updateShop();
                         if (success) {
                           final shopUrl = model.url;
 
@@ -141,17 +126,14 @@ class CreateDecShopContainerScreen extends BaseScreen {
 
                           final confirmed = await ConfirmDialog.show(
                             title: "CLI Restart Required",
-                            body:
-                                "A CLI restart is required for this change to take effect. Would you like to restart now?",
+                            body: "A CLI restart is required for this change to take effect. Would you like to restart now?",
                             confirmText: "Restart",
                             cancelText: "Later",
                           );
 
                           if (confirmed == true) {
                             ref.read(globalLoadingProvider.notifier).start();
-                            await ref
-                                .read(sessionProvider.notifier)
-                                .restartCli();
+                            await ref.read(sessionProvider.notifier).restartCli();
                             ref.read(beaconListProvider.notifier).refresh();
                             ref.read(globalLoadingProvider.notifier).complete();
                           }

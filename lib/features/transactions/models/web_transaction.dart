@@ -145,13 +145,13 @@ class WebTransaction with _$WebTransaction {
 
       case 10:
         if (nftDataValue('Function') == "CallBack()") {
-          return "Reserve (Callback)";
+          return "Vault (Callback)";
         } else if (nftDataValue('Function') == "Register()") {
-          return "Reserve (Register)";
+          return "Vault (Register)";
         } else if (nftDataValue('Function') == "Recover()") {
-          return "Reserve (Recover)";
+          return "Vault (Recover)";
         }
-        return "Reserve";
+        return "Vault";
       case 11:
         return "Smart Contract Mint";
       case 12:

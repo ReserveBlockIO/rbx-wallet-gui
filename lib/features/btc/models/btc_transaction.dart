@@ -60,7 +60,7 @@ class BtcTransaction with _$BtcTransaction {
         return "Multi-signature";
 
       case BTCTransactionType.sameWalletTx:
-        return "Same Wallet TX";
+        return "Same Account TX";
     }
   }
 }

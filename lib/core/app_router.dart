@@ -1,48 +1,40 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
-import 'package:rbx_wallet/features/btc/screens/tokenize_btc_screen.dart';
 import 'package:rbx_wallet/features/btc/screens/tokenized_btc_list_screen.dart';
 import 'package:rbx_wallet/features/token/screens/token_create_screen.dart';
 import 'package:rbx_wallet/features/token/screens/token_list_screen.dart';
-import '../features/chat/screens/buyer_chat_thread_list_screen.dart';
-import '../features/dst/screens/create_collection_container_screen.dart';
-import '../features/dst/screens/create_dec_shop_container_screen.dart';
-import '../features/dst/screens/dst_landing_screen.dart';
-import '../features/dst/screens/my_collection_detail_screen.dart';
-import '../features/dst/screens/my_collection_list_screen.dart';
-import '../features/remote_shop/screens/remote_shop_collection_screen.dart';
-import '../features/remote_shop/screens/remote_shop_container_screen.dart';
-import '../features/remote_shop/screens/remote_shop_detail_screen.dart';
-import '../features/remote_shop/screens/remote_shop_list_screen.dart';
-import '../features/reserve/screens/manage_reserve_accounts_screen.dart';
-import '../features/reserve/screens/reserve_account_overview_screen.dart';
-import '../features/token/screens/token_topic_create_screen.dart';
-import '../features/web_shop/screens/create_web_listing_screen.dart';
-import '../features/web_shop/screens/web_collection_detail_screen.dart';
-import '../features/web_shop/screens/web_listing_detail_screen.dart';
-import '../features/web_shop/screens/web_shop_container_screen.dart';
-import '../features/web_shop/screens/web_shop_landing_screen.dart';
 
 import '../features/adjudicator/adjudicator_screen.dart';
 import '../features/adnr/screens/adnr_screen.dart';
 import '../features/beacon/screens/beacon_list_screen.dart';
+import '../features/chat/screens/buyer_chat_thread_list_screen.dart';
 import '../features/chat/screens/seller_chat_screen.dart';
-import '../features/chat/screens/web_seller_chat_screen.dart';
 import '../features/chat/screens/seller_chat_thread_list_screen.dart';
 import '../features/chat/screens/shop_chat_screen.dart';
+import '../features/chat/screens/web_seller_chat_screen.dart';
 import '../features/chat/screens/web_shop_chat_screen.dart';
 import '../features/config/screens/config_container_screen.dart';
 import '../features/datanode/screens/datanode_screen.dart';
+import '../features/dst/screens/create_collection_container_screen.dart';
+import '../features/dst/screens/create_dec_shop_container_screen.dart';
 import '../features/dst/screens/create_listing_container_screen.dart';
-import '../features/dst/screens/listing_detail_screen.dart';
+import '../features/dst/screens/dst_landing_screen.dart';
 import '../features/dst/screens/listing_auction_detail_screen.dart';
-
-import '../features/home/screens/home_screen.dart';
+import '../features/dst/screens/listing_detail_screen.dart';
+import '../features/dst/screens/my_collection_detail_screen.dart';
+import '../features/dst/screens/my_collection_list_screen.dart';
+import '../features/home/screens/new_home_screen.dart';
 import '../features/mother/screens/mother_dashboard_screen.dart';
+import '../features/navigation/root_container.dart';
 import '../features/nft/screens/nft_list_screen.dart';
 import '../features/node/screens/node_list_screen.dart';
+import '../features/operations/screens/operations_screen.dart';
 import '../features/receive/screens/receive_screen.dart';
-import '../features/root/root_container.dart';
+import '../features/remote_shop/screens/remote_shop_collection_screen.dart';
+import '../features/remote_shop/screens/remote_shop_container_screen.dart';
+import '../features/remote_shop/screens/remote_shop_detail_screen.dart';
+import '../features/reserve/screens/manage_reserve_accounts_screen.dart';
+import '../features/reserve/screens/reserve_account_overview_screen.dart';
 import '../features/send/screens/send_screen.dart';
 import '../features/smart_contracts/components/sc_creator/smart_contract_creator_main.dart';
 import '../features/smart_contracts/screens/bulk_create_screen.dart';
@@ -51,15 +43,16 @@ import '../features/smart_contracts/screens/smart_contract_creator_container_scr
 import '../features/smart_contracts/screens/smart_contract_drafts_screen.dart';
 import '../features/smart_contracts/screens/smart_contracts_screen.dart';
 import '../features/smart_contracts/screens/template_chooser_screen.dart';
+import '../features/token/screens/token_topic_create_screen.dart';
 import '../features/transactions/screens/transactions_screen.dart';
 import '../features/validator/screens/validator_screen.dart';
 import '../features/voting/screens/create_topic_screen.dart';
 import '../features/voting/screens/topic_detail_screen.dart';
 import '../features/voting/screens/topic_list_screen.dart';
-import '../features/web_shop/screens/create_web_shop_container_screen.dart';
+import '../features/web_shop/screens/web_collection_detail_screen.dart';
+import '../features/web_shop/screens/web_listing_detail_screen.dart';
 import '../features/web_shop/screens/web_shop_detail_screen.dart';
 import '../features/web_shop/screens/web_shop_list_screen.dart';
-import '../features/web_shop/screens/my_web_shops_list_screen.dart';
 
 const List<AutoRoute> appRoutes = [
   AutoRoute(
@@ -72,8 +65,8 @@ const List<AutoRoute> appRoutes = [
         name: "HomeTabRouter",
         page: EmptyRouterPage,
         children: [
-          AutoRoute(path: "", page: HomeScreen),
-          AutoRoute(path: "reserve-accounts", page: ReserveAccountOverviewScreen),
+          AutoRoute(path: "", page: NewHomeScreen),
+          // AutoRoute(path: "reserve-accounts", page: ReserveAccountOverviewScreen),
         ],
       ),
       AutoRoute(
@@ -204,7 +197,7 @@ const List<AutoRoute> appRoutes = [
         children: [
           AutoRoute(
             path: "",
-            name: "ReserveAccountOverviewScreenTab",
+            // name: "ReserveAccountOverviewScreenTab",
             page: ReserveAccountOverviewScreen,
           ),
           AutoRoute(
@@ -232,6 +225,17 @@ const List<AutoRoute> appRoutes = [
           AutoRoute(path: "", page: TokenListScreen),
           AutoRoute(path: "create", page: TokenCreateScreen),
           AutoRoute(path: "create-topic/:scId/:address", page: CreateTokenTopicScreen)
+        ],
+      ),
+      AutoRoute(
+        path: "operations",
+        name: "OperationsTabRouter",
+        page: EmptyRouterPage,
+        children: [
+          AutoRoute(
+            path: "",
+            page: OperationsScreen,
+          ),
         ],
       ),
       // AutoRoute(

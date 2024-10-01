@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rbx_wallet/core/theme/colors.dart';
 import '../breakpoints.dart';
 
 class BigButton extends StatelessWidget {
@@ -23,12 +24,15 @@ class BigButton extends StatelessWidget {
       child: Container(
         width: 600,
         decoration: BoxDecoration(
-          // color: Theme.of(context).colorScheme.primary,
-          color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
+          color: AppColors.getBlue(ColorShade.s400),
           borderRadius: BorderRadius.circular(10.0),
-          border: Border.all(color: Theme.of(context).colorScheme.secondary.withOpacity(0.1), width: 3),
-          boxShadow: const [
-            BoxShadow(blurRadius: 12.0, color: Colors.white12),
+          border: Border.all(color: AppColors.getBlue(ColorShade.s50).withOpacity(0.75), width: 1),
+          boxShadow: [
+            BoxShadow(
+                blurRadius: 12.0,
+                color: AppColors.getBlue(
+                  ColorShade.s300,
+                )),
           ],
         ),
         child: Material(
@@ -45,18 +49,18 @@ class BigButton extends StatelessWidget {
                 children: [
                   Icon(
                     iconData,
-                    size: isMobile ? 28 : 48,
+                    size: isMobile ? 20 : 20,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       title,
                       style: isMobile
-                          ? Theme.of(context).textTheme.headline5!.copyWith(
+                          ? Theme.of(context).textTheme.headlineSmall!.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               )
-                          : Theme.of(context).textTheme.headline3,
+                          : Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -64,7 +68,7 @@ class BigButton extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 32),
                     child: Text(
                       body,
-                      style: Theme.of(context).textTheme.bodyText2,
+                      style: Theme.of(context).textTheme.bodyMedium,
                       textAlign: TextAlign.center,
                     ),
                   ),

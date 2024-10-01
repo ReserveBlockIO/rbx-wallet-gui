@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
 import 'nft_selector.dart';
 import '../../../utils/toast.dart';
 
@@ -24,57 +25,53 @@ class CreateListingFormGroup extends BaseComponent {
           Center(
               child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 600),
-            child: Form(
-              key: provider.formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Flexible(
-                    child: Card(
-                      color: Colors.white.withOpacity(0.05),
-                      margin: EdgeInsets.zero,
+            child: AppCard(
+              child: Form(
+                key: provider.formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         child: _NFT(),
                       ),
                     ),
-                  ),
-                  if (model.isAuction && model.auctionStarted && model.exists)
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                          child: Text(
-                        "Auction has started so the dates & times can't be updated.",
-                        style: Theme.of(context).textTheme.bodySmall,
-                      )),
-                    ),
-                  SizedBox(height: 16),
-                  Flexible(child: _EnableGallery()),
-                  SizedBox(height: 16),
-                  Flexible(child: _EnableBuyNow()),
-                  if (model.enableBuyNow) Flexible(child: _BuyNow()),
-                  SizedBox(height: 16),
-                  Flexible(child: _EnableAuction()),
-                  if (model.enableAuction) ...[
-                    Flexible(child: _FloorPrice()),
-                    Flexible(child: _EnableReservePrice()),
-                    if (model.enableReservePrice)
-                      Flexible(child: _ReservePrice()),
                     if (model.isAuction && model.auctionStarted && model.exists)
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Center(
                             child: Text(
-                          "Auction has started so the pricing can't be updated.",
+                          "Auction has started so the dates & times can't be updated.",
                           style: Theme.of(context).textTheme.bodySmall,
                         )),
                       ),
-                    Flexible(child: _StartDate()),
-                    Flexible(child: _EndDate()),
+                    SizedBox(height: 16),
+                    Flexible(child: _EnableGallery()),
+                    SizedBox(height: 16),
+                    Flexible(child: _EnableBuyNow()),
+                    if (model.enableBuyNow) Flexible(child: _BuyNow()),
+                    SizedBox(height: 16),
+                    Flexible(child: _EnableAuction()),
+                    if (model.enableAuction) ...[
+                      Flexible(child: _FloorPrice()),
+                      Flexible(child: _EnableReservePrice()),
+                      if (model.enableReservePrice) Flexible(child: _ReservePrice()),
+                      if (model.isAuction && model.auctionStarted && model.exists)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                              child: Text(
+                            "Auction has started so the pricing can't be updated.",
+                            style: Theme.of(context).textTheme.bodySmall,
+                          )),
+                        ),
+                      Flexible(child: _StartDate()),
+                      Flexible(child: _EndDate()),
+                    ],
                   ],
-                ],
+                ),
               ),
             ),
           )),
@@ -299,8 +296,7 @@ class _NFT extends BaseComponent {
             Text("NFT:"),
             NftSelector(onSelect: (nft) {
               if (nft.isListed(ref)) {
-                Toast.error(
-                    "This NFT is already listed. Please choose another");
+                Toast.error("This NFT is already listed. Please choose another");
                 provider.clearNft();
 
                 return;
@@ -355,8 +351,7 @@ class _NFT extends BaseComponent {
             labelOverride: "Replace NFT",
             onSelect: (nft) {
               if (nft.isListed(ref)) {
-                Toast.error(
-                    "This NFT is already listed. Please choose another");
+                Toast.error("This NFT is already listed. Please choose another");
                 provider.clearNft();
                 return;
               }
@@ -369,8 +364,7 @@ class _NFT extends BaseComponent {
   }
 }
 
-Future<void> _showDatePicker(
-    BuildContext context, WidgetRef ref, bool isStartDate) async {
+Future<void> _showDatePicker(BuildContext context, WidgetRef ref, bool isStartDate) async {
   final _provider = ref.read(listingFormProvider.notifier);
   final _model = ref.read(listingFormProvider);
 
@@ -402,8 +396,7 @@ Future<void> _showDatePicker(
   }
 }
 
-Future<void> _showTimePicker(
-    BuildContext context, WidgetRef ref, bool isStartDate) async {
+Future<void> _showTimePicker(BuildContext context, WidgetRef ref, bool isStartDate) async {
   final _provider = ref.read(listingFormProvider.notifier);
   final _model = ref.read(listingFormProvider);
 
@@ -416,8 +409,7 @@ Future<void> _showTimePicker(
   final t = await showTimePicker(
     context: context,
     initialEntryMode: TimePickerEntryMode.input,
-    initialTime:
-        TimeOfDay(hour: initialDateTime.hour, minute: initialDateTime.minute),
+    initialTime: TimeOfDay(hour: initialDateTime.hour, minute: initialDateTime.minute),
     builder: (BuildContext context, Widget? child) {
       return Theme(
         data: ThemeData.dark().copyWith(

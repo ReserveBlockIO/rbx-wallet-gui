@@ -2,9 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'web_import_shop_button.dart';
-import '../../../core/app_router.gr.dart';
 import '../../../core/components/buttons.dart';
-import '../../../core/components/empty_placeholder.dart';
 import '../../../core/web_router.gr.dart';
 import 'web_shop_list_tile.dart';
 import '../models/web_shop.dart';
@@ -133,7 +131,6 @@ class _CreateShopButton extends BaseComponent {
   final bool withImport;
 
   const _CreateShopButton({
-    super.key,
     this.buttonType = AppButtonType.Elevated,
     this.variant = AppColorVariant.Success,
     this.withImport = true,

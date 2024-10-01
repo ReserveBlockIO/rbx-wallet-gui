@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../nft/models/nft.dart';
 import '../../nft/models/web_nft.dart';
 import 'web_auction.dart';
 import 'web_bid.dart';

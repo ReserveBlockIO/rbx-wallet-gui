@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/theme/components.dart';
 import '../../wallet/providers/wallet_list_provider.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/app_router.gr.dart';
@@ -10,16 +11,13 @@ import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/components/centered_loader.dart';
 import '../../../core/dialogs.dart';
-import '../../../core/providers/session_provider.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../bridge/providers/wallet_info_provider.dart';
 import '../components/publish_shop_button.dart';
 import '../components/shop_online_button.dart';
 import '../components/collection_list.dart';
 import '../providers/collection_form_provider.dart';
 import '../providers/collection_list_provider.dart';
 import '../services/dst_service.dart';
-import '../../global_loader/global_loading_provider.dart';
 import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';
 
@@ -27,8 +25,7 @@ import '../providers/dec_shop_form_provider.dart';
 import '../providers/dec_shop_provider.dart';
 
 class MyCollectionsListScreen extends BaseScreen {
-  const MyCollectionsListScreen({Key? key})
-      : super(key: key, verticalPadding: 0, horizontalPadding: 0);
+  const MyCollectionsListScreen({Key? key}) : super(key: key, verticalPadding: 0, horizontalPadding: 0);
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
@@ -74,18 +71,13 @@ class MyCollectionsListScreen extends BaseScreen {
                     children: [
                       Text(
                         shop.name,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium!
-                            .copyWith(color: Colors.white),
+                        style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
                       ),
                       SizedBox(
                         height: 12,
                       ),
                       Container(
-                        decoration: BoxDecoration(
-                            color: Colors.black38,
-                            borderRadius: BorderRadius.circular(4.0)),
+                        decoration: BoxDecoration(color: Colors.black38, borderRadius: BorderRadius.circular(4.0)),
                         child: Padding(
                           padding: const EdgeInsets.only(
                             left: 10,
@@ -93,146 +85,125 @@ class MyCollectionsListScreen extends BaseScreen {
                             top: 8,
                             bottom: 8,
                           ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                "URL: ${shop.url}",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                          child: AppCard(
+                            padding: 0,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20, right: 8),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "URL: ${shop.url}",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  IconButton(
+                                      onPressed: () async {
+                                        await Clipboard.setData(ClipboardData(text: shop.url));
+                                        Toast.message("Shop URL copied to clipboard");
+                                      },
+                                      icon: Icon(
+                                        Icons.copy,
+                                        size: 16,
+                                      ))
+                                ],
                               ),
-                              // SizedBox(
-                              //   width: 6,
-                              // ),
-                              // AppButton(
-                              //   label: "Copy Shop URL",
-                              //   icon: Icons.copy,
-                              //   type: AppButtonType.Outlined,
-                              //   variant: AppColorVariant.Light,
-                              //   onPressed: () async {
-                              //     await Clipboard.setData(ClipboardData(text: shop.url));
-                              //     Toast.message("URL copied to clipboard");
-                              //   },
-                              // ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(height: 8),
-                      AppButton(
-                        label: "Copy Shop URL",
-                        icon: Icons.copy,
-                        type: AppButtonType.Outlined,
-                        variant: AppColorVariant.Light,
-                        onPressed: () async {
-                          await Clipboard.setData(
-                              ClipboardData(text: shop.url));
-                          Toast.message("Shop URL copied to clipboard");
-                        },
-                      ),
                       SizedBox(height: 16),
-                      Divider(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          if (shop.isPublished) ShopOnlineButton(),
-                          AppButton(
-                            variant: AppColorVariant.Primary,
-                            label: "Edit Details",
-                            icon: Icons.edit,
-                            onPressed: () {
-                              ref.read(decShopFormProvider.notifier).load(shop);
-                              AutoRouter.of(context).push(
-                                  const CreateDecShopContainerScreenRoute());
-                            },
-                          ),
-                          DecPublishShopButton(),
-                          if (!shop.isPublished)
+                      AppCard(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            if (shop.isPublished) ShopOnlineButton(),
                             AppButton(
-                              variant: AppColorVariant.Danger,
-                              label: "Delete Shop",
-                              icon: Icons.delete,
-                              onPressed: () async {
-                                final confirmed = await ConfirmDialog.show(
-                                  title: "Delete Shop",
-                                  body:
-                                      "Are you sure you want to delete your unpublished shop?",
-                                  destructive: true,
-                                  confirmText: "Delete",
-                                  cancelText: "Cancel",
-                                );
-
-                                if (confirmed == true) {
-                                  final success =
-                                      await DstService().deleteShopLocally();
-                                  if (success) {
-                                    for (final c in collections) {
-                                      await DstService().deleteCollection(c);
-                                    }
-
-                                    await Future.delayed(Duration(seconds: 1));
-                                    ref.invalidate(decShopProvider);
-                                    ref
-                                        .read(collectionListProvider.notifier)
-                                        .refresh();
-
-                                    Toast.message("Shop Deleted");
-                                    // Navigator.of(context).pop();
-                                  }
-                                }
+                              variant: AppColorVariant.Primary,
+                              label: "Edit Details",
+                              icon: Icons.edit,
+                              onPressed: () {
+                                ref.read(decShopFormProvider.notifier).load(shop);
+                                AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
                               },
                             ),
-                          if (shop.isPublished)
-                            AppButton(
-                              variant: AppColorVariant.Danger,
-                              label: "Delete Shop",
-                              icon: Icons.delete,
-                              onPressed: () async {
-                                final confirmed = await ConfirmDialog.show(
-                                  title: "Delete Shop",
-                                  body:
-                                      "Are you sure you want to delete this shop from the network? There is a cost of $SHOP_DELETE_COST VFX plus TX fee to perform this operation.",
-                                  destructive: true,
-                                  confirmText: "Delete",
-                                  cancelText: "Cancel",
-                                );
+                            DecPublishShopButton(),
+                            if (!shop.isPublished)
+                              AppButton(
+                                variant: AppColorVariant.Danger,
+                                label: "Delete Shop",
+                                icon: Icons.delete,
+                                onPressed: () async {
+                                  final confirmed = await ConfirmDialog.show(
+                                    title: "Delete Shop",
+                                    body: "Are you sure you want to delete your unpublished shop?",
+                                    destructive: true,
+                                    confirmText: "Delete",
+                                    cancelText: "Cancel",
+                                  );
 
-                                if (confirmed == true) {
-                                  final successRemote =
-                                      await DstService().deleteShop();
-                                  if (successRemote) {
-                                    Toast.message("Delete TX broadcasted.");
-
-                                    final success =
-                                        await DstService().deleteShopLocally();
+                                  if (confirmed == true) {
+                                    final success = await DstService().deleteShopLocally();
                                     if (success) {
                                       for (final c in collections) {
                                         await DstService().deleteCollection(c);
                                       }
 
-                                      await Future.delayed(
-                                          Duration(seconds: 1));
-
+                                      await Future.delayed(Duration(seconds: 1));
                                       ref.invalidate(decShopProvider);
-                                      ref
-                                          .read(collectionListProvider.notifier)
-                                          .refresh();
-                                      Toast.message("Shop Deleted.");
+                                      ref.read(collectionListProvider.notifier).refresh();
+
+                                      Toast.message("Shop Deleted");
                                       // Navigator.of(context).pop();
-                                      // ref.read(globalLoadingProvider.notifier).start();
-                                      // ref.read(sessionProvider.notifier).restartCli();
-                                      // ref.read(globalLoadingProvider.notifier).complete();
                                     }
                                   }
-                                }
-                              },
-                            ),
-                        ],
+                                },
+                              ),
+                            if (shop.isPublished)
+                              AppButton(
+                                variant: AppColorVariant.Danger,
+                                label: "Delete Shop",
+                                icon: Icons.delete,
+                                onPressed: () async {
+                                  final confirmed = await ConfirmDialog.show(
+                                    title: "Delete Shop",
+                                    body:
+                                        "Are you sure you want to delete this shop from the network? There is a cost of $SHOP_DELETE_COST VFX plus TX fee to perform this operation.",
+                                    destructive: true,
+                                    confirmText: "Delete",
+                                    cancelText: "Cancel",
+                                  );
+
+                                  if (confirmed == true) {
+                                    final successRemote = await DstService().deleteShop();
+                                    if (successRemote) {
+                                      Toast.message("Delete TX broadcasted.");
+
+                                      final success = await DstService().deleteShopLocally();
+                                      if (success) {
+                                        for (final c in collections) {
+                                          await DstService().deleteCollection(c);
+                                        }
+
+                                        await Future.delayed(Duration(seconds: 1));
+
+                                        ref.invalidate(decShopProvider);
+                                        ref.read(collectionListProvider.notifier).refresh();
+                                        Toast.message("Shop Deleted.");
+                                        // Navigator.of(context).pop();
+                                        // ref.read(globalLoadingProvider.notifier).start();
+                                        // ref.read(sessionProvider.notifier).restartCli();
+                                        // ref.read(globalLoadingProvider.notifier).complete();
+                                      }
+                                    }
+                                  }
+                                },
+                              ),
+                          ],
+                        ),
                       ),
-                      Divider(),
                     ],
                   ),
                 );
@@ -250,59 +221,56 @@ class MyCollectionsListScreen extends BaseScreen {
               data: (shop) {
                 return Expanded(
                   child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (shop == null) ...[
-                          Text(
-                            "First, setup your auction house / gallery.\nThen you'll be able to create collections and add listings to them.",
-                            style: TextStyle(
-                              fontSize: 18,
-                              height: 1.5,
+                    child: AppCard(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (shop == null) ...[
+                            Text(
+                              "First, setup your auction house / gallery.\nThen you'll be able to create collections and add listings to them.",
+                              style: TextStyle(
+                                fontSize: 18,
+                                height: 1.5,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(
-                            height: 32,
-                          )
-                        ],
-                        if (shop != null &&
-                            shop.isPublished &&
-                            collections.isEmpty) ...[
-                          Text(
-                            "Now you can create collections and then add listings to them.",
-                            style: TextStyle(
-                              fontSize: 18,
-                              height: 1.5,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(
-                            height: 32,
-                          )
-                        ],
-                        Column(
-                          children: [
-                            DecShopButton(),
-                            if (shop != null && shop.isPublished)
-                              Padding(
-                                padding: const EdgeInsets.only(top: 24.0),
-                                child: AppButton(
-                                  label: 'Create New Collection',
-                                  icon: Icons.add,
-                                  variant: AppColorVariant.Success,
-                                  onPressed: () async {
-                                    ref
-                                        .read(storeFormProvider.notifier)
-                                        .clear();
-                                    AutoRouter.of(context).push(
-                                        const CreateCollectionContainerScreenRoute());
-                                  },
-                                ),
-                              )
+                            SizedBox(
+                              height: 32,
+                            )
                           ],
-                        ),
-                      ],
+                          if (shop != null && shop.isPublished && collections.isEmpty) ...[
+                            Text(
+                              "Now you can create collections and then add listings to them.",
+                              style: TextStyle(
+                                fontSize: 18,
+                                height: 1.5,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(
+                              height: 32,
+                            )
+                          ],
+                          Column(
+                            children: [
+                              DecShopButton(),
+                              if (shop != null && shop.isPublished)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 24.0),
+                                  child: AppButton(
+                                    label: 'Create New Collection',
+                                    icon: Icons.add,
+                                    variant: AppColorVariant.Success,
+                                    onPressed: () async {
+                                      ref.read(storeFormProvider.notifier).clear();
+                                      AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
+                                    },
+                                  ),
+                                )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -317,29 +285,22 @@ class MyCollectionsListScreen extends BaseScreen {
             ),
           ),
         if (collections.isNotEmpty)
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              color: Color(0xFF040f26),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  DecShopButton(),
-                  AppButton(
-                    label: 'Create New Collection',
-                    icon: Icons.add,
-                    variant: AppColorVariant.Success,
-                    onPressed: () async {
-                      ref.read(storeFormProvider.notifier).clear();
-                      AutoRouter.of(context)
-                          .push(const CreateCollectionContainerScreenRoute());
-                    },
-                  )
-                ],
-              ),
+          Padding(
+            padding: const EdgeInsets.all(16.0).copyWith(bottom: 48),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                DecShopButton(),
+                AppButton(
+                  label: 'Create New Collection',
+                  icon: Icons.add,
+                  variant: AppColorVariant.Success,
+                  onPressed: () async {
+                    ref.read(storeFormProvider.notifier).clear();
+                    AutoRouter.of(context).push(const CreateCollectionContainerScreenRoute());
+                  },
+                )
+              ],
             ),
           ),
       ],
@@ -355,8 +316,7 @@ class DecShopButton extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(decShopProvider);
-    final addresses =
-        ref.watch(walletListProvider).map((e) => e.address).toList();
+    final addresses = ref.watch(walletListProvider).map((e) => e.address).toList();
 
     return data.when(
       loading: () => SizedBox(),
@@ -372,8 +332,7 @@ class DecShopButton extends BaseComponent {
                 variant: AppColorVariant.Light,
                 onPressed: () async {
                   ref.read(decShopFormProvider.notifier).clear();
-                  AutoRouter.of(context)
-                      .push(const CreateDecShopContainerScreenRoute());
+                  AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
                 },
               ),
               SizedBox(
@@ -422,8 +381,7 @@ class DecShopButton extends BaseComponent {
           variant: AppColorVariant.Light,
           onPressed: () async {
             ref.read(decShopFormProvider.notifier).load(shop);
-            AutoRouter.of(context)
-                .push(const CreateDecShopContainerScreenRoute());
+            AutoRouter.of(context).push(const CreateDecShopContainerScreenRoute());
           },
         );
       },

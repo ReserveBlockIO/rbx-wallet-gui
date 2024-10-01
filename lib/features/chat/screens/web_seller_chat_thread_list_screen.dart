@@ -4,7 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../components/seller_chat_thread_list.dart';
-import '../providers/seller_chat_thread_list_provider.dart';
 import '../providers/web_seller_chat_thread_list_provider.dart';
 
 import '../../../core/base_screen.dart';
@@ -53,7 +52,7 @@ class WebSellerChatThreadListScreen extends BaseScreen {
 
 class _ThreadPoller extends StatefulWidget {
   final Function pollFunction;
-  const _ThreadPoller({super.key, required this.pollFunction});
+  const _ThreadPoller({required this.pollFunction});
 
   @override
   State<_ThreadPoller> createState() => __ThreadPollerState();

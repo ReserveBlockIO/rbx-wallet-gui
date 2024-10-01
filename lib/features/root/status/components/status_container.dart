@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/services/explorer_service.dart';
-import '../../../../core/components/buttons.dart';
 import '../../../bridge/services/bridge_service.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/components/badges.dart';
 import '../../../../core/providers/session_provider.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../generated/assets.gen.dart';
 import '../../../../utils/formatting.dart';
 import '../../../block/latest_block.dart';
 import '../../../bridge/providers/status_provider.dart';
@@ -57,7 +54,7 @@ class StatusContainer extends BaseComponent {
                             width: double.infinity,
                             child: ElevatedButton.icon(
                               icon: const Icon(Icons.download),
-                              style: ElevatedButton.styleFrom(primary: Theme.of(context).colorScheme.danger),
+                              style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.danger),
                               label: const Text("Update Available"),
                               onPressed: () {
                                 ref.read(sessionProvider.notifier).updateGui();
@@ -254,7 +251,7 @@ class _BlockStatus extends BaseComponent {
                     children: [
                       Text(
                         "Resyncing",
-                        style: Theme.of(context).textTheme.caption,
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                       const SizedBox(
                         width: 12,
@@ -293,7 +290,7 @@ class _BlockStatus extends BaseComponent {
                     children: [
                       Text(
                         "Syncing",
-                        style: Theme.of(context).textTheme.caption,
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                       const SizedBox(
                         width: 12,
@@ -328,7 +325,7 @@ class _BlockStatus extends BaseComponent {
               children: [
                 Text(
                   "Wallet Synced",
-                  style: Theme.of(context).textTheme.caption,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const SizedBox(
                   height: 4,
@@ -410,7 +407,7 @@ class _ProgressIndicator extends StatelessWidget {
             alignment: Alignment.bottomRight,
             child: Text(
               "${formatIntWithCommas(value)}/${formatIntWithCommas(remoteBlockHeight)}",
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
           ),
       ],

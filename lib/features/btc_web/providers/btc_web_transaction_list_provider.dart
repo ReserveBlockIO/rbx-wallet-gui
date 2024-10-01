@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/btc_transaction_list_state.dart';
-import '../models/btc_web_transaction.dart';
 import '../services/btc_web_service.dart';
 
 class BtcWebTransactionListProvider extends StateNotifier<BtcTransactionListState> {

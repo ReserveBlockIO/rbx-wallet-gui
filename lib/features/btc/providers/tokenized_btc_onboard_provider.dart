@@ -107,7 +107,7 @@ class VBtcOnboardState {
   String get stepTitle {
     switch (step) {
       case VBtcOnboardStep.createVfxWallet:
-        return "Create VFX Wallet";
+        return "Create VFX Account";
 
       case VBtcOnboardStep.faucetWithdrawl:
         return "Get VFX";
@@ -129,7 +129,7 @@ class VBtcOnboardState {
   String get stepDetails {
     switch (step) {
       case VBtcOnboardStep.createVfxWallet:
-        return "First you'll need a VFX Wallet. You can either import an existing one or create one now";
+        return "First you'll need a VFX Wallet. You can either import an existing one or create one now.";
 
       case VBtcOnboardStep.faucetWithdrawl:
         return "The community has provided a faucet to withdraw a minimal amount of VFX from in order to try out this feature. A phone number is required for verification purposes and to reduce the chance of abuse. Please note that only a hash of the phone number is stored with the faucet. Alternatively, you are welcome to purchase VFX via an exchange if you like. ";

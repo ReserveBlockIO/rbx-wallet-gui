@@ -11,7 +11,6 @@ import '../../../core/providers/web_session_provider.dart';
 import '../../../core/web_router.gr.dart';
 import '../../chat/services/web_chat_service.dart';
 import '../components/web_listing_list.dart';
-import '../components/web_my_listing_list.dart';
 import '../providers/web_collection_detail_provider.dart';
 import '../providers/web_listing_full_list_provider.dart';
 
@@ -19,7 +18,6 @@ import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../utils/toast.dart';
-import '../../remote_shop/providers/shop_list_view_provider.dart';
 import '../../web/components/web_wallet_details.dart';
 import '../models/web_listing.dart';
 import '../providers/create_web_listing_provider.dart';

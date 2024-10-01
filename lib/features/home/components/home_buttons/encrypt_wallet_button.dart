@@ -36,6 +36,7 @@ class EncryptWalletButton extends BaseComponent {
                     validator: (value) => formValidatorNotEmpty(value, "Password"),
                     labelText: "Password",
                     obscureText: true,
+                    revealObscure: true,
                     lines: 1,
                   );
 
@@ -94,6 +95,7 @@ class EncryptWalletButton extends BaseComponent {
                 validator: (value) => formValidatorNotEmpty(value, "Password"),
                 labelText: "Create Password",
                 obscureText: true,
+                revealObscure: true,
                 lines: 1,
                 body:
                     "This function will encrypt ALL private keys in this wallet. Please ensure you have ALL private keys in this wallet backed up before proceeding.\n\nThis is an irreversible action and the password that you create will be the only way to gain access to this wallet once you complete this encryption.\n\nIt is also recommended to backup your password in addition to your private keys.",
@@ -107,6 +109,7 @@ class EncryptWalletButton extends BaseComponent {
                   validator: (value) => formValidatorNotEmpty(value, "Password"),
                   labelText: "Password",
                   obscureText: true,
+                  revealObscure: true,
                   lines: 1,
                   body: "Please confirm your encryption password.",
                 );

@@ -1,7 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../generated/assets.gen.dart';
 
 class ModalContainer extends StatelessWidget {
   final List<Widget> children;
@@ -11,7 +9,7 @@ class ModalContainer extends StatelessWidget {
   final double padding;
   const ModalContainer({
     Key? key,
-    this.color = Colors.black,
+    this.color = const Color(0xFF0b0d0f),
     this.children = const [],
     this.withClose = false,
     this.withDecor = true,
@@ -22,49 +20,34 @@ class ModalContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: color,
-      child: Stack(
-        alignment: Alignment.bottomRight,
-        children: [
-          if (withDecor && !kIsWeb)
-            Opacity(
-              opacity: kIsWeb ? 0.1 : 0.5,
-              child: Image.asset(
-                Assets.images.decorBottomRight.path,
-                width: 300,
-                height: 300,
-                fit: BoxFit.cover,
-              ),
-            ),
-          SafeArea(
-            child: Padding(
-              padding: EdgeInsets.all(padding),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (withClose)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text(
-                              "Close",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ],
+      child: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(padding),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (withClose)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text(
+                          "Close",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
-                    ...children
-                  ],
-                ),
-              ),
+                    ],
+                  ),
+                ...children
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }

@@ -67,7 +67,7 @@ class TemplateChooserScreen extends BaseScreen {
             children: [
               Text(
                 "Choose a Smart Contract & Add Features",
-                style: Theme.of(context).textTheme.headline2!.copyWith(
+                style: Theme.of(context).textTheme.displayMedium!.copyWith(
                       color: Theme.of(context).colorScheme.secondary,
                     ),
               ),
@@ -212,7 +212,7 @@ class _TemplateCardState extends BaseComponentState<_TemplateCard> {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           widget.template.name,
-                          style: Theme.of(context).textTheme.headline3!.copyWith(
+                          style: Theme.of(context).textTheme.displaySmall!.copyWith(
                                 // fontFamily: "RobotoMono",
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 2,
@@ -241,8 +241,7 @@ class _TemplateCardState extends BaseComponentState<_TemplateCard> {
                         height: 45,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                            onPrimary: Colors.black,
+                            foregroundColor: Colors.black, backgroundColor: Colors.white,
                             textStyle: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,

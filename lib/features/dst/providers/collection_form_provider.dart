@@ -7,7 +7,6 @@ import 'listing_list_provider.dart';
 import 'collection_detail_provider.dart';
 import 'collection_list_provider.dart';
 import '../services/dst_service.dart';
-import '../../global_loader/global_loading_provider.dart';
 import '../../../utils/toast.dart';
 
 import '../../../core/dialogs.dart';

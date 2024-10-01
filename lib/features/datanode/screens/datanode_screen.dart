@@ -22,7 +22,7 @@ class DataNodeScreen extends BaseScreen {
     return Center(
       child: Text(
         "Activating soon.",
-        style: Theme.of(context).textTheme.headline4,
+        style: Theme.of(context).textTheme.headlineMedium,
       ),
     );
   }

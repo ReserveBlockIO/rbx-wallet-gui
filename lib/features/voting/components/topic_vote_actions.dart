@@ -38,7 +38,7 @@ class TopicVoteActions extends BaseComponent {
     final myAddress = ref.watch(sessionProvider).currentWallet?.address;
 
     if (myAddress == null) {
-      return const _ErrorMessage("Must have a wallet selected to vote.");
+      return const _ErrorMessage("Must have an account selected to vote.");
     }
 
     final isValidating = ref.watch(sessionProvider).currentWallet?.isValidating == true;
@@ -115,7 +115,7 @@ class TopicVoteActions extends BaseComponent {
         const SizedBox(height: 8),
         Text(
           "Voting ends ${topic.endsAtFormatted}.",
-          style: Theme.of(context).textTheme.caption,
+          style: Theme.of(context).textTheme.bodySmall,
         )
       ],
     );

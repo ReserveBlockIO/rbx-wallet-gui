@@ -172,7 +172,7 @@ class _SnapshotDownloaderState extends State<SnapshotDownloader> {
                   itemBuilder: (context, index) {
                     return Text(
                       installLog[index],
-                      style: Theme.of(context).textTheme.caption,
+                      style: Theme.of(context).textTheme.bodySmall,
                     );
                   },
                 ),
@@ -206,7 +206,7 @@ class _SnapshotDownloaderState extends State<SnapshotDownloader> {
                 if (total != null)
                   Text(
                     "${readableFileSize(progress)} / ${readableFileSize(total!)}",
-                    style: Theme.of(context).textTheme.caption,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
               ],
             );
@@ -233,7 +233,7 @@ class _SnapshotDownloaderState extends State<SnapshotDownloader> {
                 if (backupDir != null) ...[
                   Text(
                     "Note: In case your mistakenly imported this snapshot, your previous database folder was backed up to\n$backupDir",
-                    style: Theme.of(context).textTheme.caption,
+                    style: Theme.of(context).textTheme.bodySmall,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(

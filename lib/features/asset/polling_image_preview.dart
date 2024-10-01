@@ -63,17 +63,23 @@ class _PollingImagePreviewState extends State<PollingImagePreview> {
     if (hide) {
       return const SizedBox();
     }
-    return Image.file(
-      File(widget.localPath),
-      width: double.infinity,
-      fit: BoxFit.cover,
-      errorBuilder: (context, _, __) {
-        return Text(
-          "File not found for preview.\nLikely this means this NFT no longer exists on this machine.\n",
-          style: Theme.of(context).textTheme.caption,
-          textAlign: TextAlign.left,
-        );
-      },
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Image.file(
+        File(widget.localPath),
+        width: double.infinity,
+        fit: BoxFit.cover,
+        errorBuilder: (context, _, __) {
+          return Text(
+            "File not found for preview.\nLikely this means this NFT no longer exists on this machine.\n",
+            style: Theme.of(context).textTheme.bodySmall,
+            textAlign: TextAlign.left,
+          );
+        },
+      ),
     );
 
     // return Stack(

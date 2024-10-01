@@ -73,7 +73,7 @@ class _CompileAnimationState extends State<CompileAnimation> with TickerProvider
                 Text(
                   widget.mint ? "Minting…" : "Compiling & Minting…",
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white, letterSpacing: 1),
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white, letterSpacing: 1),
                 )
               ],
             ),
@@ -120,10 +120,6 @@ class _CompileAnimationCompleteState extends State<CompileAnimationComplete> wit
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +152,7 @@ class _CompileAnimationCompleteState extends State<CompileAnimationComplete> wit
                 ),
                 Text(
                   widget.mint ? "Minted!" : "Compiled!",
-                  style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white, letterSpacing: 1),
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white, letterSpacing: 1),
                 ),
               ],
             ),

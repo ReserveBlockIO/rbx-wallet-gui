@@ -9,7 +9,6 @@ import '../../../core/dialogs.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../components/create_web_listing_form.dart';
-import '../models/web_listing.dart';
 import '../providers/create_web_listing_provider.dart';
 
 class CreateWebListingScreen extends BaseScreen {
@@ -61,7 +60,7 @@ class CreateWebListingScreen extends BaseScreen {
 
     if (address == null) {
       return const Center(
-        child: Text("No Wallet"),
+        child: Text("No Account"),
       );
     }
     return Center(

@@ -5,17 +5,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
 
 import 'package:rbx_wallet/features/nft/providers/sale_provider.dart';
-import 'package:rbx_wallet/features/nft/services/nft_service.dart';
-import 'package:rbx_wallet/features/token/models/token_account.dart';
-import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
-import 'package:rbx_wallet/features/token/screens/token_management_screen.dart';
-import '../providers/sale_provider.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/badges.dart';
-import '../../../core/components/buttons.dart';
 import '../../../core/env.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../utils/toast.dart';
@@ -43,26 +38,6 @@ class NftCard extends BaseComponent {
   Future<void> _showDetails(BuildContext context, WidgetRef ref) async {
     ref.read(nftDetailProvider(nft.id).notifier).init();
 
-    // final detail = await NftService().getNftData(nft.id);
-
-    // if (detail != null && detail.isToken) {
-    //   final tokenAccount = TokenAccount.fromNft(detail, ref);
-    //   final tokenFeature = TokenScFeature.fromNft(detail);
-    //   if (tokenAccount != null && tokenFeature != null) {
-    //     Navigator.of(context).push(
-    //       MaterialPageRoute(
-    //         builder: (_) => TokenManagementScreen(
-    //           tokenAccount,
-    //           tokenFeature,
-    //           nft.id,
-    //           nft.currentOwner,
-    //         ),
-    //       ),
-    //     );
-    //     return;
-    //   }
-    // }
-
     if (manageOnPress) {
       showModalBottomSheet(
         isScrollControlled: true,
@@ -76,8 +51,7 @@ class NftCard extends BaseComponent {
         },
       );
     } else {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (_) => NftDetailScreen(id: nft.id)));
+      Navigator.of(context).push(MaterialPageRoute(builder: (_) => NftDetailScreen(id: nft.id)));
     }
   }
 
@@ -90,20 +64,18 @@ class NftCard extends BaseComponent {
     // final isTransferred = false;
 
     return InkWell(
-      onTap: isBurned ||
-              (isSelling && !manageOnPress) ||
-              (isTransferred && !manageOnPress)
+      onTap: isBurned || (isSelling && !manageOnPress) || (isTransferred && !manageOnPress)
           ? null
           : () {
               _showDetails(context, ref);
             },
-      child: Card(
+      child: AppCard(
+        padding: 16,
         child: Stack(
           alignment: Alignment.center,
           children: [
             if (kIsWeb)
-              nft.currentEvolveAssetWeb != null &&
-                      nft.currentEvolveAssetWeb!.isImage
+              nft.currentEvolveAssetWeb != null && nft.currentEvolveAssetWeb!.isImage
                   ? AspectRatio(
                       aspectRatio: 1,
                       child: CachedNetworkImage(
@@ -114,8 +86,7 @@ class NftCard extends BaseComponent {
                     )
                   : nft.currentEvolveAssetWeb != null
                       ? const Icon(Icons.file_present_outlined)
-                      : const Text(
-                          "NFT assets have not been transfered to the VFX Web Wallet."),
+                      : const Text("NFT assets have not been transfered to the VFX Web Wallet."),
             if (!kIsWeb)
               nft.currentEvolveAsset.isImage
                   ? AspectRatio(
@@ -155,7 +126,7 @@ class NftCard extends BaseComponent {
                     padding: const EdgeInsets.symmetric(vertical: 4.0),
                     child: Text(
                       nft.id,
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         shadows: [
                           const Shadow(
                             color: Colors.black87,
@@ -179,12 +150,7 @@ class NftCard extends BaseComponent {
                   children: [
                     if (manageOnPress)
                       Builder(builder: (context) {
-                        final nftIds = ref
-                            .watch(nftListProvider)
-                            .data
-                            .results
-                            .map((n) => n.id)
-                            .toList();
+                        final nftIds = ref.watch(nftListProvider).data.results.map((n) => n.id).toList();
 
                         if (nftIds.contains(nft.id)) {
                           return const SizedBox.shrink();
@@ -282,12 +248,7 @@ class TransferingOverlay extends StatelessWidget {
   final bool withLog;
   final bool small;
   final String label;
-  const TransferingOverlay(this.nft,
-      {Key? key,
-      this.withLog = false,
-      this.small = false,
-      this.label = "Transferring..."})
-      : super(key: key);
+  const TransferingOverlay(this.nft, {Key? key, this.withLog = false, this.small = false, this.label = "Transferring..."}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -346,20 +307,15 @@ class _UploadProgressModalState extends State<UploadProgressModal> {
     String location = "";
 
     if (Platform.isMacOS) {
-      appDocPath = appDocPath.replaceAll(
-          "/Documents", Env.isTestNet ? "/rbxtest" : "/vfx");
-      location =
-          "$appDocPath/Databases${Env.isTestNet ? 'TestNet' : ''}/beaconlog.txt";
+      appDocPath = appDocPath.replaceAll("/Documents", Env.isTestNet ? "/rbxtest" : "/vfx");
+      location = "$appDocPath/Databases${Env.isTestNet ? 'TestNet' : ''}/beaconlog.txt";
     } else {
       appDocDir = await getApplicationSupportDirectory();
 
       appDocPath = appDocDir.path;
 
-      appDocPath = appDocPath.replaceAll(
-          "\\Roaming\\com.example\\rbx_wallet_gui",
-          "\\Local\\VFX${Env.isTestNet ? 'Test' : ''}");
-      location =
-          "$appDocPath\\Databases${Env.isTestNet ? 'TestNet' : ''}\\beaconlog.txt";
+      appDocPath = appDocPath.replaceAll("\\Roaming\\com.example\\rbx_wallet_gui", "\\Local\\VFX${Env.isTestNet ? 'Test' : ''}");
+      location = "$appDocPath\\Databases${Env.isTestNet ? 'TestNet' : ''}\\beaconlog.txt";
     }
 
     setState(() {

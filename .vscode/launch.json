@@ -32,7 +32,7 @@
             "request": "launch",
             "args": [
                 "-d",
-                "win64",
+                "windows",
                 "--dart-define",
                 "ENV=testnet"
             ]

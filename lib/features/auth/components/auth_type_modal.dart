@@ -37,7 +37,7 @@ class AuthTypeModal extends StatelessWidget {
         ListTile(
           leading: const Icon(FontAwesomeIcons.paragraph),
           title: const Text(
-            "Mneumonic (HD Wallet)",
+            "Mneumonic (HD account)",
           ),
           trailing: const Icon(
             Icons.chevron_right,

@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../app.dart';
 import '../../../core/app_router.gr.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../dst/models/dec_shop.dart';
-import '../../global_loader/global_loading_provider.dart';
 import '../models/shop_data.dart';
 import 'saved_shops_provider.dart';
 import 'shop_loading_provider.dart';
@@ -135,7 +133,7 @@ class ConnectedShopProvider extends StateNotifier<ConnectedShop> {
   Future<void> loadShop(BuildContext context, WidgetRef ref, String url) async {
     final address = ref.read(sessionProvider).currentWallet?.address;
     if (address == null) {
-      Toast.error("No wallet selected");
+      Toast.error("No account selected");
       return;
     }
 

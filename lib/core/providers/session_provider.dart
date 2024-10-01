@@ -13,10 +13,9 @@ import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dar
 
 import 'package:rbx_wallet/features/balance/models/balance.dart';
 import 'package:rbx_wallet/features/bridge/services/bridge_service_v2.dart';
-import 'package:rbx_wallet/features/reserve/providers/ra_auto_activate_provider.dart';
-import 'package:rbx_wallet/features/token/providers/auto_mint_provider.dart';
 import '../../features/btc/providers/electrum_connected_provider.dart';
 import '../../features/btc/providers/tokenized_bitcoin_list_provider.dart';
+import '../../features/price/providers/price_detail_providers.dart';
 import '../../features/token/providers/token_list_provider.dart';
 
 import '../../features/btc/models/btc_account.dart';
@@ -30,7 +29,6 @@ import '../../features/btc/services/btc_service.dart';
 import '../api_token_manager.dart';
 import '../utils.dart';
 import '../../features/chat/providers/chat_notification_provider.dart';
-import '../../features/dst/providers/dec_shop_provider.dart';
 import '../../features/dst/providers/listed_nfts_provider.dart';
 import '../../features/dst/services/dst_service.dart';
 import '../../features/remote_info/components/snapshot_downloader.dart';
@@ -700,13 +698,13 @@ class SessionProvider extends StateNotifier<SessionModel> {
       TransactionListType.Success,
       TransactionListType.Failed,
       TransactionListType.Pending,
-      TransactionListType.Mined,
+      TransactionListType.Validated,
     ]) {
       await ref.read(transactionListProvider(type).notifier).load();
     }
   }
 
-  void setCurrentWallet(Wallet wallet) {
+  void setCurrentWallet(Wallet wallet, [bool updateGlobalCurrency = true]) {
     state = state.copyWith(currentWallet: wallet, btcSelected: false);
     singleton<Storage>().setString(Storage.CURRENT_WALLET_ADDRESS_KEY, wallet.address);
 
@@ -717,15 +715,17 @@ class SessionProvider extends StateNotifier<SessionModel> {
     ref.read(currentValidatorProvider.notifier).set(currentValidator);
 
     setupChatListeners();
-
-    ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.vfx);
+    if (updateGlobalCurrency) {
+      ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.vfx);
+    }
   }
 
-  void setCurrentBtcAccount(BtcAccount account) {
+  void setCurrentBtcAccount(BtcAccount account, [bool updateGlobalCurrency = true]) {
     state = state.copyWith(currentBtcAccount: account, btcSelected: true);
     singleton<Storage>().setString(Storage.CURRENT_BTC_ACCOUNT_ADDRESS_KEY, account.address);
-
-    ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.btc);
+    if (updateGlobalCurrency) {
+      ref.read(currencySegementedButtonProvider.notifier).set(CurrencyType.btc);
+    }
   }
 
   void setFilteringTransactions(bool val) {
@@ -955,6 +955,9 @@ class SessionProvider extends StateNotifier<SessionModel> {
 
     ref.read(electrumConnectedProvider.notifier).checkStatus();
 
+    ref.invalidate(vfxPriceDataDetailProvider);
+    ref.invalidate(btcPriceDataDetailProvider);
+
     if (inLoop) {
       await Future.delayed(const Duration(seconds: REFRESH_TIMEOUT_SECONDS_BTC));
       btcLoop(true);
@@ -967,18 +970,18 @@ class SessionProvider extends StateNotifier<SessionModel> {
     });
   }
 
-  void toggleToVfxWallet() {
+  void toggleToVfxWallet([bool updateWallet = true]) {
     final wallets = ref.read(walletListProvider);
-    if (wallets.isNotEmpty) {
+    if (wallets.isNotEmpty && updateWallet) {
       state = state.copyWith(btcSelected: false, currentWallet: wallets.first);
     } else {
       state = state.copyWith(btcSelected: false);
     }
   }
 
-  void toggleToBtcWallet() {
+  void toggleToBtcWallet([bool updateWallet = true]) {
     final accounts = ref.read(btcAccountListProvider);
-    if (accounts.isNotEmpty) {
+    if (accounts.isNotEmpty && updateWallet) {
       state = state.copyWith(btcSelected: true, currentBtcAccount: accounts.first);
     } else {
       state = state.copyWith(btcSelected: true);

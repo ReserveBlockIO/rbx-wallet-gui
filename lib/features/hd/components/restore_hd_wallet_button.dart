@@ -15,7 +15,7 @@ class RestoreHdWalletButton extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppButton(
-      label: "Restore HD Wallet",
+      label: "Restore HD Account",
       icon: Icons.hd_outlined,
       onPressed: !ref.watch(sessionProvider).cliStarted
           ? null
@@ -29,7 +29,7 @@ class RestoreHdWalletButton extends BaseComponent {
               if (val != null) {
                 final success = await BridgeService().restoreHd(val);
                 if (success == true) {
-                  Toast.message("HD Wallet restored. Keys will now be generated deterministically based on phrase.");
+                  Toast.message("HD Account restored. Keys will now be generated deterministically based on phrase.");
                 } else {
                   Toast.error();
                 }

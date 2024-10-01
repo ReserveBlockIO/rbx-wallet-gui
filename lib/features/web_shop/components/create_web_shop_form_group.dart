@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../core/base_component.dart';
 import '../../../utils/validation.dart';
@@ -52,8 +51,7 @@ class CreateWebShopFormGroup extends BaseComponent {
     );
   }
 
-  Future<String?> chooseAddress(BuildContext context, WidgetRef ref,
-      WebShopFormProvider formProvider) async {
+  Future<String?> chooseAddress(BuildContext context, WidgetRef ref, WebShopFormProvider formProvider) async {
     final wallets = ref.read(walletListProvider);
 
     final address = await showDialog(
@@ -83,9 +81,7 @@ class CreateWebShopFormGroup extends BaseComponent {
                       },
                       child: Text(
                         w.fullLabel,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            decoration: TextDecoration.underline),
+                        style: const TextStyle(color: Colors.white, decoration: TextDecoration.underline),
                       ),
                     ),
                   )
@@ -133,8 +129,7 @@ class _DecUrl extends BaseComponent {
       controller: provider.urlController,
       onChanged: provider.updateUrl,
       inputFormatters: [
-        FilteringTextInputFormatter.allow(
-            RegExp("^[A-Za-z][a-zA-Z0-9-.]{0,62}")),
+        FilteringTextInputFormatter.allow(RegExp("^[A-Za-z][a-zA-Z0-9-.]{0,62}")),
       ],
       validator: (value) => formValidatorNotEmpty(value, "Shop Identifier"),
       decoration: InputDecoration(
@@ -143,7 +138,7 @@ class _DecUrl extends BaseComponent {
           style: TextStyle(color: Colors.white),
         ),
         hintText: "MyNewShop",
-        prefixText: "vfx://",
+        prefixText: "rbx://",
       ),
     );
   }

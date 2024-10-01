@@ -15,7 +15,6 @@ import 'package:rbx_wallet/features/btc/models/btc_fee_rate_preset.dart';
 import 'package:rbx_wallet/features/btc/models/btc_recommended_fees.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
 import 'package:rbx_wallet/features/btc/screens/tokenize_btc_screen.dart';
-import 'package:rbx_wallet/features/btc/screens/tokenized_btc_detail_screen.dart';
 import 'package:rbx_wallet/features/btc/utils.dart';
 import 'package:rbx_wallet/features/home/screens/home_screen.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
@@ -44,7 +43,7 @@ class TokenizeBtcOnboardingScreen extends BaseScreen {
         onPressed: () async {
           final confirmed = await ConfirmDialog.show(
             title: "Exit vBTC Onboarding?",
-            body: "Are you sure you want to cancel setting up your wallet with Tokenized Bitcoin?",
+            body: "Are you sure you want to cancel setting up your account with Tokenized Bitcoin?",
             confirmText: "Yes",
             cancelText: "No",
             destructive: true,
@@ -130,7 +129,7 @@ class TokenizeBtcOnboardingScreen extends BaseScreen {
                 ],
               ),
               ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 500),
+                constraints: BoxConstraints(maxWidth: 800),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
@@ -145,7 +144,7 @@ class TokenizeBtcOnboardingScreen extends BaseScreen {
                 ),
               ),
               SizedBox(
-                height: 32,
+                height: 12,
               ),
               if (state.processingState == VBtcProcessingState.ready)
                 Builder(

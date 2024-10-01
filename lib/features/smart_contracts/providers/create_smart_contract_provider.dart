@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
-import '../../../core/services/explorer_service.dart';
 import '../../raw/raw_service.dart';
 import '../../sc_property/models/sc_property.dart';
 

@@ -84,18 +84,13 @@ class TokenFormProvider extends StateNotifier<TokenScFeature> {
     final currentWallet = ref.read(sessionProvider).currentWallet;
 
     if (currentWallet == null) {
-      Toast.error("No Wallet Selected");
+      Toast.error("No account selected");
       return null;
     }
 
     final supply = double.tryParse(supplyController.text);
     if (supply == null) {
       Toast.error("Invalid Supply Amount");
-      return null;
-    }
-
-    if (state.imageBase64 == null) {
-      Toast.error("Icon Image Required");
       return null;
     }
 

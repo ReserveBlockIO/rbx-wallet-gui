@@ -27,11 +27,17 @@ class WalletSelector extends BaseComponent {
   final bool truncatedLabel;
   final bool withOptions;
   final bool headerHasCopy;
+  final bool includeRbx;
+  final bool includeBtc;
+  final bool includeRa;
   const WalletSelector({
     Key? key,
     this.truncatedLabel = true,
     this.withOptions = true,
     this.headerHasCopy = true,
+    this.includeRbx = true,
+    this.includeBtc = true,
+    this.includeRa = true,
   }) : super(key: key);
 
   @override
@@ -93,38 +99,35 @@ class WalletSelector extends BaseComponent {
             maxWidth: 8.0 * 56.0,
           ),
           child: Center(
-            child: Tooltip(
-              message: (currentWallet == null && currentBtcAccount == null) ? "Create/Import Address" : "Current Wallet Address",
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (!btcSelected)
-                      Text(
-                        currentWallet != null
-                            ? truncatedLabel
-                                ? currentWallet.label
-                                : currentWallet.labelWithoutTruncation
-                            : "VFX/BTC Wallet Addresses",
-                        style: TextStyle(color: color),
-                      ),
-                    if (btcSelected)
-                      Text(
-                        currentBtcAccount != null
-                            ? truncatedLabel
-                                ? currentBtcAccount.label
-                                : currentBtcAccount.address
-                            : "VFX/BTC Wallet Addresses",
-                        style: TextStyle(color: btcOrange),
-                      ),
-                    Icon(
-                      Icons.arrow_drop_down,
-                      size: 18,
-                      color: btcSelected ? btcOrange : color,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (!btcSelected)
+                    Text(
+                      currentWallet != null
+                          ? truncatedLabel
+                              ? currentWallet.label
+                              : currentWallet.labelWithoutTruncation
+                          : "VFX/BTC Account Addresses",
+                      style: TextStyle(color: color),
                     ),
-                  ],
-                ),
+                  if (btcSelected)
+                    Text(
+                      currentBtcAccount != null
+                          ? truncatedLabel
+                              ? currentBtcAccount.label
+                              : currentBtcAccount.address
+                          : "VFX/BTC Account Addresses",
+                      style: TextStyle(color: btcOrange),
+                    ),
+                  Icon(
+                    Icons.arrow_drop_down,
+                    size: 18,
+                    color: btcSelected ? btcOrange : color,
+                  ),
+                ],
               ),
             ),
           ),
@@ -191,7 +194,7 @@ class WalletSelector extends BaseComponent {
                     children: const [
                       Icon(Icons.add, size: 16),
                       SizedBox(width: 8),
-                      Text("New Wallet"),
+                      Text("New Account"),
                     ],
                   ),
                   onTap: () async {
@@ -209,7 +212,7 @@ class WalletSelector extends BaseComponent {
               //       children: const [
               //         Icon(Icons.security, size: 16),
               //         SizedBox(width: 8),
-              //         Text("Reserve Accounts"),
+              //         Text("Vault Accounts"),
               //       ],
               //     ),
               //     onTap: () async {
@@ -314,7 +317,7 @@ class WalletSelector extends BaseComponent {
                       Icon(Icons.add, size: 16, color: btcOrange),
                       SizedBox(width: 8),
                       Text(
-                        "New BTC Wallet",
+                        "New BTC Account",
                         style: TextStyle(color: btcOrange),
                       ),
                     ],
@@ -332,13 +335,13 @@ class WalletSelector extends BaseComponent {
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          title: const Text("BTC Wallet Created"),
+                          title: const Text("BTC Account Created"),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               const Align(
                                 alignment: Alignment.centerLeft,
-                                child: Text("Here are your BTC wallet details. Please ensure to back up your private key in a safe place."),
+                                child: Text("Here are your BTC account details. Please ensure to back up your private key in a safe place."),
                               ),
                               ListTile(
                                 leading: const Icon(Icons.account_balance_wallet),
@@ -402,7 +405,7 @@ class WalletSelector extends BaseComponent {
                     children: const [
                       Icon(Icons.wallet, size: 16),
                       SizedBox(width: 8),
-                      Text("Manage Wallets"),
+                      Text("Manage Accounts"),
                     ],
                   ),
                   onTap: () async {
@@ -424,9 +427,16 @@ class WalletSelector extends BaseComponent {
             }
 
             for (final wallet in allWallets) {
+              if (!includeRbx) {
+                break;
+              }
+
+              if (wallet.isReserved && !includeRa) {
+                continue;
+              }
               final isSelected = currentWallet != null && wallet.address == currentWallet.address;
 
-              final color = wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyText1!.color;
+              final color = wallet.isReserved ? Colors.deepPurple.shade200 : Theme.of(context).textTheme.bodyLarge!.color;
 
               list.add(
                 PopupMenuItem(
@@ -465,11 +475,14 @@ class WalletSelector extends BaseComponent {
               );
             }
 
-            if (btcAccounts.isNotEmpty) {
+            if (btcAccounts.isNotEmpty && includeBtc) {
               list.add(const PopupMenuDivider());
             }
 
             for (final account in btcAccounts) {
+              if (!includeBtc) {
+                break;
+              }
               final isSelected = currentBtcAccount?.address == account.address;
 
               list.add(
@@ -536,7 +549,7 @@ class ReserveAccountDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(
-        "Reserve Account Created",
+        "Vault Account Created",
         style: TextStyle(
           color: Colors.white,
         ),
@@ -589,7 +602,7 @@ class ReserveAccountDetails extends StatelessWidget {
                   variant: AppColorVariant.Success,
                   onPressed: () async {
                     await Clipboard.setData(ClipboardData(text: account.backupContents));
-                    Toast.message("Reserve Account Data copied to clipboard");
+                    Toast.message("Vault Account Data copied to clipboard");
                   },
                 ),
                 AppButton(
@@ -603,21 +616,21 @@ class ReserveAccountDetails extends StatelessWidget {
                       final d = "${date.year}-${date.month}-${date.day}";
                       if (Platform.isMacOS) {
                         await FileSaver.instance
-                            .saveAs(name: "xRBX Reserve Account Backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
+                            .saveAs(name: "xRBX Vault Account Backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
                       } else {
                         final data = await FileSaver.instance
-                            .saveFile(name: "xRBX Reserve Account Backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
+                            .saveFile(name: "xRBX Vault Account Backup-$d", bytes: Uint8List.fromList(bytes), ext: 'txt', mimeType: MimeType.text);
 
                         Toast.message("Saved to $data");
                       }
 
                       // if (Platform.isMacOS) {
-                      //   await FileSaver.instance.saveAs("xRBX Reserve Account Backup-$d", Uint8List.fromList(bytes), 'txt', MimeType.TEXT);
-                      //   Toast.message("Reserve Account Data saved");
+                      //   await FileSaver.instance.saveAs("xRBX Vault Account Backup-$d", Uint8List.fromList(bytes), 'txt', MimeType.TEXT);
+                      //   Toast.message("Vault Account Data saved");
                       // } else {
                       //   final data = await FileSaver.instance
-                      //       .saveFile("xRBX Reserve Account Backup-$d", Uint8List.fromList(bytes), 'txt', mimeType: MimeType.TEXT);
-                      //   Toast.message("Reserve Account Data saved to $data");
+                      //       .saveFile("xRBX Vault Account Backup-$d", Uint8List.fromList(bytes), 'txt', mimeType: MimeType.TEXT);
+                      //   Toast.message("Vault Account Data saved to $data");
                       // }
                     }),
               ],

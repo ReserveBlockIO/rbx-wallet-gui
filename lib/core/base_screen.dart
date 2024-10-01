@@ -8,7 +8,7 @@ abstract class BaseScreen extends ConsumerWidget {
   const BaseScreen({
     Key? key,
     this.verticalPadding = 8.0,
-    this.horizontalPadding = 8.0,
+    this.horizontalPadding = 16.0,
     this.includeWebDrawer = false,
     this.backgroundColor,
   }) : super(key: key);
