@@ -213,7 +213,7 @@ class _ContentWrapper extends BaseComponent {
                                               if (sessionModel.keypair != null)
                                                 AppVerticalIconButton(
                                                   onPressed: () async {
-                                                    await Clipboard.setData(ClipboardData(text: sessionModel.keypair!.public));
+                                                    await Clipboard.setData(ClipboardData(text: sessionModel.keypair!.address));
                                                     Toast.message("Address copied to clipboard");
                                                   },
                                                   icon: Icons.copy,
@@ -223,7 +223,7 @@ class _ContentWrapper extends BaseComponent {
                                               if (sessionModel.raKeypair != null)
                                                 AppVerticalIconButton(
                                                   onPressed: () async {
-                                                    await Clipboard.setData(ClipboardData(text: sessionModel.raKeypair!.public));
+                                                    await Clipboard.setData(ClipboardData(text: sessionModel.raKeypair!.address));
                                                     Toast.message("Address copied to clipboard");
                                                   },
                                                   icon: Icons.copy,

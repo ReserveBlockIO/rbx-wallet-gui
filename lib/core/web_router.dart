@@ -4,6 +4,8 @@ import '../features/adnr/screens/web_adnr_screen.dart';
 import '../features/chat/screens/web_seller_chat_thread_list_screen.dart';
 import '../features/chat/screens/web_seller_chat_screen.dart';
 import '../features/chat/screens/web_shop_chat_screen.dart';
+import '../features/token/screens/token_create_screen.dart';
+import '../features/token/screens/token_list_screen.dart';
 import '../features/web_shop/screens/build_sale_start_tx_screen.dart';
 import '../features/web_shop/screens/web_shop_container_screen.dart';
 
@@ -82,7 +84,6 @@ const webDashboardTabRouter = AutoRoute(
         AutoRoute(path: ":toAddress/:amount", page: WebPrefilledSendScreen),
       ],
     ),
-
     AutoRoute(
       path: 'vault-accounts',
       name: "WebReserveAccountsTabRouter",
@@ -137,17 +138,15 @@ const webDashboardTabRouter = AutoRoute(
         // AutoRoute(path: "wizard", name: "WebBuldCreateScreen", page: BulkCreateScreen),
       ],
     ),
-    // AutoRoute(
-    //   path: 'dst',
-    //   name: "WebDstTabRouter",
-    //   page: EmptyRouterPage,
-    //   children: [
-    //     AutoRoute(path: "", page: WebDstScreen),
-    //     AutoRoute(path: "create/:accountId", page: CreateStoreScreen),
-    //     AutoRoute(path: "store/:slug", page: StoreScreen),
-    //     AutoRoute(path: "store/:storeId/create-listing", page: CreateListingScreen),
-    //   ],
-    // ),
+    AutoRoute(
+      path: 'fungible-token',
+      name: "WebTokenTabRouter",
+      page: EmptyRouterPage,
+      children: [
+        AutoRoute(path: "", page: TokenListScreen),
+        AutoRoute(path: "create", page: TokenCreateScreen),
+      ],
+    ),
     AutoRoute(
       path: 'p2p',
       name: "WebShopTabRouter",
