@@ -43,13 +43,9 @@ class RootContainerSideNavList extends BaseComponent {
           title: "Vault Accounts",
           iconType: PrettyIconType.lock,
           onPressed: () {
-            if (kIsWeb) {
-              print("TODO");
-              return;
-            }
-            tabsRouter.setActiveIndex(14);
+            tabsRouter.setActiveIndex(kIsWeb ? WebRouteIndex.reserve : 14);
           },
-          isActive: kIsWeb ? false : tabsRouter.activeIndex == 14,
+          isActive: tabsRouter.activeIndex == (kIsWeb ? WebRouteIndex.reserve : 14),
           isExpanded: isExpanded,
         ),
         RootContainerSideNavItem(

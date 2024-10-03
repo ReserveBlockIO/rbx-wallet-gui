@@ -1,7 +1,10 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../features/misc/providers/global_balances_expanded_provider.dart';
+import '../../features/root/web_dashboard_container.dart';
 import '../env.dart';
 import '../../features/btc_web/models/btc_web_account.dart';
 import '../../features/btc_web/services/btc_web_service.dart';
@@ -72,6 +75,15 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
 
     final timezoneName = DateTime.now().timeZoneName.toString();
     state = state.copyWith(timezoneName: timezoneName, ready: true);
+    Future.delayed(const Duration(milliseconds: 500), () {
+      final url = HtmlHelpers().getUrl();
+      print(url);
+      if (url.contains('/#dashboard/home')) {
+        ref.read(globalBalancesExpandedProvider.notifier).expand();
+      } else {
+        ref.read(globalBalancesExpandedProvider.notifier).detract();
+      }
+    });
   }
 
   void setRememberMe(bool val) {

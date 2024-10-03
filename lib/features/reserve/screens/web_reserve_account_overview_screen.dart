@@ -18,7 +18,6 @@ import '../../../utils/toast.dart';
 import '../../../core/base_component.dart';
 import '../../../core/base_screen.dart';
 
-
 class WebReserveAccountOverviewScreen extends BaseScreen {
   const WebReserveAccountOverviewScreen({Key? key})
       : super(
@@ -237,7 +236,7 @@ class _Top extends BaseComponent {
                   ),
                   children: [
                     TextSpan(
-                      text: "Reserve (Protected) Accounts [",
+                      text: "Vault Accounts [",
                     ),
                     TextSpan(
                         text: "xRBX",

@@ -53,6 +53,34 @@ class PriceChartScreen extends BaseScreen {
   }
 }
 
+class WebPriceChartScreen extends BaseScreen {
+  final bool isBtc;
+  const WebPriceChartScreen({super.key, required this.isBtc});
+
+  @override
+  AppBar? appBar(BuildContext context, WidgetRef ref) {
+    return AppBar(
+      title: Text(isBtc ? "BTC Price History" : "VFX Price History"),
+      shadowColor: Colors.transparent,
+      backgroundColor: Colors.black,
+    );
+  }
+
+  @override
+  Widget body(BuildContext context, WidgetRef ref) {
+    if (isBtc) {
+      return PriceChart(
+        key: Key("btc_chart"),
+        isBtc: true,
+      );
+    }
+    return PriceChart(
+      key: Key("vfx_chart"),
+      isBtc: false,
+    );
+  }
+}
+
 class PriceChart extends StatefulWidget {
   final bool isBtc;
   const PriceChart({super.key, required this.isBtc});

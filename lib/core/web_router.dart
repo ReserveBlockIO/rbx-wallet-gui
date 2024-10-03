@@ -46,7 +46,7 @@ const List<AutoRoute> webRoutes = [
     ],
   ),
   // AutoRoute(path: "store/collection/:slug", page: StoreCollectionScreen),
-  AutoRoute(path: "reserve-account", page: WebReserveAccountOverviewScreen),
+  // AutoRoute(path: "reserve-account", page: WebReserveAccountOverviewScreen),
   webDashboardTabRouter,
   RedirectRoute(path: '*', redirectTo: '/'),
 ];
@@ -80,6 +80,15 @@ const webDashboardTabRouter = AutoRoute(
       children: [
         AutoRoute(path: "", page: WebSendScreen),
         AutoRoute(path: ":toAddress/:amount", page: WebPrefilledSendScreen),
+      ],
+    ),
+
+    AutoRoute(
+      path: 'vault-accounts',
+      name: "WebReserveAccountsTabRouter",
+      page: EmptyRouterPage,
+      children: [
+        AutoRoute(path: "", page: WebReserveAccountOverviewScreen),
       ],
     ),
     AutoRoute(

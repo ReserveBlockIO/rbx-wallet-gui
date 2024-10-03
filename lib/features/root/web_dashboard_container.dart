@@ -25,6 +25,8 @@ import '../chat/components/web_chat_notifier.dart';
 import '../../core/base_component.dart';
 import '../../core/env.dart';
 import '../../core/web_router.gr.dart';
+import '../navigation/components/root_container_balance_row.dart';
+import '../navigation/constants.dart';
 import 'navigation/components/web_drawer.dart';
 
 GlobalKey<ScaffoldState> webDashboardScaffoldKey = GlobalKey<ScaffoldState>();
@@ -38,6 +40,7 @@ class WebRouteIndex {
   static get smartContracts => 5;
   static get shop => 6;
   static get adnrs => 7;
+  static get reserve => 8;
 }
 
 class WebDashboardContainer extends StatelessWidget {
@@ -52,6 +55,7 @@ class WebDashboardContainer extends StatelessWidget {
     const WebSmartContractTabRouter(),
     const WebShopTabRouter(),
     const WebAdnrTabRouter(),
+    const WebReserveAccountsTabRouter(),
     const WebSignTxTabRouter(),
   ];
 
@@ -76,6 +80,22 @@ class _ContentWrapper extends BaseComponent {
   Widget desktopBody(BuildContext context, WidgetRef ref) {
     bool sideNavExpanded = true;
     bool isHoveringTopBalance = false;
+
+    final globalBalancesExpanded = ref.watch(globalBalancesExpandedProvider);
+
+    final tabsRouter = AutoTabsRouter.of(context);
+
+    tabsRouter.addListener(() {
+      if (tabsRouter.current.name == "WebHomeTabRouter") {
+        if (!globalBalancesExpanded) {
+          ref.read(globalBalancesExpandedProvider.notifier).expand();
+        }
+      } else {
+        if (globalBalancesExpanded) {
+          ref.read(globalBalancesExpandedProvider.notifier).detract();
+        }
+      }
+    });
 
     return StatefulBuilder(builder: (context, setState) {
       return Column(
@@ -171,6 +191,7 @@ class _ContentWrapper extends BaseComponent {
                                 return Stack(
                                   children: [
                                     Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
                                           child: RootContainerBalanceItem(
@@ -307,7 +328,42 @@ class _ContentWrapper extends BaseComponent {
                                               ]),
                                         ),
                                       ],
-                                    )
+                                    ),
+                                    AnimatedPositioned(
+                                      duration: ROOT_CONTAINER_TRANSITION_DURATION,
+                                      curve: Curves.easeInOut,
+                                      top: forceExpand ? ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT / 2 : 0,
+                                      child: IgnorePointer(
+                                        ignoring: true,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: connector1Left),
+                                          // child: RootContainerBalanceRowConnector(),
+                                          child: Transform.translate(
+                                            offset: Offset(-33, 4),
+                                            child: ConnectorVisual(
+                                              isBtc: false,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    AnimatedPositioned(
+                                      duration: ROOT_CONTAINER_TRANSITION_DURATION,
+                                      curve: Curves.easeInOut,
+                                      top: forceExpand ? ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT / 2 : 0,
+                                      child: IgnorePointer(
+                                        ignoring: true,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: connector2Left),
+                                          child: Transform.translate(
+                                            offset: Offset(-6, 4),
+                                            child: ConnectorVisual(
+                                              isBtc: true,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 );
                               });
