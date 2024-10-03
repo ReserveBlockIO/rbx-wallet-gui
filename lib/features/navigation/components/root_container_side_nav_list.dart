@@ -102,16 +102,17 @@ class RootContainerSideNavList extends BaseComponent {
           iconType: PrettyIconType.fungibleToken,
           onPressed: () {
             if (kIsWeb) {
-              print("TODO");
+              tabsRouter.setActiveIndex(WebRouteIndex.tokens);
               return;
             }
+
             if (tabsRouter.activeIndex == 13) {
               tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
             } else {
               tabsRouter.setActiveIndex(13);
             }
           },
-          isActive: kIsWeb ? false : tabsRouter.activeIndex == 13,
+          isActive: tabsRouter.activeIndex == (kIsWeb ? WebRouteIndex.tokens : 13),
           isExpanded: isExpanded,
         ),
         RootContainerSideNavItem(

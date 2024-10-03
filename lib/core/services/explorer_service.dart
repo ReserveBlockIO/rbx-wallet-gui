@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:rbx_wallet/features/price/models/price_data.dart';
 import '../../features/price/models/price_history_item.dart';
 import '../../features/nft/models/web_nft.dart';
+import '../../features/token/models/web_fungible_token.dart';
 import '../../features/web/models/web_address.dart';
 import '../../utils/toast.dart';
 
@@ -333,6 +334,26 @@ class ExplorerService extends BaseService {
       throw Exception(data['message']);
     } catch (e) {
       throw Exception(e);
+    }
+  }
+
+  Future<List<WebFungibleTokenBalance>> getTokenBalances(String address) async {
+    try {
+      final response = await getJson("/addresses/${address.trim()}/tokens/");
+
+      final List<dynamic> tokenDataList = response['tokens'];
+
+      final List<WebFungibleTokenBalance> tokenBalances = [];
+      for (final tokenData in tokenDataList) {
+        final token = WebFungibleToken.fromJson(tokenData['token']);
+        final balance = tokenData['balance'];
+
+        tokenBalances.add(WebFungibleTokenBalance(address: response['address'], token: token, balance: balance));
+      }
+
+      return tokenBalances;
+    } catch (e) {
+      return [];
     }
   }
 }

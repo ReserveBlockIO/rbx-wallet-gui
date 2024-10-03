@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../features/misc/providers/global_balances_expanded_provider.dart';
 import '../../features/root/web_dashboard_container.dart';
+import '../../features/token/providers/web_token_list_provider.dart';
 import '../env.dart';
 import '../../features/btc_web/models/btc_web_account.dart';
 import '../../features/btc_web/services/btc_web_service.dart';
@@ -143,6 +144,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     if (Env.rbxNetworkDown) return;
     getAddress();
     getRaAddress();
+    getFungibleTokens();
     getNfts();
   }
 
@@ -176,6 +178,16 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
       raBalanceTotal: webAddress.balanceTotal,
       raActivated: webAddress.activated,
     );
+  }
+
+  Future<void> getFungibleTokens() async {
+    if (Env.rbxNetworkDown) return;
+
+    if (state.keypair == null && state.raKeypair == null) {
+      return;
+    }
+
+    ref.read(webTokenListProvider.notifier).load([state.keypair?.address, state.raKeypair?.address]);
   }
 
   // Future<void> getBalance() async {

@@ -144,7 +144,7 @@ class WebRouter extends _i33.RootStackRouter {
         child: const _i1.EmptyRouterPage(),
       );
     },
-    TokenTabRouter.name: (routeData) {
+    WebTokenTabRouter.name: (routeData) {
       return _i33.AdaptivePage<dynamic>(
         routeData: routeData,
         child: const _i1.EmptyRouterPage(),
@@ -582,19 +582,19 @@ class WebRouter extends _i33.RootStackRouter {
               ],
             ),
             _i33.RouteConfig(
-              TokenTabRouter.name,
+              WebTokenTabRouter.name,
               path: 'fungible-token',
               parent: WebDashboardContainerRoute.name,
               children: [
                 _i33.RouteConfig(
                   TokenListScreenRoute.name,
                   path: '',
-                  parent: TokenTabRouter.name,
+                  parent: WebTokenTabRouter.name,
                 ),
                 _i33.RouteConfig(
                   TokenCreateScreenRoute.name,
                   path: 'create',
-                  parent: TokenTabRouter.name,
+                  parent: WebTokenTabRouter.name,
                 ),
               ],
             ),
@@ -850,15 +850,15 @@ class WebSmartContractTabRouter extends _i33.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i1.EmptyRouterPage]
-class TokenTabRouter extends _i33.PageRouteInfo<void> {
-  const TokenTabRouter({List<_i33.PageRouteInfo>? children})
+class WebTokenTabRouter extends _i33.PageRouteInfo<void> {
+  const WebTokenTabRouter({List<_i33.PageRouteInfo>? children})
       : super(
-          TokenTabRouter.name,
+          WebTokenTabRouter.name,
           path: 'fungible-token',
           initialChildren: children,
         );
 
-  static const String name = 'TokenTabRouter';
+  static const String name = 'WebTokenTabRouter';
 }
 
 /// generated route for

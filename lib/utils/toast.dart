@@ -13,7 +13,6 @@ class Toast {
       print(message);
       return;
     }
-    final context = rootNavigatorKey.currentContext!;
 
     final snackBar = SnackBar(
       content: Text(
@@ -39,7 +38,6 @@ class Toast {
       print(message);
       return;
     }
-    final context = rootNavigatorKey.currentContext!;
 
     final snackBar = SnackBar(
       content: Text(
@@ -49,7 +47,7 @@ class Toast {
           fontFamily: kIsWeb && HtmlHelpers().getUserAgent().contains('OS 15_') ? '-apple-system' : null,
         ),
       ),
-      backgroundColor: Theme.of(context).colorScheme.danger,
+      backgroundColor: Color(0xFFBA2121),
       action: SnackBarAction(
         label: "Dismiss",
         textColor: Colors.white70,

@@ -41,6 +41,7 @@ class WebRouteIndex {
   static get shop => 6;
   static get adnrs => 7;
   static get reserve => 8;
+  static get tokens => 9;
 }
 
 class WebDashboardContainer extends StatelessWidget {
@@ -56,6 +57,7 @@ class WebDashboardContainer extends StatelessWidget {
     const WebShopTabRouter(),
     const WebAdnrTabRouter(),
     const WebReserveAccountsTabRouter(),
+    const WebTokenTabRouter(),
     const WebSignTxTabRouter(),
   ];
 
