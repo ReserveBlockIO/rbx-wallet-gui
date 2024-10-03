@@ -13,12 +13,12 @@ class WebNotWallet extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text("No Wallet detected."),
+          const Text("No Account detected."),
           const SizedBox(
             height: 8,
           ),
           AppButton(
-            label: "Setup Wallet",
+            label: "Setup Account",
             onPressed: () {
               AutoRouter.of(context).replace(const WebAuthRouter());
             },

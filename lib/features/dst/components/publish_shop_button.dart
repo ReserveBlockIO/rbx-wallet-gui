@@ -43,23 +43,18 @@ class DecPublishShopButton extends BaseComponent {
         if (shop.isPublished) {
           if (shop.needsPublishToNetwork || shop.ipIsDifferent) {
             return AppButton(
-              variant: shop.ipIsDifferent
-                  ? AppColorVariant.Danger
-                  : AppColorVariant.Warning,
-              label:
-                  shop.ipIsDifferent ? "Publish IP Change" : "Publish Changes",
+              variant: shop.ipIsDifferent ? AppColorVariant.Danger : AppColorVariant.Warning,
+              label: shop.ipIsDifferent ? "Publish IP Change" : "Publish Changes",
               icon: shop.ipIsDifferent ? Icons.error : Icons.publish,
               onPressed: () async {
                 if (shop.updateWillCost) {
                   if (ref.read(sessionProvider).currentWallet!.balance < 10) {
-                    Toast.error(
-                        "This wallet doesn't have the minimmun balance send an update tx");
+                    Toast.error("This account doesn't have the minimmun balance send an update tx");
                     return;
                   }
                   final confirm = await ConfirmDialog.show(
                     title: "Publish Shop?",
-                    body:
-                        "There is a cost of $SHOP_UPDATE_COST VFX to publish your shop changes to the network (plus the transaction fee).",
+                    body: "There is a cost of $SHOP_UPDATE_COST VFX to publish your shop changes to the network (plus the transaction fee).",
                     confirmText: "Publish Changes",
                     cancelText: "Cancel",
                   );
@@ -101,15 +96,13 @@ class DecPublishShopButton extends BaseComponent {
           variant: AppColorVariant.Light,
           onPressed: () async {
             if (ref.read(sessionProvider).currentWallet!.balance < 10) {
-              Toast.error(
-                  "This wallet doesn't have the minimmun balance send a publish tx");
+              Toast.error("This account doesn't have the minimmun balance send a publish tx");
               return;
             }
 
             final confirm = await ConfirmDialog.show(
               title: "Publish Shop?",
-              body:
-                  "There is a cost of $SHOP_PUBLISH_COST VFX to publish your shop to the network (plus the transaction fee).",
+              body: "There is a cost of $SHOP_PUBLISH_COST VFX to publish your shop to the network (plus the transaction fee).",
               confirmText: "Publish",
               cancelText: "Cancel",
             );
@@ -124,8 +117,7 @@ class DecPublishShopButton extends BaseComponent {
                 ref.read(dstTxPendingProvider.notifier).set(true);
                 final confirmed = await ConfirmDialog.show(
                   title: "CLI Restart Required",
-                  body:
-                      "A CLI restart is required for this change to take effect. Would you like to restart now?",
+                  body: "A CLI restart is required for this change to take effect. Would you like to restart now?",
                   confirmText: "Restart",
                   cancelText: "Cancel",
                   destructive: true,
