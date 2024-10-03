@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
@@ -157,7 +158,7 @@ class BtcTransactionListTileState extends BaseComponentState<BtcTransactionListT
                                 height: 4,
                               ),
                               Text(
-                                "Date: ${widget.transaction.parseTimeStamp}",
+                                transaction.isConfirmed ? "Date: ${widget.transaction.parseTimeStamp}" : "Date: Pending",
                                 style: Theme.of(context).textTheme.bodySmall,
                               ),
                             ],
@@ -174,12 +175,16 @@ class BtcTransactionListTileState extends BaseComponentState<BtcTransactionListT
                         if (showReplaceAndRebroadcast)
                           Padding(
                             padding: const EdgeInsets.only(right: 4.0),
-                            child: Text(
-                              "[Pending]",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white70,
-                              ),
+                            // child: Text(
+                            //   "[Pending]",
+                            //   style: TextStyle(
+                            //     fontSize: 14,
+                            //     color: Colors.white70,
+                            //   ),
+                            // ),
+                            child: AppBadge(
+                              label: "Pending",
+                              variant: AppColorVariant.Warning,
                             ),
                           ),
                         if (showReplaceAndRebroadcast)
