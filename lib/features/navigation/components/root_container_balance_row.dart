@@ -311,7 +311,7 @@ class _LatestBtcTx extends BaseComponent {
         },
         child: AppCard(
           fullWidth: true,
-          padding: 12,
+          padding: 8,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
