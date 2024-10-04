@@ -15,7 +15,6 @@ import 'package:rbx_wallet/features/token/providers/pending_token_pause_provider
 import 'package:rbx_wallet/features/token/services/token_service.dart';
 import 'package:rbx_wallet/features/web_shop/providers/web_shop_list_provider.dart';
 
-
 import '../../../core/providers/web_session_provider.dart';
 import '../../dst/providers/dec_shop_provider.dart';
 import '../../dst/providers/dst_tx_pending_provider.dart';
@@ -72,7 +71,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         _handleFundsTransfer(transaction, isOutgoing: isOutgoing, isIncoming: isIncoming);
         break;
       case TxType.nftMint:
-      case TxType.tokenMint:
+      case TxType.tokenDeploy:
         _handleNftMint(transaction);
         break;
       case TxType.voteTopic:

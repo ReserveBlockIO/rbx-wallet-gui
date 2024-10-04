@@ -20,6 +20,7 @@ import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 import 'package:path_provider/path_provider.dart' as syspaths;
 
+import '../../../core/app_constants.dart';
 import '../../../core/services/explorer_service.dart';
 import '../../nft/providers/nft_list_provider.dart';
 import '../../raw/raw_service.dart';
@@ -240,7 +241,7 @@ class TokenFormProvider extends StateNotifier<TokenScFeature> {
     final timezoneName = ref.read(webSessionProvider).timezoneName;
     final payload = sc.serializeForCompiler(timezoneName);
 
-    final success = await RawService().compileAndMintSmartContract(payload, keypair, ref);
+    final success = await RawService().compileAndMintSmartContract(payload, keypair, ref, TxType.tokenDeploy);
 
     if (success == true) {
       ref.read(nftListProvider.notifier).reloadCurrentPage(address: ref.read(webSessionProvider).keypair?.address);

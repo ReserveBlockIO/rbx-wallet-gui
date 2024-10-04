@@ -120,16 +120,22 @@ class RawService extends BaseService {
     }
   }
 
-  Future<bool> compileAndMintSmartContract(Map<String, dynamic> payload, Keypair keypair, Ref ref) async {
+  Future<bool> compileAndMintSmartContract(Map<String, dynamic> payload, Keypair keypair, Ref ref, [int type = TxType.nftMint]) async {
     try {
-      final response = await postJson('/smart-contract-data/', params: payload, responseIsJson: true);
+      final response = await postJson('/smart-contract-data/', params: {...payload, 'SCVersion': 1}, responseIsJson: true);
+
+      final data = response['data'];
+
+      print('-------------');
+      print(data);
+      print('-------------');
 
       final txData = await RawTransaction.generate(
         keypair: keypair,
         amount: 0.0,
         toAddress: keypair.address,
-        data: response['data'],
-        txType: TxType.nftMint,
+        data: data,
+        txType: type,
       );
 
       if (txData == null) {
