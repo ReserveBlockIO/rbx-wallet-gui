@@ -11,6 +11,7 @@ import 'package:rbx_wallet/features/btc_web/models/btc_web_account.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/providers/web_session_provider.dart';
+import '../../../core/theme/components.dart';
 
 class WebBtcAdnrContent extends BaseComponent {
   final BtcWebAccount account;
@@ -21,7 +22,7 @@ class WebBtcAdnrContent extends BaseComponent {
     final session = ref.watch(webSessionProvider);
 
     final address = account.address;
-    const adnr = null; //TODO: get from explorer
+    const adnr = null;
 
     final rbxBalance = session.balance ?? 0;
 
@@ -59,56 +60,51 @@ class WebBtcAdnrContent extends BaseComponent {
     if (adnr == null) {
       return Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 700),
-          child: Container(
-            decoration: BoxDecoration(
-              boxShadow: glowingBox,
-            ),
-            child: Card(
-              color: Colors.black87,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      "Create a BTC Domain as an alias to your account's address for receiving funds.",
-                      style: TextStyle(
-                        fontSize: 17,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    const Text(
-                      "BTC domains cost $ADNR_COST VFX plus the transaction fee.",
-                      textAlign: TextAlign.center,
-                    ),
-                    const Divider(),
-                    AppButton(
-                      label: "Create Domain",
-                      variant: AppColorVariant.Btc,
-                      onPressed: () async {
-                        if (rbxBalance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
-                          Toast.error("Not enough VFX in your account to create a VFX domain. $ADNR_COST RBX required (plus TX fee).");
-                          return;
-                        }
-
-                        await showDialog(
-                            context: context,
-                            builder: (context) {
-                              return CreateAdnrDialog(
-                                address: address,
-                                adnr: "",
-                                isBtc: true,
-                              );
-                            });
-                      },
-                    )
-                  ],
+          constraints: BoxConstraints(maxWidth: 400),
+          child: AppCard(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  "Create a BTC Domain as an alias to your account's address for receiving funds.",
+                  style: TextStyle(
+                    fontSize: 17,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
+                const SizedBox(
+                  height: 4,
+                ),
+                const Text(
+                  "BTC domains cost $ADNR_COST VFX plus the transaction fee.",
+                  textAlign: TextAlign.center,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: const Divider(),
+                ),
+                AppButton(
+                  label: "Create Domain",
+                  variant: AppColorVariant.Btc,
+                  onPressed: () async {
+                    if (rbxBalance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
+                      Toast.error("Not enough VFX in your account to create a VFX domain. $ADNR_COST RBX required (plus TX fee).");
+                      return;
+                    }
+
+                    await showDialog(
+                      context: context,
+                      builder: (context) {
+                        return CreateAdnrDialog(
+                          address: address,
+                          adnr: "",
+                          isBtc: true,
+                        );
+                      },
+                    );
+                  },
+                )
+              ],
             ),
           ),
         ),

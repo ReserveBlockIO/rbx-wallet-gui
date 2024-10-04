@@ -132,6 +132,8 @@ class CreateAdnrDialog extends BaseComponent {
                     }
                   : {"Function": "AdnrCreate()", "Name": domainWithoutSuffix};
 
+              print(data);
+
               final txData = await RawTransaction.generate(
                 keypair: ref.read(webSessionProvider).keypair!,
                 amount: ADNR_COST,

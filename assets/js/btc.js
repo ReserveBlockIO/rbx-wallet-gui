@@ -2281,8 +2281,8 @@
                 throw new Error("Secure random number generation is not supported by this browser.\nUse Chrome, Firefox or Internet Explorer 11");
               }
               var Buffer2 = require_safe_buffer().Buffer;
-              var crypto2 = global.crypto || global.msCrypto;
-              if (crypto2 && crypto2.getRandomValues) {
+              var crypto3 = global.crypto || global.msCrypto;
+              if (crypto3 && crypto3.getRandomValues) {
                 module.exports = randomBytes;
               } else {
                 module.exports = oldBrowser;
@@ -2294,10 +2294,10 @@
                 if (size > 0) {
                   if (size > MAX_BYTES) {
                     for (var generated = 0; generated < size; generated += MAX_BYTES) {
-                      crypto2.getRandomValues(bytes.slice(generated, generated + MAX_BYTES));
+                      crypto3.getRandomValues(bytes.slice(generated, generated + MAX_BYTES));
                     }
                   } else {
-                    crypto2.getRandomValues(bytes);
+                    crypto3.getRandomValues(bytes);
                   }
                 }
                 if (typeof cb === "function") {
@@ -8954,7 +8954,7 @@
                 verifySync: schnorrVerifySync
               };
               Point.BASE._setWindowSize(8);
-              var crypto2 = {
+              var crypto3 = {
                 node: nodeCrypto,
                 web: typeof self === "object" && "crypto" in self ? self.crypto : void 0
               };
@@ -8990,10 +8990,10 @@
                   return numTo32b(num);
                 },
                 randomBytes: (bytesLength = 32) => {
-                  if (crypto2.web) {
-                    return crypto2.web.getRandomValues(new Uint8Array(bytesLength));
-                  } else if (crypto2.node) {
-                    const { randomBytes } = crypto2.node;
+                  if (crypto3.web) {
+                    return crypto3.web.getRandomValues(new Uint8Array(bytesLength));
+                  } else if (crypto3.node) {
+                    const { randomBytes } = crypto3.node;
                     return Uint8Array.from(randomBytes(bytesLength));
                   } else {
                     throw new Error("The environment doesn't have randomBytes function");
@@ -9007,11 +9007,11 @@
                   return cached;
                 },
                 sha256: async (...messages) => {
-                  if (crypto2.web) {
-                    const buffer = await crypto2.web.subtle.digest("SHA-256", concatBytes(...messages));
+                  if (crypto3.web) {
+                    const buffer = await crypto3.web.subtle.digest("SHA-256", concatBytes(...messages));
                     return new Uint8Array(buffer);
-                  } else if (crypto2.node) {
-                    const { createHash } = crypto2.node;
+                  } else if (crypto3.node) {
+                    const { createHash } = crypto3.node;
                     const hash = createHash("sha256");
                     messages.forEach((m) => hash.update(m));
                     return Uint8Array.from(hash.digest());
@@ -9020,13 +9020,13 @@
                   }
                 },
                 hmacSha256: async (key, ...messages) => {
-                  if (crypto2.web) {
-                    const ckey = await crypto2.web.subtle.importKey("raw", key, { name: "HMAC", hash: { name: "SHA-256" } }, false, ["sign"]);
+                  if (crypto3.web) {
+                    const ckey = await crypto3.web.subtle.importKey("raw", key, { name: "HMAC", hash: { name: "SHA-256" } }, false, ["sign"]);
                     const message = concatBytes(...messages);
-                    const buffer = await crypto2.web.subtle.sign("HMAC", ckey, message);
+                    const buffer = await crypto3.web.subtle.sign("HMAC", ckey, message);
                     return new Uint8Array(buffer);
-                  } else if (crypto2.node) {
-                    const { createHmac } = crypto2.node;
+                  } else if (crypto3.node) {
+                    const { createHmac } = crypto3.node;
                     const hash = createHmac("sha256", key);
                     messages.forEach((m) => hash.update(m));
                     return Uint8Array.from(hash.digest());
@@ -18761,8 +18761,8 @@
               exports.initEccLib = exports.Transaction = exports.opcodes = exports.Psbt = exports.Block = exports.script = exports.payments = exports.networks = exports.crypto = exports.address = void 0;
               var address = require_address();
               exports.address = address;
-              var crypto2 = require_crypto3();
-              exports.crypto = crypto2;
+              var crypto3 = require_crypto3();
+              exports.crypto = crypto3;
               var networks4 = require_networks2();
               exports.networks = networks4;
               var payments2 = require_payments();
@@ -40564,7 +40564,7 @@
               "use strict";
               Object.defineProperty(exports, "__esModule", { value: true });
               exports.BIP32Factory = void 0;
-              var crypto2 = require_crypto4();
+              var crypto3 = require_crypto4();
               var testecc_1 = require_testecc2();
               var base_1 = require_lib2();
               var sha256_1 = require_sha2562();
@@ -40676,7 +40676,7 @@
                     return this.__PARENT_FINGERPRINT;
                   }
                   get identifier() {
-                    return crypto2.hash160(this.publicKey);
+                    return crypto3.hash160(this.publicKey);
                   }
                   get fingerprint() {
                     return this.identifier.slice(0, 4);
@@ -40729,7 +40729,7 @@
                       this.publicKey.copy(data, 0);
                       data.writeUInt32BE(index, 33);
                     }
-                    const I = crypto2.hmacSHA512(this.chainCode, data);
+                    const I = crypto3.hmacSHA512(this.chainCode, data);
                     const IL = I.slice(0, 32);
                     const IR = I.slice(32);
                     if (!ecc3.isPrivate(IL))
@@ -40871,7 +40871,7 @@
                   if (seed.length > 64)
                     throw new TypeError("Seed should be at most 512 bits");
                   network = network || BITCOIN;
-                  const I = crypto2.hmacSHA512(Buffer.from("Bitcoin seed", "utf8"), seed);
+                  const I = crypto3.hmacSHA512(Buffer.from("Bitcoin seed", "utf8"), seed);
                   const IL = I.slice(0, 32);
                   const IR = I.slice(32);
                   return fromPrivateKey(IL, IR, network);
@@ -45797,6 +45797,15 @@
                 throw new Error("Invalid private key");
               const keyPair = ECPair2.fromPrivateKey(privateKey, { network: this.network });
               return this.buildOutput(keyPair);
+            }
+            signMessage(wif, message) {
+              const keyPair = ECPair2.fromWIF(wif, this.network);
+              const messageHash = bitcoin2.crypto.hash256(Buffer.from(message));
+              const signature = keyPair.sign(messageHash);
+              const signatureHex = signature.toString("hex");
+              const publicKeyHex = keyPair.publicKey.toString("hex");
+              const fullSignature = `${signatureHex}.${publicKeyHex}`;
+              return fullSignature;
             }
           };
 
