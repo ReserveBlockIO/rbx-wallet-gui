@@ -114,11 +114,6 @@ class WebReceiveScreen extends BaseScreen {
                         },
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      "Alternatively, you can receive funds to your VFX Domain.",
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
                   ],
                   Divider(),
                   SizedBox(

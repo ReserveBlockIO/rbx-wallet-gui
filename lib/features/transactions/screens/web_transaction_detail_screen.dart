@@ -107,17 +107,14 @@ class _TransactionDetails extends BaseComponent {
             padding: const EdgeInsets.all(8.0),
             child: AppCard(
               padding: 0,
-              child: Card(
-                color: Colors.black,
-                child: ListTile(
-                  title: SelectableText(tx.hash),
-                  subtitle: const Text("Tx Hash"),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.copy),
-                    onPressed: () {
-                      copyToClipboard(tx.hash);
-                    },
-                  ),
+              child: ListTile(
+                title: SelectableText(tx.hash),
+                subtitle: const Text("Tx Hash"),
+                trailing: IconButton(
+                  icon: const Icon(Icons.copy),
+                  onPressed: () {
+                    copyToClipboard(tx.hash);
+                  },
                 ),
               ),
             ),
@@ -126,11 +123,44 @@ class _TransactionDetails extends BaseComponent {
             padding: const EdgeInsets.all(8.0),
             child: AppCard(
               padding: 0,
-              child: Card(
-                color: Colors.black,
-                child: ListTile(
-                  title: Text(formatter.format(tx.date)),
-                  subtitle: const Text("Date"),
+              child: ListTile(
+                title: Text(formatter.format(tx.date)),
+                subtitle: const Text("Date"),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: AppCard(
+              padding: 0,
+              child: ListTile(
+                title: Text("${tx.height}"),
+                subtitle: const Text("Block Height"),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: AppCard(
+              padding: 0,
+              child: ListTile(
+                title: Text(tx.typeLabel),
+                subtitle: const Text("Tx Type"),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: AppCard(
+              padding: 0,
+              child: ListTile(
+                title: SelectableText("${tx.toAddress} ${address == tx.toAddress ? '[ME]' : ''}"),
+                subtitle: const Text("To"),
+                trailing: IconButton(
+                  icon: const Icon(Icons.copy),
+                  onPressed: () {
+                    copyToClipboard(tx.toAddress);
+                  },
                 ),
               ),
             ),
@@ -139,11 +169,14 @@ class _TransactionDetails extends BaseComponent {
             padding: const EdgeInsets.all(8.0),
             child: AppCard(
               padding: 0,
-              child: Card(
-                color: Colors.black,
-                child: ListTile(
-                  title: Text("${tx.height}"),
-                  subtitle: const Text("Block Height"),
+              child: ListTile(
+                title: SelectableText("${tx.fromAddress} ${address == tx.fromAddress ? '[ME]' : ''}"),
+                subtitle: const Text("From"),
+                trailing: IconButton(
+                  icon: const Icon(Icons.copy),
+                  onPressed: () {
+                    copyToClipboard(tx.fromAddress);
+                  },
                 ),
               ),
             ),
@@ -152,12 +185,9 @@ class _TransactionDetails extends BaseComponent {
             padding: const EdgeInsets.all(8.0),
             child: AppCard(
               padding: 0,
-              child: Card(
-                color: Colors.black,
-                child: ListTile(
-                  title: Text(tx.typeLabel),
-                  subtitle: const Text("Tx Type"),
-                ),
+              child: ListTile(
+                title: Text("${tx.subTxAmount ?? tx.amount} VFX"),
+                subtitle: const Text("Amount"),
               ),
             ),
           ),
@@ -165,74 +195,12 @@ class _TransactionDetails extends BaseComponent {
             padding: const EdgeInsets.all(8.0),
             child: AppCard(
               padding: 0,
-              child: Card(
-                color: Colors.black,
-                child: ListTile(
-                  title: SelectableText("${tx.toAddress} ${address == tx.toAddress ? '[ME]' : ''}"),
-                  subtitle: const Text("To"),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.copy),
-                    onPressed: () {
-                      copyToClipboard(tx.toAddress);
-                    },
-                  ),
-                ),
+              child: ListTile(
+                title: Text("${tx.fee} VFX"),
+                subtitle: const Text("Fee"),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: AppCard(
-              padding: 0,
-              child: Card(
-                color: Colors.black,
-                child: ListTile(
-                  title: SelectableText("${tx.fromAddress} ${address == tx.fromAddress ? '[ME]' : ''}"),
-                  subtitle: const Text("From"),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.copy),
-                    onPressed: () {
-                      copyToClipboard(tx.fromAddress);
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: AppCard(
-              padding: 0,
-              child: Card(
-                color: Colors.black,
-                child: ListTile(
-                  title: Text("${tx.subTxAmount ?? tx.amount} VFX"),
-                  subtitle: const Text("Amount"),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: AppCard(
-              padding: 0,
-              child: Card(
-                color: Colors.black,
-                child: ListTile(
-                  title: Text("${tx.fee} VFX"),
-                  subtitle: const Text("Fee"),
-                ),
-              ),
-            ),
-          ),
-          // ListTile(
-          //   title: Text("${tx.nonce}"),
-          //   subtitle: const Text("Nonce"),
-          // ),
-          // ListTile(
-          //   title: Text(tx.signature),
-          //   subtitle: const Text("Signature"),
-          // ),
         ],
       ),
     );
