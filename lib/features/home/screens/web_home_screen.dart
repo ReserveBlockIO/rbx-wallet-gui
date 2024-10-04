@@ -40,25 +40,20 @@ class WebHomeScreen extends BaseScreen {
           verticalPadding: 0,
         );
 
-  // @override
-  // AppBar? appBar(BuildContext context, WidgetRef ref) {
-  //   final address = ref.watch(webSessionProvider).currentWallet?.address;
+  @override
+  AppBar? appBar(BuildContext context, WidgetRef ref) {
+    final address = ref.watch(webSessionProvider).currentWallet?.address;
+    final isMobile = BreakPoints.useMobileLayout(context);
 
-  //   return AppBar(
-  //     title: const Text("Dashboard"),
-  //     backgroundColor: Colors.black,
-  //     shadowColor: Colors.transparent,
-  //     centerTitle: true,
-  //     leadingWidth: 180,
-  //     leading: address == null || !ALLOW_PAYMENT
-  //         ? SizedBox.shrink()
-  //         : Padding(
-  //             padding: const EdgeInsets.only(left: 6.0),
-  //             child: WebBuyRBXButton(),
-  //           ),
-  //     actions: [WebWalletTypeSwitcher()],
-  //   );
-  // }
+    return isMobile
+        ? AppBar(
+            title: const Text("Dashboard"),
+            backgroundColor: Colors.black,
+            shadowColor: Colors.transparent,
+            actions: [WebWalletTypeSwitcher()],
+          )
+        : null;
+  }
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {

@@ -41,13 +41,16 @@ class WebSendScreen extends BaseScreen {
     }
 
     return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 720),
-        child: SendForm(
-          keypair: keypair,
-          wallet: wallet,
-          raKeypair: raKeypair,
-          btcWebAccount: btcWebAccount,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 720),
+          child: SendForm(
+            keypair: keypair,
+            wallet: wallet,
+            raKeypair: raKeypair,
+            btcWebAccount: btcWebAccount,
+          ),
         ),
       ),
     );
