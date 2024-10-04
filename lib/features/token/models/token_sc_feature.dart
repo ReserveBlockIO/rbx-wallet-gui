@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rbx_wallet/features/nft/models/nft.dart';
 
+import '../../asset/asset.dart';
 import '../constants.dart';
 
 part 'token_sc_feature.freezed.dart';
@@ -30,6 +31,7 @@ class TokenScFeature with _$TokenScFeature {
     @JsonKey(name: "TokenVoting") @Default(false) bool voting,
     @JsonKey(name: "TokenImageURL") String? imageUrl,
     @JsonKey(name: "TokenImageBase") String? imageBase64,
+    @JsonKey(includeFromJson: false, includeToJson: false) Asset? webAsset,
   }) = _TokenScFeature;
 
   factory TokenScFeature.fromJson(Map<String, dynamic> json) => _$TokenScFeatureFromJson(json);

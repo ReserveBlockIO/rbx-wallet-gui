@@ -41,10 +41,10 @@ import 'package:rbx_wallet/features/smart_contracts/screens/web_create_smart_con
     as _i16;
 import 'package:rbx_wallet/features/smart_contracts/screens/web_smart_contract_landing_screen.dart'
     as _i15;
-import 'package:rbx_wallet/features/token/screens/token_create_screen.dart'
-    as _i20;
 import 'package:rbx_wallet/features/token/screens/token_list_screen.dart'
     as _i19;
+import 'package:rbx_wallet/features/token/screens/web_token_create_screen.dart'
+    as _i20;
 import 'package:rbx_wallet/features/transactions/screens/web_transaction_detail_screen.dart'
     as _i11;
 import 'package:rbx_wallet/features/transactions/screens/web_transactions_screen.dart'
@@ -277,10 +277,10 @@ class WebRouter extends _i33.RootStackRouter {
         child: const _i19.TokenListScreen(),
       );
     },
-    TokenCreateScreenRoute.name: (routeData) {
+    WebTokenCreateScreenRoute.name: (routeData) {
       return _i33.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: const _i20.TokenCreateScreen(),
+        child: const _i20.WebTokenCreateScreen(),
       );
     },
     WebShopLandingScreenRoute.name: (routeData) {
@@ -592,7 +592,7 @@ class WebRouter extends _i33.RootStackRouter {
                   parent: WebTokenTabRouter.name,
                 ),
                 _i33.RouteConfig(
-                  TokenCreateScreenRoute.name,
+                  WebTokenCreateScreenRoute.name,
                   path: 'create',
                   parent: WebTokenTabRouter.name,
                 ),
@@ -1153,15 +1153,15 @@ class TokenListScreenRoute extends _i33.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i20.TokenCreateScreen]
-class TokenCreateScreenRoute extends _i33.PageRouteInfo<void> {
-  const TokenCreateScreenRoute()
+/// [_i20.WebTokenCreateScreen]
+class WebTokenCreateScreenRoute extends _i33.PageRouteInfo<void> {
+  const WebTokenCreateScreenRoute()
       : super(
-          TokenCreateScreenRoute.name,
+          WebTokenCreateScreenRoute.name,
           path: 'create',
         );
 
-  static const String name = 'TokenCreateScreenRoute';
+  static const String name = 'WebTokenCreateScreenRoute';
 }
 
 /// generated route for

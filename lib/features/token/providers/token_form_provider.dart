@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/utils.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
@@ -17,6 +19,11 @@ import 'package:rbx_wallet/features/token/providers/auto_mint_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:rbx_wallet/utils/validation.dart';
 import 'package:path_provider/path_provider.dart' as syspaths;
+
+import '../../../core/services/explorer_service.dart';
+import '../../nft/providers/nft_list_provider.dart';
+import '../../raw/raw_service.dart';
+import '../../wallet/models/wallet.dart';
 
 class TokenFormProvider extends StateNotifier<TokenScFeature> {
   final Ref ref;
@@ -76,7 +83,11 @@ class TokenFormProvider extends StateNotifier<TokenScFeature> {
     state = state.copyWith(imageBase64: value);
   }
 
-  Future<bool?> submit() async {
+  setWebAsset(Asset value) {
+    state = state.copyWith(webAsset: value);
+  }
+
+  Future<bool?> _submitNative() async {
     if (!formKey.currentState!.validate()) {
       return null;
     }
@@ -188,6 +199,58 @@ class TokenFormProvider extends StateNotifier<TokenScFeature> {
     }
 
     return true;
+  }
+
+  Future<bool?> _submitWeb() async {
+    if (!formKey.currentState!.validate()) {
+      return null;
+    }
+
+    final keypair = ref.read(webSessionProvider.select((value) => value.keypair));
+    if (keypair == null) {
+      Toast.error("No account selected");
+      return null;
+    }
+
+    final supply = double.tryParse(supplyController.text);
+    if (supply == null) {
+      Toast.error("Invalid Supply Amount");
+      return null;
+    }
+
+    final token = state.copyWith(
+      name: nameController.text,
+      ticker: tickerController.text.toUpperCase(),
+      imageUrl: imageUrlController.text,
+      supply: state.mintable || supply == 0 ? 0 : supply,
+    );
+
+    final sc = SmartContract(
+      owner: Wallet.fromWebWallet(
+        keypair: keypair,
+        balance: ref.read(webSessionProvider.select((value) => value.balance ?? 0)),
+      ),
+      name: token.name,
+      description: token.ticker,
+      token: token,
+      primaryAsset: token.webAsset,
+      minterName: keypair.address,
+    );
+
+    final timezoneName = ref.read(webSessionProvider).timezoneName;
+    final payload = sc.serializeForCompiler(timezoneName);
+
+    final success = await RawService().compileAndMintSmartContract(payload, keypair, ref);
+
+    if (success == true) {
+      ref.read(nftListProvider.notifier).reloadCurrentPage(address: ref.read(webSessionProvider).keypair?.address);
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool?> submit() async {
+    return kIsWeb ? (await _submitWeb()) : await (_submitNative());
   }
 }
 

@@ -6,6 +6,7 @@ import '../features/chat/screens/web_seller_chat_screen.dart';
 import '../features/chat/screens/web_shop_chat_screen.dart';
 import '../features/token/screens/token_create_screen.dart';
 import '../features/token/screens/token_list_screen.dart';
+import '../features/token/screens/web_token_create_screen.dart';
 import '../features/web_shop/screens/build_sale_start_tx_screen.dart';
 import '../features/web_shop/screens/web_shop_container_screen.dart';
 
@@ -144,7 +145,7 @@ const webDashboardTabRouter = AutoRoute(
       page: EmptyRouterPage,
       children: [
         AutoRoute(path: "", page: TokenListScreen),
-        AutoRoute(path: "create", page: TokenCreateScreen),
+        AutoRoute(path: "create", page: WebTokenCreateScreen),
       ],
     ),
     AutoRoute(
