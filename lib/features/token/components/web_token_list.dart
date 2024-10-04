@@ -79,7 +79,6 @@ class WebTokenList extends BaseComponent {
                       ),
                 title: Text("[${token.ticker}] ${token.name}"),
                 subtitle: Text(account.address),
-                // trailing: Text("${account.balance} ${token.ticker}"),
                 trailing: AppBadge(
                   label: "${account.balance} ${token.ticker}",
                   variant: account.address.startsWith("xRBX") ? AppColorVariant.Reserve : AppColorVariant.Secondary,

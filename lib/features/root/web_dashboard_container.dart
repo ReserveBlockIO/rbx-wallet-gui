@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/models/web_session_model.dart';
+import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/theme/colors.dart';
 import 'package:rbx_wallet/core/theme/components.dart';
 import 'package:rbx_wallet/core/theme/pretty_icons.dart';
@@ -13,6 +15,7 @@ import 'package:rbx_wallet/features/misc/providers/global_balances_expanded_prov
 import 'package:rbx_wallet/features/navigation/components/root_container_balance_item.dart';
 import 'package:rbx_wallet/features/navigation/components/root_container_side_nav.dart';
 import 'package:rbx_wallet/features/navigation/root_container.dart';
+import 'package:rbx_wallet/features/transactions/models/web_transaction.dart';
 import 'package:rbx_wallet/features/wallet/utils.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -27,6 +30,7 @@ import '../../core/env.dart';
 import '../../core/web_router.gr.dart';
 import '../navigation/components/root_container_balance_row.dart';
 import '../navigation/constants.dart';
+import '../transactions/providers/web_transaction_list_provider.dart';
 import 'navigation/components/web_drawer.dart';
 
 GlobalKey<ScaffoldState> webDashboardScaffoldKey = GlobalKey<ScaffoldState>();
@@ -185,6 +189,12 @@ class _ContentWrapper extends BaseComponent {
 
                               final forceExpand = ref.watch(globalBalancesExpandedProvider);
 
+                              final List<WebTransaction>? vfxTransactions = sessionModel.keypair != null
+                                  ? ref.watch(webTransactionListProvider(sessionModel.keypair!.address).select((value) => value.transactions))
+                                  : null;
+
+                              final latestVfxTx = vfxTransactions != null && vfxTransactions.isNotEmpty ? vfxTransactions.first : null;
+
                               return LayoutBuilder(builder: (context, constraints) {
                                 final availableWidth = constraints.maxWidth;
 
@@ -201,6 +211,61 @@ class _ContentWrapper extends BaseComponent {
                                             headingColor: AppColors.getBlue(),
                                             accountCount: '',
                                             forceExpand: forceExpand,
+                                            latestTx: latestVfxTx != null
+                                                ? MouseRegion(
+                                                    cursor: SystemMouseCursors.click,
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        AutoTabsRouter.of(context).setActiveIndex(WebRouteIndex.transactions);
+                                                      },
+                                                      child: AppCard(
+                                                        padding: 12,
+                                                        fullWidth: true,
+                                                        child: Column(
+                                                          mainAxisSize: MainAxisSize.min,
+                                                          children: [
+                                                            if (latestVfxTx.type == TxType.rbxTransfer)
+                                                              Text(
+                                                                "${latestVfxTx.amount} VFX",
+                                                                style: TextStyle(
+                                                                  color: latestVfxTx.amount != null && latestVfxTx.amount! < 0
+                                                                      ? Colors.red.shade500
+                                                                      : Theme.of(context).colorScheme.success,
+                                                                  fontWeight: FontWeight.w600,
+                                                                ),
+                                                              )
+                                                            else
+                                                              Text(
+                                                                latestVfxTx.typeLabel,
+                                                                style: TextStyle(
+                                                                  color: AppColors.getBlue(),
+                                                                  fontWeight: FontWeight.w600,
+                                                                ),
+                                                              ),
+                                                            Text(
+                                                              "From: ${latestVfxTx.fromAddress}\nTo: ${latestVfxTx.toAddress}",
+                                                              style: TextStyle(
+                                                                fontSize: 11,
+                                                                color: Colors.white.withOpacity(0.9),
+                                                              ),
+                                                              textAlign: TextAlign.center,
+                                                            ),
+                                                            SizedBox(
+                                                              height: 2,
+                                                            ),
+                                                            Text(
+                                                              "Success",
+                                                              style: TextStyle(
+                                                                color: AppColors.getSpringGreen(),
+                                                                fontWeight: FontWeight.w600,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                : null,
                                             handleViewAllTxs: () {
                                               ref.read(webSessionProvider.notifier).setSelectedWalletType(WalletType.rbx);
 
