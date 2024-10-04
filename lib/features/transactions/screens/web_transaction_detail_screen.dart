@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
 import '../../../core/theme/app_theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../web_shop/components/complete_sale_button.dart';
@@ -104,8 +105,8 @@ class _TransactionDetails extends BaseComponent {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(boxShadow: glowingBox),
+            child: AppCard(
+              padding: 0,
               child: Card(
                 color: Colors.black,
                 child: ListTile(
@@ -123,8 +124,8 @@ class _TransactionDetails extends BaseComponent {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(boxShadow: glowingBox),
+            child: AppCard(
+              padding: 0,
               child: Card(
                 color: Colors.black,
                 child: ListTile(
@@ -136,8 +137,8 @@ class _TransactionDetails extends BaseComponent {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(boxShadow: glowingBox),
+            child: AppCard(
+              padding: 0,
               child: Card(
                 color: Colors.black,
                 child: ListTile(
@@ -149,8 +150,8 @@ class _TransactionDetails extends BaseComponent {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(boxShadow: glowingBox),
+            child: AppCard(
+              padding: 0,
               child: Card(
                 color: Colors.black,
                 child: ListTile(
@@ -162,13 +163,12 @@ class _TransactionDetails extends BaseComponent {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(boxShadow: glowingBox),
+            child: AppCard(
+              padding: 0,
               child: Card(
                 color: Colors.black,
                 child: ListTile(
-                  title: SelectableText(
-                      "${tx.toAddress} ${address == tx.toAddress ? '[ME]' : ''}"),
+                  title: SelectableText("${tx.toAddress} ${address == tx.toAddress ? '[ME]' : ''}"),
                   subtitle: const Text("To"),
                   trailing: IconButton(
                     icon: const Icon(Icons.copy),
@@ -182,13 +182,12 @@ class _TransactionDetails extends BaseComponent {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(boxShadow: glowingBox),
+            child: AppCard(
+              padding: 0,
               child: Card(
                 color: Colors.black,
                 child: ListTile(
-                  title: SelectableText(
-                      "${tx.fromAddress} ${address == tx.fromAddress ? '[ME]' : ''}"),
+                  title: SelectableText("${tx.fromAddress} ${address == tx.fromAddress ? '[ME]' : ''}"),
                   subtitle: const Text("From"),
                   trailing: IconButton(
                     icon: const Icon(Icons.copy),
@@ -202,8 +201,8 @@ class _TransactionDetails extends BaseComponent {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(boxShadow: glowingBox),
+            child: AppCard(
+              padding: 0,
               child: Card(
                 color: Colors.black,
                 child: ListTile(
@@ -215,8 +214,8 @@ class _TransactionDetails extends BaseComponent {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(boxShadow: glowingBox),
+            child: AppCard(
+              padding: 0,
               child: Card(
                 color: Colors.black,
                 child: ListTile(

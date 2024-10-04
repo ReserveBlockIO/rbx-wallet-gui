@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
 import 'package:rbx_wallet/features/btc_web/components/web_btc_adnr_content.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/base_screen.dart';
@@ -87,12 +88,10 @@ class WebAdnrScreen extends BaseScreen {
 
     if (adnr == null) {
       return Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 700),
-          child: Container(
-            decoration: BoxDecoration(
-              boxShadow: glowingBox,
-            ),
+        child: AppCard(
+          padding: 0,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 700),
             child: Card(
               color: Colors.black87,
               child: Padding(
@@ -146,10 +145,8 @@ class WebAdnrScreen extends BaseScreen {
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 400),
-        child: Container(
-          decoration: BoxDecoration(
-            boxShadow: glowingBox,
-          ),
+        child: AppCard(
+          padding: 0,
           child: Card(
             color: Colors.black87,
             child: Padding(
