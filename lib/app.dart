@@ -35,7 +35,7 @@ final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<Sca
 
 final GlobalKey<ScaffoldState> rootScaffoldKey = GlobalKey<ScaffoldState>();
 
-GlobalKey<NavigatorState> rootNavigatorKey = Env.isWeb ? singleton<WebRouter>().navigatorKey : singleton<AppRouter>().navigatorKey;
+GlobalKey<NavigatorState> rootNavigatorKey = kIsWeb ? singleton<WebRouter>().navigatorKey : singleton<AppRouter>().navigatorKey;
 
 class App extends ConsumerWidget {
   const App({Key? key}) : super(key: key);
@@ -114,6 +114,7 @@ class WebAppContainer extends ConsumerWidget {
       restorationScopeId: "app",
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: rootScaffoldMessengerKey,
+
       theme: AppTheme.dark().themeData,
       routeInformationParser: router.defaultRouteParser(includePrefixMatches: true),
       routerDelegate: AutoRouterDelegate(
