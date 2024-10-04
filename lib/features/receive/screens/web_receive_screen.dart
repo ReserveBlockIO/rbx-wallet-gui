@@ -79,59 +79,53 @@ class WebReceiveScreen extends BaseScreen {
           ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 650),
             child: AppCard(
-              padding: 0,
-              child: Card(
-                color: Colors.black87,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 500),
-                        child: ListTile(
-                          title: SelectableText(
-                            address,
-                            style: TextStyle(color: usingRa ? Colors.deepPurple.shade200 : Colors.white),
-                          ),
-                          subtitle: Text("Your Address"),
-                          leading: Icon(Icons.wallet),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.copy),
-                            onPressed: () {
-                              copyToClipboard(address);
-                            },
-                          ),
+              padding: 16,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 500),
+                    child: ListTile(
+                      title: SelectableText(
+                        address,
+                        style: TextStyle(color: usingRa ? Colors.deepPurple.shade200 : Colors.white),
+                      ),
+                      subtitle: Text("Your Address"),
+                      leading: Icon(Icons.wallet),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.copy),
+                        onPressed: () {
+                          copyToClipboard(address);
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  if (adnr != null && adnr.isNotEmpty && !usingRa) ...[
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 500),
+                      child: ListTile(
+                        title: SelectableText(
+                          adnr,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        subtitle: Text("Your Domain"),
+                        leading: Icon(Icons.link),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.copy),
+                          onPressed: () {
+                            copyToClipboard(adnr);
+                          },
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      if (adnr != null && adnr.isNotEmpty && !usingRa) ...[
-                        ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 500),
-                          child: ListTile(
-                            title: SelectableText(
-                              adnr,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            subtitle: Text("Your Domain"),
-                            leading: Icon(Icons.link),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.copy),
-                              onPressed: () {
-                                copyToClipboard(adnr);
-                              },
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          "Alternatively, you can receive funds to your VFX Domain.",
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      "Alternatively, you can receive funds to your VFX Domain.",
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
+                ],
               ),
             ),
           ),

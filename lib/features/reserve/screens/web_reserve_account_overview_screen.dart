@@ -63,33 +63,30 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
                   SizedBox(height: 12),
                   AppCard(
                     padding: 0,
-                    child: Card(
-                      color: Colors.transparent,
-                      child: ListTile(
-                        title: Text(keypair.address),
-                        subtitle: Text("$balance VFX"),
-                        leading: IconButton(
-                          icon: Icon(Icons.copy),
-                          onPressed: () async {
-                            await Clipboard.setData(ClipboardData(text: keypair.address));
-                            Toast.message("Address copied to clipboard");
-                          },
-                        ),
-                        trailing: IconButton(
-                          icon: Icon(Icons.remove_red_eye),
-                          onPressed: () async {
-                            final confirmed = await ConfirmDialog.show(
-                              title: "Reveal Private Key?",
-                              body: "Are you sure you want to reveal your private key for your Vault Account?",
-                              confirmText: "Reveal",
-                              cancelText: "Cancel",
-                            );
+                    child: ListTile(
+                      title: Text(keypair.address),
+                      subtitle: Text("$balance VFX"),
+                      leading: IconButton(
+                        icon: Icon(Icons.copy),
+                        onPressed: () async {
+                          await Clipboard.setData(ClipboardData(text: keypair.address));
+                          Toast.message("Address copied to clipboard");
+                        },
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.remove_red_eye),
+                        onPressed: () async {
+                          final confirmed = await ConfirmDialog.show(
+                            title: "Reveal Private Key?",
+                            body: "Are you sure you want to reveal your private key for your Vault Account?",
+                            confirmText: "Reveal",
+                            cancelText: "Cancel",
+                          );
 
-                            if (confirmed == true) {
-                              showRaKeys(context, keypair);
-                            }
-                          },
-                        ),
+                          if (confirmed == true) {
+                            showRaKeys(context, keypair);
+                          }
+                        },
                       ),
                     ),
                   ),

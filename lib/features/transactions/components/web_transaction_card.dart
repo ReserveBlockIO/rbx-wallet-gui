@@ -52,75 +52,72 @@ class WebTransactionCard extends BaseComponent {
     }
 
     return Padding(
-      padding: const EdgeInsets.all(6.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 16),
       child: AppCard(
         padding: 0,
-        child: Card(
-          color: Colors.black87,
-          child: ListTile(
-            leading: isMobile
-                ? null
-                : toMe
-                    ? const Icon(Icons.move_to_inbox)
-                    : const Icon(Icons.outbox),
-            title: Text(
-              text,
-              style: TextStyle(color: color),
-            ),
-            subtitle: toMe
-                ? RichText(
-                    text: TextSpan(
-                      style: TextStyle(color: Colors.white70, fontSize: 12),
-                      children: [
-                        TextSpan(text: "From: "),
-                        TextSpan(
-                            text: "${tx.fromAddress}\n",
-                            style: TextStyle(color: tx.fromAddress.startsWith("xRBX") ? Colors.deepPurple.shade200 : Colors.white60)),
-                        TextSpan(text: date)
-                      ],
-                    ),
-                  )
-                : RichText(
-                    text: TextSpan(
-                      style: TextStyle(color: Colors.white70, fontSize: 12),
-                      children: [
-                        TextSpan(text: "To: "),
-                        TextSpan(
-                            text: "${tx.toAddress}\n",
-                            style: TextStyle(color: tx.toAddress.startsWith("xRBX") ? Colors.deepPurple.shade200 : Colors.white60)),
-                        TextSpan(text: date)
-                      ],
-                    ),
-                  ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (tx.isPending)
-                  AppBadge(
-                    label: "Pending",
-                    variant: AppColorVariant.Warning,
-                  ),
-                if (tx.callbackHash != null)
-                  AppButton(
-                    label: "Original TX",
-                    onPressed: () {
-                      AutoRouter.of(context).push(WebTransactionDetailScreenRoute(hash: tx.callbackHash!));
-                    },
-                  ),
-                WebCallbackButton(tx),
-                CompleteSaleButton(
-                  tx: tx,
-                  fallbackWidget: Icon(Icons.chevron_right),
-                ),
-              ],
-            ),
-            onTap: () {
-              AutoRouter.of(context).push(WebTransactionDetailScreenRoute(hash: tx.hash));
-              // if (kDebugMode) {
-              //   ref.read(transactionSignalProvider.notifier).insert(tx.toNative());
-              // }
-            },
+        child: ListTile(
+          leading: isMobile
+              ? null
+              : toMe
+                  ? const Icon(Icons.move_to_inbox)
+                  : const Icon(Icons.outbox),
+          title: Text(
+            text,
+            style: TextStyle(color: color),
           ),
+          subtitle: toMe
+              ? RichText(
+                  text: TextSpan(
+                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                    children: [
+                      TextSpan(text: "From: "),
+                      TextSpan(
+                          text: "${tx.fromAddress}\n",
+                          style: TextStyle(color: tx.fromAddress.startsWith("xRBX") ? Colors.deepPurple.shade200 : Colors.white60)),
+                      TextSpan(text: date)
+                    ],
+                  ),
+                )
+              : RichText(
+                  text: TextSpan(
+                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                    children: [
+                      TextSpan(text: "To: "),
+                      TextSpan(
+                          text: "${tx.toAddress}\n",
+                          style: TextStyle(color: tx.toAddress.startsWith("xRBX") ? Colors.deepPurple.shade200 : Colors.white60)),
+                      TextSpan(text: date)
+                    ],
+                  ),
+                ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (tx.isPending)
+                AppBadge(
+                  label: "Pending",
+                  variant: AppColorVariant.Warning,
+                ),
+              if (tx.callbackHash != null)
+                AppButton(
+                  label: "Original TX",
+                  onPressed: () {
+                    AutoRouter.of(context).push(WebTransactionDetailScreenRoute(hash: tx.callbackHash!));
+                  },
+                ),
+              WebCallbackButton(tx),
+              CompleteSaleButton(
+                tx: tx,
+                fallbackWidget: Icon(Icons.chevron_right),
+              ),
+            ],
+          ),
+          onTap: () {
+            AutoRouter.of(context).push(WebTransactionDetailScreenRoute(hash: tx.hash));
+            // if (kDebugMode) {
+            //   ref.read(transactionSignalProvider.notifier).insert(tx.toNative());
+            // }
+          },
         ),
       ),
     );

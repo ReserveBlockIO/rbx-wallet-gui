@@ -89,53 +89,48 @@ class WebAdnrScreen extends BaseScreen {
     if (adnr == null) {
       return Center(
         child: AppCard(
-          padding: 0,
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 700),
-            child: Card(
-              color: Colors.black87,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      "Create a VFX Domain as an alias to your account's address for receiving funds.",
-                      style: TextStyle(
-                        fontSize: 17,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    const Text(
-                      "VFX domains cost $ADNR_COST VFX plus the transaction fee.",
-                      textAlign: TextAlign.center,
-                    ),
-                    const Divider(),
-                    AppButton(
-                      label: "Create Domain",
-                      variant: AppColorVariant.Success,
-                      onPressed: () async {
-                        if (balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
-                          Toast.error("Not enough VFX in this account to create a VFX domain. $ADNR_COST RBX required (plus TX fee).");
-                          return;
-                        }
-
-                        await showDialog(
-                            context: context,
-                            builder: (context) {
-                              return CreateAdnrDialog(
-                                address: address,
-                                adnr: "",
-                              );
-                            });
-                      },
-                    )
-                  ],
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  "Create a VFX Domain as an alias to your account's address for receiving funds.",
+                  style: TextStyle(
+                    fontSize: 17,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
+                const SizedBox(
+                  height: 4,
+                ),
+                const Text(
+                  "VFX domains cost $ADNR_COST VFX plus the transaction fee.",
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                AppButton(
+                  label: "Create Domain",
+                  variant: AppColorVariant.Success,
+                  onPressed: () async {
+                    if (balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
+                      Toast.error("Not enough VFX in this account to create a VFX domain. $ADNR_COST RBX required (plus TX fee).");
+                      return;
+                    }
+
+                    await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return CreateAdnrDialog(
+                            address: address,
+                            adnr: "",
+                          );
+                        });
+                  },
+                )
+              ],
             ),
           ),
         ),
