@@ -394,9 +394,6 @@ class _LayoutState extends State<_Layout> {
                               width: 600,
                               decoration: BoxDecoration(
                                 color: AppColors.getGray(ColorShade.s300),
-                                // border: Border.all(
-                                //   color: Colors.white.withOpacity(0.15),
-                                // ),
                                 border: Border(
                                   top: BorderSide(
                                     color: Colors.white.withOpacity(0.15),
