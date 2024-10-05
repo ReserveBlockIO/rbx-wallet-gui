@@ -79,102 +79,105 @@ class WebReceiveScreen extends BaseScreen {
         children: [
           ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 600),
-            child: AppCard(
-              padding: 16,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ListTile(
-                    title: SelectableText(
-                      address,
-                      style: TextStyle(color: usingRa ? Colors.deepPurple.shade200 : Colors.white),
-                    ),
-                    subtitle: Text("Your Address"),
-                    leading: Icon(Icons.wallet),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.copy),
-                      onPressed: () {
-                        copyToClipboard(address);
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  if (adnr != null && adnr.isNotEmpty && !usingRa) ...[
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: AppCard(
+                padding: 16,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
                     ListTile(
                       title: SelectableText(
-                        adnr,
-                        style: TextStyle(color: Colors.white),
+                        address,
+                        style: TextStyle(color: usingRa ? Colors.deepPurple.shade200 : Colors.white),
                       ),
-                      subtitle: Text("Your Domain"),
-                      leading: Icon(Icons.link),
+                      subtitle: Text("Your Address"),
+                      leading: Icon(Icons.wallet),
                       trailing: IconButton(
                         icon: const Icon(Icons.copy),
                         onPressed: () {
-                          copyToClipboard(adnr);
+                          copyToClipboard(address);
                         },
                       ),
                     ),
-                  ],
-                  Divider(),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      AppVerticalIconButton(
-                        label: "Copy\nLink",
-                        icon: Icons.link,
-                        prettyIconType: PrettyIconType.custom,
-                        onPressed: () async {
-                          showRequestPrompt(
-                              context: context,
-                              address: address,
-                              onValidSubmission: (amount) async {
-                                if (double.tryParse(amount) != null) {
-                                  final value = adnr != null && adnr.isNotEmpty && !usingRa ? adnr : address;
-                                  final url = generateLink(value, double.parse(amount));
-
-                                  await copyToClipboard(url, "Request funds link copied to clipboard");
-                                } else {
-                                  Toast.error("Invalid amount");
-                                }
-                              });
-                        },
-                      ),
-                      const SizedBox(width: 6),
-                      AppVerticalIconButton(
-                        label: "QR\nCode",
-                        icon: Icons.qr_code_rounded,
-                        prettyIconType: PrettyIconType.custom,
-                        onPressed: () async {
-                          showRequestPrompt(
-                              context: context,
-                              address: address,
-                              onValidSubmission: (amount) async {
-                                if (double.tryParse(amount) != null) {
-                                  final value = adnr != null && adnr.isNotEmpty & !usingRa ? adnr : address;
-                                  final url = generateLink(value, double.parse(amount));
-
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return Center(
-                                          child: NftQrCode(
-                                            data: url,
-                                            withClose: true,
-                                          ),
-                                        );
-                                      });
-                                } else {
-                                  Toast.error("Invalid amount");
-                                }
-                              });
-                        },
+                    const SizedBox(height: 8),
+                    if (adnr != null && adnr.isNotEmpty && !usingRa) ...[
+                      ListTile(
+                        title: SelectableText(
+                          adnr,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        subtitle: Text("Your Domain"),
+                        leading: Icon(Icons.link),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.copy),
+                          onPressed: () {
+                            copyToClipboard(adnr);
+                          },
+                        ),
                       ),
                     ],
-                  )
-                ],
+                    Divider(),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AppVerticalIconButton(
+                          label: "Copy\nLink",
+                          icon: Icons.link,
+                          prettyIconType: PrettyIconType.custom,
+                          onPressed: () async {
+                            showRequestPrompt(
+                                context: context,
+                                address: address,
+                                onValidSubmission: (amount) async {
+                                  if (double.tryParse(amount) != null) {
+                                    final value = adnr != null && adnr.isNotEmpty && !usingRa ? adnr : address;
+                                    final url = generateLink(value, double.parse(amount));
+
+                                    await copyToClipboard(url, "Request funds link copied to clipboard");
+                                  } else {
+                                    Toast.error("Invalid amount");
+                                  }
+                                });
+                          },
+                        ),
+                        const SizedBox(width: 6),
+                        AppVerticalIconButton(
+                          label: "QR\nCode",
+                          icon: Icons.qr_code_rounded,
+                          prettyIconType: PrettyIconType.custom,
+                          onPressed: () async {
+                            showRequestPrompt(
+                                context: context,
+                                address: address,
+                                onValidSubmission: (amount) async {
+                                  if (double.tryParse(amount) != null) {
+                                    final value = adnr != null && adnr.isNotEmpty & !usingRa ? adnr : address;
+                                    final url = generateLink(value, double.parse(amount));
+
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return Center(
+                                            child: NftQrCode(
+                                              data: url,
+                                              withClose: true,
+                                            ),
+                                          );
+                                        });
+                                  } else {
+                                    Toast.error("Invalid amount");
+                                  }
+                                });
+                          },
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ),

@@ -12,6 +12,7 @@ import '../../web/components/web_activate_ra_button.dart';
 import '../../web/components/web_fund_ra_account_button.dart';
 import '../../web/components/web_recover_ra_button.dart';
 import '../../web/components/web_restore_ra_button.dart';
+import '../../web/components/web_wallet_type_switcher.dart';
 import '../../web/providers/web_ra_pending_recovery_provider.dart';
 import '../../../generated/assets.gen.dart';
 import '../../../utils/toast.dart';
@@ -24,6 +25,7 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
       : super(
           key: key,
           backgroundColor: Colors.black,
+          includeWebDrawer: true,
         );
 
   @override
