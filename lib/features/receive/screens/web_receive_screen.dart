@@ -33,7 +33,6 @@ class WebReceiveScreen extends BaseScreen {
       title: const Text("Receive"),
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
-      actions: [WebWalletTypeSwitcher()],
     );
   }
 

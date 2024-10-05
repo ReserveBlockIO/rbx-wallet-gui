@@ -101,7 +101,7 @@ class WebWalletTypeSwitcher extends BaseComponent {
               Icon(
                 Icons.arrow_drop_down,
                 size: 18,
-                color: Colors.white,
+                color: color,
               ),
             ],
           ),
@@ -142,17 +142,6 @@ class WebWalletTypeSwitcher extends BaseComponent {
                       style: TextStyle(color: Colors.deepPurple.shade200, fontSize: fontSize),
                     ),
                   ),
-                  SizedBox(width: 6),
-                  InkWell(
-                    onTap: () {
-                      AutoRouter.of(context).push(WebReserveAccountOverviewScreenRoute());
-                    },
-                    child: Icon(
-                      Icons.help,
-                      color: Theme.of(context).colorScheme.secondary,
-                      size: 14,
-                    ),
-                  )
                 ],
               ),
               onTap: () {

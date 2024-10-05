@@ -31,6 +31,7 @@ import '../../encrypt/utils.dart';
 import '../../keygen/models/keypair.dart';
 import '../../wallet/models/wallet.dart';
 import '../../reserve/components/balance_indicator.dart';
+import '../../web/components/web_wallet_type_switcher.dart';
 import '../providers/send_form_provider.dart';
 
 class SendForm extends BaseComponent {
@@ -177,28 +178,7 @@ class SendForm extends BaseComponent {
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              if (isWeb)
-                                Flexible(
-                                  child: Builder(builder: (context) {
-                                    String address = "";
-                                    switch (ref.watch(webSessionProvider).selectedWalletType) {
-                                      case WalletType.rbx:
-                                        address = keypair!.address;
-                                        break;
-                                      case WalletType.ra:
-                                        address = raKeypair!.address;
-                                        break;
-                                      case WalletType.btc:
-                                        address = btcWebAccount!.address;
-                                    }
-
-                                    return Text(
-                                      address,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(color: color, fontSize: 16),
-                                    );
-                                  }),
-                                ),
+                              if (isWeb) WebWalletTypeSwitcher(),
                               if (!isWeb)
                                 PopupMenuButton(
                                   color: Color(0xFF080808),

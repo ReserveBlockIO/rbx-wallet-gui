@@ -23,9 +23,6 @@ class WebSendScreen extends BaseScreen {
       title: const Text("Send VFX"),
       shadowColor: Colors.transparent,
       backgroundColor: Colors.black,
-      actions: [
-        WebWalletTypeSwitcher(),
-      ],
     );
   }
 
