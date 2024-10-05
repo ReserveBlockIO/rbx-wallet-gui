@@ -11,6 +11,7 @@ import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/theme/colors.dart';
 import 'package:rbx_wallet/core/theme/components.dart';
 import 'package:rbx_wallet/core/theme/pretty_icons.dart';
+import 'package:rbx_wallet/features/block/latest_block.dart';
 import 'package:rbx_wallet/features/btc/screens/tokenized_btc_list_screen.dart';
 import 'package:rbx_wallet/features/misc/providers/global_balances_expanded_provider.dart';
 import 'package:rbx_wallet/features/navigation/components/root_container_balance_item.dart';
@@ -18,6 +19,7 @@ import 'package:rbx_wallet/features/navigation/components/root_container_side_na
 import 'package:rbx_wallet/features/navigation/root_container.dart';
 import 'package:rbx_wallet/features/transactions/models/web_transaction.dart';
 import 'package:rbx_wallet/features/wallet/utils.dart';
+import 'package:rbx_wallet/features/web/providers/web_latest_block_provider.dart';
 import 'package:rbx_wallet/generated/assets.gen.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -36,6 +38,7 @@ import '../keygen/models/ra_keypair.dart';
 import '../navigation/components/root_container_balance_row.dart';
 import '../navigation/constants.dart';
 import '../transactions/providers/web_transaction_list_provider.dart';
+import '../web/components/web_latest_block.dart';
 import 'navigation/components/web_drawer.dart';
 
 GlobalKey<ScaffoldState> webDashboardScaffoldKey = GlobalKey<ScaffoldState>();
@@ -491,13 +494,20 @@ class _ContentWrapper extends BaseComponent {
                                   ),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 6).copyWith(left: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Text("Addresses"),
+                                      AnimatedDefaultTextStyle(
+                                        duration: Duration(milliseconds: 105),
+                                        style: TextStyle(
+                                          color: walletInfoIsHovering ? Colors.white : Colors.white.withOpacity(0.75),
+                                          fontSize: 14,
+                                        ),
+                                        child: Text("Addresses"),
+                                      ),
                                       SizedBox(
-                                        width: 8,
+                                        width: 4,
                                       ),
                                       Transform.translate(
                                         offset: Offset(0, 1),
@@ -513,36 +523,56 @@ class _ContentWrapper extends BaseComponent {
                               ),
                             ),
                             Container(
-                                height: expandedHeight,
-                                width: 520,
-                                decoration: BoxDecoration(
-                                  color: AppColors.getGray(ColorShade.s300),
-                                  border: Border(
-                                    top: BorderSide(
-                                      color: Colors.white.withOpacity(0.15),
-                                    ),
+                              height: expandedHeight,
+                              width: 520,
+                              decoration: BoxDecoration(
+                                color: AppColors.getGray(ColorShade.s300),
+                                border: Border(
+                                  top: BorderSide(
+                                    color: Colors.white.withOpacity(0.15),
                                   ),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16.0).copyWith(bottom: 0),
-                                  child: Consumer(builder: (context, ref, _) {
-                                    final vfxKeypair = ref.watch(webSessionProvider.select((value) => value.keypair));
-                                    final vfxBalance = ref.watch(webSessionProvider.select((value) => value.balance));
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0).copyWith(bottom: 0),
+                                child: Consumer(builder: (context, ref, _) {
+                                  final vfxKeypair = ref.watch(webSessionProvider.select((value) => value.keypair));
+                                  final vfxBalance = ref.watch(webSessionProvider.select((value) => value.balance));
 
-                                    final raKeypair = ref.watch(webSessionProvider.select((value) => value.raKeypair));
-                                    final raBalance = ref.watch(webSessionProvider.select((value) => value.balance));
+                                  final raKeypair = ref.watch(webSessionProvider.select((value) => value.raKeypair));
+                                  final raBalance = ref.watch(webSessionProvider.select((value) => value.balance));
 
-                                    final btcKeypair = ref.watch(webSessionProvider.select((value) => value.btcKeypair));
-                                    final btcBalance = ref.watch(webSessionProvider.select((value) => value.btcBalanceInfo?.btcBalance));
-                                    return Column(
-                                      children: [
-                                        if (vfxKeypair != null)
-                                          _WalletListItem(
-                                            address: vfxKeypair.address,
-                                            keypair: vfxKeypair,
-                                            label: "VFX",
-                                            balance: "${vfxBalance ?? 0} VFX",
-                                            color: AppColors.getBlue(),
+                                  final btcKeypair = ref.watch(webSessionProvider.select((value) => value.btcKeypair));
+                                  final btcBalance = ref.watch(webSessionProvider.select((value) => value.btcBalanceInfo?.btcBalance));
+                                  return Column(
+                                    children: [
+                                      if (vfxKeypair != null)
+                                        _WalletListItem(
+                                          address: vfxKeypair.address,
+                                          keypair: vfxKeypair,
+                                          label: "VFX",
+                                          balance: "${vfxBalance ?? 0} VFX",
+                                          color: AppColors.getBlue(),
+                                          onMenuOpen: () {
+                                            setState(() {
+                                              walletInfoPopupVisible = true;
+                                            });
+                                          },
+                                          onMenuClose: () {
+                                            setState(() {
+                                              walletInfoPopupVisible = false;
+                                            });
+                                          },
+                                        ),
+                                      if (raKeypair != null)
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 16.0),
+                                          child: _WalletListItem(
+                                            address: raKeypair.address,
+                                            label: "Vault",
+                                            balance: "${raBalance ?? 0} VFX",
+                                            color: AppColors.getReserve(),
+                                            raKeypair: raKeypair,
                                             onMenuOpen: () {
                                               setState(() {
                                                 walletInfoPopupVisible = true;
@@ -554,82 +584,133 @@ class _ContentWrapper extends BaseComponent {
                                               });
                                             },
                                           ),
-                                        if (raKeypair != null)
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: 16.0),
-                                            child: _WalletListItem(
-                                              address: raKeypair.address,
-                                              label: "Vault",
-                                              balance: "${raBalance ?? 0} VFX",
-                                              color: AppColors.getReserve(),
-                                              raKeypair: raKeypair,
-                                              onMenuOpen: () {
-                                                setState(() {
-                                                  walletInfoPopupVisible = true;
-                                                });
-                                              },
-                                              onMenuClose: () {
-                                                setState(() {
-                                                  walletInfoPopupVisible = false;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                        if (btcKeypair != null)
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: 16.0),
-                                            child: _WalletListItem(
-                                              address: btcKeypair.address,
-                                              btcKeypair: btcKeypair,
-                                              label: "BTC",
-                                              balance: "${btcBalance ?? 0} BTC",
-                                              color: AppColors.getBtc(),
-                                              onMenuOpen: () {
-                                                setState(() {
-                                                  walletInfoPopupVisible = true;
-                                                });
-                                              },
-                                              onMenuClose: () {
-                                                setState(() {
-                                                  walletInfoPopupVisible = false;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                        SizedBox(
-                                          height: 12,
                                         ),
-                                        Opacity(
-                                          opacity: 0.7,
-                                          child: AppButton(
-                                            label: "Sign Out",
-                                            icon: Icons.logout,
-                                            onPressed: () async {
-                                              final confirmed = await ConfirmDialog.show(
-                                                title: "Sign Out",
-                                                body: "Are you sure you want to logout of the VFX Web Wallet?",
-                                                destructive: true,
-                                                confirmText: "Logout",
-                                                cancelText: "Cancel",
-                                              );
-                                              if (confirmed == true) {
-                                                await ref.read(webSessionProvider.notifier).logout();
-
-                                                AutoRouter.of(context).replace(const WebAuthRouter());
-                                              }
+                                      if (btcKeypair != null)
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 16.0),
+                                          child: _WalletListItem(
+                                            address: btcKeypair.address,
+                                            btcKeypair: btcKeypair,
+                                            label: "BTC",
+                                            balance: "${btcBalance ?? 0} BTC",
+                                            color: AppColors.getBtc(),
+                                            onMenuOpen: () {
+                                              setState(() {
+                                                walletInfoPopupVisible = true;
+                                              });
+                                            },
+                                            onMenuClose: () {
+                                              setState(() {
+                                                walletInfoPopupVisible = false;
+                                              });
                                             },
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  }),
-                                ))
+                                      SizedBox(
+                                        height: 12,
+                                      ),
+                                      Opacity(
+                                        opacity: 0.7,
+                                        child: AppButton(
+                                          label: "Sign Out",
+                                          icon: Icons.logout,
+                                          onPressed: () async {
+                                            final confirmed = await ConfirmDialog.show(
+                                              title: "Sign Out",
+                                              body: "Are you sure you want to logout of the VFX Web Wallet?",
+                                              destructive: true,
+                                              confirmText: "Logout",
+                                              cancelText: "Cancel",
+                                            );
+                                            if (confirmed == true) {
+                                              await ref.read(webSessionProvider.notifier).logout();
+
+                                              AutoRouter.of(context).replace(const WebAuthRouter());
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }),
+                              ),
+                            )
                           ],
                         ),
                       ),
                     );
                   },
-                )
+                ),
+                Consumer(builder: (context, ref, _) {
+                  final block = ref.watch(webLatestBlockProvider);
+
+                  if (block == null) {
+                    return SizedBox();
+                  }
+
+                  return AnimatedPositioned(
+                    right: 0,
+                    bottom: latestBlockIsExpanded ? 0 : -320,
+                    duration: ROOT_CONTAINER_TRANSITION_DURATION,
+                    curve: ROOT_CONTAINER_TRANSITION_CURVE,
+                    child: MouseRegion(
+                      onHover: (_) {
+                        setState(() {
+                          latestBlockIsExpanded = true;
+                          latestBlockIsHovering = true;
+                        });
+                      },
+                      onExit: (_) {
+                        setState(() {
+                          latestBlockIsExpanded = false;
+                          latestBlockIsHovering = false;
+                        });
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Transform.translate(
+                            offset: Offset(1, 2),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.getGray(ColorShade.s300),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(16),
+                                ),
+                                border: Border.all(
+                                  color: Colors.white.withOpacity(0.15),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
+                                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                                  AnimatedDefaultTextStyle(
+                                    duration: Duration(milliseconds: 105),
+                                    style: TextStyle(
+                                      color: latestBlockIsHovering ? Colors.white : Colors.white.withOpacity(0.75),
+                                      fontSize: 14,
+                                    ),
+                                    child: Text(
+                                      "Block ${block.height}",
+                                    ),
+                                  ),
+                                ]),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 240,
+                            height: 320,
+                            child: LatestBlock(
+                              blockOverride: block.toNativeBlock(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }),
               ],
             ),
           )
