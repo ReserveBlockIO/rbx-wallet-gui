@@ -16,8 +16,6 @@ class WebLatestBlockProvider extends StateNotifier<WebBlock?> {
   }
 
   Future<void> _update() async {
-    if (Env.rbxNetworkDown) return;
-
     final block = await ExplorerService().getLatestBlock();
 
     if (block != null) {

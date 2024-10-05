@@ -47,10 +47,14 @@ class NftListProvider extends StateNotifier<NftListModel> {
     // email ??= ref.read(webSessionProvider).keypair?.email;
     // address ??= ref.read(webSessionProvider).keypair?.address;
 
+    print("LOADING NFTListProvider");
+    print(address);
     if (kIsWeb) {
       if (address == null) {
         return;
       }
+
+      print("Hello");
 
       final nfts = await ExplorerService().listNfts(address, page: page, search: state.search.isNotEmpty ? state.search : null);
       final d = CliPaginatedResponse(count: nfts.length, results: nfts, page: page);
@@ -63,7 +67,7 @@ class NftListProvider extends StateNotifier<NftListModel> {
   }
 
   Future<void> reloadCurrentPage({String? address}) async {
-    load(state.page);
+    load(state.page, address);
   }
 
   void setSearch(String search) {

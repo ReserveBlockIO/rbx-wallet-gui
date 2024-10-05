@@ -12,7 +12,6 @@ class WebLatestBlock extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (Env.rbxNetworkDown) return SizedBox();
     final block = ref.watch(webLatestBlockProvider);
 
     if (block == null) {

@@ -154,8 +154,6 @@ Future<void> handleCreateWithEmail(
 
   await login(context, ref, keypair.copyWith(email: email), reserveKeyPair, btcKeypair);
 
-  if (Env.rbxNetworkDown) return;
-
   final authorized = await guardWebAuthorized(ref, keypair.address);
   if (authorized) {
     final subscribed = await WebShopService().createContact(email, keypair.address);
@@ -224,7 +222,8 @@ Future<dynamic> handleRememberMe(BuildContext context, WidgetRef ref) async {
           actions: [
             TextButton(
               style: TextButton.styleFrom(
-                foregroundColor: Theme.of(context).colorScheme.darkButtonBg, textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                foregroundColor: Theme.of(context).colorScheme.darkButtonBg,
+                textStyle: const TextStyle(fontWeight: FontWeight.bold),
               ),
               onPressed: () {
                 ref.read(webSessionProvider.notifier).setRememberMe(false);
@@ -239,7 +238,8 @@ Future<dynamic> handleRememberMe(BuildContext context, WidgetRef ref) async {
             ),
             TextButton(
               style: TextButton.styleFrom(
-                foregroundColor: Theme.of(context).colorScheme.info, textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                foregroundColor: Theme.of(context).colorScheme.info,
+                textStyle: const TextStyle(fontWeight: FontWeight.bold),
               ),
               onPressed: () {
                 ref.read(webSessionProvider.notifier).setRememberMe(true);

@@ -23,7 +23,6 @@ class ExplorerService extends BaseService {
         );
 
   Future<List<Masternode>> searchValidators(String query) async {
-    if (Env.rbxNetworkDown) return [];
     try {
       final response = await getJson('/masternodes/name/$query/');
 
@@ -42,8 +41,6 @@ class ExplorerService extends BaseService {
   }
 
   Future<WebAddress> getWebAddress(String address) async {
-    if (Env.rbxNetworkDown) return WebAddress(address: address, balance: 0.0);
-
     try {
       final data = await getJson('/addresses/$address');
       return WebAddress.fromJson(data);
@@ -64,7 +61,6 @@ class ExplorerService extends BaseService {
   // }
 
   Future<WebTransaction?> retrieveTransaction(String hash) async {
-    if (Env.rbxNetworkDown) return null;
     try {
       final data = await getJson('/transaction/$hash');
       return WebTransaction.fromJson(data);
@@ -110,7 +106,6 @@ class ExplorerService extends BaseService {
     int limit = 10,
   }) async {
     try {
-      if (Env.rbxNetworkDown) return PaginatedResponse.empty();
       final params = {
         'page': page,
         'limit': limit,
@@ -128,7 +123,6 @@ class ExplorerService extends BaseService {
   }
 
   Future<WebBlock?> getLatestBlock() async {
-    if (Env.rbxNetworkDown) return null;
     try {
       final response = await getJson('/blocks', params: {'limit': 1});
 
@@ -147,8 +141,6 @@ class ExplorerService extends BaseService {
     int page = 1,
     String? search,
   }) async {
-    if (Env.rbxNetworkDown) return [];
-
     try {
       final params = {
         'owner_address': ownerAddress,
@@ -161,9 +153,11 @@ class ExplorerService extends BaseService {
       // final items = response['results'] as List<dynamic>;
 
       final List<Nft> results = response['results'].map<Nft>((json) => WebNft.fromJson(json).smartContract).toList();
+      print(results);
       return results;
       // return items.map((n) => Nft.fromJson(n['data'])).toList();
     } catch (e) {
+      print("listNfts Error");
       print(e);
       return [];
     }
@@ -175,7 +169,6 @@ class ExplorerService extends BaseService {
     String? search,
   }) async {
     try {
-      if (Env.rbxNetworkDown) return [];
       final params = {
         'minter_address': minterAddress,
         'page': page,
@@ -196,7 +189,6 @@ class ExplorerService extends BaseService {
   }
 
   Future<List<String>> listedNftIds(String ownerAddress) async {
-    if (Env.rbxNetworkDown) return [];
     try {
       final response = await getJson('/nft/listed/$ownerAddress/');
       return response['results'].map<String>((id) => id.toString()).toList() as List<String>;
@@ -207,7 +199,6 @@ class ExplorerService extends BaseService {
   }
 
   Future<Nft?> retrieveNft(String id) async {
-    if (Env.rbxNetworkDown) return null;
     try {
       final response = await getJson('/nft/$id');
 
@@ -219,7 +210,6 @@ class ExplorerService extends BaseService {
   }
 
   Future<WebNft?> retrieveWebNft(String id) async {
-    if (Env.rbxNetworkDown) return null;
     try {
       final response = await getJson('/nft/$id');
 
@@ -231,7 +221,6 @@ class ExplorerService extends BaseService {
   }
 
   Future<bool> adnrAvailable(String adnr) async {
-    if (Env.rbxNetworkDown) return false;
     try {
       await getJson('/addresses/adnr/$adnr');
       return false;
@@ -241,7 +230,6 @@ class ExplorerService extends BaseService {
   }
 
   Future<String?> uploadAsset(Uint8List bytes, String filename, String? ext) async {
-    if (Env.rbxNetworkDown) return null;
     FormData body = FormData();
 
     final MultipartFile file = MultipartFile.fromBytes(bytes, filename: filename);

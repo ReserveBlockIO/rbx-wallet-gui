@@ -51,8 +51,6 @@ class WebTransactionListProvider extends StateNotifier<WebTransactionListModel> 
     required int page,
     required bool invokeLoop,
   }) async {
-    if (Env.rbxNetworkDown) return;
-
     state = state.copyWith(isLoading: true);
     final data = await ExplorerService().getTransactions(
       address: address,
@@ -92,8 +90,6 @@ class WebTransactionListProvider extends StateNotifier<WebTransactionListModel> 
   }
 
   Future<void> checkForNew(String address) async {
-    if (Env.rbxNetworkDown) return;
-
     final data = await ExplorerService().getTransactions(
       address: address,
       page: 1,

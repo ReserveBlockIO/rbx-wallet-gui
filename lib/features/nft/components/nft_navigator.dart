@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
 import '../providers/minted_nft_list_provider.dart';
@@ -27,9 +28,9 @@ class NftNavigator extends BaseComponent {
 
     void handleSearch() {
       if (minted) {
-        ref.read(mintedNftListProvider.notifier).load(1);
+        ref.read(mintedNftListProvider.notifier).load(1, kIsWeb ? ref.read(webSessionProvider).keypair?.address : null);
       } else {
-        ref.read(nftListProvider.notifier).load(1);
+        ref.read(nftListProvider.notifier).load(1, kIsWeb ? ref.read(webSessionProvider).keypair?.address : null);
       }
     }
 
@@ -124,9 +125,9 @@ class NftNavigator extends BaseComponent {
             IconButton(
                 onPressed: () {
                   if (minted) {
-                    ref.read(mintedNftListProvider.notifier).reloadCurrentPage();
+                    ref.read(mintedNftListProvider.notifier).reloadCurrentPage(kIsWeb ? ref.read(webSessionProvider).keypair?.address : null);
                   } else {
-                    ref.read(nftListProvider.notifier).reloadCurrentPage();
+                    ref.read(nftListProvider.notifier).reloadCurrentPage(address: kIsWeb ? ref.read(webSessionProvider).keypair?.address : null);
                   }
                 },
                 icon: const Icon(Icons.refresh))

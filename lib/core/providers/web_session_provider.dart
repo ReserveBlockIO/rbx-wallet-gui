@@ -127,8 +127,8 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     state = state.copyWith(selectedWalletType: type);
 
     if (type != WalletType.btc) {
-      ref.read(mintedNftListProvider.notifier).load(1, state.currentWallet?.address);
-      ref.read(nftListProvider.notifier).load(1, state.currentWallet?.address);
+      ref.read(mintedNftListProvider.notifier).load(1, state.keypair?.address);
+      ref.read(nftListProvider.notifier).load(1, state.keypair?.address);
     }
 
     if (save) {
@@ -141,7 +141,6 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   }
 
   void loop() async {
-    if (Env.rbxNetworkDown) return;
     getAddress();
     getRaAddress();
     getFungibleTokens();
@@ -149,8 +148,6 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   }
 
   Future<void> getAddress() async {
-    if (Env.rbxNetworkDown) return;
-
     if (state.keypair == null) {
       return;
     }
@@ -165,8 +162,6 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   }
 
   Future<void> getRaAddress() async {
-    if (Env.rbxNetworkDown) return;
-
     if (state.raKeypair == null) {
       return;
     }
@@ -181,8 +176,6 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   }
 
   Future<void> getFungibleTokens() async {
-    if (Env.rbxNetworkDown) return;
-
     if (state.keypair == null && state.raKeypair == null) {
       return;
     }
@@ -200,8 +193,6 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   // }
 
   Future<void> getNfts() async {
-    if (Env.rbxNetworkDown) return;
-
     if (state.keypair == null) {
       return;
     }

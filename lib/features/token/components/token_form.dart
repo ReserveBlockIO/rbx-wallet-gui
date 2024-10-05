@@ -226,6 +226,7 @@ class TokenForm extends BaseComponent {
 
                     if (kIsWeb) {
                       result = await FilePicker.platform.pickFiles(allowedExtensions: ['jpg', 'jpeg', 'gif', 'png', 'webp'], type: FileType.custom);
+                      await Future.delayed(Duration(milliseconds: 10));
                       ref.read(globalLoadingProvider.notifier).start();
                       if (result == null || result.files.isEmpty) {
                         ref.read(globalLoadingProvider.notifier).complete();
