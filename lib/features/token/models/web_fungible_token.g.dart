@@ -16,6 +16,8 @@ _$_WebFungibleToken _$$_WebFungibleTokenFromJson(Map<String, dynamic> json) =>
       canMint: json['can_mint'] as bool,
       canBurn: json['can_burn'] as bool,
       canVote: json['can_vote'] as bool,
+      circulatingSupply: (json['circulating_supply'] as num).toDouble(),
+      initialSupply: (json['initial_supply'] as num).toDouble(),
       createdAt: DateTime.parse(json['created_at'] as String),
     );
 
@@ -29,5 +31,7 @@ Map<String, dynamic> _$$_WebFungibleTokenToJson(_$_WebFungibleToken instance) =>
       'can_mint': instance.canMint,
       'can_burn': instance.canBurn,
       'can_vote': instance.canVote,
+      'circulating_supply': instance.circulatingSupply,
+      'initial_supply': instance.initialSupply,
       'created_at': instance.createdAt.toIso8601String(),
     };

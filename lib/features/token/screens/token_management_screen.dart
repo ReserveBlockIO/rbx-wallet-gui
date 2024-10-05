@@ -413,31 +413,31 @@ class TokenDetailsContent extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _DetailRow(
+              TokenDetailRow(
                 label: "Smart Contract UID",
                 value: tokenAccount.smartContractId,
                 copyable: true,
               ),
 
-              _DetailRow(
+              TokenDetailRow(
                 label: "Token Name",
                 value: token.name,
                 copyable: true,
               ),
 
-              _DetailRow(
+              TokenDetailRow(
                 label: token.mintable ? 'Initial Issuance' : 'Fixed Supply',
                 value: token.mintable ? "${token.startingSupply.toString()} " : "${(min(token.currentSupply, token.startingSupply))}",
               ),
               // if (token.currentSupply > 0)
 
-              _DetailRow(
+              TokenDetailRow(
                 label: "Lifetime Cap",
                 value: token.mintable ? 'Infinite' : (min(token.currentSupply, token.startingSupply)).toString(),
               ),
 
               if (nft.tokenDetails != null)
-                _DetailRow(
+                TokenDetailRow(
                   label: "Mintable",
                   value: nft.tokenDetails!.mintable ? "YES" : "NO",
                   dividerBelow: false,
@@ -449,32 +449,32 @@ class TokenDetailsContent extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _DetailRow(
+              TokenDetailRow(
                 label: "Owner",
                 value: owner,
                 copyable: true,
               ),
-              _DetailRow(
+              TokenDetailRow(
                 label: "Token Ticker",
                 value: token.ticker,
                 copyable: true,
               ),
-              _DetailRow(
+              TokenDetailRow(
                 label: "Circulating Supply",
                 value: token.currentSupply.toString(),
               ),
               if (!token.mintable && token.currentSupply < token.startingSupply)
-                _DetailRow(
+                TokenDetailRow(
                   label: "Burned",
                   value: "${token.startingSupply - token.currentSupply}",
                 ),
               if (nft.tokenDetails != null)
-                _DetailRow(
+                TokenDetailRow(
                   label: "Burnable",
                   value: nft.tokenDetails!.burnable ? "YES" : "NO",
                 ),
               if (nft.tokenDetails != null)
-                _DetailRow(
+                TokenDetailRow(
                   label: "Voting",
                   value: nft.tokenDetails!.voting ? "YES" : "NO",
                   dividerBelow: false,
@@ -487,13 +487,13 @@ class TokenDetailsContent extends StatelessWidget {
   }
 }
 
-class _DetailRow extends StatelessWidget {
+class TokenDetailRow extends StatelessWidget {
   final String label;
   final String value;
   final bool copyable;
   final bool dividerBelow;
 
-  const _DetailRow({
+  const TokenDetailRow({
     required this.label,
     required this.value,
     this.copyable = false,

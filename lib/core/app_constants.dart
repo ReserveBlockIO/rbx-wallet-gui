@@ -50,6 +50,7 @@ class TxType {
   static const int vote = 9;
   static const int reserve = 10;
 
+  static const int tokenTx = 15;
   static const int tokenDeploy = 17;
 }
 
