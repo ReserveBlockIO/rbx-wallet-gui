@@ -153,7 +153,6 @@ class ExplorerService extends BaseService {
       // final items = response['results'] as List<dynamic>;
 
       final List<Nft> results = response['results'].map<Nft>((json) => WebNft.fromJson(json).smartContract).toList();
-      print(results);
       return results;
       // return items.map((n) => Nft.fromJson(n['data'])).toList();
     } catch (e) {
@@ -342,6 +341,25 @@ class ExplorerService extends BaseService {
       return tokenBalances;
     } catch (e) {
       return [];
+    }
+  }
+
+  Future<WebFungibleTokenDetail?> retrieveToken(String scId) async {
+    try {
+      final response = await getJson("/fungible-tokens/$scId/");
+      if (response.containsKey('token')) {
+        return WebFungibleTokenDetail(
+          token: WebFungibleToken.fromJson(response['token']),
+          holders: response.containsKey('holders') ? response['holders'] : [],
+        );
+      }
+      print("retrieveToken error");
+      print("could not parse data");
+      return null;
+    } catch (e) {
+      print("retrieveToken error");
+      print(e);
+      return null;
     }
   }
 }

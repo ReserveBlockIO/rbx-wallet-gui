@@ -27,9 +27,19 @@ class WebFungibleTokenBalance {
   final String address;
   final double balance;
 
-  WebFungibleTokenBalance({
+  const WebFungibleTokenBalance({
     required this.token,
     required this.address,
     required this.balance,
+  });
+}
+
+class WebFungibleTokenDetail {
+  final WebFungibleToken token;
+  final Map<String, dynamic> holders;
+
+  const WebFungibleTokenDetail({
+    required this.token,
+    required this.holders,
   });
 }

@@ -8,6 +8,7 @@ import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/core/web_router.gr.dart';
 import 'package:rbx_wallet/features/token/components/token_list_tile.dart';
 import 'package:rbx_wallet/features/token/models/token_account.dart';
 import 'package:rbx_wallet/features/token/providers/token_nfts_provider.dart';
@@ -83,7 +84,9 @@ class WebTokenList extends BaseComponent {
                   label: "${account.balance} ${token.ticker}",
                   variant: account.address.startsWith("xRBX") ? AppColorVariant.Reserve : AppColorVariant.Secondary,
                 ),
-                onTap: () {},
+                onTap: () {
+                  AutoRouter.of(context).push(WebTokenDetailScreenRoute(scId: token.smartContractId));
+                },
               ),
             ),
           );
