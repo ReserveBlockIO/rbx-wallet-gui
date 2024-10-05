@@ -29,18 +29,21 @@ class NftList extends BaseComponent {
                 child: Text(minted ? "No minted NFTs with management capabilities." : "No NFTs found."),
               );
             }
-            return ListView.builder(
-              itemCount: _model.data.results.length,
-              itemBuilder: (context, index) {
-                final nft = _model.data.results[int.parse(index.toString())];
+            return Padding(
+              padding: const EdgeInsets.all(8),
+              child: ListView.builder(
+                itemCount: _model.data.results.length,
+                itemBuilder: (context, index) {
+                  final nft = _model.data.results[int.parse(index.toString())];
 
-                return NftListTile(
-                  nft,
-                  key: Key(nft.id),
-                  manageOnPress: minted,
-                  showListedStatus: true,
-                );
-              },
+                  return NftListTile(
+                    nft,
+                    key: Key(nft.id),
+                    manageOnPress: minted,
+                    showListedStatus: true,
+                  );
+                },
+              ),
             );
           }),
         ),

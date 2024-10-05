@@ -100,9 +100,11 @@ class NftNavigator extends BaseComponent {
               onPressed: hasPrevPage
                   ? () {
                       if (minted) {
-                        ref.read(mintedNftListProvider.notifier).load(_model.data.page - 1);
+                        ref
+                            .read(mintedNftListProvider.notifier)
+                            .load(_model.data.page - 1, kIsWeb ? ref.read(webSessionProvider).keypair?.address : null);
                       } else {
-                        ref.read(nftListProvider.notifier).load(_model.data.page - 1);
+                        ref.read(nftListProvider.notifier).load(_model.data.page - 1, kIsWeb ? ref.read(webSessionProvider).keypair?.address : null);
                       }
                     }
                   : null,
@@ -115,9 +117,11 @@ class NftNavigator extends BaseComponent {
               onPressed: hasNextPage
                   ? () {
                       if (minted) {
-                        ref.read(mintedNftListProvider.notifier).load(_model.data.page + 1);
+                        ref
+                            .read(mintedNftListProvider.notifier)
+                            .load(_model.data.page + 1, kIsWeb ? ref.read(webSessionProvider).keypair?.address : null);
                       } else {
-                        ref.read(nftListProvider.notifier).load(_model.data.page + 1);
+                        ref.read(nftListProvider.notifier).load(_model.data.page + 1, kIsWeb ? ref.read(webSessionProvider).keypair?.address : null);
                       }
                     }
                   : null,
