@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/theme/pretty_icons.dart';
+import '../../../core/theme/colors.dart';
 import '../../../core/theme/components.dart';
 import '../../web/components/web_wallet_type_switcher.dart';
 
@@ -86,36 +87,45 @@ class WebReceiveScreen extends BaseScreen {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ListTile(
-                      title: SelectableText(
-                        address,
-                        style: TextStyle(color: usingRa ? Colors.deepPurple.shade200 : Colors.white),
-                      ),
-                      subtitle: Text("Your Address"),
-                      leading: Icon(Icons.wallet),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.copy),
-                        onPressed: () {
-                          copyToClipboard(address);
-                        },
+                    AppCard(
+                      padding: 0,
+                      color: AppColors.getGray(ColorShade.s300),
+                      child: ListTile(
+                        title: SelectableText(
+                          address,
+                          style: TextStyle(color: usingRa ? Colors.deepPurple.shade200 : Colors.white),
+                        ),
+                        subtitle: Text("Your Address"),
+                        leading: Icon(Icons.wallet),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.copy),
+                          onPressed: () {
+                            copyToClipboard(address);
+                          },
+                        ),
                       ),
                     ),
                     const SizedBox(height: 8),
                     if (adnr != null && adnr.isNotEmpty && !usingRa) ...[
-                      ListTile(
-                        title: SelectableText(
-                          adnr,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        subtitle: Text("Your Domain"),
-                        leading: Icon(Icons.link),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.copy),
-                          onPressed: () {
-                            copyToClipboard(adnr);
-                          },
+                      AppCard(
+                        padding: 0,
+                        color: AppColors.getGray(ColorShade.s300),
+                        child: ListTile(
+                          title: SelectableText(
+                            adnr,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          subtitle: Text("Your Domain"),
+                          leading: Icon(Icons.link),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.copy),
+                            onPressed: () {
+                              copyToClipboard(adnr);
+                            },
+                          ),
                         ),
                       ),
+                      const SizedBox(height: 8),
                     ],
                     Divider(),
                     SizedBox(

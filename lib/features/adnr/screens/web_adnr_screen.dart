@@ -11,6 +11,7 @@ import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/theme/colors.dart';
 import '../components/create_adnr_dialog.dart';
 import '../providers/adnr_pending_provider.dart';
 import '../../global_loader/global_loading_provider.dart';
@@ -45,40 +46,42 @@ class WebAdnrScreen extends BaseScreen {
 
     final btcKeypair = session.btcKeypair;
 
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            "VFX Domain",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              decoration: TextDecoration.underline,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: _VfxDomain(),
-          ),
-          if (btcKeypair != null) ...[
-            SizedBox(
-              height: 16,
-            ),
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
             Text(
-              "BTC Domain",
+              "VFX Domain",
               style: TextStyle(
-                color: Colors.white,
+                color: AppColors.getBlue(),
                 fontSize: 18,
                 decoration: TextDecoration.underline,
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: WebBtcAdnrContent(account: btcKeypair),
-            )
-          ]
-        ],
+              child: _VfxDomain(),
+            ),
+            if (btcKeypair != null) ...[
+              SizedBox(
+                height: 16,
+              ),
+              Text(
+                "BTC Domain",
+                style: TextStyle(
+                  color: AppColors.getBtc(),
+                  fontSize: 18,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: WebBtcAdnrContent(account: btcKeypair),
+              )
+            ]
+          ],
+        ),
       ),
     );
   }
@@ -188,7 +191,7 @@ class _VfxDomain extends BaseComponent {
 
     return Center(
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 400),
+        constraints: const BoxConstraints(maxWidth: 600),
         child: AppCard(
           padding: 8,
           child: Padding(

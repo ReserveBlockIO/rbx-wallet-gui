@@ -60,7 +60,7 @@ class WebBtcAdnrContent extends BaseComponent {
     if (adnr == null) {
       return Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 400),
+          constraints: BoxConstraints(maxWidth: 600),
           child: AppCard(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -68,7 +68,7 @@ class WebBtcAdnrContent extends BaseComponent {
                 const Text(
                   "Create a BTC Domain as an alias to your account's address for receiving funds.",
                   style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 16,
                   ),
                   textAlign: TextAlign.center,
                 ),
