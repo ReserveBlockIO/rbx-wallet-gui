@@ -160,9 +160,6 @@ String? formValidatorRbxAddress(String? value, [bool allowAdnr = false]) {
     return null;
   }
 
-  print(value);
-  print("----");
-
   if (!isValidRbxAddress(value)) {
     return "Invalid Address.";
   }

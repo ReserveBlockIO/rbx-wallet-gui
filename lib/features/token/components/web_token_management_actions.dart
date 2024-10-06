@@ -47,49 +47,7 @@ class WebTokenManagementActions extends BaseComponent {
             runAlignment: WrapAlignment.center,
             spacing: 16,
             children: [
-              if (token.canMint)
-                AppButton(
-                  label: "Mint Tokens",
-                  variant: AppColorVariant.Success,
-                  onPressed: () async {
-                    if (raIsOwner) {
-                      Toast.error("Vault accounts can not mint tokens. Please transfer ownership to your standard VFX account first");
-                      return;
-                    }
-
-                    final address = ref.read(webSessionProvider).keypair?.address;
-
-                    if (address == null) {
-                      Toast.error("A standard VFX account is required to proceed");
-                      return;
-                    }
-
-                    final balance = ref.read(webSessionProvider).balance;
-                    if (balance == null || balance < MIN_RBX_FOR_SC_ACTION) {
-                      Toast.error("A balance on your VFX account is required to broadcast this transaction");
-                      return;
-                    }
-
-                    final amount = await PromptModal.show(
-                      title: "Amount to Mint",
-                      validator: (val) => formValidatorNumber(val, "Amount"),
-                      labelText: "Amount",
-                      inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9.]"))],
-                    );
-                    if (amount == null || amount.isEmpty) {
-                      return;
-                    }
-
-                    final amountDouble = double.tryParse(amount);
-
-                    if (amountDouble == null) {
-                      Toast.error("Invalid Amount");
-                      return;
-                    }
-
-                    final error = await ref.read(webTokenActionsManager).mintTokens(token, address, amountDouble);
-                  },
-                ),
+              if (token.canMint) WebMintTokenButton(raIsOwner: raIsOwner, token: token),
               AppButton(
                 label: "Change Ownership",
                 variant: AppColorVariant.Danger,
@@ -102,6 +60,44 @@ class WebTokenManagementActions extends BaseComponent {
           ),
         ),
       ],
+    );
+  }
+}
+
+class WebMintTokenButton extends BaseComponent {
+  const WebMintTokenButton({
+    super.key,
+    required this.raIsOwner,
+    required this.token,
+  });
+
+  final bool raIsOwner;
+  final WebFungibleToken token;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return AppButton(
+      label: "Mint Tokens",
+      variant: AppColorVariant.Success,
+      onPressed: () async {
+        final manager = ref.read(webTokenActionsManager);
+
+        if (!manager.guardIsTokenOwnerAndNotVault(token)) {
+          return;
+        }
+
+        if (!manager.verifyBalance()) {
+          return;
+        }
+
+        final amount = await manager.promptForAmount(title: "Amount to Mint");
+
+        if (amount == null) {
+          return;
+        }
+
+        final success = await manager.mintTokens(token, token.ownerAddress, amount);
+      },
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +13,7 @@ import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/theme/components.dart';
 import '../models/web_fungible_token.dart';
+import '../providers/web_token_detail_provider.dart';
 import '../screens/token_management_screen.dart';
 
 class WebTokenDetailComponent extends BaseComponent {
@@ -36,6 +39,9 @@ class WebTokenDetailComponent extends BaseComponent {
     return SingleChildScrollView(
       child: Column(
         children: [
+          _TokenDetailRefresher(
+            scId: token.smartContractId,
+          ),
           _TokenInfo(token: token),
           if (vfxIsOwner || raIsOwner)
             Padding(
@@ -46,6 +52,37 @@ class WebTokenDetailComponent extends BaseComponent {
         ],
       ),
     );
+  }
+}
+
+class _TokenDetailRefresher extends ConsumerStatefulWidget {
+  final String scId;
+  const _TokenDetailRefresher({super.key, required this.scId});
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => __TokenDetailRefresherState();
+}
+
+class __TokenDetailRefresherState extends ConsumerState<_TokenDetailRefresher> {
+  late final Timer timer;
+
+  @override
+  void initState() {
+    timer = Timer.periodic(Duration(seconds: 10), (timer) {
+      ref.invalidate(webTokenDetailProvider(widget.scId));
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.shrink();
   }
 }
 
@@ -61,7 +98,7 @@ class _Balances extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final balances = tokenDetail.holders.entries.where((e) => myAddresses.contains(e.key)).toList();
+    final balances = tokenDetail.holders.entries.where((e) => myAddresses.contains(e.key) && e.value > 0).toList();
 
     return Column(
       mainAxisSize: MainAxisSize.min,

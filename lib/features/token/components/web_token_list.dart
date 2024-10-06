@@ -18,6 +18,7 @@ import '../../../core/components/badges.dart';
 import '../../../core/theme/components.dart';
 import '../../../core/theme/pretty_icons.dart';
 import '../models/web_fungible_token.dart';
+import '../providers/web_token_detail_provider.dart';
 import '../providers/web_token_list_provider.dart';
 
 class WebTokenList extends BaseComponent {
@@ -85,6 +86,7 @@ class WebTokenList extends BaseComponent {
                   variant: account.address.startsWith("xRBX") ? AppColorVariant.Reserve : AppColorVariant.Secondary,
                 ),
                 onTap: () {
+                  ref.invalidate(webTokenDetailProvider(token.smartContractId));
                   AutoRouter.of(context).push(WebTokenDetailScreenRoute(scId: token.smartContractId));
                 },
               ),

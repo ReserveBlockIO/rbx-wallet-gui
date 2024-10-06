@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/features/token/models/web_fungible_token.dart';
+import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/components/buttons.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/theme/components.dart';
+import '../providers/web_token_actions_manager.dart';
 
 class WebTokenBalanceListTile extends BaseComponent {
   final WebFungibleTokenDetail tokenDetail;
@@ -36,22 +38,73 @@ class WebTokenBalanceListTile extends BaseComponent {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            AppButton(
-              label: "Transfer",
-              onPressed: () {},
-            ),
+            WebTransferTokenAmountButton(balance: balance, address: address, tokenDetail: tokenDetail),
             if (tokenDetail.token.canBurn)
               Padding(
                 padding: const EdgeInsets.only(left: 12.0),
                 child: AppButton(
                   label: "Burn",
                   variant: AppColorVariant.Danger,
-                  onPressed: () {},
+                  onPressed: () async {
+                    final manager = ref.read(webTokenActionsManager);
+
+                    final amount = await manager.promptForAmount(title: "Amount to Burn");
+                    if (amount == null) {
+                      return;
+                    }
+
+                    if (amount > balance) {
+                      Toast.error("This address's ($address) ${tokenDetail.token.ticker} balance is insufficent.");
+                      return;
+                    }
+
+                    final success = await manager.burnAmount(tokenDetail.token, address, amount);
+                  },
                 ),
               ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class WebTransferTokenAmountButton extends BaseComponent {
+  const WebTransferTokenAmountButton({
+    super.key,
+    required this.balance,
+    required this.address,
+    required this.tokenDetail,
+  });
+
+  final double balance;
+  final String address;
+  final WebFungibleTokenDetail tokenDetail;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return AppButton(
+      label: "Transfer",
+      onPressed: () async {
+        final manager = ref.read(webTokenActionsManager);
+
+        final toAddress = await manager.promptForAddress(title: "Transfer to");
+        if (toAddress == null) {
+          return;
+        }
+
+        final amount = await manager.promptForAmount(title: "Amount to Transfer");
+        if (amount == null) {
+          return;
+        }
+
+        if (amount > balance) {
+          Toast.error("This address's ($address) ${tokenDetail.token.ticker} balance is insufficent.");
+          return;
+        }
+
+        final success = await manager.transferAmount(tokenDetail.token, toAddress, address, amount);
+      },
     );
   }
 }
