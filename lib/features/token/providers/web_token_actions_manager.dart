@@ -202,6 +202,34 @@ class WebTokenActionsManager {
     );
   }
 
+  Future<bool?> createVotingTopic(WebFungibleToken token) async {
+    print("TODO!");
+    final data = {
+      "Function": "TokenVoteTopicCreate()",
+      "ContractUID": "7ea07bcbc7914f36a9b53e587eef2369:1728133202", //**
+      "FromAddress": "xMjrfrzkrNC2g3KJidbwF21gB7R3m46B9w", //**
+      "TokenVoteTopic": {
+        "SmartContractUID": "7ea07bcbc7914f36a9b53e587eef2369:1728133202", //**
+        "TopicUID": "2yKRCE0y1728182840", //** GENERATE RANDOM?
+        "TopicName": "Super Test Topic", //**
+        "TopicDescription": "Hello ", //**
+        "MinimumVoteRequirement": 1000, //**
+        "BlockHeight": 7667, //**  use most recent block
+        "TokenHolderCount": 2, //**
+        "TopicCreateDate": 1728182840, //**
+        "VotingEndDate": 1730774840, //** based on timestamp + length
+        "VoteYes": 0,
+        "VoteNo": 0,
+        "TotalVotes": 0,
+        "PercentVotesYes": 0,
+        "PercentVotesNo": 0,
+        "PercentInFavor": 0,
+        "PercentAgainst": 0
+      }
+    };
+    return null;
+  }
+
   bool verifyBalance({bool isRa = false}) {
     if (isRa) {
       if ((ref.read(webSessionProvider).raBalance ?? 0) < MIN_RBX_FOR_SC_ACTION) {

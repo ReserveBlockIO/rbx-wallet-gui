@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/utils/validation.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
@@ -53,7 +51,15 @@ class WebTokenManagementActions extends BaseComponent {
               if (isOwner) WebChangeTokenOwnershipButton(token: token),
               if (isOwner) WebPauseTokenButton(token: token),
               if (isOwner) WebTokenBanAddressButton(token: token),
-              if (isOwner && token.bannedAddresses.isNotEmpty) WebTokenListBannedAddressesButton(token: token)
+              if (isOwner && token.bannedAddresses.isNotEmpty) WebTokenListBannedAddressesButton(token: token),
+              if (isOwner)
+                AppButton(
+                  label: "Voting",
+                  variant: AppColorVariant.Dark,
+                  onPressed: () {
+                    Toast.message("Action Not Available Yet.");
+                  },
+                ),
               //TODO: VOTE
             ],
           ),
@@ -75,7 +81,7 @@ class WebTokenListBannedAddressesButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppButton(
       label: "List Bans (${token.bannedAddresses.length})",
-      variant: AppColorVariant.Dark,
+      variant: AppColorVariant.Primary,
       onPressed: () {
         InfoDialog.show(
           title: "Banned Addresses",
