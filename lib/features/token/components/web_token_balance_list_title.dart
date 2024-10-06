@@ -38,33 +38,63 @@ class WebTokenBalanceListTile extends BaseComponent {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            WebTransferTokenAmountButton(balance: balance, address: address, tokenDetail: tokenDetail),
+            WebTransferTokenAmountButton(
+              balance: balance,
+              address: address,
+              tokenDetail: tokenDetail,
+            ),
             if (tokenDetail.token.canBurn)
               Padding(
                 padding: const EdgeInsets.only(left: 12.0),
-                child: AppButton(
-                  label: "Burn",
-                  variant: AppColorVariant.Danger,
-                  onPressed: () async {
-                    final manager = ref.read(webTokenActionsManager);
-
-                    final amount = await manager.promptForAmount(title: "Amount to Burn");
-                    if (amount == null) {
-                      return;
-                    }
-
-                    if (amount > balance) {
-                      Toast.error("This address's ($address) ${tokenDetail.token.ticker} balance is insufficent.");
-                      return;
-                    }
-
-                    final success = await manager.burnAmount(tokenDetail.token, address, amount);
-                  },
+                child: WebBurnTokenAmountButton(
+                  balance: balance,
+                  address: address,
+                  tokenDetail: tokenDetail,
                 ),
               ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class WebBurnTokenAmountButton extends BaseComponent {
+  const WebBurnTokenAmountButton({
+    super.key,
+    required this.balance,
+    required this.address,
+    required this.tokenDetail,
+  });
+
+  final double balance;
+  final String address;
+  final WebFungibleTokenDetail tokenDetail;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return AppButton(
+      label: "Burn",
+      variant: AppColorVariant.Danger,
+      onPressed: () async {
+        final manager = ref.read(webTokenActionsManager);
+
+        if (!manager.verifyBalance()) {
+          return;
+        }
+
+        final amount = await manager.promptForAmount(title: "Amount to Burn");
+        if (amount == null) {
+          return;
+        }
+
+        if (amount > balance) {
+          Toast.error("This address's ($address) ${tokenDetail.token.ticker} balance is insufficent.");
+          return;
+        }
+
+        final success = await manager.burnAmount(tokenDetail.token, address, amount);
+      },
     );
   }
 }
@@ -87,6 +117,10 @@ class WebTransferTokenAmountButton extends BaseComponent {
       label: "Transfer",
       onPressed: () async {
         final manager = ref.read(webTokenActionsManager);
+
+        if (!manager.verifyBalance()) {
+          return;
+        }
 
         final toAddress = await manager.promptForAddress(title: "Transfer to");
         if (toAddress == null) {

@@ -48,11 +48,7 @@ class WebTokenManagementActions extends BaseComponent {
             spacing: 16,
             children: [
               if (token.canMint) WebMintTokenButton(raIsOwner: raIsOwner, token: token),
-              AppButton(
-                label: "Change Ownership",
-                variant: AppColorVariant.Danger,
-                onPressed: () {},
-              ),
+              WebChangeTokenOwnershipButton(token: token),
               //TODO: PAUSE
               //TODO: BAN
               //TODO: VOTE
@@ -60,6 +56,73 @@ class WebTokenManagementActions extends BaseComponent {
           ),
         ),
       ],
+    );
+  }
+}
+
+class WebChangeTokenOwnershipButton extends BaseComponent {
+  const WebChangeTokenOwnershipButton({
+    super.key,
+    required this.token,
+  });
+
+  final WebFungibleToken token;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return AppButton(
+      label: "Change Ownership",
+      variant: AppColorVariant.Danger,
+      onPressed: () async {
+        final manager = ref.read(webTokenActionsManager);
+
+        if (!manager.guardIsTokenOwner(token)) {
+          return;
+        }
+
+        if (!manager.verifyBalance()) {
+          return;
+        }
+        final address = await manager.promptForAddress(title: "New Owner's Address");
+        if (address == null) {
+          return;
+        }
+
+        if (token.ownerAddress.startsWith("xRBX")) {
+          final raKeypair = ref.read(webSessionProvider).raKeypair;
+
+          if (raKeypair == null || raKeypair.address != token.ownerAddress) {
+            Toast.error("Could not locate vault keypair for address ${token.ownerAddress}.");
+            return;
+          }
+
+          final hoursString = await PromptModal.show(
+            title: "Timelock Duration",
+            validator: (_) => null,
+            labelText: "Hours (24 Minimum)",
+            initialValue: "24",
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          );
+
+          int unlockHours = (hoursString != null ? int.tryParse(hoursString) : 24) ?? 24;
+          if (unlockHours < 24) {
+            unlockHours = 24;
+          }
+          final success = await manager.transferOwnershipFromVault(
+            token,
+            address,
+            token.ownerAddress,
+            raKeypair,
+            unlockHours,
+          );
+          return;
+        }
+        final success = await manager.transferOwnership(
+          token,
+          address,
+          token.ownerAddress,
+        );
+      },
     );
   }
 }

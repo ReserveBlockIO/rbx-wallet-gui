@@ -10,6 +10,7 @@ import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';
 import '../../global_loader/global_loading_provider.dart';
 import '../../keygen/models/keypair.dart';
+import '../../keygen/models/ra_keypair.dart';
 import '../../raw/raw_service.dart';
 
 class WebTokenActionsManager {
@@ -23,6 +24,7 @@ class WebTokenActionsManager {
     Keypair? keypairOverride,
     int txType = TxType.tokenTx,
     double amount = 0,
+    int? unlockHours,
   }) async {
     final keypair = keypairOverride ?? ref.read(webSessionProvider).keypair;
     if (keypair == null) {
@@ -38,6 +40,7 @@ class WebTokenActionsManager {
       amount: amount,
       txType: txType,
       data: data,
+      unlockHours: unlockHours,
     );
 
     ref.read(globalLoadingProvider.notifier).complete();
@@ -120,6 +123,46 @@ class WebTokenActionsManager {
     return await _verifyConfirmAndSendTx(
       toAddress: "Token_Base",
       data: data,
+    );
+  }
+
+  Future<bool?> transferOwnership(
+    WebFungibleToken token,
+    String toAddress,
+    String fromAddress,
+  ) async {
+    final data = {
+      "Function": "TokenContractOwnerChange()",
+      "ContractUID": token.smartContractId,
+      "FromAddress": fromAddress,
+      "ToAddress": toAddress,
+    };
+
+    return await _verifyConfirmAndSendTx(
+      toAddress: toAddress,
+      data: data,
+    );
+  }
+
+  Future<bool?> transferOwnershipFromVault(
+    WebFungibleToken token,
+    String toAddress,
+    String fromAddress,
+    RaKeypair raKeypair,
+    int unlockHours,
+  ) async {
+    final data = {
+      "Function": "TokenContractOwnerChange()",
+      "ContractUID": token.smartContractId,
+      "FromAddress": fromAddress,
+      "ToAddress": toAddress,
+    };
+
+    return await _verifyConfirmAndSendTx(
+      toAddress: toAddress,
+      data: data,
+      keypairOverride: raKeypair.asKeypair,
+      unlockHours: unlockHours,
     );
   }
 

@@ -40,7 +40,7 @@ bool isValidRbxAddress(String address) {
     return false;
   }
 
-  if (address.contains("xRBX")) {
+  if (address.startsWith("xRBX")) {
     return true;
   }
 

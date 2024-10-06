@@ -112,12 +112,14 @@ class WebTransactionCard extends BaseComponent {
               ),
             ],
           ),
-          onTap: () {
-            AutoRouter.of(context).push(WebTransactionDetailScreenRoute(hash: tx.hash));
-            // if (kDebugMode) {
-            //   ref.read(transactionSignalProvider.notifier).insert(tx.toNative());
-            // }
-          },
+          onTap: tx.isPending
+              ? null
+              : () {
+                  AutoRouter.of(context).push(WebTransactionDetailScreenRoute(hash: tx.hash));
+                  // if (kDebugMode) {
+                  //   ref.read(transactionSignalProvider.notifier).insert(tx.toNative());
+                  // }
+                },
         ),
       ),
     );
