@@ -45800,14 +45800,32 @@
             }
             signMessage(wif, message) {
               const keyPair = ECPair2.fromWIF(wif, this.network);
-              const messageHash = bitcoin2.crypto.hash256(Buffer.from(message));
+              const messageBuffer = Buffer.from(message, "utf8");
+              const messageHash = bitcoin2.crypto.hash256(messageBuffer);
               const signature = keyPair.sign(messageHash);
-              const signatureHex = signature.toString("hex");
+              const derEncodedSignature = signature.toString("hex");
               const publicKeyHex = keyPair.publicKey.toString("hex");
-              const fullSignature = `${signatureHex}.${publicKeyHex}`;
+              const fullSignature = `30440220${injectAfter64thChar(derEncodedSignature, "0220")}.${publicKeyHex}`;
+              return fullSignature;
+            }
+            signMessageWithPrivateKey(privateKeyHex, message) {
+              const privateKeyBytes = Buffer.from(privateKeyHex, "hex");
+              const keyPair = ECPair2.fromPrivateKey(privateKeyBytes);
+              const messageBuffer = Buffer.from(message, "utf8");
+              const messageHash = bitcoin2.crypto.hash256(messageBuffer);
+              const signature = keyPair.sign(messageHash);
+              const derEncodedSignature = signature.toString("hex");
+              const publicKeyHex = keyPair.publicKey.toString("hex");
+              const fullSignature = `30440220${injectAfter64thChar(derEncodedSignature, "0220")}.${publicKeyHex}`;
               return fullSignature;
             }
           };
+          function injectAfter64thChar(inputString, charToInject) {
+            if (inputString.length <= 64) {
+              return inputString + charToInject;
+            }
+            return inputString.slice(0, 64) + charToInject + inputString.slice(64);
+          }
 
           // src/btc/transaction.ts
           var bitcoin3 = __toESM(require_src4());
