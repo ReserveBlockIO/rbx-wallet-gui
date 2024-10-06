@@ -19,6 +19,9 @@ _$_WebFungibleToken _$$_WebFungibleTokenFromJson(Map<String, dynamic> json) =>
       isPaused: json['is_paused'] as bool,
       circulatingSupply: (json['circulating_supply'] as num).toDouble(),
       initialSupply: (json['initial_supply'] as num).toDouble(),
+      bannedAddresses: (json['banned_addresses'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       createdAt: DateTime.parse(json['created_at'] as String),
     );
 
@@ -35,5 +38,6 @@ Map<String, dynamic> _$$_WebFungibleTokenToJson(_$_WebFungibleToken instance) =>
       'is_paused': instance.isPaused,
       'circulating_supply': instance.circulatingSupply,
       'initial_supply': instance.initialSupply,
+      'banned_addresses': instance.bannedAddresses,
       'created_at': instance.createdAt.toIso8601String(),
     };

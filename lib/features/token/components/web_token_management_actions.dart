@@ -51,36 +51,109 @@ class WebTokenManagementActions extends BaseComponent {
             children: [
               if (token.canMint) WebMintTokenButton(raIsOwner: raIsOwner, token: token),
               if (isOwner) WebChangeTokenOwnershipButton(token: token),
-              if (isOwner)
-                AppButton(
-                  label: token.isPaused ? 'Resume TXs' : 'Pause Txs',
-                  variant: AppColorVariant.Light,
-                  onPressed: () async {
-                    final manager = ref.read(webTokenActionsManager);
-
-                    if (!manager.guardIsTokenOwner(token)) {
-                      return;
-                    }
-
-                    final confirmed = await ConfirmDialog.show(
-                      title: token.isPaused ? "Resume Transactions" : "Pause Transactions",
-                      body: token.isPaused
-                          ? "Are you sure you want resume transactions with this token?"
-                          : "Are you sure you want to pause all transactions with this token?",
-                      confirmText: "Yes",
-                      cancelText: "No",
-                    );
-                    if (confirmed == true) {
-                      final success = await manager.pause(token, token.ownerAddress, !token.isPaused);
-                    }
-                  },
-                )
-              //TODO: BAN
+              if (isOwner) WebPauseTokenButton(token: token),
+              if (isOwner) WebTokenBanAddressButton(token: token),
+              if (isOwner && token.bannedAddresses.isNotEmpty) WebTokenListBannedAddressesButton(token: token)
               //TODO: VOTE
             ],
           ),
         ),
       ],
+    );
+  }
+}
+
+class WebTokenListBannedAddressesButton extends StatelessWidget {
+  const WebTokenListBannedAddressesButton({
+    super.key,
+    required this.token,
+  });
+
+  final WebFungibleToken token;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppButton(
+      label: "List Bans (${token.bannedAddresses.length})",
+      variant: AppColorVariant.Dark,
+      onPressed: () {
+        InfoDialog.show(
+          title: "Banned Addresses",
+          body: token.bannedAddresses.join("\n"),
+          closeText: "Close",
+        );
+      },
+    );
+  }
+}
+
+class WebTokenBanAddressButton extends BaseComponent {
+  const WebTokenBanAddressButton({
+    super.key,
+    required this.token,
+  });
+
+  final WebFungibleToken token;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return AppButton(
+      label: "Ban Address",
+      variant: AppColorVariant.Danger,
+      onPressed: () async {
+        final manager = ref.read(webTokenActionsManager);
+        if (!manager.guardIsTokenOwnerAndNotVault(token)) {
+          return;
+        }
+        if (!manager.verifyBalance()) {
+          return;
+        }
+        final address = await manager.promptForAddress(title: "Address to Ban");
+        if (address == null) {
+          return;
+        }
+
+        final success = await manager.banAddress(token, token.ownerAddress, address);
+      },
+    );
+  }
+}
+
+class WebPauseTokenButton extends BaseComponent {
+  const WebPauseTokenButton({
+    super.key,
+    required this.token,
+  });
+
+  final WebFungibleToken token;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return AppButton(
+      label: token.isPaused ? 'Resume TXs' : 'Pause Txs',
+      variant: AppColorVariant.Light,
+      onPressed: () async {
+        final manager = ref.read(webTokenActionsManager);
+
+        if (!manager.guardIsTokenOwnerAndNotVault(token)) {
+          return;
+        }
+        if (!manager.verifyBalance()) {
+          return;
+        }
+
+        final confirmed = await ConfirmDialog.show(
+          title: token.isPaused ? "Resume Transactions" : "Pause Transactions",
+          body: token.isPaused
+              ? "Are you sure you want resume transactions with this token?"
+              : "Are you sure you want to pause all transactions with this token?",
+          confirmText: "Yes",
+          cancelText: "No",
+        );
+        if (confirmed == true) {
+          final success = await manager.pause(token, token.ownerAddress, !token.isPaused);
+        }
+      },
     );
   }
 }
@@ -97,15 +170,15 @@ class WebChangeTokenOwnershipButton extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     return AppButton(
       label: "Change Ownership",
-      variant: AppColorVariant.Danger,
+      variant: AppColorVariant.Secondary,
       onPressed: () async {
         final manager = ref.read(webTokenActionsManager);
 
-        if (!manager.guardIsTokenOwnerAndNotVault(token)) {
+        if (!manager.guardIsTokenOwner(token)) {
           return;
         }
 
-        if (!manager.verifyBalance()) {
+        if (!manager.verifyBalance(isRa: token.ownerAddress.startsWith('xRBX'))) {
           return;
         }
         final address = await manager.promptForAddress(title: "New Owner's Address");

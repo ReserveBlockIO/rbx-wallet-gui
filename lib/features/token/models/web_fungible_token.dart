@@ -19,6 +19,7 @@ class WebFungibleToken with _$WebFungibleToken {
     @JsonKey(name: "is_paused") required bool isPaused,
     @JsonKey(name: "circulating_supply") required double circulatingSupply,
     @JsonKey(name: "initial_supply") required double initialSupply,
+    @JsonKey(name: "banned_addresses") required List<String> bannedAddresses,
     @JsonKey(name: "created_at") required DateTime createdAt,
   }) = _WebFungibleToken;
 

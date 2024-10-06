@@ -184,6 +184,24 @@ class WebTokenActionsManager {
     );
   }
 
+  Future<bool?> banAddress(
+    WebFungibleToken token,
+    String ownerAddress,
+    String banAddress,
+  ) async {
+    final data = {
+      "Function": "TokenBanAddress()",
+      "ContractUID": token.smartContractId,
+      "FromAddress": ownerAddress,
+      "BanAddress": banAddress,
+    };
+
+    return await _verifyConfirmAndSendTx(
+      toAddress: "Token_Base",
+      data: data,
+    );
+  }
+
   bool verifyBalance({bool isRa = false}) {
     if (isRa) {
       if ((ref.read(webSessionProvider).raBalance ?? 0) < MIN_RBX_FOR_SC_ACTION) {
