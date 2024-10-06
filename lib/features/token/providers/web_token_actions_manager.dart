@@ -166,16 +166,23 @@ class WebTokenActionsManager {
     );
   }
 
-  // String? getSenderAddress({Keypair? keypairOverride}) {
-  //   final keypair = keypairOverride ?? ref.read(webSessionProvider).keypair;
+  Future<bool?> pause(
+    WebFungibleToken token,
+    String address,
+    bool pause,
+  ) async {
+    final data = {
+      "Function": "TokenPause()",
+      "ContractUID": token.smartContractId,
+      "FromAddress": address,
+      "Pause": pause,
+    };
 
-  //   if (keypair == null) {
-  //     Toast.error("A standard VFX account is required to proceed");
-  //     return null;
-  //   }
-
-  //   return keypair.address;
-  // }
+    return await _verifyConfirmAndSendTx(
+      toAddress: "Token_Base",
+      data: data,
+    );
+  }
 
   bool verifyBalance({bool isRa = false}) {
     if (isRa) {
@@ -218,6 +225,14 @@ class WebTokenActionsManager {
 
     Toast.error("Vault accounts cannot perform this action. Please transfer ownership to your standard VFX account first");
     return false;
+  }
+
+  bool guardIsNotPaused(WebFungibleToken token) {
+    if (token.isPaused) {
+      Toast.error("Transactions on this token are currently paused.");
+      return false;
+    }
+    return true;
   }
 
   Future<String?> promptForAddress({String title = "Address"}) async {

@@ -34,6 +34,8 @@ mixin _$WebFungibleToken {
   bool get canBurn => throw _privateConstructorUsedError;
   @JsonKey(name: "can_vote")
   bool get canVote => throw _privateConstructorUsedError;
+  @JsonKey(name: "is_paused")
+  bool get isPaused => throw _privateConstructorUsedError;
   @JsonKey(name: "circulating_supply")
   double get circulatingSupply => throw _privateConstructorUsedError;
   @JsonKey(name: "initial_supply")
@@ -62,6 +64,7 @@ abstract class $WebFungibleTokenCopyWith<$Res> {
       @JsonKey(name: "can_mint") bool canMint,
       @JsonKey(name: "can_burn") bool canBurn,
       @JsonKey(name: "can_vote") bool canVote,
+      @JsonKey(name: "is_paused") bool isPaused,
       @JsonKey(name: "circulating_supply") double circulatingSupply,
       @JsonKey(name: "initial_supply") double initialSupply,
       @JsonKey(name: "created_at") DateTime createdAt});
@@ -88,6 +91,7 @@ class _$WebFungibleTokenCopyWithImpl<$Res, $Val extends WebFungibleToken>
     Object? canMint = null,
     Object? canBurn = null,
     Object? canVote = null,
+    Object? isPaused = null,
     Object? circulatingSupply = null,
     Object? initialSupply = null,
     Object? createdAt = null,
@@ -125,6 +129,10 @@ class _$WebFungibleTokenCopyWithImpl<$Res, $Val extends WebFungibleToken>
           ? _value.canVote
           : canVote // ignore: cast_nullable_to_non_nullable
               as bool,
+      isPaused: null == isPaused
+          ? _value.isPaused
+          : isPaused // ignore: cast_nullable_to_non_nullable
+              as bool,
       circulatingSupply: null == circulatingSupply
           ? _value.circulatingSupply
           : circulatingSupply // ignore: cast_nullable_to_non_nullable
@@ -158,6 +166,7 @@ abstract class _$$_WebFungibleTokenCopyWith<$Res>
       @JsonKey(name: "can_mint") bool canMint,
       @JsonKey(name: "can_burn") bool canBurn,
       @JsonKey(name: "can_vote") bool canVote,
+      @JsonKey(name: "is_paused") bool isPaused,
       @JsonKey(name: "circulating_supply") double circulatingSupply,
       @JsonKey(name: "initial_supply") double initialSupply,
       @JsonKey(name: "created_at") DateTime createdAt});
@@ -182,6 +191,7 @@ class __$$_WebFungibleTokenCopyWithImpl<$Res>
     Object? canMint = null,
     Object? canBurn = null,
     Object? canVote = null,
+    Object? isPaused = null,
     Object? circulatingSupply = null,
     Object? initialSupply = null,
     Object? createdAt = null,
@@ -219,6 +229,10 @@ class __$$_WebFungibleTokenCopyWithImpl<$Res>
           ? _value.canVote
           : canVote // ignore: cast_nullable_to_non_nullable
               as bool,
+      isPaused: null == isPaused
+          ? _value.isPaused
+          : isPaused // ignore: cast_nullable_to_non_nullable
+              as bool,
       circulatingSupply: null == circulatingSupply
           ? _value.circulatingSupply
           : circulatingSupply // ignore: cast_nullable_to_non_nullable
@@ -247,6 +261,7 @@ class _$_WebFungibleToken extends _WebFungibleToken {
       @JsonKey(name: "can_mint") required this.canMint,
       @JsonKey(name: "can_burn") required this.canBurn,
       @JsonKey(name: "can_vote") required this.canVote,
+      @JsonKey(name: "is_paused") required this.isPaused,
       @JsonKey(name: "circulating_supply") required this.circulatingSupply,
       @JsonKey(name: "initial_supply") required this.initialSupply,
       @JsonKey(name: "created_at") required this.createdAt})
@@ -278,6 +293,9 @@ class _$_WebFungibleToken extends _WebFungibleToken {
   @JsonKey(name: "can_vote")
   final bool canVote;
   @override
+  @JsonKey(name: "is_paused")
+  final bool isPaused;
+  @override
   @JsonKey(name: "circulating_supply")
   final double circulatingSupply;
   @override
@@ -289,7 +307,7 @@ class _$_WebFungibleToken extends _WebFungibleToken {
 
   @override
   String toString() {
-    return 'WebFungibleToken(smartContractId: $smartContractId, name: $name, ticker: $ticker, ownerAddress: $ownerAddress, imageUrl: $imageUrl, canMint: $canMint, canBurn: $canBurn, canVote: $canVote, circulatingSupply: $circulatingSupply, initialSupply: $initialSupply, createdAt: $createdAt)';
+    return 'WebFungibleToken(smartContractId: $smartContractId, name: $name, ticker: $ticker, ownerAddress: $ownerAddress, imageUrl: $imageUrl, canMint: $canMint, canBurn: $canBurn, canVote: $canVote, isPaused: $isPaused, circulatingSupply: $circulatingSupply, initialSupply: $initialSupply, createdAt: $createdAt)';
   }
 
   @override
@@ -308,6 +326,8 @@ class _$_WebFungibleToken extends _WebFungibleToken {
             (identical(other.canMint, canMint) || other.canMint == canMint) &&
             (identical(other.canBurn, canBurn) || other.canBurn == canBurn) &&
             (identical(other.canVote, canVote) || other.canVote == canVote) &&
+            (identical(other.isPaused, isPaused) ||
+                other.isPaused == isPaused) &&
             (identical(other.circulatingSupply, circulatingSupply) ||
                 other.circulatingSupply == circulatingSupply) &&
             (identical(other.initialSupply, initialSupply) ||
@@ -328,6 +348,7 @@ class _$_WebFungibleToken extends _WebFungibleToken {
       canMint,
       canBurn,
       canVote,
+      isPaused,
       circulatingSupply,
       initialSupply,
       createdAt);
@@ -362,6 +383,8 @@ abstract class _WebFungibleToken extends WebFungibleToken {
           required final bool canBurn,
       @JsonKey(name: "can_vote")
           required final bool canVote,
+      @JsonKey(name: "is_paused")
+          required final bool isPaused,
       @JsonKey(name: "circulating_supply")
           required final double circulatingSupply,
       @JsonKey(name: "initial_supply")
@@ -395,6 +418,9 @@ abstract class _WebFungibleToken extends WebFungibleToken {
   @override
   @JsonKey(name: "can_vote")
   bool get canVote;
+  @override
+  @JsonKey(name: "is_paused")
+  bool get isPaused;
   @override
   @JsonKey(name: "circulating_supply")
   double get circulatingSupply;

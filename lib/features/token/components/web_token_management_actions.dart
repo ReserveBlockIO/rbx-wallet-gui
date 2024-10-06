@@ -30,6 +30,8 @@ class WebTokenManagementActions extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     final token = tokenDetail.token;
 
+    final isOwner = vfxIsOwner || raIsOwner;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -48,8 +50,31 @@ class WebTokenManagementActions extends BaseComponent {
             spacing: 16,
             children: [
               if (token.canMint) WebMintTokenButton(raIsOwner: raIsOwner, token: token),
-              WebChangeTokenOwnershipButton(token: token),
-              //TODO: PAUSE
+              if (isOwner) WebChangeTokenOwnershipButton(token: token),
+              if (isOwner)
+                AppButton(
+                  label: token.isPaused ? 'Resume TXs' : 'Pause Txs',
+                  variant: AppColorVariant.Light,
+                  onPressed: () async {
+                    final manager = ref.read(webTokenActionsManager);
+
+                    if (!manager.guardIsTokenOwner(token)) {
+                      return;
+                    }
+
+                    final confirmed = await ConfirmDialog.show(
+                      title: token.isPaused ? "Resume Transactions" : "Pause Transactions",
+                      body: token.isPaused
+                          ? "Are you sure you want resume transactions with this token?"
+                          : "Are you sure you want to pause all transactions with this token?",
+                      confirmText: "Yes",
+                      cancelText: "No",
+                    );
+                    if (confirmed == true) {
+                      final success = await manager.pause(token, token.ownerAddress, !token.isPaused);
+                    }
+                  },
+                )
               //TODO: BAN
               //TODO: VOTE
             ],
@@ -76,7 +101,7 @@ class WebChangeTokenOwnershipButton extends BaseComponent {
       onPressed: () async {
         final manager = ref.read(webTokenActionsManager);
 
-        if (!manager.guardIsTokenOwner(token)) {
+        if (!manager.guardIsTokenOwnerAndNotVault(token)) {
           return;
         }
 

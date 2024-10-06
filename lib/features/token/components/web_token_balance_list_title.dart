@@ -79,6 +79,10 @@ class WebBurnTokenAmountButton extends BaseComponent {
       onPressed: () async {
         final manager = ref.read(webTokenActionsManager);
 
+        if (!manager.guardIsNotPaused(tokenDetail.token)) {
+          return;
+        }
+
         if (!manager.verifyBalance()) {
           return;
         }
@@ -117,6 +121,10 @@ class WebTransferTokenAmountButton extends BaseComponent {
       label: "Transfer",
       onPressed: () async {
         final manager = ref.read(webTokenActionsManager);
+
+        if (!manager.guardIsNotPaused(tokenDetail.token)) {
+          return;
+        }
 
         if (!manager.verifyBalance()) {
           return;

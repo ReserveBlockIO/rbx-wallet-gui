@@ -16,6 +16,7 @@ class WebFungibleToken with _$WebFungibleToken {
     @JsonKey(name: "can_mint") required bool canMint,
     @JsonKey(name: "can_burn") required bool canBurn,
     @JsonKey(name: "can_vote") required bool canVote,
+    @JsonKey(name: "is_paused") required bool isPaused,
     @JsonKey(name: "circulating_supply") required double circulatingSupply,
     @JsonKey(name: "initial_supply") required double initialSupply,
     @JsonKey(name: "created_at") required DateTime createdAt,
@@ -24,7 +25,7 @@ class WebFungibleToken with _$WebFungibleToken {
   factory WebFungibleToken.fromJson(Map<String, dynamic> json) => _$WebFungibleTokenFromJson(json);
 
   String get label {
-    return "[$ticker] $name";
+    return "[$ticker] $name${isPaused ? ' (PAUSED)' : ''}";
   }
 }
 
