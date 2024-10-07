@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -18,6 +19,7 @@ import 'package:rbx_wallet/features/wallet/models/wallet.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:collection/collection.dart';
 
+import '../../../core/providers/web_session_provider.dart';
 import '../../../core/theme/components.dart';
 import '../providers/btc_pending_tokenized_address_list_provider.dart';
 import '../providers/tokenize_btc_form_provider.dart';
@@ -54,8 +56,6 @@ class TokenizeBtcListScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final tokens = ref.watch(tokenizedBitcoinListProvider);
-
     final pendingIds = ref.watch(btcPendingTokenizedAddressListProvider);
 
     return Column(
@@ -69,6 +69,15 @@ class TokenizeBtcListScreen extends BaseScreen {
                 label: "Create Verified BTC Token",
                 icon: FontAwesomeIcons.bitcoin,
                 onPressed: () async {
+                  if (kIsWeb) {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => TokenizeBtcScreen(),
+                      ),
+                    );
+
+                    return;
+                  }
                   Wallet? wallet = ref.read(walletListProvider).firstWhereOrNull((a) => a.balance > MIN_RBX_FOR_SC_ACTION && !a.isReserved);
 
                   if (wallet == null) {
@@ -118,32 +127,37 @@ class TokenizeBtcListScreen extends BaseScreen {
                   );
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: AppButton(
-                  label: "Use Wizard",
-                  type: AppButtonType.Text,
-                  onPressed: () async {
-                    ref.read(vBtcOnboardProvider.notifier).reset();
+              if (!kIsWeb)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: AppButton(
+                    label: "Use Wizard",
+                    type: AppButtonType.Text,
+                    onPressed: () async {
+                      ref.read(vBtcOnboardProvider.notifier).reset();
 
-                    final token = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => TokenizeBtcOnboardingScreen()));
-                    if (token == null) {
-                      return;
-                    }
+                      final token = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => TokenizeBtcOnboardingScreen()));
+                      if (token == null) {
+                        return;
+                      }
 
-                    if (token is TokenizedBitcoin) {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => TokenizedBtcDetailScreen(tokenId: token.id),
-                        ),
-                      );
-                      return;
-                    }
-                  },
-                  variant: AppColorVariant.Light,
-                  underlined: true,
+                      if (token is TokenizedBitcoin) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => TokenizedBtcDetailScreen(tokenId: token.id),
+                          ),
+                        );
+                        return;
+                      }
+                    },
+                    variant: AppColorVariant.Light,
+                    underlined: true,
+                  ),
                 ),
-              ),
+              if (kIsWeb)
+                SizedBox(
+                  height: 8,
+                ),
               TextButton.icon(
                 onPressed: () {
                   SpecialDialog().show(
@@ -172,27 +186,35 @@ class TokenizeBtcListScreen extends BaseScreen {
         SizedBox(
           height: 16,
         ),
-        Expanded(
-          child: tokens.isEmpty
-              ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text("No Tokenized Bitcoin found in account."),
-                )
-              : ListView.builder(
-                  itemCount: tokens.length,
-                  itemBuilder: (context, index) {
-                    final token = tokens[index];
+        Consumer(builder: (context, ref, _) {
+          if (kIsWeb) {
+            return Text("WEB TODO");
+          }
 
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: AppCard(
-                        padding: 0,
-                        child: TokenizedBtcListTile(token: token),
-                      ),
-                    );
-                  },
-                ),
-        ),
+          final tokens = ref.watch(tokenizedBitcoinListProvider);
+
+          return Expanded(
+            child: tokens.isEmpty
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("No Tokenized Bitcoin found in account."),
+                  )
+                : ListView.builder(
+                    itemCount: tokens.length,
+                    itemBuilder: (context, index) {
+                      final token = tokens[index];
+
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: AppCard(
+                          padding: 0,
+                          child: TokenizedBtcListTile(token: token),
+                        ),
+                      );
+                    },
+                  ),
+          );
+        }),
       ],
     );
   }

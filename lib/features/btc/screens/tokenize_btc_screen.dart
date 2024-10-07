@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
@@ -157,6 +158,34 @@ class TokenizeBtcForm extends BaseComponent {
                   }
 
                   if (formState.isProcessing) {
+                    return;
+                  }
+
+                  if (kIsWeb) {
+                    final compileAnimation = Completer<BuildContext>();
+                    formProvider.showCompileAnimation(context, compileAnimation);
+                    final dialogContext = await compileAnimation.future;
+
+                    await Future.delayed(Duration(seconds: 2));
+
+                    final success = await formProvider.submitWeb();
+
+                    if (success == true) {
+                      Navigator.pop(dialogContext);
+                      final completeAnimation = Completer<BuildContext>();
+                      formProvider.showCompileComplete(context, completeAnimation);
+                      final completedDialogContext = await completeAnimation.future;
+                      await Future.delayed(const Duration(seconds: 3));
+                      Navigator.pop(completedDialogContext);
+                      await InfoDialog.show(
+                        title: "Transaction Broadcasted",
+                        body: "Once this transaction reflects on chain, you'll be able to deposit BTC funds in this vBTC token.",
+                      );
+
+                      onSuccess();
+                    } else {
+                      Navigator.pop(dialogContext);
+                    }
                     return;
                   }
 

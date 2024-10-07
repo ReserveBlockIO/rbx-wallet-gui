@@ -171,8 +171,6 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     //   return;
     // }
 
-    //TODO: Rather than having this in a loop we could jsut check once, then check again when btcadnr txs come in
-
     final domain = await ExplorerService().btcAdnrLookup(state.btcKeypair!.address);
     if (state.btcKeypair!.adnr == null && domain != null) {
       state = state.copyWith(
@@ -180,7 +178,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
       );
     } else if (state.btcKeypair!.adnr != null && domain == null) {
       state = state.copyWith(
-        btcKeypair: state.btcKeypair!.copyWith(adnr: domain),
+        btcKeypair: state.btcKeypair!.copyWith(adnr: null),
       );
     }
   }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/asset/asset.dart';
 import 'package:rbx_wallet/features/bridge/models/log_entry.dart';
@@ -154,6 +155,36 @@ class TokenizeBtcFormProvider extends StateNotifier<TokenizeBtcFormState> {
     }
 
     return false;
+  }
+
+  Future<bool?> submitWeb() async {
+    if (!formKey.currentState!.validate()) {
+      return null;
+    }
+
+    final keypair = ref.read(webSessionProvider).keypair;
+    if (keypair == null) {
+      Toast.error("A VFX account with a balance is required to proceed.");
+      return null;
+    }
+
+    //TODO: handle icon
+    //TODO: handle multiasset
+
+    state = state.copyWith(isProcessing: true);
+
+    String? tokenName = tokenNameController.text.trim();
+    String? tokenDescription = tokenDescriptionController.text.trim();
+
+    if (tokenName.isEmpty) {
+      tokenName = null;
+    }
+
+    if (tokenDescription.isEmpty) {
+      tokenDescription = null;
+    }
+
+    //TODO: build verify and broadcast TX
   }
 
   void clear() {

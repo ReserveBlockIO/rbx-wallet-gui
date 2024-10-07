@@ -54,6 +54,7 @@ class WebRouteIndex {
   static get adnrs => 7;
   static get reserve => 8;
   static get tokens => 9;
+  static get vbtc => 10;
 }
 
 class WebDashboardContainer extends StatelessWidget {
@@ -70,6 +71,7 @@ class WebDashboardContainer extends StatelessWidget {
     const WebAdnrTabRouter(),
     const WebReserveAccountsTabRouter(),
     const WebTokenTabRouter(),
+    const WebTokenizeBitcoinRouter(),
     const WebSignTxTabRouter(),
   ];
 

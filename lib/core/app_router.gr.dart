@@ -13,6 +13,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i54;
 import 'package:auto_route/empty_router_widgets.dart' as _i12;
+import 'package:flutter/foundation.dart' as _i56;
 import 'package:flutter/material.dart' as _i55;
 import 'package:rbx_wallet/features/adjudicator/adjudicator_screen.dart'
     as _i18;
@@ -1187,7 +1188,7 @@ class RemoteShopContainerScreenRoute extends _i54.PageRouteInfo<void> {
 class SellerChatScreenRoute
     extends _i54.PageRouteInfo<SellerChatScreenRouteArgs> {
   SellerChatScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required String address,
   }) : super(
           SellerChatScreenRoute.name,
@@ -1208,7 +1209,7 @@ class SellerChatScreenRouteArgs {
     required this.address,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final String address;
 
@@ -1222,7 +1223,7 @@ class SellerChatScreenRouteArgs {
 /// [_i11.ShopChatScreen]
 class ShopChatScreenRoute extends _i54.PageRouteInfo<ShopChatScreenRouteArgs> {
   ShopChatScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required String url,
   }) : super(
           ShopChatScreenRoute.name,
@@ -1243,7 +1244,7 @@ class ShopChatScreenRouteArgs {
     required this.url,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final String url;
 
@@ -1491,7 +1492,7 @@ class OperationsTabRouter extends _i54.PageRouteInfo<void> {
 /// [_i13.NewHomeScreen]
 class NewHomeScreenRoute extends _i54.PageRouteInfo<NewHomeScreenRouteArgs> {
   NewHomeScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     double verticalPadding = 0,
     double horizontalPadding = 0,
   }) : super(
@@ -1514,7 +1515,7 @@ class NewHomeScreenRouteArgs {
     this.horizontalPadding = 0,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final double verticalPadding;
 
@@ -1663,7 +1664,7 @@ class SellerChatThreadListScreenRoute extends _i54.PageRouteInfo<void> {
 class WebSellerChatScreenRoute
     extends _i54.PageRouteInfo<WebSellerChatScreenRouteArgs> {
   WebSellerChatScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required String address,
     required int shopId,
   }) : super(
@@ -1690,7 +1691,7 @@ class WebSellerChatScreenRouteArgs {
     required this.shopId,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final String address;
 
@@ -1719,7 +1720,7 @@ class MyCollectionsListScreenRoute extends _i54.PageRouteInfo<void> {
 class MyCollectionDetailScreenRoute
     extends _i54.PageRouteInfo<MyCollectionDetailScreenRouteArgs> {
   MyCollectionDetailScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required int collectionId,
   }) : super(
           MyCollectionDetailScreenRoute.name,
@@ -1740,7 +1741,7 @@ class MyCollectionDetailScreenRouteArgs {
     required this.collectionId,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final int collectionId;
 
@@ -1779,7 +1780,7 @@ class CreateDecShopContainerScreenRoute extends _i54.PageRouteInfo<void> {
 class ListingDetailScreenRoute
     extends _i54.PageRouteInfo<ListingDetailScreenRouteArgs> {
   ListingDetailScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required int listingId,
   }) : super(
           ListingDetailScreenRoute.name,
@@ -1800,7 +1801,7 @@ class ListingDetailScreenRouteArgs {
     required this.listingId,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final int listingId;
 
@@ -1815,7 +1816,7 @@ class ListingDetailScreenRouteArgs {
 class ListingAuctionDetailScreenRoute
     extends _i54.PageRouteInfo<ListingAuctionDetailScreenRouteArgs> {
   ListingAuctionDetailScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required int listingId,
   }) : super(
           ListingAuctionDetailScreenRoute.name,
@@ -1836,7 +1837,7 @@ class ListingAuctionDetailScreenRouteArgs {
     required this.listingId,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final int listingId;
 
@@ -1852,7 +1853,7 @@ class CreateListingContainerScreenRoute
     extends _i54.PageRouteInfo<CreateListingContainerScreenRouteArgs> {
   CreateListingContainerScreenRoute({
     required int collectionId,
-    _i55.Key? key,
+    _i56.Key? key,
   }) : super(
           CreateListingContainerScreenRoute.name,
           path: 'createListing/:collectionId',
@@ -1874,7 +1875,7 @@ class CreateListingContainerScreenRouteArgs {
 
   final int collectionId;
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   @override
   String toString() {
@@ -1911,7 +1912,7 @@ class TopicListScreenRoute extends _i54.PageRouteInfo<void> {
 class TopicDetailScreenRoute
     extends _i54.PageRouteInfo<TopicDetailScreenRouteArgs> {
   TopicDetailScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required String topicUid,
   }) : super(
           TopicDetailScreenRoute.name,
@@ -1932,7 +1933,7 @@ class TopicDetailScreenRouteArgs {
     required this.topicUid,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final String topicUid;
 
@@ -2031,7 +2032,7 @@ class TokenCreateScreenRoute extends _i54.PageRouteInfo<void> {
 class CreateTokenTopicScreenRoute
     extends _i54.PageRouteInfo<CreateTokenTopicScreenRouteArgs> {
   CreateTokenTopicScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required String scId,
     required String address,
   }) : super(
@@ -2058,7 +2059,7 @@ class CreateTokenTopicScreenRouteArgs {
     required this.address,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final String scId;
 
@@ -2123,7 +2124,7 @@ class BuyerChatThreadListScreenRoute extends _i54.PageRouteInfo<void> {
 class RemoteShopDetailScreenRoute
     extends _i54.PageRouteInfo<RemoteShopDetailScreenRouteArgs> {
   RemoteShopDetailScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required String shopUrl,
   }) : super(
           RemoteShopDetailScreenRoute.name,
@@ -2144,7 +2145,7 @@ class RemoteShopDetailScreenRouteArgs {
     required this.shopUrl,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final String shopUrl;
 
@@ -2159,7 +2160,7 @@ class RemoteShopDetailScreenRouteArgs {
 class RemoteShopCollectionScreenRoute
     extends _i54.PageRouteInfo<RemoteShopCollectionScreenRouteArgs> {
   RemoteShopCollectionScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required int collectionId,
     required String url,
   }) : super(
@@ -2186,7 +2187,7 @@ class RemoteShopCollectionScreenRouteArgs {
     required this.url,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final int collectionId;
 
@@ -2203,7 +2204,7 @@ class RemoteShopCollectionScreenRouteArgs {
 class WebShopDetailScreenRoute
     extends _i54.PageRouteInfo<WebShopDetailScreenRouteArgs> {
   WebShopDetailScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required int shopId,
   }) : super(
           WebShopDetailScreenRoute.name,
@@ -2224,7 +2225,7 @@ class WebShopDetailScreenRouteArgs {
     required this.shopId,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final int shopId;
 
@@ -2239,7 +2240,7 @@ class WebShopDetailScreenRouteArgs {
 class WebShopChatScreenRoute
     extends _i54.PageRouteInfo<WebShopChatScreenRouteArgs> {
   WebShopChatScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required String identifier,
   }) : super(
           WebShopChatScreenRoute.name,
@@ -2260,7 +2261,7 @@ class WebShopChatScreenRouteArgs {
     required this.identifier,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final String identifier;
 
@@ -2275,7 +2276,7 @@ class WebShopChatScreenRouteArgs {
 class WebCollectionDetailScreenRoute
     extends _i54.PageRouteInfo<WebCollectionDetailScreenRouteArgs> {
   WebCollectionDetailScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required int shopId,
     required int collectionId,
   }) : super(
@@ -2302,7 +2303,7 @@ class WebCollectionDetailScreenRouteArgs {
     required this.collectionId,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final int shopId;
 
@@ -2319,7 +2320,7 @@ class WebCollectionDetailScreenRouteArgs {
 class WebListingDetailScreenRoute
     extends _i54.PageRouteInfo<WebListingDetailScreenRouteArgs> {
   WebListingDetailScreenRoute({
-    _i55.Key? key,
+    _i56.Key? key,
     required int shopId,
     required int collectionId,
     required int listingId,
@@ -2351,7 +2352,7 @@ class WebListingDetailScreenRouteArgs {
     required this.listingId,
   });
 
-  final _i55.Key? key;
+  final _i56.Key? key;
 
   final int shopId;
 

@@ -89,12 +89,12 @@ class RootContainerSideNavList extends BaseComponent {
           iconType: PrettyIconType.bitcoin,
           onPressed: () {
             if (kIsWeb) {
-              print("TODO");
+              tabsRouter.setActiveIndex(WebRouteIndex.vbtc);
               return;
             }
             tabsRouter.setActiveIndex(15);
           },
-          isActive: kIsWeb ? false : tabsRouter.activeIndex == 15,
+          isActive: tabsRouter.activeIndex == (kIsWeb ? WebRouteIndex.vbtc : 15),
           isExpanded: isExpanded,
         ),
         RootContainerSideNavItem(
