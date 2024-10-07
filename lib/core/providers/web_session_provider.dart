@@ -143,6 +143,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   void loop() async {
     getAddress();
     getRaAddress();
+    lookupBtcAdnr();
     getFungibleTokens();
     getNfts();
   }
@@ -159,6 +160,29 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
       balanceTotal: webAddress.balanceTotal,
       adnr: webAddress.adnr,
     );
+  }
+
+  Future<void> lookupBtcAdnr() async {
+    if (state.btcKeypair == null) {
+      return;
+    }
+
+    // if (state.btcKeypair!.adnr != null) {
+    //   return;
+    // }
+
+    //TODO: Rather than having this in a loop we could jsut check once, then check again when btcadnr txs come in
+
+    final domain = await ExplorerService().btcAdnrLookup(state.btcKeypair!.address);
+    if (state.btcKeypair!.adnr == null && domain != null) {
+      state = state.copyWith(
+        btcKeypair: state.btcKeypair!.copyWith(adnr: domain),
+      );
+    } else if (state.btcKeypair!.adnr != null && domain == null) {
+      state = state.copyWith(
+        btcKeypair: state.btcKeypair!.copyWith(adnr: domain),
+      );
+    }
   }
 
   Future<void> getRaAddress() async {

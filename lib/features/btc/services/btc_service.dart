@@ -297,14 +297,6 @@ class BtcService extends BaseService {
   }) async {
     try {
       final result = await getJson("/TransferAdnr/$toRbxAddress/$fromBtcAddress/$toBtcAddress", cleanPath: false);
-
-      if (result['Result'] == "Success") {
-        if (result.containsKey('Hash')) {
-          return result['Hash'];
-        }
-      }
-
-      Toast.error(result['Message']);
       return null;
     } catch (e, st) {
       print(e);
@@ -319,15 +311,14 @@ class BtcService extends BaseService {
   }) async {
     try {
       final result = await getJson("/DeleteAdnr/$btcAddress", cleanPath: false);
-
-      if (result['Result'] == "Success") {
-        if (result.containsKey('Hash')) {
-          return result['Hash'];
-        }
-      }
-
-      Toast.error(result['Message']);
       return null;
+      // if (result['Result'] == "Success") {
+      //   if (result.containsKey('Hash')) {
+      //     return result['Hash'];
+      //   }
+      // }
+
+      // Toast.error(result['Message']);
     } catch (e, st) {
       print(e);
       print(st);

@@ -13,6 +13,7 @@ _$_BtcWebAccount _$$_BtcWebAccountFromJson(Map<String, dynamic> json) =>
       privateKey: json['privateKey'] as String,
       publicKey: json['publicKey'] as String,
       mnemonic: json['mnemonic'] as String?,
+      adnr: json['adnr'] as String?,
     );
 
 Map<String, dynamic> _$$_BtcWebAccountToJson(_$_BtcWebAccount instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$$_BtcWebAccountToJson(_$_BtcWebAccount instance) =>
       'privateKey': instance.privateKey,
       'publicKey': instance.publicKey,
       'mnemonic': instance.mnemonic,
+      'adnr': instance.adnr,
     };

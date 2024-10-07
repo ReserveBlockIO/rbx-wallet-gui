@@ -362,4 +362,14 @@ class ExplorerService extends BaseService {
       return null;
     }
   }
+
+  Future<String?> btcAdnrLookup(String btcAddress) async {
+    try {
+      final result = await getJson('/adnr/btc/$btcAddress/');
+      return result['domain'];
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 }

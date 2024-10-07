@@ -154,7 +154,7 @@ class CreateAdnrDialog extends BaseComponent {
               final confirmed = await ConfirmDialog.show(
                 title: "Valid Transaction",
                 body:
-                    "The ${isBtc ? 'BTC' : 'VFX'} Domain transaction is valid.\nAre you sure you want to proceed?\n\nDomain: $domain\nAmount: $ADNR_COST VFX\nFee: $txFee RBX\nTotal: ${ADNR_COST + txFee} RBX",
+                    "The ${isBtc ? 'BTC' : 'VFX'} Domain transaction is valid.\nAre you sure you want to proceed?\n\nDomain: $domain\nAmount: $ADNR_COST VFX\nFee: $txFee VFX\nTotal: ${ADNR_COST + txFee} VFX",
                 confirmText: "Send",
                 cancelText: "Cancel",
               );

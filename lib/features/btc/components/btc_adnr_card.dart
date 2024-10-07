@@ -159,14 +159,8 @@ class BtcAdnrCard extends BaseComponent {
                       }
 
                       final hash = await BtcService().deleteAdnr(btcAddress: account.address);
-                      if (hash != null) {
-                        ref.read(adnrPendingProvider.notifier).addId(account.address, "burn", account.adnr!);
-                        Toast.message("TX broadcasted with hash of $hash");
-                        ref.read(logProvider.notifier).append(
-                              LogEntry(message: "BTC Domain Delete TX Sent: $hash", textToCopy: hash, variant: AppColorVariant.Btc),
-                            );
-                        return;
-                      }
+                      ref.read(adnrPendingProvider.notifier).addId(account.address, "burn", account.adnr!);
+                      Toast.message("TX broadcasted!");
                     },
                     variant: AppColorVariant.Danger,
                   ),
