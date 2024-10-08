@@ -21,7 +21,7 @@ BtcWebVbtcToken _$BtcWebVbtcTokenFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$BtcWebVbtcToken {
   String get name => throw _privateConstructorUsedError;
-  String get descripton => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
   @JsonKey(name: 'sc_identifier')
   String get scIdentifier => throw _privateConstructorUsedError;
   @JsonKey(name: 'owner_address')
@@ -51,7 +51,7 @@ abstract class $BtcWebVbtcTokenCopyWith<$Res> {
   @useResult
   $Res call(
       {String name,
-      String descripton,
+      String description,
       @JsonKey(name: 'sc_identifier') String scIdentifier,
       @JsonKey(name: 'owner_address') String ownerAddress,
       @JsonKey(name: 'image_url') String imageUrl,
@@ -75,7 +75,7 @@ class _$BtcWebVbtcTokenCopyWithImpl<$Res, $Val extends BtcWebVbtcToken>
   @override
   $Res call({
     Object? name = null,
-    Object? descripton = null,
+    Object? description = null,
     Object? scIdentifier = null,
     Object? ownerAddress = null,
     Object? imageUrl = null,
@@ -89,9 +89,9 @@ class _$BtcWebVbtcTokenCopyWithImpl<$Res, $Val extends BtcWebVbtcToken>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      descripton: null == descripton
-          ? _value.descripton
-          : descripton // ignore: cast_nullable_to_non_nullable
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String,
       scIdentifier: null == scIdentifier
           ? _value.scIdentifier
@@ -135,7 +135,7 @@ abstract class _$$_BtcWebVbtcTokenCopyWith<$Res>
   @useResult
   $Res call(
       {String name,
-      String descripton,
+      String description,
       @JsonKey(name: 'sc_identifier') String scIdentifier,
       @JsonKey(name: 'owner_address') String ownerAddress,
       @JsonKey(name: 'image_url') String imageUrl,
@@ -157,7 +157,7 @@ class __$$_BtcWebVbtcTokenCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = null,
-    Object? descripton = null,
+    Object? description = null,
     Object? scIdentifier = null,
     Object? ownerAddress = null,
     Object? imageUrl = null,
@@ -171,9 +171,9 @@ class __$$_BtcWebVbtcTokenCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      descripton: null == descripton
-          ? _value.descripton
-          : descripton // ignore: cast_nullable_to_non_nullable
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String,
       scIdentifier: null == scIdentifier
           ? _value.scIdentifier
@@ -212,7 +212,7 @@ class __$$_BtcWebVbtcTokenCopyWithImpl<$Res>
 class _$_BtcWebVbtcToken extends _BtcWebVbtcToken {
   _$_BtcWebVbtcToken(
       {required this.name,
-      required this.descripton,
+      required this.description,
       @JsonKey(name: 'sc_identifier') required this.scIdentifier,
       @JsonKey(name: 'owner_address') required this.ownerAddress,
       @JsonKey(name: 'image_url') required this.imageUrl,
@@ -228,7 +228,7 @@ class _$_BtcWebVbtcToken extends _BtcWebVbtcToken {
   @override
   final String name;
   @override
-  final String descripton;
+  final String description;
   @override
   @JsonKey(name: 'sc_identifier')
   final String scIdentifier;
@@ -253,7 +253,7 @@ class _$_BtcWebVbtcToken extends _BtcWebVbtcToken {
 
   @override
   String toString() {
-    return 'BtcWebVbtcToken(name: $name, descripton: $descripton, scIdentifier: $scIdentifier, ownerAddress: $ownerAddress, imageUrl: $imageUrl, depositAddress: $depositAddress, publicKeyProofs: $publicKeyProofs, globalBalance: $globalBalance, createdAt: $createdAt)';
+    return 'BtcWebVbtcToken(name: $name, description: $description, scIdentifier: $scIdentifier, ownerAddress: $ownerAddress, imageUrl: $imageUrl, depositAddress: $depositAddress, publicKeyProofs: $publicKeyProofs, globalBalance: $globalBalance, createdAt: $createdAt)';
   }
 
   @override
@@ -262,8 +262,8 @@ class _$_BtcWebVbtcToken extends _BtcWebVbtcToken {
         (other.runtimeType == runtimeType &&
             other is _$_BtcWebVbtcToken &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.descripton, descripton) ||
-                other.descripton == descripton) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.scIdentifier, scIdentifier) ||
                 other.scIdentifier == scIdentifier) &&
             (identical(other.ownerAddress, ownerAddress) ||
@@ -285,7 +285,7 @@ class _$_BtcWebVbtcToken extends _BtcWebVbtcToken {
   int get hashCode => Object.hash(
       runtimeType,
       name,
-      descripton,
+      description,
       scIdentifier,
       ownerAddress,
       imageUrl,
@@ -311,7 +311,7 @@ class _$_BtcWebVbtcToken extends _BtcWebVbtcToken {
 abstract class _BtcWebVbtcToken extends BtcWebVbtcToken {
   factory _BtcWebVbtcToken(
       {required final String name,
-      required final String descripton,
+      required final String description,
       @JsonKey(name: 'sc_identifier')
           required final String scIdentifier,
       @JsonKey(name: 'owner_address')
@@ -334,7 +334,7 @@ abstract class _BtcWebVbtcToken extends BtcWebVbtcToken {
   @override
   String get name;
   @override
-  String get descripton;
+  String get description;
   @override
   @JsonKey(name: 'sc_identifier')
   String get scIdentifier;

@@ -9,7 +9,7 @@ part of 'btc_web_vbtc_token.dart';
 _$_BtcWebVbtcToken _$$_BtcWebVbtcTokenFromJson(Map<String, dynamic> json) =>
     _$_BtcWebVbtcToken(
       name: json['name'] as String,
-      descripton: json['descripton'] as String,
+      description: json['description'] as String,
       scIdentifier: json['sc_identifier'] as String,
       ownerAddress: json['owner_address'] as String,
       imageUrl: json['image_url'] as String,
@@ -22,7 +22,7 @@ _$_BtcWebVbtcToken _$$_BtcWebVbtcTokenFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_BtcWebVbtcTokenToJson(_$_BtcWebVbtcToken instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'descripton': instance.descripton,
+      'description': instance.description,
       'sc_identifier': instance.scIdentifier,
       'owner_address': instance.ownerAddress,
       'image_url': instance.imageUrl,

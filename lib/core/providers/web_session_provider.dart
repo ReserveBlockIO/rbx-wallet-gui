@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../features/btc_web/providers/btc_web_vbtc_token_list_provider.dart';
 import '../../features/misc/providers/global_balances_expanded_provider.dart';
 import '../../features/root/web_dashboard_container.dart';
 import '../../features/token/providers/web_token_list_provider.dart';
@@ -145,6 +146,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     getRaAddress();
     lookupBtcAdnr();
     getFungibleTokens();
+    getVbtcTokens();
     getNfts();
   }
 
@@ -203,6 +205,14 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     }
 
     ref.read(webTokenListProvider.notifier).load([state.keypair?.address, state.raKeypair?.address]);
+  }
+
+  Future<void> getVbtcTokens() async {
+    if (state.keypair == null && state.raKeypair == null) {
+      return;
+    }
+
+    ref.read(btcWebVbtcTokenListProvider.notifier).load(state.keypair!.address);
   }
 
   // Future<void> getBalance() async {

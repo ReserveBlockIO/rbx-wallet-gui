@@ -21,6 +21,8 @@ import 'package:collection/collection.dart';
 
 import '../../../core/providers/web_session_provider.dart';
 import '../../../core/theme/components.dart';
+import '../../btc_web/components/web_tokenized_btc_list_tile.dart';
+import '../../btc_web/providers/btc_web_vbtc_token_list_provider.dart';
 import '../providers/btc_pending_tokenized_address_list_provider.dart';
 import '../providers/tokenize_btc_form_provider.dart';
 import '../providers/tokenized_bitcoin_list_provider.dart';
@@ -188,7 +190,23 @@ class TokenizeBtcListScreen extends BaseScreen {
         ),
         Consumer(builder: (context, ref, _) {
           if (kIsWeb) {
-            return Text("WEB TODO");
+            final tokens = ref.watch(btcWebVbtcTokenListProvider);
+
+            return Expanded(
+                child: ListView.builder(
+              itemCount: tokens.length,
+              itemBuilder: (context, index) {
+                final token = tokens[index];
+                print("Token $token");
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: AppCard(
+                    padding: 0,
+                    child: WebTokenizedBtcListTile(token: token),
+                  ),
+                );
+              },
+            ));
           }
 
           final tokens = ref.watch(tokenizedBitcoinListProvider);

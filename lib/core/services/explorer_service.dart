@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:rbx_wallet/features/price/models/price_data.dart';
+import '../../features/btc_web/models/btc_web_vbtc_token.dart';
 import '../../features/btc_web/models/vbtc_compile_data.dart';
 import '../../features/price/models/price_history_item.dart';
 import '../../features/nft/models/web_nft.dart';
@@ -35,6 +36,24 @@ class ExplorerService extends BaseService {
       }
 
       return masternodes;
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<List<BtcWebVbtcToken>> getWebVbtcTokens(String address) async {
+    try {
+      final response = await getJson('/btc/vbtc/$address/');
+
+      final results = response['results'];
+      print("Result: $results");
+      final List<BtcWebVbtcToken> tokens = [];
+      for (final result in results) {
+        tokens.add(BtcWebVbtcToken.fromJson(result));
+      }
+
+      return tokens;
     } catch (e) {
       print(e);
       return [];
