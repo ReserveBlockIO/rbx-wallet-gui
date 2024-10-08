@@ -197,7 +197,6 @@ class TokenizeBtcListScreen extends BaseScreen {
               itemCount: tokens.length,
               itemBuilder: (context, index) {
                 final token = tokens[index];
-                print("Token $token");
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: AppCard(

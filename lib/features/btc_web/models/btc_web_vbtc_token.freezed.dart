@@ -22,6 +22,7 @@ BtcWebVbtcToken _$BtcWebVbtcTokenFromJson(Map<String, dynamic> json) {
 mixin _$BtcWebVbtcToken {
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
+  Map<String, dynamic> get addresses => throw _privateConstructorUsedError;
   @JsonKey(name: 'sc_identifier')
   String get scIdentifier => throw _privateConstructorUsedError;
   @JsonKey(name: 'owner_address')
@@ -52,6 +53,7 @@ abstract class $BtcWebVbtcTokenCopyWith<$Res> {
   $Res call(
       {String name,
       String description,
+      Map<String, dynamic> addresses,
       @JsonKey(name: 'sc_identifier') String scIdentifier,
       @JsonKey(name: 'owner_address') String ownerAddress,
       @JsonKey(name: 'image_url') String imageUrl,
@@ -76,6 +78,7 @@ class _$BtcWebVbtcTokenCopyWithImpl<$Res, $Val extends BtcWebVbtcToken>
   $Res call({
     Object? name = null,
     Object? description = null,
+    Object? addresses = null,
     Object? scIdentifier = null,
     Object? ownerAddress = null,
     Object? imageUrl = null,
@@ -93,6 +96,10 @@ class _$BtcWebVbtcTokenCopyWithImpl<$Res, $Val extends BtcWebVbtcToken>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      addresses: null == addresses
+          ? _value.addresses
+          : addresses // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
       scIdentifier: null == scIdentifier
           ? _value.scIdentifier
           : scIdentifier // ignore: cast_nullable_to_non_nullable
@@ -136,6 +143,7 @@ abstract class _$$_BtcWebVbtcTokenCopyWith<$Res>
   $Res call(
       {String name,
       String description,
+      Map<String, dynamic> addresses,
       @JsonKey(name: 'sc_identifier') String scIdentifier,
       @JsonKey(name: 'owner_address') String ownerAddress,
       @JsonKey(name: 'image_url') String imageUrl,
@@ -158,6 +166,7 @@ class __$$_BtcWebVbtcTokenCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? description = null,
+    Object? addresses = null,
     Object? scIdentifier = null,
     Object? ownerAddress = null,
     Object? imageUrl = null,
@@ -175,6 +184,10 @@ class __$$_BtcWebVbtcTokenCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      addresses: null == addresses
+          ? _value._addresses
+          : addresses // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
       scIdentifier: null == scIdentifier
           ? _value.scIdentifier
           : scIdentifier // ignore: cast_nullable_to_non_nullable
@@ -213,6 +226,7 @@ class _$_BtcWebVbtcToken extends _BtcWebVbtcToken {
   _$_BtcWebVbtcToken(
       {required this.name,
       required this.description,
+      required final Map<String, dynamic> addresses,
       @JsonKey(name: 'sc_identifier') required this.scIdentifier,
       @JsonKey(name: 'owner_address') required this.ownerAddress,
       @JsonKey(name: 'image_url') required this.imageUrl,
@@ -220,7 +234,8 @@ class _$_BtcWebVbtcToken extends _BtcWebVbtcToken {
       @JsonKey(name: 'public_key_proofs') required this.publicKeyProofs,
       @JsonKey(name: 'global_balance') required this.globalBalance,
       @JsonKey(name: 'created_at') required this.createdAt})
-      : super._();
+      : _addresses = addresses,
+        super._();
 
   factory _$_BtcWebVbtcToken.fromJson(Map<String, dynamic> json) =>
       _$$_BtcWebVbtcTokenFromJson(json);
@@ -229,6 +244,14 @@ class _$_BtcWebVbtcToken extends _BtcWebVbtcToken {
   final String name;
   @override
   final String description;
+  final Map<String, dynamic> _addresses;
+  @override
+  Map<String, dynamic> get addresses {
+    if (_addresses is EqualUnmodifiableMapView) return _addresses;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_addresses);
+  }
+
   @override
   @JsonKey(name: 'sc_identifier')
   final String scIdentifier;
@@ -253,7 +276,7 @@ class _$_BtcWebVbtcToken extends _BtcWebVbtcToken {
 
   @override
   String toString() {
-    return 'BtcWebVbtcToken(name: $name, description: $description, scIdentifier: $scIdentifier, ownerAddress: $ownerAddress, imageUrl: $imageUrl, depositAddress: $depositAddress, publicKeyProofs: $publicKeyProofs, globalBalance: $globalBalance, createdAt: $createdAt)';
+    return 'BtcWebVbtcToken(name: $name, description: $description, addresses: $addresses, scIdentifier: $scIdentifier, ownerAddress: $ownerAddress, imageUrl: $imageUrl, depositAddress: $depositAddress, publicKeyProofs: $publicKeyProofs, globalBalance: $globalBalance, createdAt: $createdAt)';
   }
 
   @override
@@ -264,6 +287,8 @@ class _$_BtcWebVbtcToken extends _BtcWebVbtcToken {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            const DeepCollectionEquality()
+                .equals(other._addresses, _addresses) &&
             (identical(other.scIdentifier, scIdentifier) ||
                 other.scIdentifier == scIdentifier) &&
             (identical(other.ownerAddress, ownerAddress) ||
@@ -286,6 +311,7 @@ class _$_BtcWebVbtcToken extends _BtcWebVbtcToken {
       runtimeType,
       name,
       description,
+      const DeepCollectionEquality().hash(_addresses),
       scIdentifier,
       ownerAddress,
       imageUrl,
@@ -312,6 +338,7 @@ abstract class _BtcWebVbtcToken extends BtcWebVbtcToken {
   factory _BtcWebVbtcToken(
       {required final String name,
       required final String description,
+      required final Map<String, dynamic> addresses,
       @JsonKey(name: 'sc_identifier')
           required final String scIdentifier,
       @JsonKey(name: 'owner_address')
@@ -335,6 +362,8 @@ abstract class _BtcWebVbtcToken extends BtcWebVbtcToken {
   String get name;
   @override
   String get description;
+  @override
+  Map<String, dynamic> get addresses;
   @override
   @JsonKey(name: 'sc_identifier')
   String get scIdentifier;

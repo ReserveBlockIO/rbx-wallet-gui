@@ -10,6 +10,7 @@ class BtcWebVbtcToken with _$BtcWebVbtcToken {
   factory BtcWebVbtcToken({
     required String name,
     required String description,
+    required Map<String, dynamic> addresses,
     @JsonKey(name: 'sc_identifier') required String scIdentifier,
     @JsonKey(name: 'owner_address') required String ownerAddress,
     @JsonKey(name: 'image_url') required String imageUrl,
