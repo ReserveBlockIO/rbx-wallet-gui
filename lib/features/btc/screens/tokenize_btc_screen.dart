@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
@@ -12,6 +13,7 @@ import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
+import '../../../utils/files.dart';
 import '../providers/tokenize_btc_form_provider.dart';
 
 class TokenizeBtcScreen extends BaseScreen {
@@ -105,43 +107,56 @@ class TokenizeBtcForm extends BaseComponent {
               transparentBackground: true,
               onChange: (a) {
                 formProvider.setAsset(a);
-              },
-            ),
-            SizedBox(
-              height: 12,
-            ),
-            Text(
-              "Media (Optional)",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white,
-              ),
-            ),
-            ListView.builder(
-                shrinkWrap: true,
-                itemCount: formState.additionalAssets.length,
-                itemBuilder: (context, index) {
-                  final asset = formState.additionalAssets[index];
-                  return FileSelector(
-                    key: Key("${index}_${asset.fileName}"),
-                    asset: asset,
-                    onChange: (a) {
-                      if (a != null) {
-                        formProvider.replaceAdditionalAsset(index, a);
-                      } else {
-                        formProvider.removeAdditionalAsset(index);
-                      }
-                    },
-                  );
-                }),
-            FileSelector(
-              transparentBackground: true,
-              onChange: (a) {
-                if (a != null) {
-                  formProvider.addAdditonalAsset(a);
+
+                if (kIsWeb) {
+                  if (a != null) {
+                    final base64 = resizeImageAndBase64FromBytes(a!.bytes!, 64);
+                    if (base64 != null) {
+                      formProvider.setImageBase64(base64);
+                    }
+                  } else {
+                    formProvider.setImageBase64(null);
+                  }
                 }
               },
             ),
+            if (!kIsWeb) ...[
+              SizedBox(
+                height: 12,
+              ),
+              Text(
+                "Media (Optional)",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                ),
+              ),
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: formState.additionalAssets.length,
+                  itemBuilder: (context, index) {
+                    final asset = formState.additionalAssets[index];
+                    return FileSelector(
+                      key: Key("${index}_${asset.fileName}"),
+                      asset: asset,
+                      onChange: (a) {
+                        if (a != null) {
+                          formProvider.replaceAdditionalAsset(index, a);
+                        } else {
+                          formProvider.removeAdditionalAsset(index);
+                        }
+                      },
+                    );
+                  }),
+              FileSelector(
+                transparentBackground: true,
+                onChange: (a) {
+                  if (a != null) {
+                    formProvider.addAdditonalAsset(a);
+                  }
+                },
+              ),
+            ],
             SizedBox(
               height: 22,
             ),
@@ -151,12 +166,40 @@ class TokenizeBtcForm extends BaseComponent {
                 label: "Compile & Mint",
                 // variant: AppColorVariant.Light,
                 onPressed: () async {
-                  if (formState.vfxAddress == null) {
-                    Toast.error("A VFX address is required");
+                  if (formState.isProcessing) {
                     return;
                   }
 
-                  if (formState.isProcessing) {
+                  if (kIsWeb) {
+                    final compileAnimation = Completer<BuildContext>();
+                    formProvider.showCompileAnimation(context, compileAnimation);
+                    final dialogContext = await compileAnimation.future;
+
+                    await Future.delayed(Duration(seconds: 2));
+
+                    final success = await formProvider.submitWeb();
+
+                    if (success == true) {
+                      Navigator.pop(dialogContext);
+                      final completeAnimation = Completer<BuildContext>();
+                      formProvider.showCompileComplete(context, completeAnimation);
+                      final completedDialogContext = await completeAnimation.future;
+                      await Future.delayed(const Duration(seconds: 3));
+                      Navigator.pop(completedDialogContext);
+                      await InfoDialog.show(
+                        title: "Transaction Broadcasted",
+                        body: "Once this transaction reflects on chain, you'll be able to deposit BTC funds in this vBTC token.",
+                      );
+
+                      onSuccess();
+                    } else {
+                      Navigator.pop(dialogContext);
+                    }
+                    return;
+                  }
+
+                  if (formState.vfxAddress == null) {
+                    Toast.error("A VFX address is required");
                     return;
                   }
 

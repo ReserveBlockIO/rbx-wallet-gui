@@ -576,7 +576,7 @@ class _BtcTokenImageState extends State<BtcTokenImage> {
 
           // return Icon(FontAwesomeIcons.bitcoin);
           return Image.asset(
-            Assets.images.vbtc.path,
+            Assets.images.vbtcGif.path,
             width: widget.size,
             height: widget.size,
           );

@@ -1,12 +1,15 @@
-<!DOCTYPE html><html><head>
-    <style>
-      html,
-      body {
-        /* background-color: #020d26; */
-        background-color: #000;
-      }
-    </style>
-    <!--
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    html,
+    body {
+      /* background-color: #020d26; */
+      background-color: #000;
+    }
+  </style>
+  <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
 
@@ -19,45 +22,52 @@
     This is a placeholder for base href that will be replaced by the value of
     the `--base-href` argument provided to `flutter build`.
   -->
-    <base href="$FLUTTER_BASE_HREF">
+  <base href="$FLUTTER_BASE_HREF">
 
-    <meta charset="UTF-8">
-    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
 
-    <!-- iOS meta tags & icons -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="RBX Wallet">
-    <link rel="apple-touch-icon" href="android-icon-192x192-seochecker-007.gif">
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="RBX Wallet">
+  <link rel="apple-touch-icon" href="android-icon-192x192-seochecker-007.gif">
 
-    <meta name="description" content="Your Block. Your Data. Your NFT Reserved. An open-source decentralized NFT centric blockchain for everyone.">
-    <meta name="keywords" content="reserveblock, reserve block, blockchain, nft, decentralized, crypto, open-source, on-chain functions, smart contract, wallet, network, dex, metaverse">
-    <meta name="robots" content="index, follow">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="language" content="English">
-    <meta property="og:title" content="ReserveBlock">
-    <meta property="og:site_name" content="ReserveBlock">
-    <!-- <meta property="og:url" content="https://wallet.rbx.network/" /> -->
-    <meta property="og:description" content="Your Block. Your Data. Your NFT Reserved. An open-source decentralized NFT centric blockchain for everyone.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/rbx-storage.appspot.com/o/reserveblock.jpg?alt=media">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:site" content="@reserveblockio">
-    <meta name="twitter:title" content="ReserveBlock">
-    <meta name="twitter:description" content="Your Block. Your Data. Your NFT Reserved. An open-source decentralized NFT centric blockchain for everyone.">
-    <meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/rbx-storage.appspot.com/o/reserveblock.jpg?alt=media">
+  <meta name="description"
+    content="Your Block. Your Data. Your NFT Reserved. An open-source decentralized NFT centric blockchain for everyone.">
+  <meta name="keywords"
+    content="reserveblock, reserve block, blockchain, nft, decentralized, crypto, open-source, on-chain functions, smart contract, wallet, network, dex, metaverse">
+  <meta name="robots" content="index, follow">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="language" content="English">
+  <meta property="og:title" content="ReserveBlock">
+  <meta property="og:site_name" content="ReserveBlock">
+  <!-- <meta property="og:url" content="https://wallet.rbx.network/" /> -->
+  <meta property="og:description"
+    content="Your Block. Your Data. Your NFT Reserved. An open-source decentralized NFT centric blockchain for everyone.">
+  <meta property="og:type" content="website">
+  <meta property="og:image"
+    content="https://firebasestorage.googleapis.com/v0/b/rbx-storage.appspot.com/o/reserveblock.jpg?alt=media">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@reserveblockio">
+  <meta name="twitter:title" content="ReserveBlock">
+  <meta name="twitter:description"
+    content="Your Block. Your Data. Your NFT Reserved. An open-source decentralized NFT centric blockchain for everyone.">
+  <meta name="twitter:image"
+    content="https://firebasestorage.googleapis.com/v0/b/rbx-storage.appspot.com/o/reserveblock.jpg?alt=media">
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="favicon.png">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png">
 
-    <title>RBX Wallet</title>
-    <link rel="manifest" href="manifest.json">
-    <!-- <link rel="stylesheet" type="text/css" href="splash/splash.css"> -->
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-  </head>
-  <body>  
-  
-    <!-- <div id="splash-screen" class="center">
+  <title>RBX Wallet</title>
+  <link rel="manifest" href="manifest.json">
+  <!-- <link rel="stylesheet" type="text/css" href="splash/splash.css"> -->
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+</head>
+
+<body>
+
+  <!-- <div id="splash-screen" class="center">
       <div id="splash-cube">
         <img  aria-hidden="true" src="cube.gif" width="160" height="160" alt="">
       </div>
@@ -68,78 +78,78 @@
     </div> -->
 
 
-    <!-- <script src="https://js.stripe.com/v3/"></script> -->
-    <!-- <script src="assets/assets/js/keygen.js" defer></script> -->
-    <script src="assets/assets/js/keygen-v3.js?v=1.0.2" defer=""></script>
-    <script src="assets/assets/js/btc.js?v=1.0.2" defer=""></script>
-    <script src="assets/assets/js/btc-testnet.js?v=1.0.2" defer=""></script>
-    <!-- This script installs service_worker.js to provide PWA functionality to
+  <!-- <script src="https://js.stripe.com/v3/"></script> -->
+  <!-- <script src="assets/assets/js/keygen.js" defer></script> -->
+  <script src="assets/assets/js/keygen-v3.js?v=1.0.2" defer=""></script>
+  <script src="assets/assets/js/btc.js?v=1.0.9" defer=""></script>
+  <script src="assets/assets/js/btc-testnet.js?v=1.0.9" defer=""></script>
+  <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
-    <script>
-      var serviceWorkerVersion = null;
-      var scriptLoaded = false;
-      function loadMainDartJs() {
-        if (scriptLoaded) {
-          return;
-        }
-        scriptLoaded = true;
-        var scriptTag = document.createElement("script");
-        scriptTag.src = "main.dart.js?version=5.0.0";
-        scriptTag.type = "application/javascript";
-        document.body.append(scriptTag);
+  <script>
+    var serviceWorkerVersion = null;
+    var scriptLoaded = false;
+    function loadMainDartJs() {
+      if (scriptLoaded) {
+        return;
       }
+      scriptLoaded = true;
+      var scriptTag = document.createElement("script");
+      scriptTag.src = "main.dart.js?version=5.0.0";
+      scriptTag.type = "application/javascript";
+      document.body.append(scriptTag);
+    }
 
-      if ("serviceWorker" in navigator) {
-        // Service workers are supported. Use them.
-        window.addEventListener("load", function () {
-          // Wait for registration to finish before dropping the <script> tag.
-          // Otherwise, the browser will load the script multiple times,
-          // potentially different versions.
-          var serviceWorkerUrl =
-            "flutter_service_worker.js?v=" + serviceWorkerVersion;
-          navigator.serviceWorker.register(serviceWorkerUrl).then((reg) => {
-            function waitForActivation(serviceWorker) {
-              serviceWorker.addEventListener("statechange", () => {
-                if (serviceWorker.state == "activated") {
-                  console.log("Installed new service worker.");
-                  loadMainDartJs();
-                }
-              });
-            }
-            if (!reg.active && (reg.installing || reg.waiting)) {
-              // No active web worker and we have installed or are installing
-              // one for the first time. Simply wait for it to activate.
-              waitForActivation(reg.installing || reg.waiting);
-            } else if (!reg.active.scriptURL.endsWith(serviceWorkerVersion)) {
-              // When the app updates the serviceWorkerVersion changes, so we
-              // need to ask the service worker to update.
-              console.log("New service worker available.");
-              reg.update();
-              waitForActivation(reg.installing);
-            } else {
-              // Existing service worker is still good.
-              console.log("Loading app from service worker.");
-              loadMainDartJs();
-            }
-          });
-
-          // If service worker doesn't succeed in a reasonable amount of time,
-          // fallback to plaint <script> tag.
-          setTimeout(() => {
-            if (!scriptLoaded) {
-              console.warn(
-                "Failed to load app from service worker. Falling back to plain <script> tag."
-              );
-              loadMainDartJs();
-            }
-          }, 4000);
+    if ("serviceWorker" in navigator) {
+      // Service workers are supported. Use them.
+      window.addEventListener("load", function () {
+        // Wait for registration to finish before dropping the <script> tag.
+        // Otherwise, the browser will load the script multiple times,
+        // potentially different versions.
+        var serviceWorkerUrl =
+          "flutter_service_worker.js?v=" + serviceWorkerVersion;
+        navigator.serviceWorker.register(serviceWorkerUrl).then((reg) => {
+          function waitForActivation(serviceWorker) {
+            serviceWorker.addEventListener("statechange", () => {
+              if (serviceWorker.state == "activated") {
+                console.log("Installed new service worker.");
+                loadMainDartJs();
+              }
+            });
+          }
+          if (!reg.active && (reg.installing || reg.waiting)) {
+            // No active web worker and we have installed or are installing
+            // one for the first time. Simply wait for it to activate.
+            waitForActivation(reg.installing || reg.waiting);
+          } else if (!reg.active.scriptURL.endsWith(serviceWorkerVersion)) {
+            // When the app updates the serviceWorkerVersion changes, so we
+            // need to ask the service worker to update.
+            console.log("New service worker available.");
+            reg.update();
+            waitForActivation(reg.installing);
+          } else {
+            // Existing service worker is still good.
+            console.log("Loading app from service worker.");
+            loadMainDartJs();
+          }
         });
-      } else {
-        // Service workers not supported. Just drop the <script> tag.
-        loadMainDartJs();
-      }
-    </script>
+
+        // If service worker doesn't succeed in a reasonable amount of time,
+        // fallback to plaint <script> tag.
+        setTimeout(() => {
+          if (!scriptLoaded) {
+            console.warn(
+              "Failed to load app from service worker. Falling back to plain <script> tag."
+            );
+            loadMainDartJs();
+          }
+        }, 4000);
+      });
+    } else {
+      // Service workers not supported. Just drop the <script> tag.
+      loadMainDartJs();
+    }
+  </script>
 
   <!-- <script>
 
@@ -149,6 +159,8 @@
 
   </script> -->
 
-  
 
-</body></html>
+
+</body>
+
+</html>

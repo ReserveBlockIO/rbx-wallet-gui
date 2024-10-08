@@ -13,6 +13,7 @@ class BtcWebAccount with _$BtcWebAccount {
     required String privateKey,
     required String publicKey,
     String? mnemonic,
+    String? adnr,
   }) = _BtcWebAccount;
 
   factory BtcWebAccount.fromJson(Map<String, dynamic> json) => _$BtcWebAccountFromJson(json);

@@ -1,13 +1,17 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/app.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/colors.dart';
 import 'package:rbx_wallet/features/btc/models/btc_address_type.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
 import 'package:rbx_wallet/features/encrypt/utils.dart';
+import 'package:rbx_wallet/features/payment/components/payment_disclaimer.dart';
+import 'package:rbx_wallet/features/payment/components/payment_iframe_container.dart';
 import 'package:rbx_wallet/features/wallet/components/bulk_import_wallet_modal.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/guards.dart';
@@ -16,6 +20,7 @@ import 'package:rbx_wallet/utils/validation.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../core/breakpoints.dart';
 import '../../core/env.dart';
 import '../payment/payment_utils.dart';
 
@@ -381,12 +386,91 @@ class AccountUtils {
   }
 
   static Future<void> getCoin(BuildContext context, WidgetRef ref, VfxOrBtcOption type) async {
+    if (kIsWeb) {
+      if (Env.isTestNet) {
+        if (type == VfxOrBtcOption.vfx) {
+          launchUrlString("https://testnet.rbx.network/faucet");
+        } else {
+          launchUrlString("https://mempool.space/testnet4/faucet");
+        }
+        return;
+      }
+
+      final address = type == VfxOrBtcOption.vfx ? ref.read(webSessionProvider).keypair?.address : ref.read(webSessionProvider).btcKeypair?.address;
+      if (address == null) {
+        Toast.error("No address selected");
+        return;
+      }
+      final maxWidth = BreakPoints.useMobileLayout(context) ? 400.0 : 750.0;
+      final maxHeight = BreakPoints.useMobileLayout(context) ? 500.0 : 700.0;
+      double width = MediaQuery.of(context).size.width - 32;
+      double height = MediaQuery.of(context).size.height - 64;
+
+      if (width > maxWidth) {
+        width = maxWidth;
+      }
+
+      if (height > maxHeight) {
+        height = maxHeight;
+      }
+
+      final agreed = await PaymentTermsDialog.show(context);
+
+      if (agreed != true) {
+        return;
+      }
+
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.zero,
+            insetPadding: EdgeInsets.zero,
+            actionsPadding: EdgeInsets.zero,
+            buttonPadding: EdgeInsets.zero,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                WebPaymentIFrameContainer(
+                  walletAddress: address,
+                  coinAmount: type == VfxOrBtcOption.vfx ? 5000 : 0.001,
+                  width: width,
+                  height: height,
+                  coinType: type == VfxOrBtcOption.vfx ? 'rbx' : 'btc',
+                ),
+                SizedBox(
+                  width: width,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: PaymentDisclaimer(),
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  "Close",
+                  style: TextStyle(color: Colors.white),
+                ),
+              )
+            ],
+          );
+        },
+      );
+      return;
+    }
+
     switch (type) {
       case VfxOrBtcOption.vfx:
         if (Env.isTestNet) {
           launchUrlString("https://testnet.rbx.network/faucet");
           return;
         }
+
         String? address = ref.read(sessionProvider).currentWallet?.address;
         if (address == null) {
           if (ref.read(walletListProvider).isNotEmpty) {

@@ -33,22 +33,25 @@ class NftGrid extends BaseComponent {
               );
             }
 
-            return GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: BreakPoints.useMobileLayout(context) ? 1 : 3,
-                childAspectRatio: 1,
-                crossAxisSpacing: 8.0,
-                mainAxisSpacing: 8.0,
+            return Padding(
+              padding: const EdgeInsets.all(16),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: BreakPoints.useMobileLayout(context) ? 1 : 3,
+                  childAspectRatio: 1,
+                  crossAxisSpacing: 16.0,
+                  mainAxisSpacing: 16.0,
+                ),
+                itemCount: _model.data.results.length,
+                itemBuilder: (context, index) {
+                  final nft = _model.data.results[index];
+                  return NftCard(
+                    key: Key(nft.id),
+                    nft,
+                    manageOnPress: minted,
+                  );
+                },
               ),
-              itemCount: _model.data.results.length,
-              itemBuilder: (context, index) {
-                final nft = _model.data.results[index];
-                return NftCard(
-                  key: Key(nft.id),
-                  nft,
-                  manageOnPress: minted,
-                );
-              },
             );
           }),
         ),

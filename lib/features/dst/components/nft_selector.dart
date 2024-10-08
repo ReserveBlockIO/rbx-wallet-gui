@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
 import '../../nft/components/nft_list_tile.dart';
@@ -30,7 +31,7 @@ class NftSelector extends BaseComponent {
           ? null
           : () async {
               if (kIsWeb) {
-                await ref.read(webListedNftsProvider.notifier).refresh();
+                await ref.read(webListedNftsProvider.notifier).refresh(ref.read(webSessionProvider).keypair?.address);
               }
 
               final Nft? nft = await showModalBottomSheet(

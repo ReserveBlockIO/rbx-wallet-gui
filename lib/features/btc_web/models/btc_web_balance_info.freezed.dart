@@ -23,11 +23,7 @@ mixin _$BtcWebBalanceInfo {
   int get totalRecieved => throw _privateConstructorUsedError;
   int get totalSent => throw _privateConstructorUsedError;
   int get balance => throw _privateConstructorUsedError;
-  int get unconfirmedBalance => throw _privateConstructorUsedError;
-  int get finalBalance => throw _privateConstructorUsedError;
   int get txCount => throw _privateConstructorUsedError;
-  int get unconfirmedTxCount => throw _privateConstructorUsedError;
-  int get finalTxCount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,15 +37,7 @@ abstract class $BtcWebBalanceInfoCopyWith<$Res> {
           BtcWebBalanceInfo value, $Res Function(BtcWebBalanceInfo) then) =
       _$BtcWebBalanceInfoCopyWithImpl<$Res, BtcWebBalanceInfo>;
   @useResult
-  $Res call(
-      {int totalRecieved,
-      int totalSent,
-      int balance,
-      int unconfirmedBalance,
-      int finalBalance,
-      int txCount,
-      int unconfirmedTxCount,
-      int finalTxCount});
+  $Res call({int totalRecieved, int totalSent, int balance, int txCount});
 }
 
 /// @nodoc
@@ -68,11 +56,7 @@ class _$BtcWebBalanceInfoCopyWithImpl<$Res, $Val extends BtcWebBalanceInfo>
     Object? totalRecieved = null,
     Object? totalSent = null,
     Object? balance = null,
-    Object? unconfirmedBalance = null,
-    Object? finalBalance = null,
     Object? txCount = null,
-    Object? unconfirmedTxCount = null,
-    Object? finalTxCount = null,
   }) {
     return _then(_value.copyWith(
       totalRecieved: null == totalRecieved
@@ -87,25 +71,9 @@ class _$BtcWebBalanceInfoCopyWithImpl<$Res, $Val extends BtcWebBalanceInfo>
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
               as int,
-      unconfirmedBalance: null == unconfirmedBalance
-          ? _value.unconfirmedBalance
-          : unconfirmedBalance // ignore: cast_nullable_to_non_nullable
-              as int,
-      finalBalance: null == finalBalance
-          ? _value.finalBalance
-          : finalBalance // ignore: cast_nullable_to_non_nullable
-              as int,
       txCount: null == txCount
           ? _value.txCount
           : txCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      unconfirmedTxCount: null == unconfirmedTxCount
-          ? _value.unconfirmedTxCount
-          : unconfirmedTxCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      finalTxCount: null == finalTxCount
-          ? _value.finalTxCount
-          : finalTxCount // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
   }
@@ -119,15 +87,7 @@ abstract class _$$_BtcWebBalanceInfoCopyWith<$Res>
       __$$_BtcWebBalanceInfoCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int totalRecieved,
-      int totalSent,
-      int balance,
-      int unconfirmedBalance,
-      int finalBalance,
-      int txCount,
-      int unconfirmedTxCount,
-      int finalTxCount});
+  $Res call({int totalRecieved, int totalSent, int balance, int txCount});
 }
 
 /// @nodoc
@@ -144,11 +104,7 @@ class __$$_BtcWebBalanceInfoCopyWithImpl<$Res>
     Object? totalRecieved = null,
     Object? totalSent = null,
     Object? balance = null,
-    Object? unconfirmedBalance = null,
-    Object? finalBalance = null,
     Object? txCount = null,
-    Object? unconfirmedTxCount = null,
-    Object? finalTxCount = null,
   }) {
     return _then(_$_BtcWebBalanceInfo(
       totalRecieved: null == totalRecieved
@@ -163,25 +119,9 @@ class __$$_BtcWebBalanceInfoCopyWithImpl<$Res>
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
               as int,
-      unconfirmedBalance: null == unconfirmedBalance
-          ? _value.unconfirmedBalance
-          : unconfirmedBalance // ignore: cast_nullable_to_non_nullable
-              as int,
-      finalBalance: null == finalBalance
-          ? _value.finalBalance
-          : finalBalance // ignore: cast_nullable_to_non_nullable
-              as int,
       txCount: null == txCount
           ? _value.txCount
           : txCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      unconfirmedTxCount: null == unconfirmedTxCount
-          ? _value.unconfirmedTxCount
-          : unconfirmedTxCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      finalTxCount: null == finalTxCount
-          ? _value.finalTxCount
-          : finalTxCount // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }
@@ -194,11 +134,7 @@ class _$_BtcWebBalanceInfo extends _BtcWebBalanceInfo {
       {required this.totalRecieved,
       required this.totalSent,
       required this.balance,
-      required this.unconfirmedBalance,
-      required this.finalBalance,
-      required this.txCount,
-      required this.unconfirmedTxCount,
-      required this.finalTxCount})
+      required this.txCount})
       : super._();
 
   factory _$_BtcWebBalanceInfo.fromJson(Map<String, dynamic> json) =>
@@ -211,19 +147,11 @@ class _$_BtcWebBalanceInfo extends _BtcWebBalanceInfo {
   @override
   final int balance;
   @override
-  final int unconfirmedBalance;
-  @override
-  final int finalBalance;
-  @override
   final int txCount;
-  @override
-  final int unconfirmedTxCount;
-  @override
-  final int finalTxCount;
 
   @override
   String toString() {
-    return 'BtcWebBalanceInfo(totalRecieved: $totalRecieved, totalSent: $totalSent, balance: $balance, unconfirmedBalance: $unconfirmedBalance, finalBalance: $finalBalance, txCount: $txCount, unconfirmedTxCount: $unconfirmedTxCount, finalTxCount: $finalTxCount)';
+    return 'BtcWebBalanceInfo(totalRecieved: $totalRecieved, totalSent: $totalSent, balance: $balance, txCount: $txCount)';
   }
 
   @override
@@ -236,29 +164,13 @@ class _$_BtcWebBalanceInfo extends _BtcWebBalanceInfo {
             (identical(other.totalSent, totalSent) ||
                 other.totalSent == totalSent) &&
             (identical(other.balance, balance) || other.balance == balance) &&
-            (identical(other.unconfirmedBalance, unconfirmedBalance) ||
-                other.unconfirmedBalance == unconfirmedBalance) &&
-            (identical(other.finalBalance, finalBalance) ||
-                other.finalBalance == finalBalance) &&
-            (identical(other.txCount, txCount) || other.txCount == txCount) &&
-            (identical(other.unconfirmedTxCount, unconfirmedTxCount) ||
-                other.unconfirmedTxCount == unconfirmedTxCount) &&
-            (identical(other.finalTxCount, finalTxCount) ||
-                other.finalTxCount == finalTxCount));
+            (identical(other.txCount, txCount) || other.txCount == txCount));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      totalRecieved,
-      totalSent,
-      balance,
-      unconfirmedBalance,
-      finalBalance,
-      txCount,
-      unconfirmedTxCount,
-      finalTxCount);
+  int get hashCode =>
+      Object.hash(runtimeType, totalRecieved, totalSent, balance, txCount);
 
   @JsonKey(ignore: true)
   @override
@@ -280,11 +192,7 @@ abstract class _BtcWebBalanceInfo extends BtcWebBalanceInfo {
       {required final int totalRecieved,
       required final int totalSent,
       required final int balance,
-      required final int unconfirmedBalance,
-      required final int finalBalance,
-      required final int txCount,
-      required final int unconfirmedTxCount,
-      required final int finalTxCount}) = _$_BtcWebBalanceInfo;
+      required final int txCount}) = _$_BtcWebBalanceInfo;
   _BtcWebBalanceInfo._() : super._();
 
   factory _BtcWebBalanceInfo.fromJson(Map<String, dynamic> json) =
@@ -297,15 +205,7 @@ abstract class _BtcWebBalanceInfo extends BtcWebBalanceInfo {
   @override
   int get balance;
   @override
-  int get unconfirmedBalance;
-  @override
-  int get finalBalance;
-  @override
   int get txCount;
-  @override
-  int get unconfirmedTxCount;
-  @override
-  int get finalTxCount;
   @override
   @JsonKey(ignore: true)
   _$$_BtcWebBalanceInfoCopyWith<_$_BtcWebBalanceInfo> get copyWith =>

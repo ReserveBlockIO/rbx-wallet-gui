@@ -29,9 +29,6 @@ class WebSmartContractLandingScreen extends BaseScreen {
       title: const Text("Create Smart Contract"),
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
-      actions: [
-        WebWalletTypeSwitcher(),
-      ],
     );
   }
 

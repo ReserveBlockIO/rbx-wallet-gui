@@ -1,8 +1,11 @@
 import 'dart:typed_data';
 
 import 'package:rbx_wallet/features/price/models/price_data.dart';
+import '../../features/btc_web/models/btc_web_vbtc_token.dart';
+import '../../features/btc_web/models/vbtc_compile_data.dart';
 import '../../features/price/models/price_history_item.dart';
 import '../../features/nft/models/web_nft.dart';
+import '../../features/token/models/web_fungible_token.dart';
 import '../../features/web/models/web_address.dart';
 import '../../utils/toast.dart';
 
@@ -22,7 +25,6 @@ class ExplorerService extends BaseService {
         );
 
   Future<List<Masternode>> searchValidators(String query) async {
-    if (Env.rbxNetworkDown) return [];
     try {
       final response = await getJson('/masternodes/name/$query/');
 
@@ -40,9 +42,25 @@ class ExplorerService extends BaseService {
     }
   }
 
-  Future<WebAddress> getWebAddress(String address) async {
-    if (Env.rbxNetworkDown) return WebAddress(address: address, balance: 0.0);
+  Future<List<BtcWebVbtcToken>> getWebVbtcTokens(String address) async {
+    try {
+      final response = await getJson('/btc/vbtc/$address/');
 
+      final results = response['results'];
+      print("Result: $results");
+      final List<BtcWebVbtcToken> tokens = [];
+      for (final result in results) {
+        tokens.add(BtcWebVbtcToken.fromJson(result));
+      }
+
+      return tokens;
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<WebAddress> getWebAddress(String address) async {
     try {
       final data = await getJson('/addresses/$address');
       return WebAddress.fromJson(data);
@@ -63,7 +81,6 @@ class ExplorerService extends BaseService {
   // }
 
   Future<WebTransaction?> retrieveTransaction(String hash) async {
-    if (Env.rbxNetworkDown) return null;
     try {
       final data = await getJson('/transaction/$hash');
       return WebTransaction.fromJson(data);
@@ -109,7 +126,6 @@ class ExplorerService extends BaseService {
     int limit = 10,
   }) async {
     try {
-      if (Env.rbxNetworkDown) return PaginatedResponse.empty();
       final params = {
         'page': page,
         'limit': limit,
@@ -127,7 +143,6 @@ class ExplorerService extends BaseService {
   }
 
   Future<WebBlock?> getLatestBlock() async {
-    if (Env.rbxNetworkDown) return null;
     try {
       final response = await getJson('/blocks', params: {'limit': 1});
 
@@ -146,8 +161,6 @@ class ExplorerService extends BaseService {
     int page = 1,
     String? search,
   }) async {
-    if (Env.rbxNetworkDown) return [];
-
     try {
       final params = {
         'owner_address': ownerAddress,
@@ -163,6 +176,7 @@ class ExplorerService extends BaseService {
       return results;
       // return items.map((n) => Nft.fromJson(n['data'])).toList();
     } catch (e) {
+      print("listNfts Error");
       print(e);
       return [];
     }
@@ -174,7 +188,6 @@ class ExplorerService extends BaseService {
     String? search,
   }) async {
     try {
-      if (Env.rbxNetworkDown) return [];
       final params = {
         'minter_address': minterAddress,
         'page': page,
@@ -195,7 +208,6 @@ class ExplorerService extends BaseService {
   }
 
   Future<List<String>> listedNftIds(String ownerAddress) async {
-    if (Env.rbxNetworkDown) return [];
     try {
       final response = await getJson('/nft/listed/$ownerAddress/');
       return response['results'].map<String>((id) => id.toString()).toList() as List<String>;
@@ -206,7 +218,6 @@ class ExplorerService extends BaseService {
   }
 
   Future<Nft?> retrieveNft(String id) async {
-    if (Env.rbxNetworkDown) return null;
     try {
       final response = await getJson('/nft/$id');
 
@@ -218,7 +229,6 @@ class ExplorerService extends BaseService {
   }
 
   Future<WebNft?> retrieveWebNft(String id) async {
-    if (Env.rbxNetworkDown) return null;
     try {
       final response = await getJson('/nft/$id');
 
@@ -230,7 +240,6 @@ class ExplorerService extends BaseService {
   }
 
   Future<bool> adnrAvailable(String adnr) async {
-    if (Env.rbxNetworkDown) return false;
     try {
       await getJson('/addresses/adnr/$adnr');
       return false;
@@ -240,7 +249,6 @@ class ExplorerService extends BaseService {
   }
 
   Future<String?> uploadAsset(Uint8List bytes, String filename, String? ext) async {
-    if (Env.rbxNetworkDown) return null;
     FormData body = FormData();
 
     final MultipartFile file = MultipartFile.fromBytes(bytes, filename: filename);
@@ -333,6 +341,82 @@ class ExplorerService extends BaseService {
       throw Exception(data['message']);
     } catch (e) {
       throw Exception(e);
+    }
+  }
+
+  Future<List<WebFungibleTokenBalance>> getTokenBalances(String address) async {
+    try {
+      final response = await getJson("/addresses/${address.trim()}/tokens/");
+
+      final List<dynamic> tokenDataList = response['tokens'];
+
+      final List<WebFungibleTokenBalance> tokenBalances = [];
+      for (final tokenData in tokenDataList) {
+        final token = WebFungibleToken.fromJson(tokenData['token']);
+        final balance = tokenData['balance'];
+
+        tokenBalances.add(WebFungibleTokenBalance(address: response['address'], token: token, balance: balance));
+      }
+
+      return tokenBalances;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  Future<WebFungibleTokenDetail?> retrieveToken(String scId) async {
+    try {
+      final response = await getJson("/fungible-tokens/$scId/");
+      if (response.containsKey('token')) {
+        return WebFungibleTokenDetail(
+          token: WebFungibleToken.fromJson(response['token']),
+          holders: response.containsKey('holders') ? response['holders'] : [],
+        );
+      }
+      print("retrieveToken error");
+      print("could not parse data");
+      return null;
+    } catch (e) {
+      print("retrieveToken error");
+      print(e);
+      return null;
+    }
+  }
+
+  Future<String?> btcAdnrLookup(String btcAddress) async {
+    try {
+      final result = await getJson('/adnr/btc/$btcAddress/');
+      return result['domain'];
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<VbtcCompileData?> vbtcCompileData(String vfxAddress) async {
+    try {
+      final result = await getJson('/btc/vbtc-compile-data/$vfxAddress/');
+      return VbtcCompileData(
+        smartContractUID: result['SmartContractUID'],
+        depositAddress: result['DepositAddress'],
+        publicKeyProofs: result['PublicKeyProofs'],
+      );
+    } catch (e) {
+      print("vbtcCompileData error");
+      print(e);
+      return null;
+    }
+  }
+
+  Future<String?> vbtcDefaultImageData() async {
+    try {
+      final result = await getJson('/btc/vbtc-image-data/');
+      return result['data'];
+    } catch (e) {
+      print("vbtcDefaultImageData error");
+
+      print(e);
+      return null;
     }
   }
 }

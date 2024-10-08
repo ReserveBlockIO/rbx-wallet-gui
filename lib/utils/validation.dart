@@ -40,7 +40,7 @@ bool isValidRbxAddress(String address) {
     return false;
   }
 
-  if (address.contains("xRBX")) {
+  if (address.startsWith("xRBX")) {
     return true;
   }
 
@@ -159,9 +159,6 @@ String? formValidatorRbxAddress(String? value, [bool allowAdnr = false]) {
   if (allowAdnr && value.contains(".vfx")) {
     return null;
   }
-
-  print(value);
-  print("----");
 
   if (!isValidRbxAddress(value)) {
     return "Invalid Address.";

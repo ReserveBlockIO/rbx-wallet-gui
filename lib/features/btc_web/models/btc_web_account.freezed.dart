@@ -25,6 +25,7 @@ mixin _$BtcWebAccount {
   String get privateKey => throw _privateConstructorUsedError;
   String get publicKey => throw _privateConstructorUsedError;
   String? get mnemonic => throw _privateConstructorUsedError;
+  String? get adnr => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +44,8 @@ abstract class $BtcWebAccountCopyWith<$Res> {
       String wif,
       String privateKey,
       String publicKey,
-      String? mnemonic});
+      String? mnemonic,
+      String? adnr});
 }
 
 /// @nodoc
@@ -64,6 +66,7 @@ class _$BtcWebAccountCopyWithImpl<$Res, $Val extends BtcWebAccount>
     Object? privateKey = null,
     Object? publicKey = null,
     Object? mnemonic = freezed,
+    Object? adnr = freezed,
   }) {
     return _then(_value.copyWith(
       address: null == address
@@ -86,6 +89,10 @@ class _$BtcWebAccountCopyWithImpl<$Res, $Val extends BtcWebAccount>
           ? _value.mnemonic
           : mnemonic // ignore: cast_nullable_to_non_nullable
               as String?,
+      adnr: freezed == adnr
+          ? _value.adnr
+          : adnr // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -103,7 +110,8 @@ abstract class _$$_BtcWebAccountCopyWith<$Res>
       String wif,
       String privateKey,
       String publicKey,
-      String? mnemonic});
+      String? mnemonic,
+      String? adnr});
 }
 
 /// @nodoc
@@ -122,6 +130,7 @@ class __$$_BtcWebAccountCopyWithImpl<$Res>
     Object? privateKey = null,
     Object? publicKey = null,
     Object? mnemonic = freezed,
+    Object? adnr = freezed,
   }) {
     return _then(_$_BtcWebAccount(
       address: null == address
@@ -144,6 +153,10 @@ class __$$_BtcWebAccountCopyWithImpl<$Res>
           ? _value.mnemonic
           : mnemonic // ignore: cast_nullable_to_non_nullable
               as String?,
+      adnr: freezed == adnr
+          ? _value.adnr
+          : adnr // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -156,7 +169,8 @@ class _$_BtcWebAccount extends _BtcWebAccount {
       required this.wif,
       required this.privateKey,
       required this.publicKey,
-      this.mnemonic})
+      this.mnemonic,
+      this.adnr})
       : super._();
 
   factory _$_BtcWebAccount.fromJson(Map<String, dynamic> json) =>
@@ -172,10 +186,12 @@ class _$_BtcWebAccount extends _BtcWebAccount {
   final String publicKey;
   @override
   final String? mnemonic;
+  @override
+  final String? adnr;
 
   @override
   String toString() {
-    return 'BtcWebAccount(address: $address, wif: $wif, privateKey: $privateKey, publicKey: $publicKey, mnemonic: $mnemonic)';
+    return 'BtcWebAccount(address: $address, wif: $wif, privateKey: $privateKey, publicKey: $publicKey, mnemonic: $mnemonic, adnr: $adnr)';
   }
 
   @override
@@ -190,13 +206,14 @@ class _$_BtcWebAccount extends _BtcWebAccount {
             (identical(other.publicKey, publicKey) ||
                 other.publicKey == publicKey) &&
             (identical(other.mnemonic, mnemonic) ||
-                other.mnemonic == mnemonic));
+                other.mnemonic == mnemonic) &&
+            (identical(other.adnr, adnr) || other.adnr == adnr));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, address, wif, privateKey, publicKey, mnemonic);
+  int get hashCode => Object.hash(
+      runtimeType, address, wif, privateKey, publicKey, mnemonic, adnr);
 
   @JsonKey(ignore: true)
   @override
@@ -218,7 +235,8 @@ abstract class _BtcWebAccount extends BtcWebAccount {
       required final String wif,
       required final String privateKey,
       required final String publicKey,
-      final String? mnemonic}) = _$_BtcWebAccount;
+      final String? mnemonic,
+      final String? adnr}) = _$_BtcWebAccount;
   _BtcWebAccount._() : super._();
 
   factory _BtcWebAccount.fromJson(Map<String, dynamic> json) =
@@ -234,6 +252,8 @@ abstract class _BtcWebAccount extends BtcWebAccount {
   String get publicKey;
   @override
   String? get mnemonic;
+  @override
+  String? get adnr;
   @override
   @JsonKey(ignore: true)
   _$$_BtcWebAccountCopyWith<_$_BtcWebAccount> get copyWith =>

@@ -1,7 +1,12 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../features/btc_web/providers/btc_web_vbtc_token_list_provider.dart';
+import '../../features/misc/providers/global_balances_expanded_provider.dart';
+import '../../features/root/web_dashboard_container.dart';
+import '../../features/token/providers/web_token_list_provider.dart';
 import '../env.dart';
 import '../../features/btc_web/models/btc_web_account.dart';
 import '../../features/btc_web/services/btc_web_service.dart';
@@ -69,10 +74,18 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
       });
       state = state.copyWith(isAuthenticated: false);
     }
-    ref.read(readyProvider.notifier).setReady(true);
 
     final timezoneName = DateTime.now().timeZoneName.toString();
-    state = state.copyWith(timezoneName: timezoneName);
+    state = state.copyWith(timezoneName: timezoneName, ready: true);
+    Future.delayed(const Duration(milliseconds: 500), () {
+      final url = HtmlHelpers().getUrl();
+      print(url);
+      if (url.contains('/#dashboard/home')) {
+        ref.read(globalBalancesExpandedProvider.notifier).expand();
+      } else {
+        ref.read(globalBalancesExpandedProvider.notifier).detract();
+      }
+    });
   }
 
   void setRememberMe(bool val) {
@@ -115,8 +128,8 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     state = state.copyWith(selectedWalletType: type);
 
     if (type != WalletType.btc) {
-      ref.read(mintedNftListProvider.notifier).load(1);
-      ref.read(nftListProvider.notifier).load(1);
+      ref.read(mintedNftListProvider.notifier).load(1, state.keypair?.address);
+      ref.read(nftListProvider.notifier).load(1, state.keypair?.address);
     }
 
     if (save) {
@@ -129,15 +142,15 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   }
 
   void loop() async {
-    if (Env.rbxNetworkDown) return;
     getAddress();
     getRaAddress();
+    lookupBtcAdnr();
+    getFungibleTokens();
+    getVbtcTokens();
     getNfts();
   }
 
   Future<void> getAddress() async {
-    if (Env.rbxNetworkDown) return;
-
     if (state.keypair == null) {
       return;
     }
@@ -151,9 +164,28 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     );
   }
 
-  Future<void> getRaAddress() async {
-    if (Env.rbxNetworkDown) return;
+  Future<void> lookupBtcAdnr() async {
+    if (state.btcKeypair == null) {
+      return;
+    }
 
+    // if (state.btcKeypair!.adnr != null) {
+    //   return;
+    // }
+
+    final domain = await ExplorerService().btcAdnrLookup(state.btcKeypair!.address);
+    if (state.btcKeypair!.adnr == null && domain != null) {
+      state = state.copyWith(
+        btcKeypair: state.btcKeypair!.copyWith(adnr: domain),
+      );
+    } else if (state.btcKeypair!.adnr != null && domain == null) {
+      state = state.copyWith(
+        btcKeypair: state.btcKeypair!.copyWith(adnr: null),
+      );
+    }
+  }
+
+  Future<void> getRaAddress() async {
     if (state.raKeypair == null) {
       return;
     }
@@ -167,6 +199,22 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     );
   }
 
+  Future<void> getFungibleTokens() async {
+    if (state.keypair == null && state.raKeypair == null) {
+      return;
+    }
+
+    ref.read(webTokenListProvider.notifier).load([state.keypair?.address, state.raKeypair?.address]);
+  }
+
+  Future<void> getVbtcTokens() async {
+    if (state.keypair == null && state.raKeypair == null) {
+      return;
+    }
+
+    ref.read(btcWebVbtcTokenListProvider.notifier).load(state.keypair!.address);
+  }
+
   // Future<void> getBalance() async {
   //   if (state.keypair == null) {
   //     return;
@@ -177,13 +225,11 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
   // }
 
   Future<void> getNfts() async {
-    if (Env.rbxNetworkDown) return;
-
     if (state.keypair == null) {
       return;
     }
     ref.read(nftListProvider.notifier).reloadCurrentPage(address: state.keypair!.address);
-    ref.read(webListedNftsProvider.notifier).refresh();
+    ref.read(webListedNftsProvider.notifier).refresh(state.keypair!.address);
   }
 
   void updateBtcKeypair(BtcWebAccount? account, bool andSave) {

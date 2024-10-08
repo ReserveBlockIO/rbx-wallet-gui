@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/app_constants.dart';
@@ -120,16 +122,31 @@ class RawService extends BaseService {
     }
   }
 
-  Future<bool> compileAndMintSmartContract(Map<String, dynamic> payload, Keypair keypair, Ref ref) async {
+  Future<bool> compileAndMintSmartContract(Map<String, dynamic> payload, Keypair keypair, Ref ref, [int type = TxType.nftMint]) async {
     try {
-      final response = await postJson('/smart-contract-data/', params: payload, responseIsJson: true);
+      final updatedPayload = {...payload, 'SCVersion': 1};
+
+      print(jsonEncode(updatedPayload));
+      Map<String, dynamic> response = {};
+      try {
+        response = await postJson('/smart-contract-data/', params: updatedPayload, responseIsJson: true);
+      } catch (e) {
+        print(e);
+        Toast.error("Error generating smart contract data");
+        return false;
+      }
+      final data = response['data'];
+
+      print('-------------');
+      print(data);
+      print('-------------');
 
       final txData = await RawTransaction.generate(
         keypair: keypair,
         amount: 0.0,
         toAddress: keypair.address,
-        data: response['data'],
-        txType: TxType.nftMint,
+        data: data,
+        txType: type,
       );
 
       if (txData == null) {

@@ -6,7 +6,7 @@ part of 'combined_tx_list_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$combinedTxListHash() => r'409c783252fa405ddcddafa493aafa69b843654a';
+String _$combinedTxListHash() => r'c2a1459ab3cc05af2877b9027cf68857c06f9032';
 
 /// See also [combinedTxList].
 @ProviderFor(combinedTxList)

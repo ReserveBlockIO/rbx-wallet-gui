@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rbx_wallet/features/root/web_dashboard_container.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/providers/session_provider.dart';
@@ -41,18 +43,18 @@ class RootContainerSideNavList extends BaseComponent {
           title: "Vault Accounts",
           iconType: PrettyIconType.lock,
           onPressed: () {
-            tabsRouter.setActiveIndex(14);
+            tabsRouter.setActiveIndex(kIsWeb ? WebRouteIndex.reserve : 14);
           },
-          isActive: tabsRouter.activeIndex == 14,
+          isActive: tabsRouter.activeIndex == (kIsWeb ? WebRouteIndex.reserve : 14),
           isExpanded: isExpanded,
         ),
         RootContainerSideNavItem(
           title: "Domains",
           iconType: PrettyIconType.domain,
           onPressed: () {
-            tabsRouter.setActiveIndex(10);
+            tabsRouter.setActiveIndex(kIsWeb ? WebRouteIndex.adnrs : 10);
           },
-          isActive: tabsRouter.activeIndex == 10,
+          isActive: tabsRouter.activeIndex == (kIsWeb ? WebRouteIndex.adnrs : 10),
           isExpanded: isExpanded,
         ),
         RootContainerSideNavItem(
@@ -86,28 +88,41 @@ class RootContainerSideNavList extends BaseComponent {
           title: "Tokenize BTC",
           iconType: PrettyIconType.bitcoin,
           onPressed: () {
+            if (kIsWeb) {
+              tabsRouter.setActiveIndex(WebRouteIndex.vbtc);
+              return;
+            }
             tabsRouter.setActiveIndex(15);
           },
-          isActive: tabsRouter.activeIndex == 15,
+          isActive: tabsRouter.activeIndex == (kIsWeb ? WebRouteIndex.vbtc : 15),
           isExpanded: isExpanded,
         ),
         RootContainerSideNavItem(
           title: "Fungible Tokens",
           iconType: PrettyIconType.fungibleToken,
           onPressed: () {
+            if (kIsWeb) {
+              tabsRouter.setActiveIndex(WebRouteIndex.tokens);
+              return;
+            }
+
             if (tabsRouter.activeIndex == 13) {
               tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
             } else {
               tabsRouter.setActiveIndex(13);
             }
           },
-          isActive: tabsRouter.activeIndex == 13,
+          isActive: tabsRouter.activeIndex == (kIsWeb ? WebRouteIndex.tokens : 13),
           isExpanded: isExpanded,
         ),
         RootContainerSideNavItem(
           title: "Smart Contracts",
           iconType: PrettyIconType.smartContract,
           onPressed: () {
+            if (kIsWeb) {
+              tabsRouter.setActiveIndex(WebRouteIndex.smartContracts);
+              return;
+            }
             if (ref.read(sessionProvider).currentWallet == null) {
               Toast.error("An account is required to access this section.");
               return;
@@ -115,13 +130,17 @@ class RootContainerSideNavList extends BaseComponent {
             tabsRouter.setActiveIndex(8);
             tabsRouter.popTop();
           },
-          isActive: tabsRouter.activeIndex == 8,
+          isActive: tabsRouter.activeIndex == (kIsWeb ? WebRouteIndex.smartContracts : 8),
           isExpanded: isExpanded,
         ),
         RootContainerSideNavItem(
           title: "Manage NFTs",
           iconType: PrettyIconType.nft,
           onPressed: () {
+            if (kIsWeb) {
+              tabsRouter.setActiveIndex(WebRouteIndex.nfts);
+              return;
+            }
             if (ref.read(sessionProvider).currentWallet == null) {
               Toast.error("An account is required to access this section.");
               return;
@@ -129,44 +148,51 @@ class RootContainerSideNavList extends BaseComponent {
             tabsRouter.setActiveIndex(7);
             tabsRouter.popTop();
           },
-          isActive: tabsRouter.activeIndex == 7,
+          isActive: tabsRouter.activeIndex == (kIsWeb ? WebRouteIndex.nfts : 7),
           isExpanded: isExpanded,
         ),
         RootContainerSideNavItem(
           title: "P2P Auctions",
           iconType: PrettyIconType.p2p,
           onPressed: () {
+            if (kIsWeb) {
+              tabsRouter.setActiveIndex(WebRouteIndex.shop);
+              return;
+            }
+
             if (tabsRouter.activeIndex == 9) {
               tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
             } else {
               tabsRouter.setActiveIndex(9);
             }
           },
-          isActive: tabsRouter.activeIndex == 9,
+          isActive: tabsRouter.activeIndex == (kIsWeb ? WebRouteIndex.shop : 9),
           isExpanded: isExpanded,
         ),
-        RootContainerSideNavItem(
-          title: "Validator",
-          iconType: PrettyIconType.validator,
-          onPressed: () {
-            tabsRouter.setActiveIndex(4);
-          },
-          isActive: tabsRouter.activeIndex == 4,
-          isExpanded: isExpanded,
-        ),
-        RootContainerSideNavItem(
-          title: "Operations",
-          iconType: PrettyIconType.operations,
-          onPressed: () {
-            if (tabsRouter.activeIndex == 16) {
-              tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
-            } else {
-              tabsRouter.setActiveIndex(16);
-            }
-          },
-          isActive: tabsRouter.activeIndex == 16,
-          isExpanded: isExpanded,
-        ),
+        if (!kIsWeb)
+          RootContainerSideNavItem(
+            title: "Validator",
+            iconType: PrettyIconType.validator,
+            onPressed: () {
+              tabsRouter.setActiveIndex(4);
+            },
+            isActive: tabsRouter.activeIndex == 4,
+            isExpanded: isExpanded,
+          ),
+        if (!kIsWeb)
+          RootContainerSideNavItem(
+            title: "Operations",
+            iconType: PrettyIconType.operations,
+            onPressed: () {
+              if (tabsRouter.activeIndex == 16) {
+                tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
+              } else {
+                tabsRouter.setActiveIndex(16);
+              }
+            },
+            isActive: tabsRouter.activeIndex == 16,
+            isExpanded: isExpanded,
+          ),
       ],
     );
   }

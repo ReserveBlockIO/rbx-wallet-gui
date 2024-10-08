@@ -12,25 +12,13 @@ class BtcWebBalanceInfo with _$BtcWebBalanceInfo {
     required int totalRecieved,
     required int totalSent,
     required int balance,
-    required int unconfirmedBalance,
-    required int finalBalance,
     required int txCount,
-    required int unconfirmedTxCount,
-    required int finalTxCount,
   }) = _BtcWebBalanceInfo;
 
   factory BtcWebBalanceInfo.fromJson(Map<String, dynamic> json) => _$BtcWebBalanceInfoFromJson(json);
 
   double get btcBalance {
     return balance * BTC_SATOSHI_MULTIPLIER;
-  }
-
-  double get btcUnconfirmedBalance {
-    return unconfirmedBalance * BTC_SATOSHI_MULTIPLIER;
-  }
-
-  double get btcFinalBalance {
-    return finalBalance * BTC_SATOSHI_MULTIPLIER;
   }
 
   double get btcTotalRecieved {

@@ -42,7 +42,7 @@ class NftListScreen extends BaseScreen {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (kIsWeb) WebWalletTypeSwitcher(),
+            // if (kIsWeb) WebWalletTypeSwitcher(),
             if (!kIsWeb)
               AppButton(
                 type: AppButtonType.Text,

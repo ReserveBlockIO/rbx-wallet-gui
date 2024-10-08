@@ -35,7 +35,7 @@ class ChangeTokenOwnershipButton extends BaseComponent {
 
     return AppButton(
       label: "Change Ownership",
-      variant: AppColorVariant.Danger,
+      variant: AppColorVariant.Secondary,
       onPressed: () async {
         if (fromAddress.startsWith("xRBX")) {
           if (!await passwordRequiredGuardV2(context, ref, fromAddress)) {

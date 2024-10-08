@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class ModalContainer extends StatelessWidget {
   final List<Widget> children;
   final Color color;
@@ -43,7 +42,10 @@ class ModalContainer extends StatelessWidget {
                       ),
                     ],
                   ),
-                ...children
+                ...children,
+                SizedBox(
+                  height: 40,
+                ),
               ],
             ),
           ),

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/components.dart';
@@ -145,10 +146,11 @@ class RootContainerBalanceItemState extends State<RootContainerBalanceItem> {
                           ),
                         ),
                       ),
-                      Text(
-                        widget.accountCount,
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
+                      if (widget.accountCount.isNotEmpty)
+                        Text(
+                          widget.accountCount,
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
                     ],
                   ),
                 ),

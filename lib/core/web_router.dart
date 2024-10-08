@@ -1,9 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
 import '../features/adnr/screens/web_adnr_screen.dart';
+import '../features/btc/screens/tokenize_btc_screen.dart';
+import '../features/btc/screens/tokenized_btc_list_screen.dart';
 import '../features/chat/screens/web_seller_chat_thread_list_screen.dart';
 import '../features/chat/screens/web_seller_chat_screen.dart';
 import '../features/chat/screens/web_shop_chat_screen.dart';
+import '../features/token/screens/token_create_screen.dart';
+import '../features/token/screens/token_list_screen.dart';
+import '../features/token/screens/web_token_create_screen.dart';
+import '../features/token/screens/web_token_detail_screen.dart';
 import '../features/web_shop/screens/build_sale_start_tx_screen.dart';
 import '../features/web_shop/screens/web_shop_container_screen.dart';
 
@@ -46,7 +52,7 @@ const List<AutoRoute> webRoutes = [
     ],
   ),
   // AutoRoute(path: "store/collection/:slug", page: StoreCollectionScreen),
-  AutoRoute(path: "reserve-account", page: WebReserveAccountOverviewScreen),
+  // AutoRoute(path: "reserve-account", page: WebReserveAccountOverviewScreen),
   webDashboardTabRouter,
   RedirectRoute(path: '*', redirectTo: '/'),
 ];
@@ -80,6 +86,14 @@ const webDashboardTabRouter = AutoRoute(
       children: [
         AutoRoute(path: "", page: WebSendScreen),
         AutoRoute(path: ":toAddress/:amount", page: WebPrefilledSendScreen),
+      ],
+    ),
+    AutoRoute(
+      path: 'vault-accounts',
+      name: "WebReserveAccountsTabRouter",
+      page: EmptyRouterPage,
+      children: [
+        AutoRoute(path: "", page: WebReserveAccountOverviewScreen),
       ],
     ),
     AutoRoute(
@@ -128,17 +142,25 @@ const webDashboardTabRouter = AutoRoute(
         // AutoRoute(path: "wizard", name: "WebBuldCreateScreen", page: BulkCreateScreen),
       ],
     ),
-    // AutoRoute(
-    //   path: 'dst',
-    //   name: "WebDstTabRouter",
-    //   page: EmptyRouterPage,
-    //   children: [
-    //     AutoRoute(path: "", page: WebDstScreen),
-    //     AutoRoute(path: "create/:accountId", page: CreateStoreScreen),
-    //     AutoRoute(path: "store/:slug", page: StoreScreen),
-    //     AutoRoute(path: "store/:storeId/create-listing", page: CreateListingScreen),
-    //   ],
-    // ),
+    AutoRoute(
+      path: 'fungible-token',
+      name: "WebTokenTabRouter",
+      page: EmptyRouterPage,
+      children: [
+        AutoRoute(path: "", page: TokenListScreen),
+        AutoRoute(path: "create", page: WebTokenCreateScreen),
+        AutoRoute(path: "detail/:scId", page: WebTokenDetailScreen),
+      ],
+    ),
+    AutoRoute(
+      path: 'vbtc',
+      name: 'WebTokenizeBitcoinRouter',
+      page: EmptyRouterPage,
+      children: [
+        AutoRoute(path: "", page: TokenizeBtcListScreen),
+        AutoRoute(path: "create", page: TokenizeBtcScreen),
+      ],
+    ),
     AutoRoute(
       path: 'p2p',
       name: "WebShopTabRouter",

@@ -14,8 +14,11 @@ import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/cached_memory_image_provider.dart';
 import 'package:rbx_wallet/core/providers/session_provider.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
+import 'package:rbx_wallet/core/services/explorer_service.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/theme/components.dart';
+import 'package:rbx_wallet/features/asset/asset.dart';
+import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
 import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
 import 'package:rbx_wallet/utils/files.dart';
 import 'package:rbx_wallet/utils/toast.dart';
@@ -37,20 +40,21 @@ class TokenForm extends BaseComponent {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text("Token Owner: "),
-                WalletSelector(
-                  includeRbx: true,
-                  includeBtc: false,
-                  includeRa: false,
-                  withOptions: false,
-                  truncatedLabel: false,
-                  headerHasCopy: false,
-                ),
-              ],
-            ),
+            if (!kIsWeb)
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text("Token Owner: "),
+                  WalletSelector(
+                    includeRbx: true,
+                    includeBtc: false,
+                    includeRa: false,
+                    withOptions: false,
+                    truncatedLabel: false,
+                    headerHasCopy: false,
+                  ),
+                ],
+              ),
             TextFormField(
               controller: provider.nameController,
               validator: provider.nameValidator,
@@ -197,70 +201,103 @@ class TokenForm extends BaseComponent {
                 ],
               ),
             ),
-            if (!kIsWeb)
-              Row(
-                children: [
-                  if (model.imageBase64 != null)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: SizedBox(
+            Row(
+              children: [
+                if (model.imageBase64 != null)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: SizedBox(
+                      width: 64,
+                      height: 64,
+                      child: Image(
+                        image: CacheMemoryImageProvider(
+                          model.imageBase64!,
+                          Base64Decoder().convert(model.imageBase64!),
+                        ),
                         width: 64,
                         height: 64,
-                        child: Image(
-                          image: CacheMemoryImageProvider(
-                            model.imageBase64!,
-                            Base64Decoder().convert(model.imageBase64!),
-                          ),
-                          width: 64,
-                          height: 64,
-                        ),
                       ),
                     ),
-                  AppButton(
-                    label: model.imageBase64 == null ? "Upload Token Icon" : "Replace Token Icon",
-                    onPressed: () async {
-                      FilePickerResult? result;
+                  ),
+                AppButton(
+                  label: model.imageBase64 == null ? "Upload Token Icon" : "Replace Token Icon",
+                  onPressed: () async {
+                    FilePickerResult? result;
 
-                      if (!kIsWeb) {
-                        final Directory currentDir = Directory.current;
-                        result = await FilePicker.platform.pickFiles();
-                        Directory.current = currentDir;
-                      } else {
-                        // result = await FilePicker.platform.pickFiles();
-                        print("TODO");
+                    if (kIsWeb) {
+                      result = await FilePicker.platform.pickFiles(allowedExtensions: ['jpg', 'jpeg', 'gif', 'png', 'webp'], type: FileType.custom);
+                      await Future.delayed(Duration(milliseconds: 10));
+                      ref.read(globalLoadingProvider.notifier).start();
+                      if (result == null || result.files.isEmpty) {
+                        ref.read(globalLoadingProvider.notifier).complete();
+
+                        return;
                       }
+                      final bytes = result.files.single.bytes;
+                      if (bytes == null) {
+                        ref.read(globalLoadingProvider.notifier).complete();
 
-                      if (result == null || result.files.isEmpty || result.files.first.path == null) {
                         return;
                       }
 
+                      final base64 = resizeImageAndBase64FromBytes(bytes, 64);
+                      if (base64 != null) {
+                        provider.setImageBase64(base64);
+
+                        final ext = result.files.single.extension;
+                        final filename = result.files.single.name;
+
+                        final url = await ExplorerService().uploadAsset(bytes, filename, ext);
+
+                        final asset = Asset(
+                          id: '00000000-0000-0000-0000-000000000000',
+                          location: url,
+                          extension: ext,
+                          fileSize: result.files.single.bytes!.length,
+                          bytes: bytes,
+                          name: filename,
+                        );
+
+                        provider.setWebAsset(asset);
+                      } else {
+                        Toast.error();
+                      }
+                      ref.read(globalLoadingProvider.notifier).complete();
+                    } else {
+                      final Directory currentDir = Directory.current;
+                      result = await FilePicker.platform.pickFiles();
+                      Directory.current = currentDir;
+                      if (result == null || result.files.isEmpty || result.files.first.path == null) {
+                        return;
+                      }
                       final base64 = resizeImageAndBase64(result.files.first.path!, 64);
                       if (base64 != null) {
                         provider.setImageBase64(base64);
                       } else {
                         Toast.error();
                       }
-                    },
-                    icon: Icons.image,
-                  ),
-                  SizedBox(
-                    width: 16,
-                  ),
-                  Expanded(
-                    child: TextFormField(
-                      controller: provider.imageUrlController,
-                      decoration: InputDecoration(
-                        label: Text(
-                          "Token Icon URL:",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        hintText: "https://domain.com/image.jpg",
-                        helperText: "Optional",
+                    }
+                  },
+                  icon: Icons.image,
+                ),
+                SizedBox(
+                  width: 16,
+                ),
+                Expanded(
+                  child: TextFormField(
+                    controller: provider.imageUrlController,
+                    decoration: InputDecoration(
+                      label: Text(
+                        "Token Icon URL:",
+                        style: TextStyle(color: Colors.white),
                       ),
+                      hintText: "https://domain.com/image.jpg",
+                      helperText: "Optional",
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Divider(),
@@ -279,15 +316,27 @@ class TokenForm extends BaseComponent {
                 AppButton(
                   label: "Create",
                   onPressed: () async {
-                    final currentWallet = ref.read(sessionProvider).currentWallet;
+                    if (kIsWeb) {
+                      final keypair = ref.read(webSessionProvider.select((value) => value.keypair));
+                      if (keypair == null) {
+                        Toast.error("No account selected");
+                        return;
+                      }
+                    } else {
+                      final currentWallet = ref.read(sessionProvider).currentWallet;
 
-                    if (currentWallet == null) {
-                      Toast.error("No account selected");
-                      return null;
+                      if (currentWallet == null) {
+                        Toast.error("No account selected");
+                        return null;
+                      }
                     }
 
                     if (model.imageBase64 == null) {
                       Toast.error("Icon Image Required");
+                      return;
+                    }
+
+                    if (!provider.formKey.currentState!.validate()) {
                       return;
                     }
 
@@ -306,7 +355,7 @@ class TokenForm extends BaseComponent {
                     final extraConfirm = await ConfirmDialog.show(
                       title: "Confirm Address",
                       body:
-                          "This will be minted by ${kIsWeb ? ref.read(webSessionProvider).currentWallet!.labelWithoutTruncation : ref.read(sessionProvider).currentWallet!.labelWithoutTruncation}",
+                          "This will be minted by ${kIsWeb ? ref.read(webSessionProvider.select((value) => value.keypair))!.address : ref.read(sessionProvider).currentWallet!.labelWithoutTruncation}",
                       confirmText: "Compile & Mint",
                       cancelText: "Cancel",
                     );

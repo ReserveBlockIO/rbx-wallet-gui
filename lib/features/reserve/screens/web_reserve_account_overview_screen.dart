@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/theme/components.dart';
 import '../../../core/components/badges.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
@@ -11,6 +12,7 @@ import '../../web/components/web_activate_ra_button.dart';
 import '../../web/components/web_fund_ra_account_button.dart';
 import '../../web/components/web_recover_ra_button.dart';
 import '../../web/components/web_restore_ra_button.dart';
+import '../../web/components/web_wallet_type_switcher.dart';
 import '../../web/providers/web_ra_pending_recovery_provider.dart';
 import '../../../generated/assets.gen.dart';
 import '../../../utils/toast.dart';
@@ -18,12 +20,12 @@ import '../../../utils/toast.dart';
 import '../../../core/base_component.dart';
 import '../../../core/base_screen.dart';
 
-
 class WebReserveAccountOverviewScreen extends BaseScreen {
   const WebReserveAccountOverviewScreen({Key? key})
       : super(
           key: key,
           backgroundColor: Colors.black,
+          includeWebDrawer: true,
         );
 
   @override
@@ -61,37 +63,32 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
                         ),
                   ),
                   SizedBox(height: 12),
-                  Container(
-                    decoration: BoxDecoration(
-                      boxShadow: glowingBox,
-                    ),
-                    child: Card(
-                      color: Colors.black,
-                      child: ListTile(
-                        title: Text(keypair.address),
-                        subtitle: Text("$balance VFX"),
-                        leading: IconButton(
-                          icon: Icon(Icons.copy),
-                          onPressed: () async {
-                            await Clipboard.setData(ClipboardData(text: keypair.address));
-                            Toast.message("Address copied to clipboard");
-                          },
-                        ),
-                        trailing: IconButton(
-                          icon: Icon(Icons.remove_red_eye),
-                          onPressed: () async {
-                            final confirmed = await ConfirmDialog.show(
-                              title: "Reveal Private Key?",
-                              body: "Are you sure you want to reveal your private key for your Vault Account?",
-                              confirmText: "Reveal",
-                              cancelText: "Cancel",
-                            );
+                  AppCard(
+                    padding: 0,
+                    child: ListTile(
+                      title: Text(keypair.address),
+                      subtitle: Text("$balance VFX"),
+                      leading: IconButton(
+                        icon: Icon(Icons.copy),
+                        onPressed: () async {
+                          await Clipboard.setData(ClipboardData(text: keypair.address));
+                          Toast.message("Address copied to clipboard");
+                        },
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.remove_red_eye),
+                        onPressed: () async {
+                          final confirmed = await ConfirmDialog.show(
+                            title: "Reveal Private Key?",
+                            body: "Are you sure you want to reveal your private key for your Vault Account?",
+                            confirmText: "Reveal",
+                            cancelText: "Cancel",
+                          );
 
-                            if (confirmed == true) {
-                              showRaKeys(context, keypair);
-                            }
-                          },
-                        ),
+                          if (confirmed == true) {
+                            showRaKeys(context, keypair);
+                          }
+                        },
                       ),
                     ),
                   ),
@@ -237,7 +234,7 @@ class _Top extends BaseComponent {
                   ),
                   children: [
                     TextSpan(
-                      text: "Reserve (Protected) Accounts [",
+                      text: "Vault Accounts [",
                     ),
                     TextSpan(
                         text: "xRBX",

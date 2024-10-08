@@ -35,9 +35,6 @@ class $AssetsDocsGen {
 class $AssetsEnvGen {
   const $AssetsEnvGen();
 
-  /// File path: assets/env/block_explorer_env
-  String get blockExplorerEnv => 'assets/env/block_explorer_env';
-
   /// File path: assets/env/block_explorer_test_net_env
   String get blockExplorerTestNetEnv =>
       'assets/env/block_explorer_test_net_env';
@@ -77,7 +74,6 @@ class $AssetsEnvGen {
 
   /// List of all assets
   List<String> get values => [
-        blockExplorerEnv,
         blockExplorerTestNetEnv,
         devEnv,
         devWinEnv,
@@ -162,6 +158,8 @@ class $AssetsImagesGen {
   AssetGenImage get animatedCubeFast =>
       const AssetGenImage('assets/images/animated_cube_fast.gif');
 
+  $AssetsImagesConnectorGen get connector => const $AssetsImagesConnectorGen();
+
   /// File path: assets/images/connector1.png
   AssetGenImage get connector1 =>
       const AssetGenImage('assets/images/connector1.png');
@@ -169,6 +167,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/connector2.png
   AssetGenImage get connector2 =>
       const AssetGenImage('assets/images/connector2.png');
+
+  /// File path: assets/images/cube_still.png
+  AssetGenImage get cubeStill =>
+      const AssetGenImage('assets/images/cube_still.png');
 
   /// File path: assets/images/decor_bottom.png
   AssetGenImage get decorBottom =>
@@ -201,6 +203,8 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/icon.png
   AssetGenImage get icon => const AssetGenImage('assets/images/icon.png');
+
+  $AssetsImagesIconsGen get icons => const $AssetsImagesIconsGen();
 
   /// File path: assets/images/nester.png
   AssetGenImage get nester => const AssetGenImage('assets/images/nester.png');
@@ -290,7 +294,14 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/tut_royalty_3.gif');
 
   /// File path: assets/images/vbtc.gif
-  AssetGenImage get vbtc => const AssetGenImage('assets/images/vbtc.gif');
+  AssetGenImage get vbtcGif => const AssetGenImage('assets/images/vbtc.gif');
+
+  /// File path: assets/images/vbtc.png
+  AssetGenImage get vbtcPng => const AssetGenImage('assets/images/vbtc.png');
+
+  /// File path: assets/images/vbtc_small.png
+  AssetGenImage get vbtcSmall =>
+      const AssetGenImage('assets/images/vbtc_small.png');
 
   /// File path: assets/images/wordmark.png
   AssetGenImage get wordmark =>
@@ -307,6 +318,7 @@ class $AssetsImagesGen {
         animatedCubeFast,
         connector1,
         connector2,
+        cubeStill,
         decorBottom,
         decorBottomLeft,
         decorBottomRight,
@@ -338,7 +350,9 @@ class $AssetsImagesGen {
         tutRoyalty1,
         tutRoyalty2,
         tutRoyalty3,
-        vbtc,
+        vbtcGif,
+        vbtcPng,
+        vbtcSmall,
         wordmark,
         wordmarkWeb
       ];
@@ -346,6 +360,9 @@ class $AssetsImagesGen {
 
 class $AssetsJsGen {
   const $AssetsJsGen();
+
+  /// File path: assets/js/btc-mainnet.js
+  String get btcMainnet => 'assets/js/btc-mainnet.js';
 
   /// File path: assets/js/btc-testnet.js
   String get btcTestnet => 'assets/js/btc-testnet.js';
@@ -363,7 +380,530 @@ class $AssetsJsGen {
   String get keygen => 'assets/js/keygen.js';
 
   /// List of all assets
-  List<String> get values => [btcTestnet, btc, keygenV2, keygenV3, keygen];
+  List<String> get values =>
+      [btcMainnet, btcTestnet, btc, keygenV2, keygenV3, keygen];
+}
+
+class $AssetsImagesConnectorGen {
+  const $AssetsImagesConnectorGen();
+
+  /// File path: assets/images/connector/connectora_01.png
+  AssetGenImage get connectora01 =>
+      const AssetGenImage('assets/images/connector/connectora_01.png');
+
+  /// File path: assets/images/connector/connectora_02.png
+  AssetGenImage get connectora02 =>
+      const AssetGenImage('assets/images/connector/connectora_02.png');
+
+  /// File path: assets/images/connector/connectora_03.png
+  AssetGenImage get connectora03 =>
+      const AssetGenImage('assets/images/connector/connectora_03.png');
+
+  /// File path: assets/images/connector/connectora_04.png
+  AssetGenImage get connectora04 =>
+      const AssetGenImage('assets/images/connector/connectora_04.png');
+
+  /// File path: assets/images/connector/connectora_05.png
+  AssetGenImage get connectora05 =>
+      const AssetGenImage('assets/images/connector/connectora_05.png');
+
+  /// File path: assets/images/connector/connectora_06.png
+  AssetGenImage get connectora06 =>
+      const AssetGenImage('assets/images/connector/connectora_06.png');
+
+  /// File path: assets/images/connector/connectora_07.png
+  AssetGenImage get connectora07 =>
+      const AssetGenImage('assets/images/connector/connectora_07.png');
+
+  /// File path: assets/images/connector/connectora_08.png
+  AssetGenImage get connectora08 =>
+      const AssetGenImage('assets/images/connector/connectora_08.png');
+
+  /// File path: assets/images/connector/connectora_09.png
+  AssetGenImage get connectora09 =>
+      const AssetGenImage('assets/images/connector/connectora_09.png');
+
+  /// File path: assets/images/connector/connectora_10.png
+  AssetGenImage get connectora10 =>
+      const AssetGenImage('assets/images/connector/connectora_10.png');
+
+  /// File path: assets/images/connector/connectora_11.png
+  AssetGenImage get connectora11 =>
+      const AssetGenImage('assets/images/connector/connectora_11.png');
+
+  /// File path: assets/images/connector/connectora_12.png
+  AssetGenImage get connectora12 =>
+      const AssetGenImage('assets/images/connector/connectora_12.png');
+
+  /// File path: assets/images/connector/connectora_13.png
+  AssetGenImage get connectora13 =>
+      const AssetGenImage('assets/images/connector/connectora_13.png');
+
+  /// File path: assets/images/connector/connectora_14.png
+  AssetGenImage get connectora14 =>
+      const AssetGenImage('assets/images/connector/connectora_14.png');
+
+  /// File path: assets/images/connector/connectora_15.png
+  AssetGenImage get connectora15 =>
+      const AssetGenImage('assets/images/connector/connectora_15.png');
+
+  /// File path: assets/images/connector/connectora_16.png
+  AssetGenImage get connectora16 =>
+      const AssetGenImage('assets/images/connector/connectora_16.png');
+
+  /// File path: assets/images/connector/connectora_17.png
+  AssetGenImage get connectora17 =>
+      const AssetGenImage('assets/images/connector/connectora_17.png');
+
+  /// File path: assets/images/connector/connectora_18.png
+  AssetGenImage get connectora18 =>
+      const AssetGenImage('assets/images/connector/connectora_18.png');
+
+  /// File path: assets/images/connector/connectora_19.png
+  AssetGenImage get connectora19 =>
+      const AssetGenImage('assets/images/connector/connectora_19.png');
+
+  /// File path: assets/images/connector/connectora_20.png
+  AssetGenImage get connectora20 =>
+      const AssetGenImage('assets/images/connector/connectora_20.png');
+
+  /// File path: assets/images/connector/connectora_21.png
+  AssetGenImage get connectora21 =>
+      const AssetGenImage('assets/images/connector/connectora_21.png');
+
+  /// File path: assets/images/connector/connectora_22.png
+  AssetGenImage get connectora22 =>
+      const AssetGenImage('assets/images/connector/connectora_22.png');
+
+  /// File path: assets/images/connector/connectora_23.png
+  AssetGenImage get connectora23 =>
+      const AssetGenImage('assets/images/connector/connectora_23.png');
+
+  /// File path: assets/images/connector/connectora_24.png
+  AssetGenImage get connectora24 =>
+      const AssetGenImage('assets/images/connector/connectora_24.png');
+
+  /// File path: assets/images/connector/connectora_25.png
+  AssetGenImage get connectora25 =>
+      const AssetGenImage('assets/images/connector/connectora_25.png');
+
+  /// File path: assets/images/connector/connectora_26.png
+  AssetGenImage get connectora26 =>
+      const AssetGenImage('assets/images/connector/connectora_26.png');
+
+  /// File path: assets/images/connector/connectora_27.png
+  AssetGenImage get connectora27 =>
+      const AssetGenImage('assets/images/connector/connectora_27.png');
+
+  /// File path: assets/images/connector/connectora_28.png
+  AssetGenImage get connectora28 =>
+      const AssetGenImage('assets/images/connector/connectora_28.png');
+
+  /// File path: assets/images/connector/connectora_29.png
+  AssetGenImage get connectora29 =>
+      const AssetGenImage('assets/images/connector/connectora_29.png');
+
+  /// File path: assets/images/connector/connectora_30.png
+  AssetGenImage get connectora30 =>
+      const AssetGenImage('assets/images/connector/connectora_30.png');
+
+  /// File path: assets/images/connector/connectorb_01.png
+  AssetGenImage get connectorb01 =>
+      const AssetGenImage('assets/images/connector/connectorb_01.png');
+
+  /// File path: assets/images/connector/connectorb_02.png
+  AssetGenImage get connectorb02 =>
+      const AssetGenImage('assets/images/connector/connectorb_02.png');
+
+  /// File path: assets/images/connector/connectorb_03.png
+  AssetGenImage get connectorb03 =>
+      const AssetGenImage('assets/images/connector/connectorb_03.png');
+
+  /// File path: assets/images/connector/connectorb_04.png
+  AssetGenImage get connectorb04 =>
+      const AssetGenImage('assets/images/connector/connectorb_04.png');
+
+  /// File path: assets/images/connector/connectorb_05.png
+  AssetGenImage get connectorb05 =>
+      const AssetGenImage('assets/images/connector/connectorb_05.png');
+
+  /// File path: assets/images/connector/connectorb_06.png
+  AssetGenImage get connectorb06 =>
+      const AssetGenImage('assets/images/connector/connectorb_06.png');
+
+  /// File path: assets/images/connector/connectorb_07.png
+  AssetGenImage get connectorb07 =>
+      const AssetGenImage('assets/images/connector/connectorb_07.png');
+
+  /// File path: assets/images/connector/connectorb_08.png
+  AssetGenImage get connectorb08 =>
+      const AssetGenImage('assets/images/connector/connectorb_08.png');
+
+  /// File path: assets/images/connector/connectorb_09.png
+  AssetGenImage get connectorb09 =>
+      const AssetGenImage('assets/images/connector/connectorb_09.png');
+
+  /// File path: assets/images/connector/connectorb_10.png
+  AssetGenImage get connectorb10 =>
+      const AssetGenImage('assets/images/connector/connectorb_10.png');
+
+  /// File path: assets/images/connector/connectorb_11.png
+  AssetGenImage get connectorb11 =>
+      const AssetGenImage('assets/images/connector/connectorb_11.png');
+
+  /// File path: assets/images/connector/connectorb_12.png
+  AssetGenImage get connectorb12 =>
+      const AssetGenImage('assets/images/connector/connectorb_12.png');
+
+  /// File path: assets/images/connector/connectorb_13.png
+  AssetGenImage get connectorb13 =>
+      const AssetGenImage('assets/images/connector/connectorb_13.png');
+
+  /// File path: assets/images/connector/connectorb_14.png
+  AssetGenImage get connectorb14 =>
+      const AssetGenImage('assets/images/connector/connectorb_14.png');
+
+  /// File path: assets/images/connector/connectorb_15.png
+  AssetGenImage get connectorb15 =>
+      const AssetGenImage('assets/images/connector/connectorb_15.png');
+
+  /// File path: assets/images/connector/connectorb_16.png
+  AssetGenImage get connectorb16 =>
+      const AssetGenImage('assets/images/connector/connectorb_16.png');
+
+  /// File path: assets/images/connector/connectorb_17.png
+  AssetGenImage get connectorb17 =>
+      const AssetGenImage('assets/images/connector/connectorb_17.png');
+
+  /// File path: assets/images/connector/connectorb_18.png
+  AssetGenImage get connectorb18 =>
+      const AssetGenImage('assets/images/connector/connectorb_18.png');
+
+  /// File path: assets/images/connector/connectorb_19.png
+  AssetGenImage get connectorb19 =>
+      const AssetGenImage('assets/images/connector/connectorb_19.png');
+
+  /// File path: assets/images/connector/connectorb_20.png
+  AssetGenImage get connectorb20 =>
+      const AssetGenImage('assets/images/connector/connectorb_20.png');
+
+  /// File path: assets/images/connector/connectorb_21.png
+  AssetGenImage get connectorb21 =>
+      const AssetGenImage('assets/images/connector/connectorb_21.png');
+
+  /// File path: assets/images/connector/connectorb_22.png
+  AssetGenImage get connectorb22 =>
+      const AssetGenImage('assets/images/connector/connectorb_22.png');
+
+  /// File path: assets/images/connector/connectorb_23.png
+  AssetGenImage get connectorb23 =>
+      const AssetGenImage('assets/images/connector/connectorb_23.png');
+
+  /// File path: assets/images/connector/connectorb_24.png
+  AssetGenImage get connectorb24 =>
+      const AssetGenImage('assets/images/connector/connectorb_24.png');
+
+  /// File path: assets/images/connector/connectorb_25.png
+  AssetGenImage get connectorb25 =>
+      const AssetGenImage('assets/images/connector/connectorb_25.png');
+
+  /// File path: assets/images/connector/connectorb_26.png
+  AssetGenImage get connectorb26 =>
+      const AssetGenImage('assets/images/connector/connectorb_26.png');
+
+  /// File path: assets/images/connector/connectorb_27.png
+  AssetGenImage get connectorb27 =>
+      const AssetGenImage('assets/images/connector/connectorb_27.png');
+
+  /// File path: assets/images/connector/connectorb_28.png
+  AssetGenImage get connectorb28 =>
+      const AssetGenImage('assets/images/connector/connectorb_28.png');
+
+  /// File path: assets/images/connector/connectorb_29.png
+  AssetGenImage get connectorb29 =>
+      const AssetGenImage('assets/images/connector/connectorb_29.png');
+
+  /// File path: assets/images/connector/connectorb_30.png
+  AssetGenImage get connectorb30 =>
+      const AssetGenImage('assets/images/connector/connectorb_30.png');
+
+  /// File path: assets/images/connector/connectorb_31.png
+  AssetGenImage get connectorb31 =>
+      const AssetGenImage('assets/images/connector/connectorb_31.png');
+
+  /// File path: assets/images/connector/connectorb_32.png
+  AssetGenImage get connectorb32 =>
+      const AssetGenImage('assets/images/connector/connectorb_32.png');
+
+  /// File path: assets/images/connector/connectorb_33.png
+  AssetGenImage get connectorb33 =>
+      const AssetGenImage('assets/images/connector/connectorb_33.png');
+
+  /// File path: assets/images/connector/connectorb_34.png
+  AssetGenImage get connectorb34 =>
+      const AssetGenImage('assets/images/connector/connectorb_34.png');
+
+  /// File path: assets/images/connector/connectorb_35.png
+  AssetGenImage get connectorb35 =>
+      const AssetGenImage('assets/images/connector/connectorb_35.png');
+
+  /// File path: assets/images/connector/connectorb_36.png
+  AssetGenImage get connectorb36 =>
+      const AssetGenImage('assets/images/connector/connectorb_36.png');
+
+  /// File path: assets/images/connector/connectorb_37.png
+  AssetGenImage get connectorb37 =>
+      const AssetGenImage('assets/images/connector/connectorb_37.png');
+
+  /// File path: assets/images/connector/connectorb_38.png
+  AssetGenImage get connectorb38 =>
+      const AssetGenImage('assets/images/connector/connectorb_38.png');
+
+  /// File path: assets/images/connector/connectorb_39.png
+  AssetGenImage get connectorb39 =>
+      const AssetGenImage('assets/images/connector/connectorb_39.png');
+
+  /// File path: assets/images/connector/connectorb_40.png
+  AssetGenImage get connectorb40 =>
+      const AssetGenImage('assets/images/connector/connectorb_40.png');
+
+  /// File path: assets/images/connector/connectorb_41.png
+  AssetGenImage get connectorb41 =>
+      const AssetGenImage('assets/images/connector/connectorb_41.png');
+
+  /// File path: assets/images/connector/connectorb_42.png
+  AssetGenImage get connectorb42 =>
+      const AssetGenImage('assets/images/connector/connectorb_42.png');
+
+  /// File path: assets/images/connector/connectorb_43.png
+  AssetGenImage get connectorb43 =>
+      const AssetGenImage('assets/images/connector/connectorb_43.png');
+
+  /// File path: assets/images/connector/connectorb_44.png
+  AssetGenImage get connectorb44 =>
+      const AssetGenImage('assets/images/connector/connectorb_44.png');
+
+  /// File path: assets/images/connector/connectorb_45.png
+  AssetGenImage get connectorb45 =>
+      const AssetGenImage('assets/images/connector/connectorb_45.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+        connectora01,
+        connectora02,
+        connectora03,
+        connectora04,
+        connectora05,
+        connectora06,
+        connectora07,
+        connectora08,
+        connectora09,
+        connectora10,
+        connectora11,
+        connectora12,
+        connectora13,
+        connectora14,
+        connectora15,
+        connectora16,
+        connectora17,
+        connectora18,
+        connectora19,
+        connectora20,
+        connectora21,
+        connectora22,
+        connectora23,
+        connectora24,
+        connectora25,
+        connectora26,
+        connectora27,
+        connectora28,
+        connectora29,
+        connectora30,
+        connectorb01,
+        connectorb02,
+        connectorb03,
+        connectorb04,
+        connectorb05,
+        connectorb06,
+        connectorb07,
+        connectorb08,
+        connectorb09,
+        connectorb10,
+        connectorb11,
+        connectorb12,
+        connectorb13,
+        connectorb14,
+        connectorb15,
+        connectorb16,
+        connectorb17,
+        connectorb18,
+        connectorb19,
+        connectorb20,
+        connectorb21,
+        connectorb22,
+        connectorb23,
+        connectorb24,
+        connectorb25,
+        connectorb26,
+        connectorb27,
+        connectorb28,
+        connectorb29,
+        connectorb30,
+        connectorb31,
+        connectorb32,
+        connectorb33,
+        connectorb34,
+        connectorb35,
+        connectorb36,
+        connectorb37,
+        connectorb38,
+        connectorb39,
+        connectorb40,
+        connectorb41,
+        connectorb42,
+        connectorb43,
+        connectorb44,
+        connectorb45
+      ];
+}
+
+class $AssetsImagesIconsGen {
+  const $AssetsImagesIconsGen();
+
+  /// File path: assets/images/icons/bitcoin.png
+  AssetGenImage get bitcoin =>
+      const AssetGenImage('assets/images/icons/bitcoin.png');
+
+  /// File path: assets/images/icons/custom.png
+  AssetGenImage get custom =>
+      const AssetGenImage('assets/images/icons/custom.png');
+
+  /// File path: assets/images/icons/dashboard.png
+  AssetGenImage get dashboard =>
+      const AssetGenImage('assets/images/icons/dashboard.png');
+
+  /// File path: assets/images/icons/domain.png
+  AssetGenImage get domain =>
+      const AssetGenImage('assets/images/icons/domain.png');
+
+  /// File path: assets/images/icons/fungible_token.png
+  AssetGenImage get fungibleToken =>
+      const AssetGenImage('assets/images/icons/fungible_token.png');
+
+  /// File path: assets/images/icons/glow_bitcoin.png
+  AssetGenImage get glowBitcoin =>
+      const AssetGenImage('assets/images/icons/glow_bitcoin.png');
+
+  /// File path: assets/images/icons/glow_dashboard.png
+  AssetGenImage get glowDashboard =>
+      const AssetGenImage('assets/images/icons/glow_dashboard.png');
+
+  /// File path: assets/images/icons/glow_domain.png
+  AssetGenImage get glowDomain =>
+      const AssetGenImage('assets/images/icons/glow_domain.png');
+
+  /// File path: assets/images/icons/glow_fungible_token.png
+  AssetGenImage get glowFungibleToken =>
+      const AssetGenImage('assets/images/icons/glow_fungible_token.png');
+
+  /// File path: assets/images/icons/glow_lock.png
+  AssetGenImage get glowLock =>
+      const AssetGenImage('assets/images/icons/glow_lock.png');
+
+  /// File path: assets/images/icons/glow_nft.png
+  AssetGenImage get glowNft =>
+      const AssetGenImage('assets/images/icons/glow_nft.png');
+
+  /// File path: assets/images/icons/glow_operations.png
+  AssetGenImage get glowOperations =>
+      const AssetGenImage('assets/images/icons/glow_operations.png');
+
+  /// File path: assets/images/icons/glow_p2p.png
+  AssetGenImage get glowP2p =>
+      const AssetGenImage('assets/images/icons/glow_p2p.png');
+
+  /// File path: assets/images/icons/glow_receive.png
+  AssetGenImage get glowReceive =>
+      const AssetGenImage('assets/images/icons/glow_receive.png');
+
+  /// File path: assets/images/icons/glow_send.png
+  AssetGenImage get glowSend =>
+      const AssetGenImage('assets/images/icons/glow_send.png');
+
+  /// File path: assets/images/icons/glow_smart_contract.png
+  AssetGenImage get glowSmartContract =>
+      const AssetGenImage('assets/images/icons/glow_smart_contract.png');
+
+  /// File path: assets/images/icons/glow_transactions.png
+  AssetGenImage get glowTransactions =>
+      const AssetGenImage('assets/images/icons/glow_transactions.png');
+
+  /// File path: assets/images/icons/glow_validator.png
+  AssetGenImage get glowValidator =>
+      const AssetGenImage('assets/images/icons/glow_validator.png');
+
+  /// File path: assets/images/icons/lock.png
+  AssetGenImage get lock => const AssetGenImage('assets/images/icons/lock.png');
+
+  /// File path: assets/images/icons/nft.png
+  AssetGenImage get nft => const AssetGenImage('assets/images/icons/nft.png');
+
+  /// File path: assets/images/icons/operations.png
+  AssetGenImage get operations =>
+      const AssetGenImage('assets/images/icons/operations.png');
+
+  /// File path: assets/images/icons/p2p.png
+  AssetGenImage get p2p => const AssetGenImage('assets/images/icons/p2p.png');
+
+  /// File path: assets/images/icons/receive.png
+  AssetGenImage get receive =>
+      const AssetGenImage('assets/images/icons/receive.png');
+
+  /// File path: assets/images/icons/send.png
+  AssetGenImage get send => const AssetGenImage('assets/images/icons/send.png');
+
+  /// File path: assets/images/icons/smart_contract.png
+  AssetGenImage get smartContract =>
+      const AssetGenImage('assets/images/icons/smart_contract.png');
+
+  /// File path: assets/images/icons/transactions.png
+  AssetGenImage get transactions =>
+      const AssetGenImage('assets/images/icons/transactions.png');
+
+  /// File path: assets/images/icons/validator.png
+  AssetGenImage get validator =>
+      const AssetGenImage('assets/images/icons/validator.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+        bitcoin,
+        custom,
+        dashboard,
+        domain,
+        fungibleToken,
+        glowBitcoin,
+        glowDashboard,
+        glowDomain,
+        glowFungibleToken,
+        glowLock,
+        glowNft,
+        glowOperations,
+        glowP2p,
+        glowReceive,
+        glowSend,
+        glowSmartContract,
+        glowTransactions,
+        glowValidator,
+        lock,
+        nft,
+        operations,
+        p2p,
+        receive,
+        send,
+        smartContract,
+        transactions,
+        validator
+      ];
 }
 
 class Assets {

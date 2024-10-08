@@ -60,26 +60,17 @@ class NewHomeScreen extends BaseScreen {
                             ),
                           );
                         },
-                        // icon: FontAwesomeIcons.chartLine,
                         label: "View Chart",
                         variant: AppColorVariant.Light,
                         type: AppButtonType.Outlined,
                       ),
-                      // AppVerticalIconButton(
-                      //   onPressed: () {},
-                      //   icon: FontAwesomeIcons.store,
-                      //   label: "View\nTrades",
-                      //   size: AppVerticalIconButtonSize.sm,
-                      // ),
                       AppButton(
                         onPressed: () async {
                           AccountUtils.getCoin(context, ref, VfxOrBtcOption.vfx);
                         },
                         variant: AppColorVariant.Secondary,
                         type: AppButtonType.Outlined,
-                        // icon: FontAwesomeIcons.coins,
                         label: "Get VFX",
-                        // size: AppVerticalIconButtonSize.sm,
                       ),
                     ],
                   ),
@@ -105,12 +96,6 @@ class NewHomeScreen extends BaseScreen {
                         variant: AppColorVariant.Light,
                         type: AppButtonType.Outlined,
                       ),
-                      // AppVerticalIconButton(
-                      //   onPressed: () {},
-                      //   icon: FontAwesomeIcons.store,
-                      //   label: "View\nTrades",
-                      //   size: AppVerticalIconButtonSize.sm,
-                      // ),
                       AppButton(
                         onPressed: () {
                           AccountUtils.getCoin(context, ref, VfxOrBtcOption.btc);
