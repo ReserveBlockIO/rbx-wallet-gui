@@ -84,7 +84,7 @@ class AppContainer extends ConsumerWidget {
       ),
       // routerDelegate: router.delegate(),
       builder: (context, child) {
-        if (!ref.watch(readyProvider)) {
+        if (!ref.watch(webSessionProvider.select((value) => value.ready))) {
           if (kIsWeb) {
             return const CenteredLoader();
           }
@@ -134,104 +134,100 @@ class AppContent extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      backgroundColor: Platform.isMacOS ? Color.fromARGB(255, 83, 83, 83) : Colors.transparent,
-      body: Padding(
-        padding: EdgeInsets.all(Platform.isMacOS ? 1.0 : 0),
-        child: Container(
-          color: Colors.black,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Stack(
-                  children: [
-                    ContextMenuOverlay(
-                      child: child!,
-                    ),
-                    const Align(
-                      alignment: Alignment.topRight,
-                      child: NotificationOverlay(),
-                    ),
-                    if (ref.watch(globalLoadingProvider))
-                      Container(
-                        color: Colors.black54,
-                        child: Center(
-                          child: Text(
-                            "Loading...",
-                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-                        ),
-                      ),
-                    if (ref.watch(shopLoadingProvider) != null)
-                      Container(
-                        color: Colors.black54,
-                        child: Stack(
-                          children: [
-                            Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    width: 120,
-                                    height: 120,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(16),
-                                      color: Colors.black,
-                                    ),
-                                    child: Center(
-                                      child: SizedBox(
-                                        width: 100,
-                                        height: 100,
-                                        child: Image.asset(
-                                          Assets.images.animatedCube.path,
-                                          scale: 1,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 16,
-                                  ),
-                                  Text(
-                                    ref.watch(shopLoadingProvider)!,
-                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                  ),
-                                ],
+      body: Container(
+        color: Colors.black,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  ContextMenuOverlay(
+                    child: child!,
+                  ),
+                  const Align(
+                    alignment: Alignment.topRight,
+                    child: NotificationOverlay(),
+                  ),
+                  if (ref.watch(globalLoadingProvider))
+                    Container(
+                      color: Colors.black54,
+                      child: Center(
+                        child: Text(
+                          "Loading...",
+                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
                               ),
-                            ),
-                            Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 72.0),
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      onTap: () => ref.read(shopLoadingProvider.notifier).complete(),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          "[CLOSE]",
-                                          style: Theme.of(context).textTheme.bodySmall,
-                                        ),
+                        ),
+                      ),
+                    ),
+                  if (ref.watch(shopLoadingProvider) != null)
+                    Container(
+                      color: Colors.black54,
+                      child: Stack(
+                        children: [
+                          Center(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  width: 120,
+                                  height: 120,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16),
+                                    color: Colors.black,
+                                  ),
+                                  child: Center(
+                                    child: SizedBox(
+                                      width: 100,
+                                      height: 100,
+                                      child: Image.asset(
+                                        Assets.images.animatedCube.path,
+                                        scale: 1,
                                       ),
                                     ),
                                   ),
-                                ))
-                          ],
-                        ),
+                                ),
+                                SizedBox(
+                                  height: 16,
+                                ),
+                                Text(
+                                  ref.watch(shopLoadingProvider)!,
+                                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 72.0),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    onTap: () => ref.read(shopLoadingProvider.notifier).complete(),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "[CLOSE]",
+                                        style: Theme.of(context).textTheme.bodySmall,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ))
+                        ],
                       ),
-                  ],
-                ),
+                    ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
