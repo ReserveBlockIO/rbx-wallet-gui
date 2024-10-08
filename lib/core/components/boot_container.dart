@@ -30,7 +30,6 @@ class BootContainer extends BaseComponent {
 
     return Column(
       children: [
-        TopAppWindowMenuBar(),
         Expanded(
           child: Column(
             children: [
