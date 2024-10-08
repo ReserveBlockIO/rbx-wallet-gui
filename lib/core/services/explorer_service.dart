@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:rbx_wallet/features/price/models/price_data.dart';
+import '../../features/btc_web/models/vbtc_compile_data.dart';
 import '../../features/price/models/price_history_item.dart';
 import '../../features/nft/models/web_nft.dart';
 import '../../features/token/models/web_fungible_token.dart';
@@ -368,6 +369,33 @@ class ExplorerService extends BaseService {
       final result = await getJson('/adnr/btc/$btcAddress/');
       return result['domain'];
     } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<VbtcCompileData?> vbtcCompileData(String vfxAddress) async {
+    try {
+      final result = await getJson('/btc/vbtc-compile-data/$vfxAddress/');
+      return VbtcCompileData(
+        smartContractUID: result['SmartContractUID'],
+        depositAddress: result['DepositAddress'],
+        publicKeyProofs: result['PublicKeyProofs'],
+      );
+    } catch (e) {
+      print("vbtcCompileData error");
+      print(e);
+      return null;
+    }
+  }
+
+  Future<String?> vbtcDefaultImageData() async {
+    try {
+      final result = await getJson('/btc/vbtc-image-data/');
+      return result['data'];
+    } catch (e) {
+      print("vbtcDefaultImageData error");
+
       print(e);
       return null;
     }

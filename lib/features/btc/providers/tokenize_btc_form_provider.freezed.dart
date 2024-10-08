@@ -20,6 +20,7 @@ mixin _$TokenizeBtcFormState {
   Asset? get asset => throw _privateConstructorUsedError;
   String? get vfxAddress => throw _privateConstructorUsedError;
   List<Asset> get additionalAssets => throw _privateConstructorUsedError;
+  String? get imageBase64 => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TokenizeBtcFormStateCopyWith<TokenizeBtcFormState> get copyWith =>
@@ -36,7 +37,8 @@ abstract class $TokenizeBtcFormStateCopyWith<$Res> {
       {bool isProcessing,
       Asset? asset,
       String? vfxAddress,
-      List<Asset> additionalAssets});
+      List<Asset> additionalAssets,
+      String? imageBase64});
 
   $AssetCopyWith<$Res>? get asset;
 }
@@ -59,6 +61,7 @@ class _$TokenizeBtcFormStateCopyWithImpl<$Res,
     Object? asset = freezed,
     Object? vfxAddress = freezed,
     Object? additionalAssets = null,
+    Object? imageBase64 = freezed,
   }) {
     return _then(_value.copyWith(
       isProcessing: null == isProcessing
@@ -77,6 +80,10 @@ class _$TokenizeBtcFormStateCopyWithImpl<$Res,
           ? _value.additionalAssets
           : additionalAssets // ignore: cast_nullable_to_non_nullable
               as List<Asset>,
+      imageBase64: freezed == imageBase64
+          ? _value.imageBase64
+          : imageBase64 // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -105,7 +112,8 @@ abstract class _$$_TokenizeBtcFormStateCopyWith<$Res>
       {bool isProcessing,
       Asset? asset,
       String? vfxAddress,
-      List<Asset> additionalAssets});
+      List<Asset> additionalAssets,
+      String? imageBase64});
 
   @override
   $AssetCopyWith<$Res>? get asset;
@@ -126,6 +134,7 @@ class __$$_TokenizeBtcFormStateCopyWithImpl<$Res>
     Object? asset = freezed,
     Object? vfxAddress = freezed,
     Object? additionalAssets = null,
+    Object? imageBase64 = freezed,
   }) {
     return _then(_$_TokenizeBtcFormState(
       isProcessing: null == isProcessing
@@ -144,6 +153,10 @@ class __$$_TokenizeBtcFormStateCopyWithImpl<$Res>
           ? _value._additionalAssets
           : additionalAssets // ignore: cast_nullable_to_non_nullable
               as List<Asset>,
+      imageBase64: freezed == imageBase64
+          ? _value.imageBase64
+          : imageBase64 // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -155,7 +168,8 @@ class _$_TokenizeBtcFormState extends _TokenizeBtcFormState {
       {this.isProcessing = false,
       this.asset,
       this.vfxAddress,
-      final List<Asset> additionalAssets = const []})
+      final List<Asset> additionalAssets = const [],
+      this.imageBase64})
       : _additionalAssets = additionalAssets,
         super._();
 
@@ -177,8 +191,11 @@ class _$_TokenizeBtcFormState extends _TokenizeBtcFormState {
   }
 
   @override
+  final String? imageBase64;
+
+  @override
   String toString() {
-    return 'TokenizeBtcFormState(isProcessing: $isProcessing, asset: $asset, vfxAddress: $vfxAddress, additionalAssets: $additionalAssets)';
+    return 'TokenizeBtcFormState(isProcessing: $isProcessing, asset: $asset, vfxAddress: $vfxAddress, additionalAssets: $additionalAssets, imageBase64: $imageBase64)';
   }
 
   @override
@@ -192,12 +209,14 @@ class _$_TokenizeBtcFormState extends _TokenizeBtcFormState {
             (identical(other.vfxAddress, vfxAddress) ||
                 other.vfxAddress == vfxAddress) &&
             const DeepCollectionEquality()
-                .equals(other._additionalAssets, _additionalAssets));
+                .equals(other._additionalAssets, _additionalAssets) &&
+            (identical(other.imageBase64, imageBase64) ||
+                other.imageBase64 == imageBase64));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, isProcessing, asset, vfxAddress,
-      const DeepCollectionEquality().hash(_additionalAssets));
+      const DeepCollectionEquality().hash(_additionalAssets), imageBase64);
 
   @JsonKey(ignore: true)
   @override
@@ -212,7 +231,8 @@ abstract class _TokenizeBtcFormState extends TokenizeBtcFormState {
       {final bool isProcessing,
       final Asset? asset,
       final String? vfxAddress,
-      final List<Asset> additionalAssets}) = _$_TokenizeBtcFormState;
+      final List<Asset> additionalAssets,
+      final String? imageBase64}) = _$_TokenizeBtcFormState;
   _TokenizeBtcFormState._() : super._();
 
   @override
@@ -223,6 +243,8 @@ abstract class _TokenizeBtcFormState extends TokenizeBtcFormState {
   String? get vfxAddress;
   @override
   List<Asset> get additionalAssets;
+  @override
+  String? get imageBase64;
   @override
   @JsonKey(ignore: true)
   _$$_TokenizeBtcFormStateCopyWith<_$_TokenizeBtcFormState> get copyWith =>

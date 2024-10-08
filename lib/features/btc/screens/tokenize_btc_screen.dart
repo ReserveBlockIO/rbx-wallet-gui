@@ -13,6 +13,7 @@ import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
+import '../../../utils/files.dart';
 import '../providers/tokenize_btc_form_provider.dart';
 
 class TokenizeBtcScreen extends BaseScreen {
@@ -106,6 +107,17 @@ class TokenizeBtcForm extends BaseComponent {
               transparentBackground: true,
               onChange: (a) {
                 formProvider.setAsset(a);
+
+                if (kIsWeb) {
+                  if (a != null) {
+                    final base64 = resizeImageAndBase64FromBytes(a!.bytes!, 64);
+                    if (base64 != null) {
+                      formProvider.setImageBase64(base64);
+                    }
+                  } else {
+                    formProvider.setImageBase64(null);
+                  }
+                }
               },
             ),
             SizedBox(
@@ -152,11 +164,6 @@ class TokenizeBtcForm extends BaseComponent {
                 label: "Compile & Mint",
                 // variant: AppColorVariant.Light,
                 onPressed: () async {
-                  if (formState.vfxAddress == null) {
-                    Toast.error("A VFX address is required");
-                    return;
-                  }
-
                   if (formState.isProcessing) {
                     return;
                   }
@@ -186,6 +193,11 @@ class TokenizeBtcForm extends BaseComponent {
                     } else {
                       Navigator.pop(dialogContext);
                     }
+                    return;
+                  }
+
+                  if (formState.vfxAddress == null) {
+                    Toast.error("A VFX address is required");
                     return;
                   }
 
