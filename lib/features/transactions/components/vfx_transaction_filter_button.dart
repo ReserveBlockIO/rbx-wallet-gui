@@ -18,7 +18,6 @@ class VfxTransactionFilterButton extends BaseComponent {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final txHelpers = TxHelper.getAllTypes();
     final model = ref.watch(vfxTransactionFilterProvider);
 
     return IconButton(
@@ -66,7 +65,7 @@ class VfxTransactionFilterButton extends BaseComponent {
         showModalBottomSheet(
           context: context,
           builder: (context) {
-            return _VfxTransactionFilterBottomSheet(txHelpers: txHelpers);
+            return _VfxTransactionFilterBottomSheet();
           },
         );
       },
@@ -75,16 +74,15 @@ class VfxTransactionFilterButton extends BaseComponent {
 }
 
 class _VfxTransactionFilterBottomSheet extends BaseComponent {
-  final List<TxHelper> txHelpers;
   const _VfxTransactionFilterBottomSheet({
     super.key,
-    required this.txHelpers,
   });
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final provider = ref.read(vfxTransactionFilterProvider.notifier);
     final model = ref.watch(vfxTransactionFilterProvider);
+    final txHelpers = TxHelper.getAllTypes();
 
     return ModalContainer(
       withClose: false,
@@ -146,6 +144,7 @@ class _VfxTransactionFilterBottomSheet extends BaseComponent {
                   Text(
                     model.address.isEmpty ? "All Addresses" : model.address,
                     style: TextStyle(
+                      fontSize: 16,
                       color: model.address.isEmpty
                           ? Colors.white
                           : model.address.startsWith("xRBX")
