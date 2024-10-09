@@ -84,6 +84,7 @@ class TransactionSignalProvider extends StateNotifier<List<Transaction>> {
         _handleAdnr(transaction);
         break;
       case TxType.nftTx:
+      case TxType.tokenTx:
         _handleNftTx(transaction, isOutgoing: isOutgoing, isIncoming: isIncoming);
         break;
       case TxType.nftBurn:

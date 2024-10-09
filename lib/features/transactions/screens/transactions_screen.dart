@@ -13,6 +13,7 @@ import '../../../core/providers/currency_segmented_button_provider.dart';
 import '../../btc/components/btc_transaction_list.dart';
 import '../components/combined_transactions_list.dart';
 import '../components/transaction_list.dart';
+import '../components/vfx_transaction_filter_button.dart';
 import '../providers/transaction_list_provider.dart';
 
 class TransactionsScreen extends BaseScreen {
@@ -39,6 +40,7 @@ class TransactionsScreen extends BaseScreen {
       title: Text(title),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,
+      leading: mode == CurrencyType.vfx ? VfxTransactionFilterButton() : null,
       // leading: BackToHomeButton(),
       actions: [
         Padding(
