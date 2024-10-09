@@ -10,6 +10,7 @@ _$_BtcWebVbtcToken _$$_BtcWebVbtcTokenFromJson(Map<String, dynamic> json) =>
     _$_BtcWebVbtcToken(
       name: json['name'] as String,
       description: json['description'] as String,
+      addresses: json['addresses'] as Map<String, dynamic>,
       scIdentifier: json['sc_identifier'] as String,
       ownerAddress: json['owner_address'] as String,
       imageUrl: json['image_url'] as String,
@@ -23,6 +24,7 @@ Map<String, dynamic> _$$_BtcWebVbtcTokenToJson(_$_BtcWebVbtcToken instance) =>
     <String, dynamic>{
       'name': instance.name,
       'description': instance.description,
+      'addresses': instance.addresses,
       'sc_identifier': instance.scIdentifier,
       'owner_address': instance.ownerAddress,
       'image_url': instance.imageUrl,
