@@ -11,7 +11,8 @@ import 'package:rbx_wallet/features/btc/models/btc_address_type.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
 import 'package:rbx_wallet/features/encrypt/utils.dart';
 import 'package:rbx_wallet/features/payment/components/payment_disclaimer.dart';
-import 'package:rbx_wallet/features/payment/components/payment_iframe_container.dart';
+import 'package:rbx_wallet/features/payment/components/payment_iframe_container.dart'
+    if (dart.library.io) 'package:rbx_wallet/features/payment/components/payment_iframe_container_mock.dart';
 import 'package:rbx_wallet/features/wallet/components/bulk_import_wallet_modal.dart';
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/guards.dart';

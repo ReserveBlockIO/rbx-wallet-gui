@@ -6,6 +6,7 @@ class WebPaymentIFrameContainer extends StatefulWidget {
   final String walletAddress;
   final double width;
   final double height;
+  final String coinType;
 
   const WebPaymentIFrameContainer({
     super.key,
@@ -14,6 +15,7 @@ class WebPaymentIFrameContainer extends StatefulWidget {
     required this.walletAddress,
     this.width = 400,
     this.height = 400,
+    this.coinType = 'rbx',
   });
 
   @override
