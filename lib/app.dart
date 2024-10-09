@@ -84,11 +84,13 @@ class AppContainer extends ConsumerWidget {
       ),
       // routerDelegate: router.delegate(),
       builder: (context, child) {
-        if (!ref.watch(webSessionProvider.select((value) => value.ready))) {
-          if (kIsWeb) {
+        if (kIsWeb) {
+          if (!ref.watch(webSessionProvider.select((value) => value.ready))) {
             return const CenteredLoader();
           }
+        }
 
+        if (!ref.watch(readyProvider)) {
           return const Material(
             color: Colors.black87,
             child: Center(child: BootContainer()),
