@@ -17,16 +17,19 @@ class BtcTransactionList extends BaseComponent {
       );
     }
 
-    return ListView.builder(
-      itemCount: transactions.length,
-      itemBuilder: (context, index) {
-        final transaction = transactions[index];
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: ListView.builder(
+        itemCount: transactions.length,
+        itemBuilder: (context, index) {
+          final transaction = transactions[index];
 
-        return Padding(
-          padding: EdgeInsets.only(bottom: index + 1 == transactions.length ? 36 : 12.0),
-          child: BtcTransactionListTile(transaction: transaction),
-        );
-      },
+          return Padding(
+            padding: EdgeInsets.only(bottom: index + 1 == transactions.length ? 36 : 12.0),
+            child: BtcTransactionListTile(transaction: transaction),
+          );
+        },
+      ),
     );
   }
 }

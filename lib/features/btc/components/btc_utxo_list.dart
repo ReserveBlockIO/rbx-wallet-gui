@@ -20,13 +20,19 @@ class BtcUtxoList extends BaseComponent {
       );
     }
 
-    return ListView.builder(
-      itemCount: utxos.length,
-      itemBuilder: (context, index) {
-        final utxo = utxos[index];
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: ListView.builder(
+        itemCount: utxos.length,
+        itemBuilder: (context, index) {
+          final utxo = utxos[index];
 
-        return UtxoListTile(utxo: utxo);
-      },
+          return Padding(
+            padding: EdgeInsets.only(bottom: index == utxos.length - 1 ? 54 : 0),
+            child: UtxoListTile(utxo: utxo),
+          );
+        },
+      ),
     );
   }
 }
@@ -41,21 +47,24 @@ class UtxoListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppCard(
-      padding: 0,
-      child: ListTile(
-        dense: true,
-        title: Text("Address: ${utxo.address}"),
-        subtitle: Text("TX ID: ${utxo.hash}\nAmount:${utxo.valueBtcLabel}"),
-        trailing: utxo.isUsed
-            ? AppBadge(
-                label: "Used",
-                variant: AppColorVariant.Btc,
-              )
-            : AppBadge(
-                label: "Unused",
-                variant: AppColorVariant.Primary,
-              ),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: AppCard(
+        padding: 0,
+        child: ListTile(
+          dense: true,
+          title: Text("Address: ${utxo.address}"),
+          subtitle: Text("TX ID: ${utxo.hash}\nAmount:${utxo.valueBtcLabel}"),
+          trailing: utxo.isUsed
+              ? AppBadge(
+                  label: "Used",
+                  variant: AppColorVariant.Btc,
+                )
+              : AppBadge(
+                  label: "Unused",
+                  variant: AppColorVariant.Primary,
+                ),
+        ),
       ),
     );
   }
