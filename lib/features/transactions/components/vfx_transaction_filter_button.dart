@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_component.dart';
@@ -135,76 +136,77 @@ class _VfxTransactionFilterBottomSheet extends BaseComponent {
                 style: TextStyle(fontSize: 16, color: Colors.white),
               ),
             ),
-            PopupMenuButton<String>(
-              constraints: BoxConstraints(minWidth: 300),
-              color: Colors.black,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    model.address.isEmpty ? "All Addresses" : model.address,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: model.address.isEmpty
-                          ? Colors.white
-                          : model.address.startsWith("xRBX")
-                              ? AppColors.getReserve()
-                              : AppColors.getBlue(ColorShade.s50),
+            if (!kIsWeb)
+              PopupMenuButton<String>(
+                constraints: BoxConstraints(minWidth: 300),
+                color: Colors.black,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      model.address.isEmpty ? "All Addresses" : model.address,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: model.address.isEmpty
+                            ? Colors.white
+                            : model.address.startsWith("xRBX")
+                                ? AppColors.getReserve()
+                                : AppColors.getBlue(ColorShade.s50),
+                      ),
                     ),
-                  ),
-                  Icon(Icons.arrow_drop_down),
-                ],
-              ),
-              onSelected: (address) {
-                if (address.isEmpty) {
-                  provider.setAddress(null);
-                } else {
-                  provider.setAddress(address);
-                }
-              },
-              itemBuilder: (context) {
-                final wallets = ref.watch(walletListProvider);
+                    Icon(Icons.arrow_drop_down),
+                  ],
+                ),
+                onSelected: (address) {
+                  if (address.isEmpty) {
+                    provider.setAddress(null);
+                  } else {
+                    provider.setAddress(address);
+                  }
+                },
+                itemBuilder: (context) {
+                  final wallets = ref.watch(walletListProvider);
 
-                return [
-                  PopupMenuItem(
-                    value: "",
-                    child: Row(
-                      children: [
-                        Icon(
-                          model.address == "" ? Icons.check_box : Icons.check_box_outline_blank,
-                        ),
-                        SizedBox(
-                          width: 6,
-                        ),
-                        Text("All Addresses"),
-                      ],
-                    ),
-                  ),
-                  ...wallets.map((w) {
-                    final color = w.address.startsWith("xRBX") ? AppColors.getReserve() : AppColors.getBlue(ColorShade.s50);
-                    return PopupMenuItem<String>(
-                      value: w.address,
+                  return [
+                    PopupMenuItem(
+                      value: "",
                       child: Row(
-                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
-                            w.address == model.address ? Icons.check_box : Icons.check_box_outline_blank,
-                            color: color,
+                            model.address == "" ? Icons.check_box : Icons.check_box_outline_blank,
                           ),
                           SizedBox(
                             width: 6,
                           ),
-                          Text(
-                            w.address,
-                            style: TextStyle(color: color),
-                          ),
+                          Text("All Addresses"),
                         ],
                       ),
-                    );
-                  }).toList()
-                ];
-              },
-            ),
+                    ),
+                    ...wallets.map((w) {
+                      final color = w.address.startsWith("xRBX") ? AppColors.getReserve() : AppColors.getBlue(ColorShade.s50);
+                      return PopupMenuItem<String>(
+                        value: w.address,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              w.address == model.address ? Icons.check_box : Icons.check_box_outline_blank,
+                              color: color,
+                            ),
+                            SizedBox(
+                              width: 6,
+                            ),
+                            Text(
+                              w.address,
+                              style: TextStyle(color: color),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList()
+                  ];
+                },
+              ),
           ],
         ),
         SizedBox(height: 8),
