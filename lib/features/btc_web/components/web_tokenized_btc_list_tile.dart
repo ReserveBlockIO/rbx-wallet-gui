@@ -1,11 +1,18 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'package:rbx_wallet/core/theme/colors.dart';
 import 'package:rbx_wallet/features/btc_web/screens/web_tokenized_btc_detail_screen.dart';
+import 'package:rbx_wallet/generated/assets.gen.dart';
 
+import '../../../core/base_component.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/web_router.gr.dart';
 import '../models/btc_web_vbtc_token.dart';
 
-class WebTokenizedBtcListTile extends StatelessWidget {
+class WebTokenizedBtcListTile extends BaseComponent {
   const WebTokenizedBtcListTile({
     super.key,
     required this.token,
@@ -14,7 +21,10 @@ class WebTokenizedBtcListTile extends StatelessWidget {
   final BtcWebVbtcToken token;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final address = ref.watch(webSessionProvider.select((v) => v.keypair?.address));
+    final isOwner = address == token.ownerAddress;
+
     return Row(
       children: [
         Padding(
@@ -26,33 +36,35 @@ class WebTokenizedBtcListTile extends StatelessWidget {
               imageUrl: token.imageUrl,
               height: 100,
               width: 100,
+              errorWidget: (context, _, __) {
+                return Image.asset(
+                  Assets.images.vbtcPng.path,
+                  width: 100,
+                  height: 100,
+                );
+              },
             ),
           ),
         ),
         Expanded(
           child: ListTile(
             title: Text(
-              token.name,
+              "${token.name}${isOwner ? ' (Owner)' : ''}",
               style: TextStyle(
                 fontSize: 22,
+                color: token.ownerAddress.startsWith("xRBX") ? AppColors.getReserve() : Colors.white,
               ),
             ),
             subtitle: Text(
-              token.ownerAddress,
+              "${address != null ? token.balanceForAddress(address) : token.globalBalance} vBTC",
               style: TextStyle(
-                color: token.ownerAddress.startsWith("xRBX") ? Colors.deepPurple.shade200 : null,
-                fontSize: 16,
+                color: Theme.of(context).colorScheme.btcOrange,
               ),
             ),
-            trailing: Text(
-              "${token.globalBalance} vBTC",
-              style: TextStyle(color: Theme.of(context).colorScheme.btcOrange),
-            ),
+            trailing: Icon(Icons.chevron_right),
             onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => WebTokenizedBtcDetailScreen(scIdentifier: token.scIdentifier),
-                ),
+              AutoRouter.of(context).push(
+                WebTokenizedBtcDetailScreenRoute(scIdentifier: token.scIdentifier),
               );
             },
           ),

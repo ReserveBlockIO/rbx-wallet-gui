@@ -1,30 +1,39 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/centered_loader.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/theme/colors.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/theme/components.dart';
+import '../../../generated/assets.gen.dart';
 import '../components/web_btc_tokenized_action_buttons.dart';
 import '../models/btc_web_vbtc_token.dart';
 import '../providers/btc_web_vbtc_token_detail_provider.dart';
 
 class WebTokenizedBtcDetailScreen extends BaseScreen {
   final String scIdentifier;
-  const WebTokenizedBtcDetailScreen({super.key, required this.scIdentifier});
+  const WebTokenizedBtcDetailScreen({super.key, @PathParam("scId") required this.scIdentifier});
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     final data = ref.watch(btcWebVbtcTokenDetailProvider(scIdentifier));
 
+    final myAddress = ref.watch(webSessionProvider.select((value) => value.keypair?.address));
+
     return data.when(
-      loading: () => AppBar(title: Text('loading')),
+      loading: () => AppBar(
+        title: Text('loading'),
+        shadowColor: Colors.transparent,
+        backgroundColor: Colors.black,
+      ),
       data: (token) {
         if (token == null) {
           return AppBar(
@@ -65,16 +74,17 @@ class WebTokenizedBtcDetailScreen extends BaseScreen {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Builder(builder: (context) {
-                  // if (nft.currentOwner != token.rbxAddress && token.myBalance == 0) {
-                  //   return Text(
-                  //     "Confirming Balance...",
-                  //     style: TextStyle(
-                  //       fontWeight: FontWeight.w600,
-                  //     ),
-                  //   );
-                  // }
+                  if (myAddress != null) {
+                    return Text(
+                      "My Balance: ${token.balanceForAddress(myAddress)} vBTC",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    );
+                  }
                   return Text(
-                    "Total Balance: ${token.globalBalance} vBTC",
+                    "Global Balance: ${token.globalBalance} vBTC",
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
@@ -86,13 +96,19 @@ class WebTokenizedBtcDetailScreen extends BaseScreen {
           ],
         );
       },
-      error: (_, __) => AppBar(title: Text("error")),
+      error: (_, __) => AppBar(
+        title: Text("error"),
+        shadowColor: Colors.transparent,
+        backgroundColor: Colors.black,
+      ),
     );
   }
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final data = ref.watch(btcWebVbtcTokenDetailProvider(scIdentifier));
+
+    final myAddress = ref.watch(webSessionProvider.select((value) => value.keypair?.address));
 
     return data.when(
         data: (token) {
@@ -101,6 +117,8 @@ class WebTokenizedBtcDetailScreen extends BaseScreen {
               child: Text("Token Not Found"),
             );
           }
+
+          final isOwner = myAddress == token.ownerAddress;
 
           return SingleChildScrollView(
             child: Column(
@@ -121,6 +139,13 @@ class WebTokenizedBtcDetailScreen extends BaseScreen {
                           imageUrl: token.imageUrl,
                           height: 200,
                           width: 200,
+                          errorWidget: (context, _, __) {
+                            return Image.asset(
+                              Assets.images.vbtcPng.path,
+                              width: 200,
+                              height: 200,
+                            );
+                          },
                         ),
                       ),
                       SizedBox(
@@ -131,17 +156,6 @@ class WebTokenizedBtcDetailScreen extends BaseScreen {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Text(
-                            //   "Token Details",
-                            //   style: TextStyle(
-                            //     decoration: TextDecoration.underline,
-                            //     fontSize: 18,
-                            //     color: AppColors.getBlue(ColorShade.s50),
-                            //   ),
-                            // ),
-                            // SizedBox(
-                            //   height: 8,
-                            // ),
                             _TokenDetailRefresher(
                               scId: token.scIdentifier,
                             ),
@@ -168,15 +182,16 @@ class WebTokenizedBtcDetailScreen extends BaseScreen {
                               value: token.scIdentifier,
                               withCopy: true,
                             ),
-                            _DetailRow(
-                              label: "My Balance",
-                              value: "TODO",
-                            ),
-                            // if (scOwner == token.rbxAddress)
-                            _DetailRow(
-                              label: "Token Total Balance",
-                              value: "${token.globalBalance} vBTC",
-                            ),
+                            if (myAddress != null)
+                              _DetailRow(
+                                label: "My Balance",
+                                value: "${token.balanceForAddress(myAddress)} vBTC",
+                              ),
+                            if (isOwner)
+                              _DetailRow(
+                                label: "Token Total Balance",
+                                value: "${token.globalBalance} vBTC",
+                              ),
                           ],
                         ),
                       ),
@@ -189,7 +204,7 @@ class WebTokenizedBtcDetailScreen extends BaseScreen {
                 SizedBox(
                   height: 8,
                 ),
-                _VbtcActionButtonsContainer(token: token),
+                _VbtcActionButtonsContainer(token: token, isOwner: isOwner),
                 SizedBox(
                   height: 16,
                 ),
@@ -205,9 +220,11 @@ class WebTokenizedBtcDetailScreen extends BaseScreen {
 class _VbtcActionButtonsContainer extends StatefulWidget {
   const _VbtcActionButtonsContainer({
     required this.token,
+    required this.isOwner,
   });
 
   final BtcWebVbtcToken token;
+  final bool isOwner;
 
   @override
   State<_VbtcActionButtonsContainer> createState() => _VbtcActionButtonsContainerState();
@@ -262,7 +279,7 @@ class _VbtcActionButtonsContainerState extends State<_VbtcActionButtonsContainer
             width: double.infinity,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: WebTokenizedBtcActionButtons(token: widget.token),
+              child: WebTokenizedBtcActionButtons(token: widget.token, isOwner: widget.isOwner),
             ),
           );
         });

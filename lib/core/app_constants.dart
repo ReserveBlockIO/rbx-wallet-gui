@@ -52,6 +52,7 @@ class TxType {
 
   static const int tokenTx = 15;
   static const int tokenDeploy = 17;
+  static const int tokenizeTx = 18;
 }
 
 const DEFAULT_REJECTED_EXTENIONS = [

@@ -8,6 +8,7 @@ import '../../../core/dialogs.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';
+import '../../btc_web/models/btc_web_vbtc_token.dart';
 import '../../global_loader/global_loading_provider.dart';
 import '../../keygen/models/keypair.dart';
 import '../../keygen/models/ra_keypair.dart';
@@ -20,7 +21,7 @@ class WebTokenActionsManager {
 
   Future<bool?> _verifyConfirmAndSendTx({
     required String toAddress,
-    required Map<String, dynamic> data,
+    dynamic data,
     Keypair? keypairOverride,
     int txType = TxType.tokenTx,
     double amount = 0,
@@ -228,6 +229,64 @@ class WebTokenActionsManager {
       }
     };
     return null;
+  }
+
+  Future<bool?> transferVbtcAmount(
+    BtcWebVbtcToken token,
+    String toAddress,
+    double amount,
+  ) async {
+    final data = [
+      {
+        "Function": "TransferCoin()",
+        "ContractUID": token.scIdentifier,
+        "Amount": amount,
+      }
+    ];
+    return await _verifyConfirmAndSendTx(
+      toAddress: toAddress,
+      data: data,
+      txType: TxType.tokenizeTx,
+    );
+  }
+
+  Future<bool?> transferVbtcOwnership(
+    BtcWebVbtcToken token,
+    String toAddress,
+  ) async {
+    final message = token.scIdentifier;
+    final keypair = ref.read(webSessionProvider).keypair;
+    if (keypair == null) {
+      Toast.error("No VFX account found");
+      return null;
+    }
+
+    final beaconSignature = await RawTransaction.getSignature(
+      message: message,
+      privateKey: keypair.private,
+      publicKey: keypair.public,
+    );
+
+    if (beaconSignature == null) {
+      Toast.error("Couldn't produce beacon upload signature");
+      return false;
+    }
+
+    final locator = await RawService().beaconUpload(token.scIdentifier, toAddress, beaconSignature);
+
+    if (locator == null) {
+      Toast.error("Could not create beacon upload request.");
+      return false;
+    }
+    final txService = RawService();
+
+    final nftTransferData = await txService.nftTransferData(token.scIdentifier, toAddress, locator);
+
+    return await _verifyConfirmAndSendTx(
+      toAddress: toAddress,
+      data: nftTransferData,
+      txType: TxType.tokenizeTx,
+    );
   }
 
   bool verifyBalance({bool isRa = false}) {

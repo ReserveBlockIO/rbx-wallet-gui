@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/app_constants.dart';
 import 'package:rbx_wallet/core/base_component.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
+import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/btc/models/tokenized_bitcoin.dart';
 import 'package:rbx_wallet/features/btc/providers/btc_pending_tokenized_address_list_provider.dart';
@@ -13,65 +14,105 @@ import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common
 import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
+import '../../token/providers/web_token_actions_manager.dart';
 import '../models/btc_web_vbtc_token.dart';
 
 class WebTokenizedBtcActionButtons extends BaseComponent {
   final BtcWebVbtcToken token;
+  final bool isOwner;
   const WebTokenizedBtcActionButtons({
     super.key,
     required this.token,
+    required this.isOwner,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Builder(
-      builder: (context) {
-        final isOwner = ref.watch(walletListProvider).firstWhereOrNull((w) => w.address == token.ownerAddress) != null;
+    final myAddress = ref.watch(webSessionProvider.select((value) => value.keypair?.address));
+    final myBalance = myAddress != null ? token.balanceForAddress(myAddress) : 0.0;
 
-        return Wrap(
-          alignment: WrapAlignment.center,
-          runAlignment: WrapAlignment.center,
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            AppButton(
-              label: "Copy Deposit Address",
-              icon: Icons.copy,
-              variant: AppColorVariant.Primary,
-              onPressed: () async {
-                await Clipboard.setData(ClipboardData(text: token.depositAddress));
-                Toast.message("BTC Address copied to clipboard");
-              },
-            ),
-            if (isOwner && token.depositAddress != null)
-              AppButton(
-                label: "Fund",
-                icon: Icons.outbox,
-                onPressed: () {},
-                variant: AppColorVariant.Primary,
-              ),
-            AppButton(
-              label: "Withdraw",
-              icon: Icons.download,
-              variant: AppColorVariant.Primary,
-              onPressed: () async {},
-            ),
-            AppButton(
-              label: "Transfer",
-              variant: AppColorVariant.Primary,
-              icon: Icons.send,
-              onPressed: () async {},
-            ),
-            AppButton(
-              label: "Borrow/Lend",
-              icon: Icons.people,
-              onPressed: () {
-                Toast.message("Action Not Available Yet.");
-              },
-            ),
-          ],
-        );
-      },
+    return Wrap(
+      alignment: WrapAlignment.center,
+      runAlignment: WrapAlignment.center,
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        AppButton(
+          label: "Copy Deposit Address",
+          icon: Icons.copy,
+          variant: AppColorVariant.Primary,
+          onPressed: () async {
+            await Clipboard.setData(ClipboardData(text: token.depositAddress));
+            Toast.message("BTC Address copied to clipboard");
+          },
+        ),
+        if (isOwner)
+          AppButton(
+            label: "Fund",
+            icon: Icons.outbox,
+            onPressed: () {},
+            variant: AppColorVariant.Primary,
+          ),
+        AppButton(
+          label: "Withdraw",
+          icon: Icons.download,
+          variant: AppColorVariant.Primary,
+          onPressed: () async {},
+        ),
+        AppButton(
+          label: "Transfer Ownership",
+          icon: Icons.person,
+          variant: AppColorVariant.Primary,
+          onPressed: () async {
+            final manager = ref.read(webTokenActionsManager);
+            if (!manager.verifyBalance()) {
+              return;
+            }
+
+            final toAddress = await manager.promptForAddress(title: "Transfer to");
+            if (toAddress == null) {
+              return;
+            }
+
+            final success = await manager.transferVbtcOwnership(token, toAddress);
+          },
+        ),
+        AppButton(
+          label: "Transfer",
+          variant: AppColorVariant.Primary,
+          icon: Icons.send,
+          onPressed: () async {
+            final manager = ref.read(webTokenActionsManager);
+            if (!manager.verifyBalance()) {
+              return;
+            }
+
+            final toAddress = await manager.promptForAddress(title: "Transfer to");
+            if (toAddress == null) {
+              return;
+            }
+
+            final amount = await manager.promptForAmount(title: "Amount to Transfer");
+            if (amount == null) {
+              return;
+            }
+
+            if (amount > myBalance) {
+              Toast.error("Your balance is insufficent.");
+              return;
+            }
+
+            final success = await manager.transferVbtcAmount(token, toAddress, amount);
+          },
+        ),
+        AppButton(
+          label: "Borrow/Lend",
+          icon: Icons.people,
+          onPressed: () {
+            Toast.message("Action Not Available Yet.");
+          },
+        ),
+      ],
     );
   }
 }

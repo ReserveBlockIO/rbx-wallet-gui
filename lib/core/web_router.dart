@@ -3,6 +3,7 @@ import 'package:auto_route/empty_router_widgets.dart';
 import '../features/adnr/screens/web_adnr_screen.dart';
 import '../features/btc/screens/tokenize_btc_screen.dart';
 import '../features/btc/screens/tokenized_btc_list_screen.dart';
+import '../features/btc_web/screens/web_tokenized_btc_detail_screen.dart';
 import '../features/chat/screens/web_seller_chat_thread_list_screen.dart';
 import '../features/chat/screens/web_seller_chat_screen.dart';
 import '../features/chat/screens/web_shop_chat_screen.dart';
@@ -159,6 +160,7 @@ const webDashboardTabRouter = AutoRoute(
       children: [
         AutoRoute(path: "", page: TokenizeBtcListScreen),
         AutoRoute(path: "create", page: TokenizeBtcScreen),
+        AutoRoute(path: "detail/:scId", page: WebTokenizedBtcDetailScreen),
       ],
     ),
     AutoRoute(

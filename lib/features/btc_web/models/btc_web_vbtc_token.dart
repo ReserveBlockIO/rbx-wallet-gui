@@ -21,4 +21,12 @@ class BtcWebVbtcToken with _$BtcWebVbtcToken {
   }) = _BtcWebVbtcToken;
 
   factory BtcWebVbtcToken.fromJson(Map<String, dynamic> json) => _$BtcWebVbtcTokenFromJson(json);
+
+  double balanceForAddress(String address) {
+    if (addresses.containsKey(address)) {
+      return addresses[address];
+    }
+
+    return 0.0;
+  }
 }
