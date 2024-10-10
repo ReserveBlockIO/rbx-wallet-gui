@@ -7435,45 +7435,45 @@
               Object.defineProperty(exports, "__esModule", { value: true });
               exports.testEcc = void 0;
               var h = (hex) => Buffer.from(hex, "hex");
-              function testEcc(ecc3) {
+              function testEcc(ecc4) {
                 assert(
-                  ecc3.isPoint(
+                  ecc4.isPoint(
                     h("0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798")
                   )
                 );
                 assert(
-                  !ecc3.isPoint(
+                  !ecc4.isPoint(
                     h("030000000000000000000000000000000000000000000000000000000000000005")
                   )
                 );
                 assert(
-                  ecc3.isPrivate(
+                  ecc4.isPrivate(
                     h("79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798")
                   )
                 );
                 assert(
-                  ecc3.isPrivate(
+                  ecc4.isPrivate(
                     h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140")
                   )
                 );
                 assert(
-                  !ecc3.isPrivate(
+                  !ecc4.isPrivate(
                     h("0000000000000000000000000000000000000000000000000000000000000000")
                   )
                 );
                 assert(
-                  !ecc3.isPrivate(
+                  !ecc4.isPrivate(
                     h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141")
                   )
                 );
                 assert(
-                  !ecc3.isPrivate(
+                  !ecc4.isPrivate(
                     h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364142")
                   )
                 );
                 assert(
                   Buffer.from(
-                    ecc3.privateAdd(
+                    ecc4.privateAdd(
                       h("0000000000000000000000000000000000000000000000000000000000000001"),
                       h("0000000000000000000000000000000000000000000000000000000000000000")
                     )
@@ -7482,14 +7482,14 @@
                   )
                 );
                 assert(
-                  ecc3.privateAdd(
+                  ecc4.privateAdd(
                     h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd036413e"),
                     h("0000000000000000000000000000000000000000000000000000000000000003")
                   ) === null
                 );
                 assert(
                   Buffer.from(
-                    ecc3.privateAdd(
+                    ecc4.privateAdd(
                       h("e211078564db65c3ce7704f08262b1f38f1ef412ad15b5ac2d76657a63b2c500"),
                       h("b51fbb69051255d1becbd683de5848242a89c229348dd72896a87ada94ae8665")
                     )
@@ -7499,7 +7499,7 @@
                 );
                 assert(
                   Buffer.from(
-                    ecc3.privateNegate(
+                    ecc4.privateNegate(
                       h("0000000000000000000000000000000000000000000000000000000000000001")
                     )
                   ).equals(
@@ -7508,7 +7508,7 @@
                 );
                 assert(
                   Buffer.from(
-                    ecc3.privateNegate(
+                    ecc4.privateNegate(
                       h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd036413e")
                     )
                   ).equals(
@@ -7517,7 +7517,7 @@
                 );
                 assert(
                   Buffer.from(
-                    ecc3.privateNegate(
+                    ecc4.privateNegate(
                       h("b1121e4088a66a28f5b6b0f5844943ecd9f610196d7bb83b25214b60452c09af")
                     )
                   ).equals(
@@ -7526,7 +7526,7 @@
                 );
                 assert(
                   Buffer.from(
-                    ecc3.pointCompress(
+                    ecc4.pointCompress(
                       h(
                         "0479be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8"
                       ),
@@ -7538,7 +7538,7 @@
                 );
                 assert(
                   Buffer.from(
-                    ecc3.pointCompress(
+                    ecc4.pointCompress(
                       h(
                         "0479be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8"
                       ),
@@ -7552,7 +7552,7 @@
                 );
                 assert(
                   Buffer.from(
-                    ecc3.pointCompress(
+                    ecc4.pointCompress(
                       h("0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"),
                       true
                     )
@@ -7562,7 +7562,7 @@
                 );
                 assert(
                   Buffer.from(
-                    ecc3.pointCompress(
+                    ecc4.pointCompress(
                       h("0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"),
                       false
                     )
@@ -7574,7 +7574,7 @@
                 );
                 assert(
                   Buffer.from(
-                    ecc3.pointFromScalar(
+                    ecc4.pointFromScalar(
                       h("b1121e4088a66a28f5b6b0f5844943ecd9f610196d7bb83b25214b60452c09af")
                     )
                   ).equals(
@@ -7582,12 +7582,12 @@
                   )
                 );
                 assert(
-                  ecc3.xOnlyPointAddTweak(
+                  ecc4.xOnlyPointAddTweak(
                     h("79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"),
                     h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140")
                   ) === null
                 );
-                let xOnlyRes = ecc3.xOnlyPointAddTweak(
+                let xOnlyRes = ecc4.xOnlyPointAddTweak(
                   h("1617d38ed8d8657da4d4761e8057bc396ea9e4b9d29776d4be096016dbd2509b"),
                   h("a8397a935f0dfceba6ba9618f6451ef4d80637abf4e6af2669fbc9de6a8fd2ac")
                 );
@@ -7596,7 +7596,7 @@
                     h("e478f99dab91052ab39a33ea35fd5e6e4933f4d28023cd597c9a1f6760346adf")
                   ) && xOnlyRes.parity === 1
                 );
-                xOnlyRes = ecc3.xOnlyPointAddTweak(
+                xOnlyRes = ecc4.xOnlyPointAddTweak(
                   h("2c0b7cf95324a07d05398b240174dc0c2be444d96b159aa6c7f7b1e668680991"),
                   h("823c3cd2142744b075a87eade7e1b8678ba308d566226a0056ca2b7a76f86b47")
                 );
@@ -7607,7 +7607,7 @@
                 );
                 assert(
                   Buffer.from(
-                    ecc3.sign(
+                    ecc4.sign(
                       h("5e9f0a0d593efdcf78ac923bc3313e4e7d408d574354ee2b3288c0da9fbba6ed"),
                       h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140")
                     )
@@ -7618,7 +7618,7 @@
                   )
                 );
                 assert(
-                  ecc3.verify(
+                  ecc4.verify(
                     h("5e9f0a0d593efdcf78ac923bc3313e4e7d408d574354ee2b3288c0da9fbba6ed"),
                     h("0379be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"),
                     h(
@@ -7626,10 +7626,10 @@
                     )
                   )
                 );
-                if (ecc3.signSchnorr) {
+                if (ecc4.signSchnorr) {
                   assert(
                     Buffer.from(
-                      ecc3.signSchnorr(
+                      ecc4.signSchnorr(
                         h("7e2d58d8b3bcdf1abadec7829054f90dda9805aab56c77333024b9d0a508b75c"),
                         h("c90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b14e5c9"),
                         h("c87aa53824b4d7ae2eb035a2b5bbbccc080e76cdc6d1692c4b0b62d798e6d906")
@@ -7641,9 +7641,9 @@
                     )
                   );
                 }
-                if (ecc3.verifySchnorr) {
+                if (ecc4.verifySchnorr) {
                   assert(
-                    ecc3.verifySchnorr(
+                    ecc4.verifySchnorr(
                       h("7e2d58d8b3bcdf1abadec7829054f90dda9805aab56c77333024b9d0a508b75c"),
                       h("dd308afec5777e13121fa72b9cc1b7cc0139715309b086c960e18fd969774eb8"),
                       h(
@@ -7680,22 +7680,22 @@
                 })
               );
               var toXOnly = (pubKey) => pubKey.length === 32 ? pubKey : pubKey.slice(1, 33);
-              function ECPairFactory3(ecc3) {
-                (0, testecc_1.testEcc)(ecc3);
+              function ECPairFactory4(ecc4) {
+                (0, testecc_1.testEcc)(ecc4);
                 function isPoint(maybePoint) {
-                  return ecc3.isPoint(maybePoint);
+                  return ecc4.isPoint(maybePoint);
                 }
                 function fromPrivateKey(buffer, options) {
                   types.typeforce(types.Buffer256bit, buffer);
-                  if (!ecc3.isPrivate(buffer))
+                  if (!ecc4.isPrivate(buffer))
                     throw new TypeError("Private key not in range [1, n)");
                   types.typeforce(isOptions, options);
-                  return new ECPair3(buffer, void 0, options);
+                  return new ECPair4(buffer, void 0, options);
                 }
                 function fromPublicKey(buffer, options) {
-                  types.typeforce(ecc3.isPoint, buffer);
+                  types.typeforce(ecc4.isPoint, buffer);
                   types.typeforce(isOptions, options);
-                  return new ECPair3(void 0, buffer, options);
+                  return new ECPair4(void 0, buffer, options);
                 }
                 function fromWIF(wifString, network) {
                   const decoded = wif.decode(wifString);
@@ -7725,10 +7725,10 @@
                   do {
                     d = rng(32);
                     types.typeforce(types.Buffer256bit, d);
-                  } while (!ecc3.isPrivate(d));
+                  } while (!ecc4.isPrivate(d));
                   return fromPrivateKey(d, options);
                 }
-                class ECPair3 {
+                class ECPair4 {
                   __D;
                   __Q;
                   compressed;
@@ -7743,14 +7743,14 @@
                     this.compressed = options.compressed === void 0 ? true : options.compressed;
                     this.network = options.network || networks4.bitcoin;
                     if (__Q !== void 0)
-                      this.__Q = Buffer.from(ecc3.pointCompress(__Q, this.compressed));
+                      this.__Q = Buffer.from(ecc4.pointCompress(__Q, this.compressed));
                   }
                   get privateKey() {
                     return this.__D;
                   }
                   get publicKey() {
                     if (!this.__Q) {
-                      const p = ecc3.pointFromScalar(this.__D, this.compressed);
+                      const p = ecc4.pointFromScalar(this.__D, this.compressed);
                       this.__Q = Buffer.from(p);
                     }
                     return this.__Q;
@@ -7771,15 +7771,15 @@
                     if (lowR === void 0)
                       lowR = this.lowR;
                     if (lowR === false) {
-                      return Buffer.from(ecc3.sign(hash, this.__D));
+                      return Buffer.from(ecc4.sign(hash, this.__D));
                     } else {
-                      let sig = ecc3.sign(hash, this.__D);
+                      let sig = ecc4.sign(hash, this.__D);
                       const extraData = Buffer.alloc(32, 0);
                       let counter = 0;
                       while (sig[0] > 127) {
                         counter++;
                         extraData.writeUIntLE(counter, 0, 6);
-                        sig = ecc3.sign(hash, this.__D, extraData);
+                        sig = ecc4.sign(hash, this.__D, extraData);
                       }
                       return Buffer.from(sig);
                     }
@@ -7787,21 +7787,21 @@
                   signSchnorr(hash) {
                     if (!this.privateKey)
                       throw new Error("Missing private key");
-                    if (!ecc3.signSchnorr)
+                    if (!ecc4.signSchnorr)
                       throw new Error("signSchnorr not supported by ecc library");
-                    return Buffer.from(ecc3.signSchnorr(hash, this.privateKey));
+                    return Buffer.from(ecc4.signSchnorr(hash, this.privateKey));
                   }
                   verify(hash, signature) {
-                    return ecc3.verify(hash, this.publicKey, signature);
+                    return ecc4.verify(hash, this.publicKey, signature);
                   }
                   verifySchnorr(hash, signature) {
-                    if (!ecc3.verifySchnorr)
+                    if (!ecc4.verifySchnorr)
                       throw new Error("verifySchnorr not supported by ecc library");
-                    return ecc3.verifySchnorr(hash, this.publicKey.subarray(1, 33), signature);
+                    return ecc4.verifySchnorr(hash, this.publicKey.subarray(1, 33), signature);
                   }
                   tweakFromPublicKey(t) {
                     const xOnlyPubKey = toXOnly(this.publicKey);
-                    const tweakedPublicKey = ecc3.xOnlyPointAddTweak(xOnlyPubKey, t);
+                    const tweakedPublicKey = ecc4.xOnlyPointAddTweak(xOnlyPubKey, t);
                     if (!tweakedPublicKey || tweakedPublicKey.xOnlyPubkey === null)
                       throw new Error("Cannot tweak public key!");
                     const parityByte = Buffer.from([
@@ -7814,8 +7814,8 @@
                   }
                   tweakFromPrivateKey(t) {
                     const hasOddY = this.publicKey[0] === 3 || this.publicKey[0] === 4 && (this.publicKey[64] & 1) === 1;
-                    const privateKey = hasOddY ? ecc3.privateNegate(this.privateKey) : this.privateKey;
-                    const tweakedPrivateKey = ecc3.privateAdd(privateKey, t);
+                    const privateKey = hasOddY ? ecc4.privateNegate(this.privateKey) : this.privateKey;
+                    const tweakedPrivateKey = ecc4.privateAdd(privateKey, t);
                     if (!tweakedPrivateKey)
                       throw new Error("Invalid tweaked private key!");
                     return fromPrivateKey(Buffer.from(tweakedPrivateKey), {
@@ -7832,7 +7832,7 @@
                   makeRandom
                 };
               }
-              exports.ECPairFactory = ECPairFactory3;
+              exports.ECPairFactory = ECPairFactory4;
             }
           });
 
@@ -10124,14 +10124,38 @@
               Object.defineProperty(exports, "__esModule", { value: true });
               exports.testnet = exports.regtest = exports.bitcoin = void 0;
               exports.bitcoin = {
+                /**
+                 * The message prefix used for signing Bitcoin messages.
+                 */
                 messagePrefix: "Bitcoin Signed Message:\n",
+                /**
+                 * The Bech32 prefix used for Bitcoin addresses.
+                 */
                 bech32: "bc",
+                /**
+                 * The BIP32 key prefixes for Bitcoin.
+                 */
                 bip32: {
+                  /**
+                   * The public key prefix for BIP32 extended public keys.
+                   */
                   public: 76067358,
+                  /**
+                   * The private key prefix for BIP32 extended private keys.
+                   */
                   private: 76066276
                 },
+                /**
+                 * The prefix for Bitcoin public key hashes.
+                 */
                 pubKeyHash: 0,
+                /**
+                 * The prefix for Bitcoin script hashes.
+                 */
                 scriptHash: 5,
+                /**
+                 * The prefix for Bitcoin Wallet Import Format (WIF) private keys.
+                 */
                 wif: 128
               };
               exports.regtest = {
@@ -10534,7 +10558,7 @@
             "node_modules/bitcoinjs-lib/src/types.js"(exports) {
               "use strict";
               Object.defineProperty(exports, "__esModule", { value: true });
-              exports.oneOf = exports.Null = exports.BufferN = exports.Function = exports.UInt32 = exports.UInt8 = exports.tuple = exports.maybe = exports.Hex = exports.Buffer = exports.String = exports.Boolean = exports.Array = exports.Number = exports.Hash256bit = exports.Hash160bit = exports.Buffer256bit = exports.isTaptree = exports.isTapleaf = exports.TAPLEAF_VERSION_MASK = exports.Network = exports.ECPoint = exports.Satoshi = exports.Signer = exports.BIP32Path = exports.UInt31 = exports.isPoint = exports.typeforce = void 0;
+              exports.oneOf = exports.Null = exports.BufferN = exports.Function = exports.UInt32 = exports.UInt8 = exports.tuple = exports.maybe = exports.Hex = exports.Buffer = exports.String = exports.Boolean = exports.Array = exports.Number = exports.Hash256bit = exports.Hash160bit = exports.Buffer256bit = exports.isTaptree = exports.isTapleaf = exports.TAPLEAF_VERSION_MASK = exports.Satoshi = exports.isPoint = exports.stacksEqual = exports.typeforce = void 0;
               var buffer_1 = require_buffer();
               exports.typeforce = require_typeforce();
               var ZERO32 = buffer_1.Buffer.alloc(32, 0);
@@ -10542,6 +10566,14 @@
                 "fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f",
                 "hex"
               );
+              function stacksEqual(a, b) {
+                if (a.length !== b.length)
+                  return false;
+                return a.every((x, i) => {
+                  return x.equals(b[i]);
+                });
+              }
+              exports.stacksEqual = stacksEqual;
               function isPoint(p) {
                 if (!buffer_1.Buffer.isBuffer(p))
                   return false;
@@ -10566,41 +10598,11 @@
                 return false;
               }
               exports.isPoint = isPoint;
-              var UINT31_MAX = Math.pow(2, 31) - 1;
-              function UInt31(value) {
-                return exports.typeforce.UInt32(value) && value <= UINT31_MAX;
-              }
-              exports.UInt31 = UInt31;
-              function BIP32Path(value) {
-                return exports.typeforce.String(value) && !!value.match(/^(m\/)?(\d+'?\/)*\d+'?$/);
-              }
-              exports.BIP32Path = BIP32Path;
-              BIP32Path.toJSON = () => {
-                return "BIP32 derivation path";
-              };
-              function Signer(obj) {
-                return (exports.typeforce.Buffer(obj.publicKey) || typeof obj.getPublicKey === "function") && typeof obj.sign === "function";
-              }
-              exports.Signer = Signer;
               var SATOSHI_MAX = 21 * 1e14;
               function Satoshi(value) {
                 return exports.typeforce.UInt53(value) && value <= SATOSHI_MAX;
               }
               exports.Satoshi = Satoshi;
-              exports.ECPoint = exports.typeforce.quacksLike("Point");
-              exports.Network = exports.typeforce.compile({
-                messagePrefix: exports.typeforce.oneOf(
-                  exports.typeforce.Buffer,
-                  exports.typeforce.String
-                ),
-                bip32: {
-                  public: exports.typeforce.UInt32,
-                  private: exports.typeforce.UInt32
-                },
-                pubKeyHash: exports.typeforce.UInt8,
-                scriptHash: exports.typeforce.UInt8,
-                wif: exports.typeforce.UInt8
-              });
               exports.TAPLEAF_VERSION_MASK = 254;
               function isTapleaf(o) {
                 if (!o || !("output" in o))
@@ -10647,6 +10649,7 @@
               Object.defineProperty(exports, "__esModule", { value: true });
               exports.encode = exports.decode = void 0;
               var bip66 = require_bip66();
+              var script_1 = require_script();
               var types = require_types2();
               var { typeforce } = types;
               var ZERO = Buffer.alloc(1, 0);
@@ -10671,9 +10674,9 @@
               }
               function decode(buffer) {
                 const hashType = buffer.readUInt8(buffer.length - 1);
-                const hashTypeMod = hashType & ~128;
-                if (hashTypeMod <= 0 || hashTypeMod >= 4)
+                if (!(0, script_1.isDefinedHashType)(hashType)) {
                   throw new Error("Invalid hashType " + hashType);
+                }
                 const decoded = bip66.decode(buffer.slice(0, -1));
                 const r = fromDER(decoded.r);
                 const s = fromDER(decoded.s);
@@ -10689,9 +10692,9 @@
                   },
                   { signature, hashType }
                 );
-                const hashTypeMod = hashType & ~128;
-                if (hashTypeMod <= 0 || hashTypeMod >= 4)
+                if (!(0, script_1.isDefinedHashType)(hashType)) {
                   throw new Error("Invalid hashType " + hashType);
+                }
                 const hashTypeBuffer = Buffer.allocUnsafe(1);
                 hashTypeBuffer.writeUInt8(hashType, 0);
                 const r = toDER(signature.slice(0, 32));
@@ -10826,6 +10829,9 @@
                 if (chunksIsBuffer(chunks)) {
                   chunks = decompile(chunks);
                 }
+                if (!chunks) {
+                  throw new Error("Could not convert invalid chunks to ASM");
+                }
                 return chunks.map((chunk) => {
                   if (singleChunkIsBuffer(chunk)) {
                     const op = asMinimalOP(chunk);
@@ -10933,13 +10939,6 @@
               var types_1 = require_types2();
               var lazy = require_lazy();
               var OPS = bscript.OPS;
-              function stacksEqual(a, b) {
-                if (a.length !== b.length)
-                  return false;
-                return a.every((x, i) => {
-                  return x.equals(b[i]);
-                });
-              }
               function p2data(a, opts) {
                 if (!a.data && !a.output)
                   throw new TypeError("Not enough data");
@@ -10973,7 +10972,7 @@
                       throw new TypeError("Output is invalid");
                     if (!chunks.slice(1).every(types_1.typeforce.Buffer))
                       throw new TypeError("Output is invalid");
-                    if (a.data && !stacksEqual(a.data, o.data))
+                    if (a.data && !(0, types_1.stacksEqual)(a.data, o.data))
                       throw new TypeError("Data mismatch");
                   }
                 }
@@ -10995,13 +10994,6 @@
               var lazy = require_lazy();
               var OPS = bscript.OPS;
               var OP_INT_BASE = OPS.OP_RESERVED;
-              function stacksEqual(a, b) {
-                if (a.length !== b.length)
-                  return false;
-                return a.every((x, i) => {
-                  return x.equals(b[i]);
-                });
-              }
               function p2ms(a, opts) {
                 if (!a.input && !a.output && !(a.pubkeys && a.m !== void 0) && !a.signatures)
                   throw new TypeError("Not enough data");
@@ -11108,7 +11100,7 @@
                       throw new TypeError("m mismatch");
                     if (a.n !== void 0 && a.n !== o.n)
                       throw new TypeError("n mismatch");
-                    if (a.pubkeys && !stacksEqual(a.pubkeys, o.pubkeys))
+                    if (a.pubkeys && !(0, types_1.stacksEqual)(a.pubkeys, o.pubkeys))
                       throw new TypeError("Pubkeys mismatch");
                   }
                   if (a.pubkeys) {
@@ -11129,7 +11121,7 @@
                       throw new TypeError("Input is invalid");
                     if (o.signatures.length === 0 || !o.signatures.every(isAcceptableSignature))
                       throw new TypeError("Input has invalid signature(s)");
-                    if (a.signatures && !stacksEqual(a.signatures, o.signatures))
+                    if (a.signatures && !(0, types_1.stacksEqual)(a.signatures, o.signatures))
                       throw new TypeError("Signature mismatch");
                     if (a.m !== void 0 && a.m !== a.signatures.length)
                       throw new TypeError("Signature count mismatch");
@@ -12417,13 +12409,6 @@
               var lazy = require_lazy();
               var bs58check = require_bs58check2();
               var OPS = bscript.OPS;
-              function stacksEqual(a, b) {
-                if (a.length !== b.length)
-                  return false;
-                return a.every((x, i) => {
-                  return x.equals(b[i]);
-                });
-              }
               function p2sh(a, opts) {
                 if (!a.address && !a.hash && !a.output && !a.redeem && !a.input)
                   throw new TypeError("Not enough data");
@@ -12596,7 +12581,7 @@
                     checkRedeem(a.redeem);
                   }
                   if (a.witness) {
-                    if (a.redeem && a.redeem.witness && !stacksEqual(a.redeem.witness, a.witness))
+                    if (a.redeem && a.redeem.witness && !(0, types_1.stacksEqual)(a.redeem.witness, a.witness))
                       throw new TypeError("Witness and redeem.witness mismatch");
                   }
                 }
@@ -12931,13 +12916,6 @@
               var bech32_1 = require_dist2();
               var OPS = bscript.OPS;
               var EMPTY_BUFFER = Buffer.alloc(0);
-              function stacksEqual(a, b) {
-                if (a.length !== b.length)
-                  return false;
-                return a.every((x, i) => {
-                  return x.equals(b[i]);
-                });
-              }
               function chunkHasUncompressedPubkey(chunk) {
                 if (Buffer.isBuffer(chunk) && chunk.length === 65 && chunk[0] === 4 && (0, types_1.isPoint)(chunk)) {
                   return true;
@@ -13094,7 +13072,7 @@
                     }
                     if (a.redeem.input && !bscript.isPushOnly(_rchunks()))
                       throw new TypeError("Non push-only scriptSig");
-                    if (a.witness && a.redeem.witness && !stacksEqual(a.witness, a.redeem.witness))
+                    if (a.witness && a.redeem.witness && !(0, types_1.stacksEqual)(a.witness, a.redeem.witness))
                       throw new TypeError("Witness and redeem.witness mismatch");
                     if (a.redeem.input && _rchunks().some(chunkHasUncompressedPubkey) || a.redeem.output && (bscript.decompile(a.redeem.output) || []).some(
                       chunkHasUncompressedPubkey
@@ -13143,41 +13121,41 @@
               }
               exports.getEccLib = getEccLib;
               var h = (hex) => Buffer.from(hex, "hex");
-              function verifyEcc(ecc3) {
-                assert(typeof ecc3.isXOnlyPoint === "function");
+              function verifyEcc(ecc4) {
+                assert(typeof ecc4.isXOnlyPoint === "function");
                 assert(
-                  ecc3.isXOnlyPoint(
+                  ecc4.isXOnlyPoint(
                     h("79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798")
                   )
                 );
                 assert(
-                  ecc3.isXOnlyPoint(
+                  ecc4.isXOnlyPoint(
                     h("fffffffffffffffffffffffffffffffffffffffffffffffffffffffeeffffc2e")
                   )
                 );
                 assert(
-                  ecc3.isXOnlyPoint(
+                  ecc4.isXOnlyPoint(
                     h("f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9")
                   )
                 );
                 assert(
-                  ecc3.isXOnlyPoint(
+                  ecc4.isXOnlyPoint(
                     h("0000000000000000000000000000000000000000000000000000000000000001")
                   )
                 );
                 assert(
-                  !ecc3.isXOnlyPoint(
+                  !ecc4.isXOnlyPoint(
                     h("0000000000000000000000000000000000000000000000000000000000000000")
                   )
                 );
                 assert(
-                  !ecc3.isXOnlyPoint(
+                  !ecc4.isXOnlyPoint(
                     h("fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f")
                   )
                 );
-                assert(typeof ecc3.xOnlyPointAddTweak === "function");
+                assert(typeof ecc4.xOnlyPointAddTweak === "function");
                 tweakAddVectors.forEach((t) => {
-                  const r = ecc3.xOnlyPointAddTweak(h(t.pubkey), h(t.tweak));
+                  const r = ecc4.xOnlyPointAddTweak(h(t.pubkey), h(t.tweak));
                   if (t.result === null) {
                     assert(r === null);
                   } else {
@@ -13559,6 +13537,7 @@
               var bip341_1 = require_bip341();
               var lazy = require_lazy();
               var bech32_1 = require_dist2();
+              var address_1 = require_address();
               var OPS = bscript.OPS;
               var TAPROOT_WITNESS_VERSION = 1;
               var ANNEX_PREFIX = 80;
@@ -13597,14 +13576,7 @@
                   a
                 );
                 const _address = lazy.value(() => {
-                  const result = bech32_1.bech32m.decode(a.address);
-                  const version = result.words.shift();
-                  const data = bech32_1.bech32m.fromWords(result.words);
-                  return {
-                    version,
-                    prefix: result.prefix,
-                    data: buffer_1.Buffer.from(data)
-                  };
+                  return (0, address_1.fromBech32)(a.address);
                 });
                 const _witness = lazy.value(() => {
                   if (!a.witness || !a.witness.length)
@@ -13638,9 +13610,9 @@
                   if (w && w.length > 1) {
                     const controlBlock = w[w.length - 1];
                     const leafVersion = controlBlock[0] & types_1.TAPLEAF_VERSION_MASK;
-                    const script2 = w[w.length - 2];
+                    const script = w[w.length - 2];
                     const leafHash = (0, bip341_1.tapleafHash)({
-                      output: script2,
+                      output: script,
                       version: leafVersion
                     });
                     return (0, bip341_1.rootHashFromPath)(controlBlock, leafHash);
@@ -13786,7 +13758,7 @@
                         throw new TypeError("Redeem.output and witness mismatch");
                     }
                     if (a.redeem.witness) {
-                      if (o.redeem.witness && !stacksEqual(a.redeem.witness, o.redeem.witness))
+                      if (o.redeem.witness && !(0, types_1.stacksEqual)(a.redeem.witness, o.redeem.witness))
                         throw new TypeError("Redeem.witness and witness mismatch");
                     }
                   }
@@ -13815,9 +13787,9 @@
                       if (!(0, ecc_lib_1.getEccLib)().isXOnlyPoint(internalPubkey))
                         throw new TypeError("Invalid internalPubkey for p2tr witness");
                       const leafVersion = controlBlock[0] & types_1.TAPLEAF_VERSION_MASK;
-                      const script2 = witness[witness.length - 2];
+                      const script = witness[witness.length - 2];
                       const leafHash = (0, bip341_1.tapleafHash)({
-                        output: script2,
+                        output: script,
                         version: leafVersion
                       });
                       const hash = (0, bip341_1.rootHashFromPath)(controlBlock, leafHash);
@@ -13834,13 +13806,6 @@
                 return Object.assign(o, a);
               }
               exports.p2tr = p2tr;
-              function stacksEqual(a, b) {
-                if (a.length !== b.length)
-                  return false;
-                return a.every((x, i) => {
-                  return x.equals(b[i]);
-                });
-              }
             }
           });
 
@@ -13916,7 +13881,7 @@
               Object.defineProperty(exports, "__esModule", { value: true });
               exports.toOutputScript = exports.fromOutputScript = exports.toBech32 = exports.toBase58Check = exports.fromBech32 = exports.fromBase58Check = void 0;
               var networks4 = require_networks2();
-              var payments2 = require_payments();
+              var payments3 = require_payments();
               var bscript = require_script();
               var types_1 = require_types2();
               var bech32_1 = require_dist2();
@@ -13939,33 +13904,33 @@
                 console.warn(FUTURE_SEGWIT_VERSION_WARNING);
                 return toBech32(data, version, network.bech32);
               }
-              function fromBase58Check(address) {
-                const payload = Buffer.from(bs58check.decode(address));
+              function fromBase58Check(address2) {
+                const payload = Buffer.from(bs58check.decode(address2));
                 if (payload.length < 21)
-                  throw new TypeError(address + " is too short");
+                  throw new TypeError(address2 + " is too short");
                 if (payload.length > 21)
-                  throw new TypeError(address + " is too long");
+                  throw new TypeError(address2 + " is too long");
                 const version = payload.readUInt8(0);
                 const hash = payload.slice(1);
                 return { version, hash };
               }
               exports.fromBase58Check = fromBase58Check;
-              function fromBech32(address) {
+              function fromBech32(address2) {
                 let result;
                 let version;
                 try {
-                  result = bech32_1.bech32.decode(address);
+                  result = bech32_1.bech32.decode(address2);
                 } catch (e) {
                 }
                 if (result) {
                   version = result.words[0];
                   if (version !== 0)
-                    throw new TypeError(address + " uses wrong encoding");
+                    throw new TypeError(address2 + " uses wrong encoding");
                 } else {
-                  result = bech32_1.bech32m.decode(address);
+                  result = bech32_1.bech32m.decode(address2);
                   version = result.words[0];
                   if (version === 0)
-                    throw new TypeError(address + " uses wrong encoding");
+                    throw new TypeError(address2 + " uses wrong encoding");
                 }
                 const data = bech32_1.bech32.fromWords(result.words.slice(1));
                 return {
@@ -13995,23 +13960,23 @@
               function fromOutputScript(output, network) {
                 network = network || networks4.bitcoin;
                 try {
-                  return payments2.p2pkh({ output, network }).address;
+                  return payments3.p2pkh({ output, network }).address;
                 } catch (e) {
                 }
                 try {
-                  return payments2.p2sh({ output, network }).address;
+                  return payments3.p2sh({ output, network }).address;
                 } catch (e) {
                 }
                 try {
-                  return payments2.p2wpkh({ output, network }).address;
+                  return payments3.p2wpkh({ output, network }).address;
                 } catch (e) {
                 }
                 try {
-                  return payments2.p2wsh({ output, network }).address;
+                  return payments3.p2wsh({ output, network }).address;
                 } catch (e) {
                 }
                 try {
-                  return payments2.p2tr({ output, network }).address;
+                  return payments3.p2tr({ output, network }).address;
                 } catch (e) {
                 }
                 try {
@@ -14021,35 +13986,35 @@
                 throw new Error(bscript.toASM(output) + " has no matching Address");
               }
               exports.fromOutputScript = fromOutputScript;
-              function toOutputScript(address, network) {
+              function toOutputScript(address2, network) {
                 network = network || networks4.bitcoin;
                 let decodeBase58;
                 let decodeBech32;
                 try {
-                  decodeBase58 = fromBase58Check(address);
+                  decodeBase58 = fromBase58Check(address2);
                 } catch (e) {
                 }
                 if (decodeBase58) {
                   if (decodeBase58.version === network.pubKeyHash)
-                    return payments2.p2pkh({ hash: decodeBase58.hash }).output;
+                    return payments3.p2pkh({ hash: decodeBase58.hash }).output;
                   if (decodeBase58.version === network.scriptHash)
-                    return payments2.p2sh({ hash: decodeBase58.hash }).output;
+                    return payments3.p2sh({ hash: decodeBase58.hash }).output;
                 } else {
                   try {
-                    decodeBech32 = fromBech32(address);
+                    decodeBech32 = fromBech32(address2);
                   } catch (e) {
                   }
                   if (decodeBech32) {
                     if (decodeBech32.prefix !== network.bech32)
-                      throw new Error(address + " has an invalid prefix");
+                      throw new Error(address2 + " has an invalid prefix");
                     if (decodeBech32.version === 0) {
                       if (decodeBech32.data.length === 20)
-                        return payments2.p2wpkh({ hash: decodeBech32.data }).output;
+                        return payments3.p2wpkh({ hash: decodeBech32.data }).output;
                       if (decodeBech32.data.length === 32)
-                        return payments2.p2wsh({ hash: decodeBech32.data }).output;
+                        return payments3.p2wsh({ hash: decodeBech32.data }).output;
                     } else if (decodeBech32.version === 1) {
                       if (decodeBech32.data.length === 32)
-                        return payments2.p2tr({ pubkey: decodeBech32.data }).output;
+                        return payments3.p2tr({ pubkey: decodeBech32.data }).output;
                     } else if (decodeBech32.version >= FUTURE_SEGWIT_MIN_VERSION && decodeBech32.version <= FUTURE_SEGWIT_MAX_VERSION && decodeBech32.data.length >= FUTURE_SEGWIT_MIN_SIZE && decodeBech32.data.length <= FUTURE_SEGWIT_MAX_SIZE) {
                       console.warn(FUTURE_SEGWIT_VERSION_WARNING);
                       return bscript.compile([
@@ -14059,7 +14024,7 @@
                     }
                   }
                 }
-                throw new Error(address + " has no matching Script");
+                throw new Error(address2 + " has no matching Script");
               }
               exports.toOutputScript = toOutputScript;
             }
@@ -15248,9 +15213,9 @@
                     "Decode Error: tapLeafScript bad leaf version in key 0x" + keyVal.key.toString("hex")
                   );
                 }
-                const script2 = keyVal.value.slice(0, -1);
+                const script = keyVal.value.slice(0, -1);
                 const controlBlock = keyVal.key.slice(1);
-                return { controlBlock, script: script2, leafVersion };
+                return { controlBlock, script, leafVersion };
               }
               exports.decode = decode;
               function encode(tScript) {
@@ -15529,23 +15494,23 @@
                 let _offset = 8;
                 const scriptLen = varuint.decode(keyVal.value, _offset);
                 _offset += varuint.encodingLength(scriptLen);
-                const script2 = keyVal.value.slice(_offset);
-                if (script2.length !== scriptLen) {
+                const script = keyVal.value.slice(_offset);
+                if (script.length !== scriptLen) {
                   throw new Error("Decode Error: WITNESS_UTXO script is not proper length");
                 }
                 return {
-                  script: script2,
+                  script,
                   value
                 };
               }
               exports.decode = decode;
               function encode(data) {
-                const { script: script2, value } = data;
-                const varintLen = varuint.encodingLength(script2.length);
-                const result = Buffer.allocUnsafe(8 + varintLen + script2.length);
+                const { script, value } = data;
+                const varintLen = varuint.encodingLength(script.length);
+                const result = Buffer.allocUnsafe(8 + varintLen + script.length);
                 tools_1.writeUInt64LE(result, value, 0);
-                varuint.encode(script2.length, result, 8);
-                script2.copy(result, 8 + varintLen);
+                varuint.encode(script.length, result, 8);
+                script.copy(result, 8 + varintLen);
                 return {
                   key: Buffer.from([typeFields_1.InputTypes.WITNESS_UTXO]),
                   value: result
@@ -16683,7 +16648,7 @@
               var parser_1 = require_parser();
               var typeFields_1 = require_typeFields();
               var utils_1 = require_utils2();
-              var Psbt = class {
+              var Psbt2 = class {
                 constructor(tx) {
                   this.inputs = [];
                   this.outputs = [];
@@ -16822,7 +16787,7 @@
                   return this.globalMap.unsignedTx.toBuffer();
                 }
               };
-              exports.Psbt = Psbt;
+              exports.Psbt = Psbt2;
             }
           });
 
@@ -16836,24 +16801,24 @@
               var bscript = require_script();
               var transaction_1 = require_transaction();
               var crypto_1 = require_crypto3();
-              var payments2 = require_payments();
+              var payments3 = require_payments();
               function isPaymentFactory(payment) {
-                return (script2) => {
+                return (script) => {
                   try {
-                    payment({ output: script2 });
+                    payment({ output: script });
                     return true;
                   } catch (err) {
                     return false;
                   }
                 };
               }
-              exports.isP2MS = isPaymentFactory(payments2.p2ms);
-              exports.isP2PK = isPaymentFactory(payments2.p2pk);
-              exports.isP2PKH = isPaymentFactory(payments2.p2pkh);
-              exports.isP2WPKH = isPaymentFactory(payments2.p2wpkh);
-              exports.isP2WSHScript = isPaymentFactory(payments2.p2wsh);
-              exports.isP2SHScript = isPaymentFactory(payments2.p2sh);
-              exports.isP2TR = isPaymentFactory(payments2.p2tr);
+              exports.isP2MS = isPaymentFactory(payments3.p2ms);
+              exports.isP2PK = isPaymentFactory(payments3.p2pk);
+              exports.isP2PKH = isPaymentFactory(payments3.p2pkh);
+              exports.isP2WPKH = isPaymentFactory(payments3.p2wpkh);
+              exports.isP2WSHScript = isPaymentFactory(payments3.p2wsh);
+              exports.isP2SHScript = isPaymentFactory(payments3.p2sh);
+              exports.isP2TR = isPaymentFactory(payments3.p2tr);
               function witnessStackToScriptWitness(witness) {
                 let buffer = Buffer.allocUnsafe(0);
                 function writeSlice(slice) {
@@ -16877,10 +16842,10 @@
                 return buffer;
               }
               exports.witnessStackToScriptWitness = witnessStackToScriptWitness;
-              function pubkeyPositionInScript(pubkey, script2) {
+              function pubkeyPositionInScript(pubkey, script) {
                 const pubkeyHash = (0, crypto_1.hash160)(pubkey);
                 const pubkeyXOnly = pubkey.slice(1, 33);
-                const decompiled = bscript.decompile(script2);
+                const decompiled = bscript.decompile(script);
                 if (decompiled === null)
                   throw new Error("Unknown script error");
                 return decompiled.findIndex((element) => {
@@ -16890,8 +16855,8 @@
                 });
               }
               exports.pubkeyPositionInScript = pubkeyPositionInScript;
-              function pubkeyInScript(pubkey, script2) {
-                return pubkeyPositionInScript(pubkey, script2) !== -1;
+              function pubkeyInScript(pubkey, script) {
+                return pubkeyPositionInScript(pubkey, script) !== -1;
               }
               exports.pubkeyInScript = pubkeyInScript;
               function checkInputForSig(input, action) {
@@ -16984,8 +16949,8 @@
                 return input && !!(input.tapInternalKey || input.tapMerkleRoot || input.tapLeafScript && input.tapLeafScript.length || input.tapBip32Derivation && input.tapBip32Derivation.length || input.witnessUtxo && (0, psbtutils_1.isP2TR)(input.witnessUtxo.script));
               }
               exports.isTaprootInput = isTaprootInput;
-              function isTaprootOutput(output, script2) {
-                return output && !!(output.tapInternalKey || output.tapTree || output.tapBip32Derivation && output.tapBip32Derivation.length || script2 && (0, psbtutils_1.isP2TR)(script2));
+              function isTaprootOutput(output, script) {
+                return output && !!(output.tapInternalKey || output.tapTree || output.tapBip32Derivation && output.tapBip32Derivation.length || script && (0, psbtutils_1.isP2TR)(script));
               }
               exports.isTaprootOutput = isTaprootOutput;
               function checkTaprootInputFields(inputData, newInputData, action) {
@@ -17005,8 +16970,8 @@
                 const tapTree = newOutputData.tapTree || outputData.tapTree;
                 if (tapInternalKey) {
                   const { script: scriptPubkey } = outputData;
-                  const script2 = getTaprootScripPubkey(tapInternalKey, tapTree);
-                  if (scriptPubkey && !scriptPubkey.equals(script2))
+                  const script = getTaprootScripPubkey(tapInternalKey, tapTree);
+                  if (scriptPubkey && !scriptPubkey.equals(script))
                     throw new Error("Error adding output. Script or address missmatch.");
                 }
               }
@@ -17186,12 +17151,12 @@
                 });
                 return (input.tapScriptSig || []).filter((tss) => tss.leafHash.equals(leafHash)).map((tss) => addPubkeyPositionInScript(tapLeaf.script, tss)).sort((t1, t2) => t2.positionInScript - t1.positionInScript).map((t) => t.signature);
               }
-              function addPubkeyPositionInScript(script2, tss) {
+              function addPubkeyPositionInScript(script, tss) {
                 return Object.assign(
                   {
                     positionInScript: (0, psbtutils_1.pubkeyPositionInScript)(
                       tss.pubkey,
-                      script2
+                      script
                     )
                   },
                   tss
@@ -17237,7 +17202,7 @@
               var address_1 = require_address();
               var bufferutils_1 = require_bufferutils();
               var networks_1 = require_networks2();
-              var payments2 = require_payments();
+              var payments3 = require_payments();
               var bip341_1 = require_bip341();
               var bscript = require_script();
               var transaction_1 = require_transaction();
@@ -17257,7 +17222,7 @@
                 maximumFeeRate: 5e3
                 // satoshi per byte
               };
-              var Psbt = class _Psbt {
+              var Psbt2 = class _Psbt {
                 static fromBase64(data, opts = {}) {
                   const buffer = Buffer.from(data, "base64");
                   return this.fromBuffer(buffer, opts);
@@ -17280,7 +17245,7 @@
                     __NON_WITNESS_UTXO_BUF_CACHE: [],
                     __TX_IN_CACHE: {},
                     __TX: this.data.globalMap.unsignedTx.tx,
-                    // Psbt's predecesor (TransactionBuilder - now removed) behavior
+                    // Psbt's predecessor (TransactionBuilder - now removed) behavior
                     // was to not confirm input values  before signing.
                     // Even though we highly encourage people to get
                     // the full parent transaction to verify values, the ability to
@@ -17323,9 +17288,9 @@
                 }
                 get txOutputs() {
                   return this.__CACHE.__TX.outs.map((output) => {
-                    let address;
+                    let address2;
                     try {
-                      address = (0, address_1.fromOutputScript)(
+                      address2 = (0, address_1.fromOutputScript)(
                         output.script,
                         this.opts.network
                       );
@@ -17334,7 +17299,7 @@
                     return {
                       script: (0, bufferutils_1.cloneBuffer)(output.script),
                       value: output.value,
-                      address
+                      address: address2
                     };
                   });
                 }
@@ -17417,11 +17382,11 @@
                     );
                   }
                   checkInputsForPartialSig(this.data.inputs, "addOutput");
-                  const { address } = outputData;
-                  if (typeof address === "string") {
+                  const { address: address2 } = outputData;
+                  if (typeof address2 === "string") {
                     const { network } = this.opts;
-                    const script2 = (0, address_1.toOutputScript)(address, network);
-                    outputData = Object.assign(outputData, { script: script2 });
+                    const script = (0, address_1.toOutputScript)(address2, network);
+                    outputData = Object.assign({}, outputData, { script });
                   }
                   (0, bip371_1.checkTaprootOutputFields)(outputData, outputData, "addOutput");
                   const c = this.__CACHE;
@@ -17483,18 +17448,18 @@
                   throw new Error(`Cannot finalize input #${inputIndex}. Not Taproot.`);
                 }
                 _finalizeInput(inputIndex, input, finalScriptsFunc = getFinalScripts) {
-                  const { script: script2, isP2SH, isP2WSH, isSegwit } = getScriptFromInput(
+                  const { script, isP2SH, isP2WSH, isSegwit } = getScriptFromInput(
                     inputIndex,
                     input,
                     this.__CACHE
                   );
-                  if (!script2)
+                  if (!script)
                     throw new Error(`No script found for input #${inputIndex}`);
                   checkPartialSigSighashes(input);
                   const { finalScriptSig, finalScriptWitness } = finalScriptsFunc(
                     inputIndex,
                     input,
-                    script2,
+                    script,
                     isSegwit,
                     isP2SH,
                     isP2WSH
@@ -17514,7 +17479,7 @@
                       `Cannot finalize input #${inputIndex}. Missing withness utxo.`
                     );
                   if (input.tapKeySig) {
-                    const payment = payments2.p2tr({
+                    const payment = payments3.p2tr({
                       output: input.witnessUtxo.script,
                       signature: input.tapKeySig
                     });
@@ -17535,9 +17500,9 @@
                 }
                 getInputType(inputIndex) {
                   const input = (0, utils_1.checkForInput)(this.data.inputs, inputIndex);
-                  const script2 = getScriptFromUtxo(inputIndex, input, this.__CACHE);
+                  const script = getScriptFromUtxo(inputIndex, input, this.__CACHE);
                   const result = getMeaningfulScript(
-                    script2,
+                    script,
                     inputIndex,
                     "input",
                     input.redeemScript || redeemFromFinalScriptSig(input.finalScriptSig),
@@ -17598,7 +17563,7 @@
                   let sighashCache;
                   for (const pSig of mySigs) {
                     const sig = bscript.signature.decode(pSig.signature);
-                    const { hash, script: script2 } = sighashCache !== sig.hashType ? getHashForSig(
+                    const { hash, script } = sighashCache !== sig.hashType ? getHashForSig(
                       inputIndex,
                       Object.assign({}, input, { sighashType: sig.hashType }),
                       this.__CACHE,
@@ -17606,8 +17571,8 @@
                     ) : { hash: hashCache, script: scriptCache };
                     sighashCache = sig.hashType;
                     hashCache = hash;
-                    scriptCache = script2;
-                    checkScriptForPubkey(pSig.pubkey, script2, "verify");
+                    scriptCache = script;
+                    checkScriptForPubkey(pSig.pubkey, script, "verify");
                     results.push(validator(pSig.pubkey, hash, sig.signature));
                   }
                   return results.every((res) => res === true);
@@ -18031,7 +17996,7 @@
                   return this;
                 }
               };
-              exports.Psbt = Psbt;
+              exports.Psbt = Psbt2;
               var transactionFromBuffer = (buffer) => new PsbtTransaction(buffer);
               var PsbtTransaction = class {
                 constructor(buffer = Buffer.from([2, 0, 0, 0, 0, 0, 0, 0, 0, 0])) {
@@ -18065,14 +18030,14 @@
                   return this.tx.toBuffer();
                 }
               };
-              function canFinalize(input, script2, scriptType) {
+              function canFinalize(input, script, scriptType) {
                 switch (scriptType) {
                   case "pubkey":
                   case "pubkeyhash":
                   case "witnesspubkeyhash":
                     return hasSigs(1, input.partialSig);
                   case "multisig":
-                    const p2ms = payments2.p2ms({ output: script2 });
+                    const p2ms = payments3.p2ms({ output: script });
                     return hasSigs(p2ms.m, input.partialSig, p2ms.pubkeys);
                   default:
                     return false;
@@ -18144,8 +18109,8 @@
                   }
                 });
               }
-              function checkScriptForPubkey(pubkey, script2, action) {
-                if (!(0, psbtutils_1.pubkeyInScript)(pubkey, script2)) {
+              function checkScriptForPubkey(pubkey, script, action) {
+                if (!(0, psbtutils_1.pubkeyInScript)(pubkey, script)) {
                   throw new Error(
                     `Can not ${action} for this input with the key ${pubkey.toString("hex")}`
                   );
@@ -18182,9 +18147,9 @@
                   }
                 };
               }
-              var checkRedeemScript = scriptCheckerFactory(payments2.p2sh, "Redeem script");
+              var checkRedeemScript = scriptCheckerFactory(payments3.p2sh, "Redeem script");
               var checkWitnessScript = scriptCheckerFactory(
-                payments2.p2wsh,
+                payments3.p2wsh,
                 "Witness script"
               );
               function getTxCacheValue(key, name, inputs, c) {
@@ -18208,12 +18173,12 @@
                 else if (key === "__FEE")
                   return c.__FEE;
               }
-              function getFinalScripts(inputIndex, input, script2, isSegwit, isP2SH, isP2WSH) {
-                const scriptType = classifyScript(script2);
-                if (!canFinalize(input, script2, scriptType))
+              function getFinalScripts(inputIndex, input, script, isSegwit, isP2SH, isP2WSH) {
+                const scriptType = classifyScript(script);
+                if (!canFinalize(input, script, scriptType))
                   throw new Error(`Can not finalize input #${inputIndex}`);
                 return prepareFinalScripts(
-                  script2,
+                  script,
                   scriptType,
                   input.partialSig,
                   isSegwit,
@@ -18221,12 +18186,12 @@
                   isP2WSH
                 );
               }
-              function prepareFinalScripts(script2, scriptType, partialSig, isSegwit, isP2SH, isP2WSH) {
+              function prepareFinalScripts(script, scriptType, partialSig, isSegwit, isP2SH, isP2WSH) {
                 let finalScriptSig;
                 let finalScriptWitness;
-                const payment = getPayment(script2, scriptType, partialSig);
-                const p2wsh = !isP2WSH ? null : payments2.p2wsh({ redeem: payment });
-                const p2sh = !isP2SH ? null : payments2.p2sh({ redeem: p2wsh || payment });
+                const payment = getPayment(script, scriptType, partialSig);
+                const p2wsh = !isP2WSH ? null : payments3.p2wsh({ redeem: payment });
+                const p2sh = !isP2SH ? null : payments3.p2sh({ redeem: p2wsh || payment });
                 if (isSegwit) {
                   if (p2wsh) {
                     finalScriptWitness = (0, psbtutils_1.witnessStackToScriptWitness)(
@@ -18254,14 +18219,14 @@
               }
               function getHashAndSighashType(inputs, inputIndex, pubkey, cache, sighashTypes) {
                 const input = (0, utils_1.checkForInput)(inputs, inputIndex);
-                const { hash, sighashType, script: script2 } = getHashForSig(
+                const { hash, sighashType, script } = getHashForSig(
                   inputIndex,
                   input,
                   cache,
                   false,
                   sighashTypes
                 );
-                checkScriptForPubkey(pubkey, script2, "sign");
+                checkScriptForPubkey(pubkey, script, "sign");
                 return {
                   hash,
                   sighashType
@@ -18308,7 +18273,7 @@
                     sighashType
                   );
                 } else if ((0, psbtutils_1.isP2WPKH)(meaningfulScript)) {
-                  const signingScript = payments2.p2pkh({
+                  const signingScript = payments3.p2pkh({
                     hash: meaningfulScript.slice(2)
                   }).output;
                   hash = unsignedTx.hashForWitnessV0(
@@ -18324,7 +18289,7 @@
                     );
                   if (!forValidate && cache.__UNSAFE_SIGN_NONSEGWIT !== false)
                     console.warn(
-                      "Warning: Signing non-segwit inputs without the full parent transaction means there is a chance that a miner could feed you incorrect information to trick you into paying large fees. This behavior is the same as Psbt's predecesor (TransactionBuilder - now removed) when signing non-segwit scripts. You are not able to export this Psbt with toBuffer|toBase64|toHex since it is not BIP174 compliant.\n*********************\nPROCEED WITH CAUTION!\n*********************"
+                      "Warning: Signing non-segwit inputs without the full parent transaction means there is a chance that a miner could feed you incorrect information to trick you into paying large fees. This behavior is the same as Psbt's predecessor (TransactionBuilder - now removed) when signing non-segwit scripts. You are not able to export this Psbt with toBuffer|toBase64|toHex since it is not BIP174 compliant.\n*********************\nPROCEED WITH CAUTION!\n*********************"
                     );
                   hash = unsignedTx.hashForSignature(
                     inputIndex,
@@ -18356,8 +18321,8 @@
                 return allHashes.flat();
               }
               function getPrevoutTaprootKey(inputIndex, input, cache) {
-                const { script: script2 } = getScriptAndAmountFromUtxo(inputIndex, input, cache);
-                return (0, psbtutils_1.isP2TR)(script2) ? script2.subarray(2, 34) : null;
+                const { script } = getScriptAndAmountFromUtxo(inputIndex, input, cache);
+                return (0, psbtutils_1.isP2TR)(script) ? script.subarray(2, 34) : null;
               }
               function trimTaprootSig(signature) {
                 return signature.length === 64 ? signature : signature.subarray(0, 64);
@@ -18397,7 +18362,7 @@
                     inputIndex,
                     signingScripts,
                     values,
-                    transaction_1.Transaction.SIGHASH_DEFAULT,
+                    sighashType,
                     tapLeaf.hash
                   );
                   return {
@@ -18416,32 +18381,32 @@
                   );
                 }
               }
-              function getPayment(script2, scriptType, partialSig) {
+              function getPayment(script, scriptType, partialSig) {
                 let payment;
                 switch (scriptType) {
                   case "multisig":
-                    const sigs = getSortedSigs(script2, partialSig);
-                    payment = payments2.p2ms({
-                      output: script2,
+                    const sigs = getSortedSigs(script, partialSig);
+                    payment = payments3.p2ms({
+                      output: script,
                       signatures: sigs
                     });
                     break;
                   case "pubkey":
-                    payment = payments2.p2pk({
-                      output: script2,
+                    payment = payments3.p2pk({
+                      output: script,
                       signature: partialSig[0].signature
                     });
                     break;
                   case "pubkeyhash":
-                    payment = payments2.p2pkh({
-                      output: script2,
+                    payment = payments3.p2pkh({
+                      output: script,
                       pubkey: partialSig[0].pubkey,
                       signature: partialSig[0].signature
                     });
                     break;
                   case "witnesspubkeyhash":
-                    payment = payments2.p2wpkh({
-                      output: script2,
+                    payment = payments3.p2wpkh({
+                      output: script,
                       pubkey: partialSig[0].pubkey,
                       signature: partialSig[0].signature
                     });
@@ -18507,8 +18472,8 @@
                 });
                 return signers;
               }
-              function getSortedSigs(script2, partialSig) {
-                const p2ms = payments2.p2ms({ output: script2 });
+              function getSortedSigs(script, partialSig) {
+                const p2ms = payments3.p2ms({ output: script });
                 return p2ms.pubkeys.map((pk) => {
                   return (partialSig.filter((ps) => {
                     return ps.pubkey.equals(pk);
@@ -18616,8 +18581,8 @@
                 return c[inputIndex];
               }
               function getScriptFromUtxo(inputIndex, input, cache) {
-                const { script: script2 } = getScriptAndAmountFromUtxo(inputIndex, input, cache);
-                return script2;
+                const { script } = getScriptAndAmountFromUtxo(inputIndex, input, cache);
+                return script;
               }
               function getScriptAndAmountFromUtxo(inputIndex, input, cache) {
                 if (input.witnessUtxo !== void 0) {
@@ -18638,9 +18603,9 @@
                 }
               }
               function pubkeyInInput(pubkey, input, inputIndex, cache) {
-                const script2 = getScriptFromUtxo(inputIndex, input, cache);
+                const script = getScriptFromUtxo(inputIndex, input, cache);
                 const { meaningfulScript } = getMeaningfulScript(
-                  script2,
+                  script,
                   inputIndex,
                   "input",
                   input.redeemScript,
@@ -18649,9 +18614,9 @@
                 return (0, psbtutils_1.pubkeyInScript)(pubkey, meaningfulScript);
               }
               function pubkeyInOutput(pubkey, output, outputIndex, cache) {
-                const script2 = cache.__TX.outs[outputIndex].script;
+                const script = cache.__TX.outs[outputIndex].script;
                 const { meaningfulScript } = getMeaningfulScript(
-                  script2,
+                  script,
                   outputIndex,
                   "output",
                   output.redeemScript,
@@ -18700,10 +18665,10 @@
               function isSigLike(buf) {
                 return bscript.isCanonicalScriptSignature(buf);
               }
-              function getMeaningfulScript(script2, index, ioType, redeemScript, witnessScript) {
-                const isP2SH = (0, psbtutils_1.isP2SHScript)(script2);
+              function getMeaningfulScript(script, index, ioType, redeemScript, witnessScript) {
+                const isP2SH = (0, psbtutils_1.isP2SHScript)(script);
                 const isP2SHP2WSH = isP2SH && redeemScript && (0, psbtutils_1.isP2WSHScript)(redeemScript);
-                const isP2WSH = (0, psbtutils_1.isP2WSHScript)(script2);
+                const isP2WSH = (0, psbtutils_1.isP2WSHScript)(script);
                 if (isP2SH && redeemScript === void 0)
                   throw new Error("scriptPubkey is P2SH but redeemScript missing");
                 if ((isP2WSH || isP2SHP2WSH) && witnessScript === void 0)
@@ -18713,37 +18678,37 @@
                 let meaningfulScript;
                 if (isP2SHP2WSH) {
                   meaningfulScript = witnessScript;
-                  checkRedeemScript(index, script2, redeemScript, ioType);
+                  checkRedeemScript(index, script, redeemScript, ioType);
                   checkWitnessScript(index, redeemScript, witnessScript, ioType);
                   checkInvalidP2WSH(meaningfulScript);
                 } else if (isP2WSH) {
                   meaningfulScript = witnessScript;
-                  checkWitnessScript(index, script2, witnessScript, ioType);
+                  checkWitnessScript(index, script, witnessScript, ioType);
                   checkInvalidP2WSH(meaningfulScript);
                 } else if (isP2SH) {
                   meaningfulScript = redeemScript;
-                  checkRedeemScript(index, script2, redeemScript, ioType);
+                  checkRedeemScript(index, script, redeemScript, ioType);
                 } else {
-                  meaningfulScript = script2;
+                  meaningfulScript = script;
                 }
                 return {
                   meaningfulScript,
                   type: isP2SHP2WSH ? "p2sh-p2wsh" : isP2SH ? "p2sh" : isP2WSH ? "p2wsh" : "raw"
                 };
               }
-              function checkInvalidP2WSH(script2) {
-                if ((0, psbtutils_1.isP2WPKH)(script2) || (0, psbtutils_1.isP2SHScript)(script2)) {
+              function checkInvalidP2WSH(script) {
+                if ((0, psbtutils_1.isP2WPKH)(script) || (0, psbtutils_1.isP2SHScript)(script)) {
                   throw new Error("P2WPKH or P2SH can not be contained within P2WSH");
                 }
               }
-              function classifyScript(script2) {
-                if ((0, psbtutils_1.isP2WPKH)(script2))
+              function classifyScript(script) {
+                if ((0, psbtutils_1.isP2WPKH)(script))
                   return "witnesspubkeyhash";
-                if ((0, psbtutils_1.isP2PKH)(script2))
+                if ((0, psbtutils_1.isP2PKH)(script))
                   return "pubkeyhash";
-                if ((0, psbtutils_1.isP2MS)(script2))
+                if ((0, psbtutils_1.isP2MS)(script))
                   return "multisig";
-                if ((0, psbtutils_1.isP2PK)(script2))
+                if ((0, psbtutils_1.isP2PK)(script))
                   return "pubkey";
                 return "nonstandard";
               }
@@ -18759,16 +18724,16 @@
               "use strict";
               Object.defineProperty(exports, "__esModule", { value: true });
               exports.initEccLib = exports.Transaction = exports.opcodes = exports.Psbt = exports.Block = exports.script = exports.payments = exports.networks = exports.crypto = exports.address = void 0;
-              var address = require_address();
-              exports.address = address;
+              var address2 = require_address();
+              exports.address = address2;
               var crypto3 = require_crypto3();
               exports.crypto = crypto3;
               var networks4 = require_networks2();
               exports.networks = networks4;
-              var payments2 = require_payments();
-              exports.payments = payments2;
-              var script2 = require_script();
-              exports.script = script2;
+              var payments3 = require_payments();
+              exports.payments = payments3;
+              var script = require_script();
+              exports.script = script;
               var block_1 = require_block();
               Object.defineProperty(exports, "Block", {
                 enumerable: true,
@@ -40077,35 +40042,35 @@
               Object.defineProperty(exports, "__esModule", { value: true });
               exports.testEcc = void 0;
               var h = (hex) => Buffer.from(hex, "hex");
-              function testEcc(ecc3) {
-                assert(ecc3.isPoint(h("0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798")));
-                assert(!ecc3.isPoint(h("030000000000000000000000000000000000000000000000000000000000000005")));
-                assert(ecc3.isPrivate(h("79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798")));
-                assert(ecc3.isPrivate(h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140")));
-                assert(!ecc3.isPrivate(h("0000000000000000000000000000000000000000000000000000000000000000")));
-                assert(!ecc3.isPrivate(h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141")));
-                assert(!ecc3.isPrivate(h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364142")));
-                assert(Buffer.from(ecc3.pointFromScalar(h("b1121e4088a66a28f5b6b0f5844943ecd9f610196d7bb83b25214b60452c09af"))).equals(h("02b07ba9dca9523b7ef4bd97703d43d20399eb698e194704791a25ce77a400df99")));
-                if (ecc3.xOnlyPointAddTweak) {
-                  assert(ecc3.xOnlyPointAddTweak(h("79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"), h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140")) === null);
-                  let xOnlyRes = ecc3.xOnlyPointAddTweak(h("1617d38ed8d8657da4d4761e8057bc396ea9e4b9d29776d4be096016dbd2509b"), h("a8397a935f0dfceba6ba9618f6451ef4d80637abf4e6af2669fbc9de6a8fd2ac"));
+              function testEcc(ecc4) {
+                assert(ecc4.isPoint(h("0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798")));
+                assert(!ecc4.isPoint(h("030000000000000000000000000000000000000000000000000000000000000005")));
+                assert(ecc4.isPrivate(h("79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798")));
+                assert(ecc4.isPrivate(h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140")));
+                assert(!ecc4.isPrivate(h("0000000000000000000000000000000000000000000000000000000000000000")));
+                assert(!ecc4.isPrivate(h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141")));
+                assert(!ecc4.isPrivate(h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364142")));
+                assert(Buffer.from(ecc4.pointFromScalar(h("b1121e4088a66a28f5b6b0f5844943ecd9f610196d7bb83b25214b60452c09af"))).equals(h("02b07ba9dca9523b7ef4bd97703d43d20399eb698e194704791a25ce77a400df99")));
+                if (ecc4.xOnlyPointAddTweak) {
+                  assert(ecc4.xOnlyPointAddTweak(h("79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"), h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140")) === null);
+                  let xOnlyRes = ecc4.xOnlyPointAddTweak(h("1617d38ed8d8657da4d4761e8057bc396ea9e4b9d29776d4be096016dbd2509b"), h("a8397a935f0dfceba6ba9618f6451ef4d80637abf4e6af2669fbc9de6a8fd2ac"));
                   assert(Buffer.from(xOnlyRes.xOnlyPubkey).equals(h("e478f99dab91052ab39a33ea35fd5e6e4933f4d28023cd597c9a1f6760346adf")) && xOnlyRes.parity === 1);
-                  xOnlyRes = ecc3.xOnlyPointAddTweak(h("2c0b7cf95324a07d05398b240174dc0c2be444d96b159aa6c7f7b1e668680991"), h("823c3cd2142744b075a87eade7e1b8678ba308d566226a0056ca2b7a76f86b47"));
+                  xOnlyRes = ecc4.xOnlyPointAddTweak(h("2c0b7cf95324a07d05398b240174dc0c2be444d96b159aa6c7f7b1e668680991"), h("823c3cd2142744b075a87eade7e1b8678ba308d566226a0056ca2b7a76f86b47"));
                 }
-                assert(Buffer.from(ecc3.pointAddScalar(h("0379be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"), h("0000000000000000000000000000000000000000000000000000000000000003"))).equals(h("02c6047f9441ed7d6d3045406e95c07cd85c778e4b8cef3ca7abac09b95c709ee5")));
-                assert(Buffer.from(ecc3.privateAdd(h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd036413e"), h("0000000000000000000000000000000000000000000000000000000000000002"))).equals(h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140")));
-                if (ecc3.privateNegate) {
-                  assert(Buffer.from(ecc3.privateNegate(h("0000000000000000000000000000000000000000000000000000000000000001"))).equals(h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140")));
-                  assert(Buffer.from(ecc3.privateNegate(h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd036413e"))).equals(h("0000000000000000000000000000000000000000000000000000000000000003")));
-                  assert(Buffer.from(ecc3.privateNegate(h("b1121e4088a66a28f5b6b0f5844943ecd9f610196d7bb83b25214b60452c09af"))).equals(h("4eede1bf775995d70a494f0a7bb6bc11e0b8cccd41cce8009ab1132c8b0a3792")));
+                assert(Buffer.from(ecc4.pointAddScalar(h("0379be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"), h("0000000000000000000000000000000000000000000000000000000000000003"))).equals(h("02c6047f9441ed7d6d3045406e95c07cd85c778e4b8cef3ca7abac09b95c709ee5")));
+                assert(Buffer.from(ecc4.privateAdd(h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd036413e"), h("0000000000000000000000000000000000000000000000000000000000000002"))).equals(h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140")));
+                if (ecc4.privateNegate) {
+                  assert(Buffer.from(ecc4.privateNegate(h("0000000000000000000000000000000000000000000000000000000000000001"))).equals(h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140")));
+                  assert(Buffer.from(ecc4.privateNegate(h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd036413e"))).equals(h("0000000000000000000000000000000000000000000000000000000000000003")));
+                  assert(Buffer.from(ecc4.privateNegate(h("b1121e4088a66a28f5b6b0f5844943ecd9f610196d7bb83b25214b60452c09af"))).equals(h("4eede1bf775995d70a494f0a7bb6bc11e0b8cccd41cce8009ab1132c8b0a3792")));
                 }
-                assert(Buffer.from(ecc3.sign(h("5e9f0a0d593efdcf78ac923bc3313e4e7d408d574354ee2b3288c0da9fbba6ed"), h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140"))).equals(h("54c4a33c6423d689378f160a7ff8b61330444abb58fb470f96ea16d99d4a2fed07082304410efa6b2943111b6a4e0aaa7b7db55a07e9861d1fb3cb1f421044a5")));
-                assert(ecc3.verify(h("5e9f0a0d593efdcf78ac923bc3313e4e7d408d574354ee2b3288c0da9fbba6ed"), h("0379be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"), h("54c4a33c6423d689378f160a7ff8b61330444abb58fb470f96ea16d99d4a2fed07082304410efa6b2943111b6a4e0aaa7b7db55a07e9861d1fb3cb1f421044a5")));
-                if (ecc3.signSchnorr) {
-                  assert(Buffer.from(ecc3.signSchnorr(h("7e2d58d8b3bcdf1abadec7829054f90dda9805aab56c77333024b9d0a508b75c"), h("c90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b14e5c9"), h("c87aa53824b4d7ae2eb035a2b5bbbccc080e76cdc6d1692c4b0b62d798e6d906"))).equals(h("5831aaeed7b44bb74e5eab94ba9d4294c49bcf2a60728d8b4c200f50dd313c1bab745879a5ad954a72c45a91c3a51d3c7adea98d82f8481e0e1e03674a6f3fb7")));
+                assert(Buffer.from(ecc4.sign(h("5e9f0a0d593efdcf78ac923bc3313e4e7d408d574354ee2b3288c0da9fbba6ed"), h("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140"))).equals(h("54c4a33c6423d689378f160a7ff8b61330444abb58fb470f96ea16d99d4a2fed07082304410efa6b2943111b6a4e0aaa7b7db55a07e9861d1fb3cb1f421044a5")));
+                assert(ecc4.verify(h("5e9f0a0d593efdcf78ac923bc3313e4e7d408d574354ee2b3288c0da9fbba6ed"), h("0379be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"), h("54c4a33c6423d689378f160a7ff8b61330444abb58fb470f96ea16d99d4a2fed07082304410efa6b2943111b6a4e0aaa7b7db55a07e9861d1fb3cb1f421044a5")));
+                if (ecc4.signSchnorr) {
+                  assert(Buffer.from(ecc4.signSchnorr(h("7e2d58d8b3bcdf1abadec7829054f90dda9805aab56c77333024b9d0a508b75c"), h("c90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b14e5c9"), h("c87aa53824b4d7ae2eb035a2b5bbbccc080e76cdc6d1692c4b0b62d798e6d906"))).equals(h("5831aaeed7b44bb74e5eab94ba9d4294c49bcf2a60728d8b4c200f50dd313c1bab745879a5ad954a72c45a91c3a51d3c7adea98d82f8481e0e1e03674a6f3fb7")));
                 }
-                if (ecc3.verifySchnorr) {
-                  assert(ecc3.verifySchnorr(h("7e2d58d8b3bcdf1abadec7829054f90dda9805aab56c77333024b9d0a508b75c"), h("dd308afec5777e13121fa72b9cc1b7cc0139715309b086c960e18fd969774eb8"), h("5831aaeed7b44bb74e5eab94ba9d4294c49bcf2a60728d8b4c200f50dd313c1bab745879a5ad954a72c45a91c3a51d3c7adea98d82f8481e0e1e03674a6f3fb7")));
+                if (ecc4.verifySchnorr) {
+                  assert(ecc4.verifySchnorr(h("7e2d58d8b3bcdf1abadec7829054f90dda9805aab56c77333024b9d0a508b75c"), h("dd308afec5777e13121fa72b9cc1b7cc0139715309b086c960e18fd969774eb8"), h("5831aaeed7b44bb74e5eab94ba9d4294c49bcf2a60728d8b4c200f50dd313c1bab745879a5ad954a72c45a91c3a51d3c7adea98d82f8481e0e1e03674a6f3fb7")));
                 }
               }
               exports.testEcc = testEcc;
@@ -40575,8 +40540,8 @@
                 encode: (data) => _bs58check.encode(Uint8Array.from(data)),
                 decode: (str) => Buffer.from(_bs58check.decode(str))
               };
-              function BIP32Factory3(ecc3) {
-                (0, testecc_1.testEcc)(ecc3);
+              function BIP32Factory3(ecc4) {
+                (0, testecc_1.testEcc)(ecc4);
                 const UINT256_TYPE = typeforce.BufferN(32);
                 const NETWORK_TYPE = typeforce.compile({
                   wif: typeforce.UInt8,
@@ -40615,7 +40580,7 @@
                   }
                   get publicKey() {
                     if (this.__Q === void 0)
-                      this.__Q = Buffer.from(ecc3.pointFromScalar(this.__D, true));
+                      this.__Q = Buffer.from(ecc4.pointFromScalar(this.__D, true));
                     return this.__Q;
                   }
                   get privateKey() {
@@ -40627,15 +40592,15 @@
                     if (lowR === void 0)
                       lowR = this.lowR;
                     if (lowR === false) {
-                      return Buffer.from(ecc3.sign(hash, this.privateKey));
+                      return Buffer.from(ecc4.sign(hash, this.privateKey));
                     } else {
-                      let sig = Buffer.from(ecc3.sign(hash, this.privateKey));
+                      let sig = Buffer.from(ecc4.sign(hash, this.privateKey));
                       const extraData = Buffer.alloc(32, 0);
                       let counter = 0;
                       while (sig[0] > 127) {
                         counter++;
                         extraData.writeUIntLE(counter, 0, 6);
-                        sig = Buffer.from(ecc3.sign(hash, this.privateKey, extraData));
+                        sig = Buffer.from(ecc4.sign(hash, this.privateKey, extraData));
                       }
                       return sig;
                     }
@@ -40643,17 +40608,17 @@
                   signSchnorr(hash) {
                     if (!this.privateKey)
                       throw new Error("Missing private key");
-                    if (!ecc3.signSchnorr)
+                    if (!ecc4.signSchnorr)
                       throw new Error("signSchnorr not supported by ecc library");
-                    return Buffer.from(ecc3.signSchnorr(hash, this.privateKey));
+                    return Buffer.from(ecc4.signSchnorr(hash, this.privateKey));
                   }
                   verify(hash, signature) {
-                    return ecc3.verify(hash, this.publicKey, signature);
+                    return ecc4.verify(hash, this.publicKey, signature);
                   }
                   verifySchnorr(hash, signature) {
-                    if (!ecc3.verifySchnorr)
+                    if (!ecc4.verifySchnorr)
                       throw new Error("verifySchnorr not supported by ecc library");
-                    return ecc3.verifySchnorr(hash, this.publicKey.subarray(1, 33), signature);
+                    return ecc4.verifySchnorr(hash, this.publicKey.subarray(1, 33), signature);
                   }
                 }
                 class BIP32 extends Bip32Signer {
@@ -40732,16 +40697,16 @@
                     const I = crypto3.hmacSHA512(this.chainCode, data);
                     const IL = I.slice(0, 32);
                     const IR = I.slice(32);
-                    if (!ecc3.isPrivate(IL))
+                    if (!ecc4.isPrivate(IL))
                       return this.derive(index + 1);
                     let hd;
                     if (!this.isNeutered()) {
-                      const ki = Buffer.from(ecc3.privateAdd(this.privateKey, IL));
+                      const ki = Buffer.from(ecc4.privateAdd(this.privateKey, IL));
                       if (ki == null)
                         return this.derive(index + 1);
                       hd = fromPrivateKeyLocal(ki, IR, this.network, this.depth + 1, index, this.fingerprint.readUInt32BE(0));
                     } else {
-                      const Ki = Buffer.from(ecc3.pointAddScalar(this.publicKey, IL, true));
+                      const Ki = Buffer.from(ecc4.pointAddScalar(this.publicKey, IL, true));
                       if (Ki === null)
                         return this.derive(index + 1);
                       hd = fromPublicKeyLocal(Ki, IR, this.network, this.depth + 1, index, this.fingerprint.readUInt32BE(0));
@@ -40778,9 +40743,9 @@
                   }
                   tweakFromPublicKey(t) {
                     const xOnlyPubKey = toXOnly(this.publicKey);
-                    if (!ecc3.xOnlyPointAddTweak)
+                    if (!ecc4.xOnlyPointAddTweak)
                       throw new Error("xOnlyPointAddTweak not supported by ecc library");
-                    const tweakedPublicKey = ecc3.xOnlyPointAddTweak(xOnlyPubKey, t);
+                    const tweakedPublicKey = ecc4.xOnlyPointAddTweak(xOnlyPubKey, t);
                     if (!tweakedPublicKey || tweakedPublicKey.xOnlyPubkey === null)
                       throw new Error("Cannot tweak public key!");
                     const parityByte = Buffer.from([
@@ -40797,12 +40762,12 @@
                     const privateKey = (() => {
                       if (!hasOddY)
                         return this.privateKey;
-                      else if (!ecc3.privateNegate)
+                      else if (!ecc4.privateNegate)
                         throw new Error("privateNegate not supported by ecc library");
                       else
-                        return ecc3.privateNegate(this.privateKey);
+                        return ecc4.privateNegate(this.privateKey);
                     })();
-                    const tweakedPrivateKey = ecc3.privateAdd(privateKey, t);
+                    const tweakedPrivateKey = ecc4.privateAdd(privateKey, t);
                     if (!tweakedPrivateKey)
                       throw new Error("Invalid tweaked private key!");
                     return new Bip32Signer(Buffer.from(tweakedPrivateKey), void 0);
@@ -40847,7 +40812,7 @@
                     chainCode: UINT256_TYPE
                   }, { privateKey, chainCode });
                   network = network || BITCOIN;
-                  if (!ecc3.isPrivate(privateKey))
+                  if (!ecc4.isPrivate(privateKey))
                     throw new TypeError("Private key not in range [1, n)");
                   return new BIP32(privateKey, void 0, chainCode, network, depth, index, parentFingerprint);
                 }
@@ -40860,7 +40825,7 @@
                     chainCode: UINT256_TYPE
                   }, { publicKey, chainCode });
                   network = network || BITCOIN;
-                  if (!ecc3.isPoint(publicKey))
+                  if (!ecc4.isPoint(publicKey))
                     throw new TypeError("Point is not on the curve");
                   return new BIP32(void 0, publicKey, chainCode, network, depth, index, parentFingerprint);
                 }
@@ -45514,13 +45479,13 @@
                     url: `${this._APIURL}/t/${txId}/json`
                   });
                 }
-                async unspents(address) {
+                async unspents(address2) {
                   return this.dhttp({
                     method: "GET",
-                    url: `${this._APIURL}/a/${address}/unspents`
+                    url: `${this._APIURL}/a/${address2}/unspents`
                   });
                 }
-                async faucet(address, value) {
+                async faucet(address2, value) {
                   const requester = _faucetRequestMaker(
                     "faucet",
                     "address",
@@ -45529,7 +45494,7 @@
                     this._APIPASS
                   );
                   const faucet = _faucetMaker(this, requester);
-                  return faucet(address, value);
+                  return faucet(address2, value);
                 }
                 async faucetComplex(output, value) {
                   const outputString = output.toString("hex");
@@ -45557,27 +45522,27 @@
               };
               exports.RegtestUtils = RegtestUtils2;
               function _faucetRequestMaker(name, paramName, dhttp, url, pass) {
-                return async (address, value) => dhttp({
+                return async (address2, value) => dhttp({
                   method: "POST",
-                  url: `${url}/r/${name}?${paramName}=${address}&value=${value}&key=${pass}`
+                  url: `${url}/r/${name}?${paramName}=${address2}&value=${value}&key=${pass}`
                 });
               }
               function _faucetMaker(self2, _requester) {
-                return async (address, value) => {
+                return async (address2, value) => {
                   let count = 0;
                   let _unspents = [];
                   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
                   const randInt = (min, max) => min + Math.floor((max - min + 1) * Math.random());
-                  const txId = await _requester(address, value).then(
+                  const txId = await _requester(address2, value).then(
                     (v) => v,
                     // Pass success value as is
                     async (err) => {
                       const currentHeight = await self2.height();
                       if (err.message === "Bad Request" && currentHeight < 432) {
                         await self2.mine(432 - currentHeight);
-                        return _requester(address, value);
+                        return _requester(address2, value);
                       } else if (err.message === "Bad Request" && currentHeight >= 432) {
-                        return _requester(address, value);
+                        return _requester(address2, value);
                       } else {
                         throw err;
                       }
@@ -45588,7 +45553,7 @@
                       if (count >= 5) {
                         console.log("WARNING: Indexd is busy. Using getrawtransaction RPC.");
                         const tx = await self2.fetch(txId);
-                        const outs = tx.outs.filter((x) => x.address === address);
+                        const outs = tx.outs.filter((x) => x.address === address2);
                         const out = outs.pop();
                         if (out) {
                           const vout = tx.outs.indexOf(out);
@@ -45602,7 +45567,7 @@
                       await sleep(randInt(150, 250));
                     }
                     await sleep(randInt(50, 150));
-                    const results = await self2.unspents(address);
+                    const results = await self2.unspents(address2);
                     _unspents = results.filter((x) => x.txId === txId);
                     count++;
                   }
@@ -45647,90 +45612,6 @@
             const hashHex = hashBuffer.toString("hex");
             return hashHex;
           }
-          var createTx = async (toAddress, value, env, fromAddress) => {
-            const valueInSatoshi = Math.round(value * 1e8);
-            if (!fromAddress || !toAddress || !value || !env) {
-              return {
-                code: 0,
-                message: "invalid/insufficient parameters"
-              };
-            }
-            const url = env === "mainnet" ? "https://api.blockcypher.com/v1/btc/main/txs/new" : "https://api.blockcypher.com/v1/btc/test4/txs/new";
-            const data = JSON.stringify({
-              "inputs": [
-                {
-                  "addresses": [
-                    `${fromAddress}`
-                    /* "n1TKu4ZX7vkyjfvo7RCbjeUZB6Zub8N3fN" */
-                  ]
-                }
-              ],
-              "outputs": [
-                {
-                  "addresses": [
-                    `${toAddress}`
-                    /* "2NCY42y4mbvJCxhd7gcCroBEvVh1dXkbPzA"
-                    */
-                  ],
-                  "value": valueInSatoshi
-                }
-              ]
-            });
-            const response = await fetch(url, { method: "POST", body: data, headers: { "Content-Type": "application/json" } });
-            if (!response.ok) {
-              const jsonData2 = await response.json();
-              return {
-                code: 0,
-                message: JSON.stringify(jsonData2["errors"])
-              };
-            }
-            const jsonData = await response.json();
-            return {
-              code: 1,
-              result: jsonData
-            };
-          };
-          var generateTxSignatures = (senderWif, network, toSign) => {
-            const keys = ECPair.fromWIF(senderWif, network);
-            const signatures = [];
-            const pubkeys = [];
-            for (let i = 0; i < toSign.length; i++) {
-              signatures.push(
-                bitcoin.script.signature.encode(keys.sign(Buffer.from(toSign[i], "hex")), 1).toString("hex")
-                // .slice(0, -2),
-              );
-              pubkeys.push(keys.publicKey.toString("hex"));
-            }
-            return {
-              code: 1,
-              signatures,
-              pubkeys
-            };
-          };
-          var sendTx = async (tx, tosign, signatures, pubkeys, env) => {
-            const url = env === "mainnet" ? "https://api.blockcypher.com/v1/btc/main/txs/send?token=8204f6d6308846d9a26daa8c19d51a64" : "https://api.blockcypher.com/v1/btc/test4/txs/send?token=8204f6d6308846d9a26daa8c19d51a64";
-            const data = {
-              tx,
-              signatures,
-              pubkeys,
-              tosign
-            };
-            const response = await fetch(url, { method: "POST", body: JSON.stringify(data), headers: { "Content-Type": "application/json" } });
-            if (!response.ok) {
-              const jsonData2 = await response.json();
-              return {
-                success: false,
-                result: null,
-                message: JSON.stringify(jsonData2["errors"])
-              };
-            }
-            const jsonData = await response.json();
-            return {
-              success: true,
-              result: jsonData,
-              message: "success"
-            };
-          };
 
           // src/btc/keypair.ts
           var ECPair2 = (0, import_ecpair2.ECPairFactory)(import_secp256k12.default);
@@ -45742,10 +45623,10 @@
               this.network = isTestnet ? TESTNET : MAINNET;
             }
             buildOutput(keyPair, mnemonic = null) {
-              const address = publicKeyToAddress(keyPair.publicKey, this.network);
+              const address2 = publicKeyToAddress(keyPair.publicKey, this.network);
               const privateKey = keyPair.privateKey?.toString("hex");
               return {
-                address,
+                address: address2,
                 wif: keyPair.toWIF(),
                 privateKey,
                 publicKey: keyPair.publicKey.toString("hex"),
@@ -45828,42 +45709,115 @@
           }
 
           // src/btc/transaction.ts
+          var import_ecpair3 = __toESM(require_src2());
           var bitcoin3 = __toESM(require_src4());
+          var import_secp256k13 = __toESM(require_dist());
+
+          // src/btc/constants.ts
+          var BTC_TO_SATOSHI_MULTIPLIER = 1e8;
+          var SATOSHI_TO_BTC_MULTIPLIER = 1e-8;
+
+          // src/btc/transaction.ts
+          var ECPair3 = (0, import_ecpair3.ECPairFactory)(import_secp256k13.default);
           var TESTNET2 = bitcoin3.networks.testnet;
           var MAINNET2 = bitcoin3.networks.bitcoin;
+          var FEE = 700;
           var TransactionService = class {
             constructor(isTestnet) {
               this.network = isTestnet ? TESTNET2 : MAINNET2;
+              this.apiBaseUrl = isTestnet ? "https://mempool.space/testnet4/api" : "https://mempool.space/api";
             }
             _buildCreateResponse(success, result, error = null) {
+              if (!success) {
+                console.log("ERRROR: ", error);
+              }
               return {
                 success,
                 result,
                 error
               };
             }
-            async createTransaction(senderWif, senderAddress, recipientAddress, amount) {
-              const networkName = this.network === TESTNET2 ? "testnet" : "mainnet";
-              const txResponse = await createTx(recipientAddress, amount, networkName, senderAddress);
-              if (txResponse?.code != 1) {
-                console.log(txResponse.message);
-                return this._buildCreateResponse(false, null, txResponse.message);
+            _buildBroadcastResponse(success, result, error = null) {
+              return {
+                success,
+                result,
+                error
+              };
+            }
+            async getUtxos(address2) {
+              const response = await fetch(`${this.apiBaseUrl}/address/${address2}/utxo`);
+              if (!response.ok) {
+                throw new Error("Error getting utxos");
               }
-              const tx = txResponse.result.tx;
-              const toSign = txResponse.result.tosign;
-              const signaturesResponse = generateTxSignatures(senderWif, this.network, toSign);
-              const signatures = signaturesResponse.signatures;
-              const pubkeys = signaturesResponse.pubkeys;
-              if (!signatures || !pubkeys) {
-                console.log("invalid signatures or pubkeys");
-                return this._buildCreateResponse(false, null, "invalid signatures or pubkeys");
+              const data = await response.json();
+              return data;
+            }
+            // private async getRawTx(txId: string) {
+            //     const url = `${this.apiBaseUrl}/tx/${txId}/raw`;
+            //     const response = await fetch(url);
+            //     if (!response.ok) {
+            //         throw new Error(`Error fetching raw transaction: ${response.statusText}`);
+            //     }
+            //     const arrayBuffer = await response.arrayBuffer();
+            //     const buffer = Buffer.from(arrayBuffer);
+            //     return buffer;
+            // }
+            async createTransaction(senderWif, recipientAddress, amount) {
+              amount = amount * BTC_TO_SATOSHI_MULTIPLIER;
+              const keyPair = ECPair3.fromWIF(senderWif, this.network);
+              const { address: address2 } = bitcoin3.payments.p2wpkh({ pubkey: keyPair.publicKey, network: this.network });
+              console.log(address2);
+              if (address2 == null) {
+                return this._buildCreateResponse(false, null, "Could not get address");
               }
-              const data = await sendTx(tx, toSign, signatures, pubkeys, this.network === TESTNET2 ? "testnet" : "mainnet");
-              if (!data.success) {
-                console.log(data.message);
-                return this._buildCreateResponse(false, null, data.message);
+              const utxos = await this.getUtxos(address2);
+              if (utxos.length === 0) {
+                return this._buildCreateResponse(false, null, "No UTXOs found for the given address.");
               }
-              return this._buildCreateResponse(true, data.result, null);
+              const psbt = new bitcoin3.Psbt({ network: this.network });
+              let inputSum = 0;
+              utxos.forEach(async (utxo) => {
+                console.log(utxo);
+                psbt.addInput({
+                  hash: utxo.txid,
+                  index: utxo.vout,
+                  sequence: 4294967293,
+                  witnessUtxo: {
+                    script: bitcoin3.address.toOutputScript(address2, this.network),
+                    value: utxo.value
+                    // satoshis
+                  }
+                  // nonWitnessUtxo: rawTx,
+                });
+                inputSum += utxo.value;
+              });
+              psbt.addOutput({
+                address: recipientAddress,
+                value: amount
+              });
+              const change = inputSum - amount - FEE;
+              if (change > 0) {
+                psbt.addOutput({
+                  address: address2,
+                  value: change
+                });
+              }
+              psbt.signAllInputs(keyPair);
+              psbt.finalizeAllInputs();
+              const transactionHex = psbt.extractTransaction().toHex();
+              return this._buildCreateResponse(true, transactionHex, null);
+            }
+            async broadcastTransaction(transactionHex) {
+              try {
+                const response = await fetch(`${this.apiBaseUrl}/tx`, { method: "POST", body: transactionHex, headers: { "Content-Type": "text/plain" } });
+                if (!response.ok) {
+                  return this._buildBroadcastResponse(false, null, `Error: ${response.text()}`);
+                }
+                const hash = await response.text();
+                return this._buildBroadcastResponse(true, hash, null);
+              } catch (error) {
+                return this._buildBroadcastResponse(false, null, `Error: ${error}`);
+              }
             }
             // public async sendTransaction(tx: any, toSign: any, signatures: any, pubkeys: any): Promise<SendTxResponse> {
             //     const result = await sendTx(tx, toSign, signatures, pubkeys, this.network === TESTNET ? 'testnet' : 'mainnet');
@@ -45936,19 +45890,14 @@
 
           // src/btc/account.ts
           var bitcoin4 = __toESM(require_src4());
-
-          // src/btc/constants.ts
-          var SATOSHI_TO_BTC_MULTIPLIER = 1e-8;
-
-          // src/btc/account.ts
           var TESTNET3 = bitcoin4.networks.testnet;
           var MAINNET3 = bitcoin4.networks.bitcoin;
           var AccountService = class {
             constructor(isTestnet) {
               this.network = isTestnet ? TESTNET3 : MAINNET3;
             }
-            async addressInfo(address, inSatoshis = true) {
-              const url = `https://mempool.space/${this.network == TESTNET3 ? "testnet4" : ""}/api/address/${address}`;
+            async addressInfo(address2, inSatoshis = true) {
+              const url = `https://mempool.space${this.network == TESTNET3 ? "/testnet4" : ""}/api/address/${address2}`;
               const response = await fetch(url);
               const result = await response.json();
               const data = result["chain_stats"];
@@ -45961,8 +45910,8 @@
                 txCount: data.tx_count
               };
             }
-            async transactions(address, limit = 50, before = null) {
-              let url = `https://api.blockcypher.com/v1/btc/${this.network === TESTNET3 ? "test4" : "main"}/addrs/${address}/full?limit=${limit}`;
+            async transactions(address2, limit = 50, before = null) {
+              let url = `https://api.blockcypher.com/v1/btc/${this.network === TESTNET3 ? "test4" : "main"}/addrs/${address2}/full?limit=${limit}`;
               if (before) {
                 url += `&before=${before}`;
               }
