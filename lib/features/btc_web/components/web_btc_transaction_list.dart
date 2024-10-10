@@ -27,16 +27,22 @@ class WebBtcTransactionList extends BaseComponent {
       );
     }
 
-    return RefreshIndicator(
-      onRefresh: () async {
-        await provider.reload();
-      },
-      child: ListView.builder(
-        itemCount: transactions.length,
-        itemBuilder: (context, index) {
-          final transaction = transactions[index];
-          return WebBtcTransactionListTile(transaction: transaction, address: address);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: RefreshIndicator(
+        onRefresh: () async {
+          await provider.reload();
         },
+        child: ListView.builder(
+          itemCount: transactions.length,
+          itemBuilder: (context, index) {
+            final transaction = transactions[index];
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: WebBtcTransactionListTile(transaction: transaction),
+            );
+          },
+        ),
       ),
     );
   }

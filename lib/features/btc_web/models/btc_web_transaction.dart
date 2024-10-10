@@ -11,8 +11,8 @@ class BtcWebTransaction with _$BtcWebTransaction {
 
   factory BtcWebTransaction({
     required String txid,
-    required int version,
-    required int locktime,
+    // required int version,
+    // required int locktime,
     required List<BtcWebVin> vin,
     required List<BtcWebVout> vout,
     required int size,
@@ -27,8 +27,63 @@ class BtcWebTransaction with _$BtcWebTransaction {
   //   return total * BTC_SATOSHI_MULTIPLIER;
   // }
 
-  // double get feesBtc {
-  //   return fees * BTC_SATOSHI_MULTIPLIER;
+  double get feeBtc {
+    return fee * BTC_SATOSHI_MULTIPLIER;
+  }
+
+  String get blockTimeLabel {
+    if (status.blockTime == null) {
+      return "-";
+    }
+    final dt = DateTime.fromMillisecondsSinceEpoch(status.blockTime! * 1000);
+    return DateFormat('MM-dd-yyyy hh:mm a').format(dt);
+  }
+
+  String get blockHeightLabel {
+    if (status.blockHeight == null) {
+      return "-";
+    }
+    return status.blockHeight.toString();
+  }
+
+  List<String> get toAddresses {
+    return vout.map((e) => e.scriptpubkeyAddress).toList();
+  }
+
+  int get totalSent {
+    return vout.fold(0, (a, b) => a + b.value);
+  }
+
+  double get totalSentBtc {
+    return totalSent * BTC_SATOSHI_MULTIPLIER;
+  }
+
+  List<BtcWebVin> vinsToMe(String myAddress) {
+    return vin.where((element) => element.prevout.scriptpubkeyAddress == myAddress).toList();
+  }
+
+  List<BtcWebVout> voutsToMe(String myAddress) {
+    return vout.where((element) => element.scriptpubkeyAddress == myAddress).toList();
+  }
+
+  List<BtcWebVout> voutsToOthers(String myAddress) {
+    return vout.where((element) => element.scriptpubkeyAddress != myAddress).toList();
+  }
+
+  int totalValueToMe(String myAddress) {
+    return voutsToMe(myAddress).fold(0, (previousValue, element) => previousValue + element.value);
+  }
+
+  int totalValueToOthers(String myAddress) {
+    return voutsToOthers(myAddress).fold(0, (previousValue, element) => previousValue + element.value);
+  }
+
+  int totalChange(String myAddress) {
+    return totalSent - totalValueToOthers(myAddress) - fee;
+  }
+
+  // int myBalanceChangeWithoutFee(String myAddress) {
+  //   //
   // }
 
   // List<String> otherAddresses(String address) {
@@ -56,10 +111,10 @@ class BtcWebVin with _$BtcWebVin {
     required String txid,
     required int vout,
     required BtcWebVout prevout,
-    required String scriptsig,
-    @JsonKey(name: 'scriptsig_asm') required String scriptsigAsm,
+    // required String scriptsig,
+    // @JsonKey(name: 'scriptsig_asm') required String scriptsigAsm,
     required List<String> witness,
-    @JsonKey(name: 'is_coinbase') required bool isCoinbase,
+    // @JsonKey(name: 'is_coinbase') required bool isCoinbase,
     required int sequence,
   }) = _BtcWebVin;
 
@@ -83,9 +138,9 @@ class BtcWebVout with _$BtcWebVout {
 class BtcWebTxStatus with _$BtcWebTxStatus {
   const factory BtcWebTxStatus({
     required bool confirmed,
-    @JsonKey(name: 'block_height') required int blockHeight,
-    @JsonKey(name: 'block_hash') required String blockHash,
-    @JsonKey(name: 'block_time') required int blockTime,
+    @JsonKey(name: 'block_height') int? blockHeight,
+    @JsonKey(name: 'block_hash') String? blockHash,
+    @JsonKey(name: 'block_time') int? blockTime,
   }) = _BtcWebTxStatus;
 
   factory BtcWebTxStatus.fromJson(Map<String, dynamic> json) => _$BtcWebTxStatusFromJson(json);

@@ -45776,7 +45776,7 @@
               return buffer;
             }
             async createTransaction(senderWif, recipientAddress, amount, feeRate = 0) {
-              amount = amount * BTC_TO_SATOSHI_MULTIPLIER;
+              amount = Math.round(amount * BTC_TO_SATOSHI_MULTIPLIER);
               const keyPair = ECPair3.fromWIF(senderWif, this.network);
               const { address: address2 } = bitcoin3.payments.p2wpkh({ pubkey: keyPair.publicKey, network: this.network });
               if (address2 == null) {

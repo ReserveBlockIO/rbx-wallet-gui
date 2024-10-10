@@ -9,8 +9,6 @@ part of 'btc_web_transaction.dart';
 _$_BtcWebTransaction _$$_BtcWebTransactionFromJson(Map<String, dynamic> json) =>
     _$_BtcWebTransaction(
       txid: json['txid'] as String,
-      version: json['version'] as int,
-      locktime: json['locktime'] as int,
       vin: (json['vin'] as List<dynamic>)
           .map((e) => BtcWebVin.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -27,8 +25,6 @@ Map<String, dynamic> _$$_BtcWebTransactionToJson(
         _$_BtcWebTransaction instance) =>
     <String, dynamic>{
       'txid': instance.txid,
-      'version': instance.version,
-      'locktime': instance.locktime,
       'vin': instance.vin,
       'vout': instance.vout,
       'size': instance.size,
@@ -41,11 +37,8 @@ _$_BtcWebVin _$$_BtcWebVinFromJson(Map<String, dynamic> json) => _$_BtcWebVin(
       txid: json['txid'] as String,
       vout: json['vout'] as int,
       prevout: BtcWebVout.fromJson(json['prevout'] as Map<String, dynamic>),
-      scriptsig: json['scriptsig'] as String,
-      scriptsigAsm: json['scriptsig_asm'] as String,
       witness:
           (json['witness'] as List<dynamic>).map((e) => e as String).toList(),
-      isCoinbase: json['is_coinbase'] as bool,
       sequence: json['sequence'] as int,
     );
 
@@ -54,10 +47,7 @@ Map<String, dynamic> _$$_BtcWebVinToJson(_$_BtcWebVin instance) =>
       'txid': instance.txid,
       'vout': instance.vout,
       'prevout': instance.prevout,
-      'scriptsig': instance.scriptsig,
-      'scriptsig_asm': instance.scriptsigAsm,
       'witness': instance.witness,
-      'is_coinbase': instance.isCoinbase,
       'sequence': instance.sequence,
     };
 
@@ -82,9 +72,9 @@ Map<String, dynamic> _$$_BtcWebVoutToJson(_$_BtcWebVout instance) =>
 _$_BtcWebTxStatus _$$_BtcWebTxStatusFromJson(Map<String, dynamic> json) =>
     _$_BtcWebTxStatus(
       confirmed: json['confirmed'] as bool,
-      blockHeight: json['block_height'] as int,
-      blockHash: json['block_hash'] as String,
-      blockTime: json['block_time'] as int,
+      blockHeight: json['block_height'] as int?,
+      blockHash: json['block_hash'] as String?,
+      blockTime: json['block_time'] as int?,
     );
 
 Map<String, dynamic> _$$_BtcWebTxStatusToJson(_$_BtcWebTxStatus instance) =>

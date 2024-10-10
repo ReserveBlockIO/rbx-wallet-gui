@@ -112,7 +112,7 @@ class BtcWebServiceImpl extends BtcWebServiceInterface {
       final decodedData = jsonDecode(data);
       print("---------");
 
-      print(jsonEncode(decodedData['transactions'][0]));
+      print(jsonEncode(decodedData));
       print("---------");
 
       final List<dynamic> txDatas = decodedData;
@@ -124,9 +124,10 @@ class BtcWebServiceImpl extends BtcWebServiceInterface {
       }
 
       return transactions;
-    } catch (e) {
+    } catch (e, st) {
       print("Error");
       print(e);
+      print(st);
       return [];
     }
   }

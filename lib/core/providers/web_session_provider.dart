@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../features/btc_web/providers/btc_web_transaction_list_provider.dart';
 import '../../features/btc_web/providers/btc_web_vbtc_token_list_provider.dart';
 import '../../features/misc/providers/global_balances_expanded_provider.dart';
 import '../../features/token/providers/web_token_list_provider.dart';
@@ -144,6 +145,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     getFungibleTokens();
     getVbtcTokens();
     getNfts();
+    getBtcBalances();
   }
 
   Future<void> getAddress() async {
@@ -266,6 +268,12 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
     await Future.delayed(const Duration(milliseconds: 150));
 
     HtmlHelpers().reload();
+  }
+
+  void getBtcBalances() {
+    if (state.btcKeypair != null) {
+      ref.invalidate(btcWebTransactionListProvider(state.btcKeypair!.address));
+    }
   }
 }
 

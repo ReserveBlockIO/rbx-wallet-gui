@@ -37,22 +37,28 @@ class WebTransactionScreen extends BaseScreen {
       actions: [
         if (session.selectedWalletType == WalletType.rbx) VfxTransactionFilterButton(),
         WebWalletTypeSwitcher(),
-        IconButton(
-            onPressed: () {
-              if (ref.read(webSessionProvider).selectedWalletType == WalletType.btc) {
-                final address = ref.read(webSessionProvider).btcKeypair?.address;
-                if (address != null) {
-                  ref.read(btcWebTransactionListProvider(address).notifier).reload();
+        Padding(
+          padding: const EdgeInsets.only(right: 6.0),
+          child: IconButton(
+              onPressed: () {
+                if (ref.read(webSessionProvider).selectedWalletType == WalletType.btc) {
+                  final address = ref.read(webSessionProvider).btcKeypair?.address;
+                  if (address != null) {
+                    ref.read(btcWebTransactionListProvider(address).notifier).reload();
+                  }
+                  return;
                 }
-                return;
-              }
 
-              final address = ref.read(webSessionProvider).currentWallet?.address;
-              if (address != null) {
-                ref.read(webTransactionListProvider(address).notifier).refresh();
-              }
-            },
-            icon: const Icon(Icons.refresh))
+                final address = ref.read(webSessionProvider).currentWallet?.address;
+                if (address != null) {
+                  ref.read(webTransactionListProvider(address).notifier).refresh();
+                }
+              },
+              icon: const Icon(
+                Icons.refresh,
+                size: 16,
+              )),
+        )
       ],
     );
   }
