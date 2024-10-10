@@ -20,7 +20,7 @@ external btcAddressInfo(String address);
 external btcTransactions(String address, int limit, int? before);
 
 @JS()
-external btcSendTransaction(String senderWif, String senderAddress, String recipientAddress, double amount);
+external btcSendTransaction(String senderWif, String recipientAddress, double amount, int feeRate);
 
 class BtcWebServiceImpl extends BtcWebServiceInterface {
   @override
@@ -115,7 +115,7 @@ class BtcWebServiceImpl extends BtcWebServiceInterface {
       print(jsonEncode(decodedData['transactions'][0]));
       print("---------");
 
-      final List<dynamic> txDatas = decodedData['transactions'];
+      final List<dynamic> txDatas = decodedData;
       final List<BtcWebTransaction> transactions = [];
 
       for (final json in txDatas) {
@@ -132,15 +132,15 @@ class BtcWebServiceImpl extends BtcWebServiceInterface {
   }
 
   @override
-  Future<BtcWebTransaction?> sendTransaction(String senderWif, String senderAddress, String recipientAddress, double amount) async {
+  Future<String?> sendTransaction(String senderWif, String recipientAddress, double amount, int feeRate) async {
     try {
-      final promise = btcSendTransaction(senderWif, senderAddress, recipientAddress, amount);
+      final promise = btcSendTransaction(senderWif, recipientAddress, amount, feeRate);
       final data = await promiseToFuture(promise);
       final decodedData = jsonDecode(data);
 
       if (decodedData['success'] == true) {
-        if (decodedData['result'] != null && decodedData['result']['tx'] != null) {
-          return BtcWebTransaction.fromJson(decodedData['result']['tx']);
+        if (decodedData['result'] != null) {
+          return decodedData['result'];
         }
       }
 

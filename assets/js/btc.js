@@ -45721,7 +45721,8 @@
           var ECPair3 = (0, import_ecpair3.ECPairFactory)(import_secp256k13.default);
           var TESTNET2 = bitcoin3.networks.testnet;
           var MAINNET2 = bitcoin3.networks.bitcoin;
-          var FEE = 700;
+          var P2WPKH_INPUT_SIZE = 68;
+          var P2WPKH_OUTPUT_SIZE = 31;
           var TransactionService = class {
             constructor(isTestnet) {
               this.network = isTestnet ? TESTNET2 : MAINNET2;
@@ -45744,6 +45745,18 @@
                 error
               };
             }
+            async getFeeRates() {
+              try {
+                const response = await fetch(`${this.apiBaseUrl}/v1/fees/recommended`);
+                if (!response.ok) {
+                  return null;
+                }
+                const feeRates = await response.json();
+                return feeRates;
+              } catch (e) {
+                return null;
+              }
+            }
             async getUtxos(address2) {
               const response = await fetch(`${this.apiBaseUrl}/address/${address2}/utxo`);
               if (!response.ok) {
@@ -45752,21 +45765,20 @@
               const data = await response.json();
               return data;
             }
-            // private async getRawTx(txId: string) {
-            //     const url = `${this.apiBaseUrl}/tx/${txId}/raw`;
-            //     const response = await fetch(url);
-            //     if (!response.ok) {
-            //         throw new Error(`Error fetching raw transaction: ${response.statusText}`);
-            //     }
-            //     const arrayBuffer = await response.arrayBuffer();
-            //     const buffer = Buffer.from(arrayBuffer);
-            //     return buffer;
-            // }
-            async createTransaction(senderWif, recipientAddress, amount) {
+            async getRawTx(txId) {
+              const url = `${this.apiBaseUrl}/tx/${txId}/raw`;
+              const response = await fetch(url);
+              if (!response.ok) {
+                throw new Error(`Error fetching raw transaction: ${response.statusText}`);
+              }
+              const arrayBuffer = await response.arrayBuffer();
+              const buffer = Buffer.from(arrayBuffer);
+              return buffer;
+            }
+            async createTransaction(senderWif, recipientAddress, amount, feeRate = 0) {
               amount = amount * BTC_TO_SATOSHI_MULTIPLIER;
               const keyPair = ECPair3.fromWIF(senderWif, this.network);
               const { address: address2 } = bitcoin3.payments.p2wpkh({ pubkey: keyPair.publicKey, network: this.network });
-              console.log(address2);
               if (address2 == null) {
                 return this._buildCreateResponse(false, null, "Could not get address");
               }
@@ -45776,8 +45788,9 @@
               }
               const psbt = new bitcoin3.Psbt({ network: this.network });
               let inputSum = 0;
+              let inputSize = 0;
+              let outputSize = 0;
               utxos.forEach(async (utxo) => {
-                console.log(utxo);
                 psbt.addInput({
                   hash: utxo.txid,
                   index: utxo.vout,
@@ -45787,15 +45800,26 @@
                     value: utxo.value
                     // satoshis
                   }
-                  // nonWitnessUtxo: rawTx,
                 });
                 inputSum += utxo.value;
+                inputSize += P2WPKH_INPUT_SIZE;
               });
               psbt.addOutput({
                 address: recipientAddress,
                 value: amount
               });
-              const change = inputSum - amount - FEE;
+              outputSize += P2WPKH_OUTPUT_SIZE;
+              outputSize += P2WPKH_OUTPUT_SIZE;
+              const txSize = inputSize + outputSize + 10;
+              if (!feeRate) {
+                const feeRates = await this.getFeeRates();
+                feeRate = feeRates?.economyFee || (this.network == TESTNET2 ? 2 : 5);
+              }
+              if (this.network == TESTNET2) {
+                feeRate = 5;
+              }
+              const fee = txSize * feeRate;
+              const change = inputSum - amount - fee;
               if (change > 0) {
                 psbt.addOutput({
                   address: address2,
@@ -45811,7 +45835,8 @@
               try {
                 const response = await fetch(`${this.apiBaseUrl}/tx`, { method: "POST", body: transactionHex, headers: { "Content-Type": "text/plain" } });
                 if (!response.ok) {
-                  return this._buildBroadcastResponse(false, null, `Error: ${response.text()}`);
+                  const error = await response.text();
+                  return this._buildBroadcastResponse(false, null, `Error: ${error}`);
                 }
                 const hash = await response.text();
                 return this._buildBroadcastResponse(true, hash, null);
@@ -45819,73 +45844,6 @@
                 return this._buildBroadcastResponse(false, null, `Error: ${error}`);
               }
             }
-            // public async sendTransaction(tx: any, toSign: any, signatures: any, pubkeys: any): Promise<SendTxResponse> {
-            //     const result = await sendTx(tx, toSign, signatures, pubkeys, this.network === TESTNET ? 'testnet' : 'mainnet');
-            //     console.log(result)
-            //     console.log('------------------')
-            //     if (!result.success) {
-            //         return {
-            //             success: false,
-            //             result: null,
-            //             error: result.message ?? 'unkwnown error'
-            //         }
-            //     }
-            //     return {
-            //         success: true,
-            //         result: result,
-            //         error: null
-            //     }
-            // }
-            // public async sendTransaction2(senderWif: string, recipientAddress: string, amount: number) {
-            //     const sender = ECPair.fromWIF(
-            //         senderWif,
-            //         this.network
-            //     );
-            //     const payment1 = createPayment('p2pkh', [sender], this.network);
-            //     const payment2 = createPayment('p2pkh', [sender], this.network);
-            //     console.log({ payment1 })
-            //     console.log({ payment2 })
-            //     const inputData1 = await getInputData(
-            //         2e5,
-            //         payment1.payment,
-            //         true,
-            //         'noredeem',
-            //     );
-            //     const inputData2 = await getInputData(
-            //         7e4,
-            //         payment2.payment,
-            //         true,
-            //         'noredeem',
-            //     );
-            //     const { hash, index, nonWitnessUtxo } = inputData1;
-            //     console.log({ hash, index, nonWitnessUtxo });
-            //     const psbt = new bitcoin.Psbt({ network: this.network })
-            //         .addInput(inputData1)
-            //         .addInput(inputData2)
-            //         .addOutput({
-            //             address: recipientAddress,
-            //             value: 8e4,
-            //         }).addOutput({
-            //             address: payment2.payment.address, // OR script, which is a Buffer.
-            //             value: 1e4,
-            //         });
-            //     const psbtBaseText = psbt.toBase64();
-            //     const signer1 = bitcoin.Psbt.fromBase64(psbtBaseText);
-            //     const signer2 = bitcoin.Psbt.fromBase64(psbtBaseText);
-            //     signer1.signAllInputs(payment1.keys[0]);
-            //     signer2.signAllInputs(payment2.keys[0]);
-            //     const s1text = signer1.toBase64();
-            //     const s2text = signer2.toBase64();
-            //     const final1 = bitcoin.Psbt.fromBase64(s1text);
-            //     const final2 = bitcoin.Psbt.fromBase64(s2text);
-            //     psbt.combine(final1, final2);
-            //     psbt.finalizeAllInputs();
-            //     const tx = psbt.extractTransaction().toHex();
-            //     console.log('----------');
-            //     console.log(tx);
-            //     console.log('----------');
-            //     return tx;
-            // }
           };
 
           // src/btc/account.ts
@@ -45911,17 +45869,12 @@
               };
             }
             async transactions(address2, limit = 50, before = null) {
-              let url = `https://api.blockcypher.com/v1/btc/${this.network === TESTNET3 ? "test4" : "main"}/addrs/${address2}/full?limit=${limit}`;
-              if (before) {
-                url += `&before=${before}`;
-              }
+              const url = `https://mempool.space${this.network == TESTNET3 ? "/testnet4" : ""}/api/address/${address2}/txs`;
+              console.log(url);
               const response = await fetch(url);
-              const data = await response.json();
-              const transactions = data["txs"];
-              return {
-                canLoadMore: data["hasMore"],
-                transactions
-              };
+              const results = await response.json();
+              console.log(results);
+              return results;
             }
           };
 

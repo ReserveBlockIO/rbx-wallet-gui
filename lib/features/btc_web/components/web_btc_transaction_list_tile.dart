@@ -32,7 +32,7 @@ class _WebBtcTransactionListTileState extends State<WebBtcTransactionListTile> {
 
     if (tx.received != null) {
       subtitle = "Received @ ${tx.receivedLabel} | (${tx.confirmations} Confirmations)";
-    } else if (tx.confirmed != null) {
+    } else if (tx.status.confirmed) {
       subtitle = "Confirmed @ ${tx.confirmedLabel} | (${tx.confirmations} Confirmations)";
     } else {
       subtitle = "${tx.confirmations} Confirmations";

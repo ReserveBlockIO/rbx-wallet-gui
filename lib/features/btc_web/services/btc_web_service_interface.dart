@@ -10,6 +10,6 @@ abstract class BtcWebServiceInterface {
   Future<BtcWebAccount?> keypairFromEmailPassword(String email, password);
   Future<BtcWebBalanceInfo?> addressInfo(String address);
   Future<List<BtcWebTransaction>> listTransactions(String address, {int limit = 50, int? before});
-  Future<BtcWebTransaction?> sendTransaction(String senderWif, String senderAddress, String recipientAddress, double amount);
+  Future<String?> sendTransaction(String senderWif, String recipientAddress, double amount, int feeRate);
   Future<String> signMessage(String wif, String message);
 }

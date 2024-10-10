@@ -40,7 +40,7 @@ class BtcWebServiceImpl extends BtcWebServiceInterface {
   }
 
   @override
-  Future<BtcWebTransaction?> sendTransaction(String senderWif, String senderAddress, String recipientAddress, double amount) {
+  Future<String?> sendTransaction(String senderWif, String recipientAddress, double amount, int feeRate) {
     throw UnimplementedError();
   }
 

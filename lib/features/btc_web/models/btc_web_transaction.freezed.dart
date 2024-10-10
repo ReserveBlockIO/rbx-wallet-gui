@@ -14,568 +14,21 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-BtcWebTxInput _$BtcWebTxInputFromJson(Map<String, dynamic> json) {
-  return _BtcWebTxInput.fromJson(json);
-}
-
-/// @nodoc
-mixin _$BtcWebTxInput {
-  @JsonKey(name: "prev_hash")
-  String get prevHash => throw _privateConstructorUsedError;
-  @JsonKey(name: "output_index")
-  int get outputIndex => throw _privateConstructorUsedError;
-  @JsonKey(name: "output_value")
-  int get outputValue => throw _privateConstructorUsedError;
-  int get sequence => throw _privateConstructorUsedError;
-  List<String> get addresses => throw _privateConstructorUsedError;
-  @JsonKey(name: "script_type")
-  String get scriptType => throw _privateConstructorUsedError;
-  int get age => throw _privateConstructorUsedError;
-  List<String> get witness => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $BtcWebTxInputCopyWith<BtcWebTxInput> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $BtcWebTxInputCopyWith<$Res> {
-  factory $BtcWebTxInputCopyWith(
-          BtcWebTxInput value, $Res Function(BtcWebTxInput) then) =
-      _$BtcWebTxInputCopyWithImpl<$Res, BtcWebTxInput>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: "prev_hash") String prevHash,
-      @JsonKey(name: "output_index") int outputIndex,
-      @JsonKey(name: "output_value") int outputValue,
-      int sequence,
-      List<String> addresses,
-      @JsonKey(name: "script_type") String scriptType,
-      int age,
-      List<String> witness});
-}
-
-/// @nodoc
-class _$BtcWebTxInputCopyWithImpl<$Res, $Val extends BtcWebTxInput>
-    implements $BtcWebTxInputCopyWith<$Res> {
-  _$BtcWebTxInputCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? prevHash = null,
-    Object? outputIndex = null,
-    Object? outputValue = null,
-    Object? sequence = null,
-    Object? addresses = null,
-    Object? scriptType = null,
-    Object? age = null,
-    Object? witness = null,
-  }) {
-    return _then(_value.copyWith(
-      prevHash: null == prevHash
-          ? _value.prevHash
-          : prevHash // ignore: cast_nullable_to_non_nullable
-              as String,
-      outputIndex: null == outputIndex
-          ? _value.outputIndex
-          : outputIndex // ignore: cast_nullable_to_non_nullable
-              as int,
-      outputValue: null == outputValue
-          ? _value.outputValue
-          : outputValue // ignore: cast_nullable_to_non_nullable
-              as int,
-      sequence: null == sequence
-          ? _value.sequence
-          : sequence // ignore: cast_nullable_to_non_nullable
-              as int,
-      addresses: null == addresses
-          ? _value.addresses
-          : addresses // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      scriptType: null == scriptType
-          ? _value.scriptType
-          : scriptType // ignore: cast_nullable_to_non_nullable
-              as String,
-      age: null == age
-          ? _value.age
-          : age // ignore: cast_nullable_to_non_nullable
-              as int,
-      witness: null == witness
-          ? _value.witness
-          : witness // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$_BtcWebTxInputCopyWith<$Res>
-    implements $BtcWebTxInputCopyWith<$Res> {
-  factory _$$_BtcWebTxInputCopyWith(
-          _$_BtcWebTxInput value, $Res Function(_$_BtcWebTxInput) then) =
-      __$$_BtcWebTxInputCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(name: "prev_hash") String prevHash,
-      @JsonKey(name: "output_index") int outputIndex,
-      @JsonKey(name: "output_value") int outputValue,
-      int sequence,
-      List<String> addresses,
-      @JsonKey(name: "script_type") String scriptType,
-      int age,
-      List<String> witness});
-}
-
-/// @nodoc
-class __$$_BtcWebTxInputCopyWithImpl<$Res>
-    extends _$BtcWebTxInputCopyWithImpl<$Res, _$_BtcWebTxInput>
-    implements _$$_BtcWebTxInputCopyWith<$Res> {
-  __$$_BtcWebTxInputCopyWithImpl(
-      _$_BtcWebTxInput _value, $Res Function(_$_BtcWebTxInput) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? prevHash = null,
-    Object? outputIndex = null,
-    Object? outputValue = null,
-    Object? sequence = null,
-    Object? addresses = null,
-    Object? scriptType = null,
-    Object? age = null,
-    Object? witness = null,
-  }) {
-    return _then(_$_BtcWebTxInput(
-      prevHash: null == prevHash
-          ? _value.prevHash
-          : prevHash // ignore: cast_nullable_to_non_nullable
-              as String,
-      outputIndex: null == outputIndex
-          ? _value.outputIndex
-          : outputIndex // ignore: cast_nullable_to_non_nullable
-              as int,
-      outputValue: null == outputValue
-          ? _value.outputValue
-          : outputValue // ignore: cast_nullable_to_non_nullable
-              as int,
-      sequence: null == sequence
-          ? _value.sequence
-          : sequence // ignore: cast_nullable_to_non_nullable
-              as int,
-      addresses: null == addresses
-          ? _value._addresses
-          : addresses // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      scriptType: null == scriptType
-          ? _value.scriptType
-          : scriptType // ignore: cast_nullable_to_non_nullable
-              as String,
-      age: null == age
-          ? _value.age
-          : age // ignore: cast_nullable_to_non_nullable
-              as int,
-      witness: null == witness
-          ? _value._witness
-          : witness // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_BtcWebTxInput extends _BtcWebTxInput {
-  _$_BtcWebTxInput(
-      {@JsonKey(name: "prev_hash") required this.prevHash,
-      @JsonKey(name: "output_index") required this.outputIndex,
-      @JsonKey(name: "output_value") required this.outputValue,
-      required this.sequence,
-      final List<String> addresses = const [],
-      @JsonKey(name: "script_type") required this.scriptType,
-      required this.age,
-      final List<String> witness = const []})
-      : _addresses = addresses,
-        _witness = witness,
-        super._();
-
-  factory _$_BtcWebTxInput.fromJson(Map<String, dynamic> json) =>
-      _$$_BtcWebTxInputFromJson(json);
-
-  @override
-  @JsonKey(name: "prev_hash")
-  final String prevHash;
-  @override
-  @JsonKey(name: "output_index")
-  final int outputIndex;
-  @override
-  @JsonKey(name: "output_value")
-  final int outputValue;
-  @override
-  final int sequence;
-  final List<String> _addresses;
-  @override
-  @JsonKey()
-  List<String> get addresses {
-    if (_addresses is EqualUnmodifiableListView) return _addresses;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_addresses);
-  }
-
-  @override
-  @JsonKey(name: "script_type")
-  final String scriptType;
-  @override
-  final int age;
-  final List<String> _witness;
-  @override
-  @JsonKey()
-  List<String> get witness {
-    if (_witness is EqualUnmodifiableListView) return _witness;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_witness);
-  }
-
-  @override
-  String toString() {
-    return 'BtcWebTxInput(prevHash: $prevHash, outputIndex: $outputIndex, outputValue: $outputValue, sequence: $sequence, addresses: $addresses, scriptType: $scriptType, age: $age, witness: $witness)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_BtcWebTxInput &&
-            (identical(other.prevHash, prevHash) ||
-                other.prevHash == prevHash) &&
-            (identical(other.outputIndex, outputIndex) ||
-                other.outputIndex == outputIndex) &&
-            (identical(other.outputValue, outputValue) ||
-                other.outputValue == outputValue) &&
-            (identical(other.sequence, sequence) ||
-                other.sequence == sequence) &&
-            const DeepCollectionEquality()
-                .equals(other._addresses, _addresses) &&
-            (identical(other.scriptType, scriptType) ||
-                other.scriptType == scriptType) &&
-            (identical(other.age, age) || other.age == age) &&
-            const DeepCollectionEquality().equals(other._witness, _witness));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      prevHash,
-      outputIndex,
-      outputValue,
-      sequence,
-      const DeepCollectionEquality().hash(_addresses),
-      scriptType,
-      age,
-      const DeepCollectionEquality().hash(_witness));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_BtcWebTxInputCopyWith<_$_BtcWebTxInput> get copyWith =>
-      __$$_BtcWebTxInputCopyWithImpl<_$_BtcWebTxInput>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_BtcWebTxInputToJson(
-      this,
-    );
-  }
-}
-
-abstract class _BtcWebTxInput extends BtcWebTxInput {
-  factory _BtcWebTxInput(
-      {@JsonKey(name: "prev_hash") required final String prevHash,
-      @JsonKey(name: "output_index") required final int outputIndex,
-      @JsonKey(name: "output_value") required final int outputValue,
-      required final int sequence,
-      final List<String> addresses,
-      @JsonKey(name: "script_type") required final String scriptType,
-      required final int age,
-      final List<String> witness}) = _$_BtcWebTxInput;
-  _BtcWebTxInput._() : super._();
-
-  factory _BtcWebTxInput.fromJson(Map<String, dynamic> json) =
-      _$_BtcWebTxInput.fromJson;
-
-  @override
-  @JsonKey(name: "prev_hash")
-  String get prevHash;
-  @override
-  @JsonKey(name: "output_index")
-  int get outputIndex;
-  @override
-  @JsonKey(name: "output_value")
-  int get outputValue;
-  @override
-  int get sequence;
-  @override
-  List<String> get addresses;
-  @override
-  @JsonKey(name: "script_type")
-  String get scriptType;
-  @override
-  int get age;
-  @override
-  List<String> get witness;
-  @override
-  @JsonKey(ignore: true)
-  _$$_BtcWebTxInputCopyWith<_$_BtcWebTxInput> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-BtcWebTxOutput _$BtcWebTxOutputFromJson(Map<String, dynamic> json) {
-  return _BtcWebTxOutput.fromJson(json);
-}
-
-/// @nodoc
-mixin _$BtcWebTxOutput {
-  int get value => throw _privateConstructorUsedError;
-  String get script => throw _privateConstructorUsedError;
-  List<String> get addresses => throw _privateConstructorUsedError;
-  @JsonKey(name: "script_type")
-  String get scriptType => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $BtcWebTxOutputCopyWith<BtcWebTxOutput> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $BtcWebTxOutputCopyWith<$Res> {
-  factory $BtcWebTxOutputCopyWith(
-          BtcWebTxOutput value, $Res Function(BtcWebTxOutput) then) =
-      _$BtcWebTxOutputCopyWithImpl<$Res, BtcWebTxOutput>;
-  @useResult
-  $Res call(
-      {int value,
-      String script,
-      List<String> addresses,
-      @JsonKey(name: "script_type") String scriptType});
-}
-
-/// @nodoc
-class _$BtcWebTxOutputCopyWithImpl<$Res, $Val extends BtcWebTxOutput>
-    implements $BtcWebTxOutputCopyWith<$Res> {
-  _$BtcWebTxOutputCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? value = null,
-    Object? script = null,
-    Object? addresses = null,
-    Object? scriptType = null,
-  }) {
-    return _then(_value.copyWith(
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as int,
-      script: null == script
-          ? _value.script
-          : script // ignore: cast_nullable_to_non_nullable
-              as String,
-      addresses: null == addresses
-          ? _value.addresses
-          : addresses // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      scriptType: null == scriptType
-          ? _value.scriptType
-          : scriptType // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$_BtcWebTxOutputCopyWith<$Res>
-    implements $BtcWebTxOutputCopyWith<$Res> {
-  factory _$$_BtcWebTxOutputCopyWith(
-          _$_BtcWebTxOutput value, $Res Function(_$_BtcWebTxOutput) then) =
-      __$$_BtcWebTxOutputCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {int value,
-      String script,
-      List<String> addresses,
-      @JsonKey(name: "script_type") String scriptType});
-}
-
-/// @nodoc
-class __$$_BtcWebTxOutputCopyWithImpl<$Res>
-    extends _$BtcWebTxOutputCopyWithImpl<$Res, _$_BtcWebTxOutput>
-    implements _$$_BtcWebTxOutputCopyWith<$Res> {
-  __$$_BtcWebTxOutputCopyWithImpl(
-      _$_BtcWebTxOutput _value, $Res Function(_$_BtcWebTxOutput) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? value = null,
-    Object? script = null,
-    Object? addresses = null,
-    Object? scriptType = null,
-  }) {
-    return _then(_$_BtcWebTxOutput(
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as int,
-      script: null == script
-          ? _value.script
-          : script // ignore: cast_nullable_to_non_nullable
-              as String,
-      addresses: null == addresses
-          ? _value._addresses
-          : addresses // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      scriptType: null == scriptType
-          ? _value.scriptType
-          : scriptType // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_BtcWebTxOutput extends _BtcWebTxOutput {
-  _$_BtcWebTxOutput(
-      {required this.value,
-      required this.script,
-      final List<String> addresses = const [],
-      @JsonKey(name: "script_type") required this.scriptType})
-      : _addresses = addresses,
-        super._();
-
-  factory _$_BtcWebTxOutput.fromJson(Map<String, dynamic> json) =>
-      _$$_BtcWebTxOutputFromJson(json);
-
-  @override
-  final int value;
-  @override
-  final String script;
-  final List<String> _addresses;
-  @override
-  @JsonKey()
-  List<String> get addresses {
-    if (_addresses is EqualUnmodifiableListView) return _addresses;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_addresses);
-  }
-
-  @override
-  @JsonKey(name: "script_type")
-  final String scriptType;
-
-  @override
-  String toString() {
-    return 'BtcWebTxOutput(value: $value, script: $script, addresses: $addresses, scriptType: $scriptType)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_BtcWebTxOutput &&
-            (identical(other.value, value) || other.value == value) &&
-            (identical(other.script, script) || other.script == script) &&
-            const DeepCollectionEquality()
-                .equals(other._addresses, _addresses) &&
-            (identical(other.scriptType, scriptType) ||
-                other.scriptType == scriptType));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, value, script,
-      const DeepCollectionEquality().hash(_addresses), scriptType);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_BtcWebTxOutputCopyWith<_$_BtcWebTxOutput> get copyWith =>
-      __$$_BtcWebTxOutputCopyWithImpl<_$_BtcWebTxOutput>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_BtcWebTxOutputToJson(
-      this,
-    );
-  }
-}
-
-abstract class _BtcWebTxOutput extends BtcWebTxOutput {
-  factory _BtcWebTxOutput(
-          {required final int value,
-          required final String script,
-          final List<String> addresses,
-          @JsonKey(name: "script_type") required final String scriptType}) =
-      _$_BtcWebTxOutput;
-  _BtcWebTxOutput._() : super._();
-
-  factory _BtcWebTxOutput.fromJson(Map<String, dynamic> json) =
-      _$_BtcWebTxOutput.fromJson;
-
-  @override
-  int get value;
-  @override
-  String get script;
-  @override
-  List<String> get addresses;
-  @override
-  @JsonKey(name: "script_type")
-  String get scriptType;
-  @override
-  @JsonKey(ignore: true)
-  _$$_BtcWebTxOutputCopyWith<_$_BtcWebTxOutput> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
 BtcWebTransaction _$BtcWebTransactionFromJson(Map<String, dynamic> json) {
   return _BtcWebTransaction.fromJson(json);
 }
 
 /// @nodoc
 mixin _$BtcWebTransaction {
-  @JsonKey(name: "block_hash")
-  String? get blockHash => throw _privateConstructorUsedError;
-  @JsonKey(name: "block_height")
-  int get blockHeight => throw _privateConstructorUsedError;
-  String get hash => throw _privateConstructorUsedError;
-  List<String> get addresses => throw _privateConstructorUsedError;
-  int get total => throw _privateConstructorUsedError;
-  int get fees => throw _privateConstructorUsedError;
-  int get confirmations => throw _privateConstructorUsedError;
-  DateTime? get confirmed => throw _privateConstructorUsedError;
-  DateTime? get received => throw _privateConstructorUsedError;
-  @JsonKey(name: "relayed_by")
-  String? get relayedBy => throw _privateConstructorUsedError;
-  List<BtcWebTxInput> get inputs => throw _privateConstructorUsedError;
-  List<BtcWebTxOutput> get outputs => throw _privateConstructorUsedError;
+  String get txid => throw _privateConstructorUsedError;
+  int get version => throw _privateConstructorUsedError;
+  int get locktime => throw _privateConstructorUsedError;
+  List<BtcWebVin> get vin => throw _privateConstructorUsedError;
+  List<BtcWebVout> get vout => throw _privateConstructorUsedError;
+  int get size => throw _privateConstructorUsedError;
+  int get weight => throw _privateConstructorUsedError;
+  int get fee => throw _privateConstructorUsedError;
+  BtcWebTxStatus get status => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -590,18 +43,17 @@ abstract class $BtcWebTransactionCopyWith<$Res> {
       _$BtcWebTransactionCopyWithImpl<$Res, BtcWebTransaction>;
   @useResult
   $Res call(
-      {@JsonKey(name: "block_hash") String? blockHash,
-      @JsonKey(name: "block_height") int blockHeight,
-      String hash,
-      List<String> addresses,
-      int total,
-      int fees,
-      int confirmations,
-      DateTime? confirmed,
-      DateTime? received,
-      @JsonKey(name: "relayed_by") String? relayedBy,
-      List<BtcWebTxInput> inputs,
-      List<BtcWebTxOutput> outputs});
+      {String txid,
+      int version,
+      int locktime,
+      List<BtcWebVin> vin,
+      List<BtcWebVout> vout,
+      int size,
+      int weight,
+      int fee,
+      BtcWebTxStatus status});
+
+  $BtcWebTxStatusCopyWith<$Res> get status;
 }
 
 /// @nodoc
@@ -617,69 +69,62 @@ class _$BtcWebTransactionCopyWithImpl<$Res, $Val extends BtcWebTransaction>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? blockHash = freezed,
-    Object? blockHeight = null,
-    Object? hash = null,
-    Object? addresses = null,
-    Object? total = null,
-    Object? fees = null,
-    Object? confirmations = null,
-    Object? confirmed = freezed,
-    Object? received = freezed,
-    Object? relayedBy = freezed,
-    Object? inputs = null,
-    Object? outputs = null,
+    Object? txid = null,
+    Object? version = null,
+    Object? locktime = null,
+    Object? vin = null,
+    Object? vout = null,
+    Object? size = null,
+    Object? weight = null,
+    Object? fee = null,
+    Object? status = null,
   }) {
     return _then(_value.copyWith(
-      blockHash: freezed == blockHash
-          ? _value.blockHash
-          : blockHash // ignore: cast_nullable_to_non_nullable
-              as String?,
-      blockHeight: null == blockHeight
-          ? _value.blockHeight
-          : blockHeight // ignore: cast_nullable_to_non_nullable
-              as int,
-      hash: null == hash
-          ? _value.hash
-          : hash // ignore: cast_nullable_to_non_nullable
+      txid: null == txid
+          ? _value.txid
+          : txid // ignore: cast_nullable_to_non_nullable
               as String,
-      addresses: null == addresses
-          ? _value.addresses
-          : addresses // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      total: null == total
-          ? _value.total
-          : total // ignore: cast_nullable_to_non_nullable
+      version: null == version
+          ? _value.version
+          : version // ignore: cast_nullable_to_non_nullable
               as int,
-      fees: null == fees
-          ? _value.fees
-          : fees // ignore: cast_nullable_to_non_nullable
+      locktime: null == locktime
+          ? _value.locktime
+          : locktime // ignore: cast_nullable_to_non_nullable
               as int,
-      confirmations: null == confirmations
-          ? _value.confirmations
-          : confirmations // ignore: cast_nullable_to_non_nullable
+      vin: null == vin
+          ? _value.vin
+          : vin // ignore: cast_nullable_to_non_nullable
+              as List<BtcWebVin>,
+      vout: null == vout
+          ? _value.vout
+          : vout // ignore: cast_nullable_to_non_nullable
+              as List<BtcWebVout>,
+      size: null == size
+          ? _value.size
+          : size // ignore: cast_nullable_to_non_nullable
               as int,
-      confirmed: freezed == confirmed
-          ? _value.confirmed
-          : confirmed // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      received: freezed == received
-          ? _value.received
-          : received // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      relayedBy: freezed == relayedBy
-          ? _value.relayedBy
-          : relayedBy // ignore: cast_nullable_to_non_nullable
-              as String?,
-      inputs: null == inputs
-          ? _value.inputs
-          : inputs // ignore: cast_nullable_to_non_nullable
-              as List<BtcWebTxInput>,
-      outputs: null == outputs
-          ? _value.outputs
-          : outputs // ignore: cast_nullable_to_non_nullable
-              as List<BtcWebTxOutput>,
+      weight: null == weight
+          ? _value.weight
+          : weight // ignore: cast_nullable_to_non_nullable
+              as int,
+      fee: null == fee
+          ? _value.fee
+          : fee // ignore: cast_nullable_to_non_nullable
+              as int,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as BtcWebTxStatus,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BtcWebTxStatusCopyWith<$Res> get status {
+    return $BtcWebTxStatusCopyWith<$Res>(_value.status, (value) {
+      return _then(_value.copyWith(status: value) as $Val);
+    });
   }
 }
 
@@ -692,18 +137,18 @@ abstract class _$$_BtcWebTransactionCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "block_hash") String? blockHash,
-      @JsonKey(name: "block_height") int blockHeight,
-      String hash,
-      List<String> addresses,
-      int total,
-      int fees,
-      int confirmations,
-      DateTime? confirmed,
-      DateTime? received,
-      @JsonKey(name: "relayed_by") String? relayedBy,
-      List<BtcWebTxInput> inputs,
-      List<BtcWebTxOutput> outputs});
+      {String txid,
+      int version,
+      int locktime,
+      List<BtcWebVin> vin,
+      List<BtcWebVout> vout,
+      int size,
+      int weight,
+      int fee,
+      BtcWebTxStatus status});
+
+  @override
+  $BtcWebTxStatusCopyWith<$Res> get status;
 }
 
 /// @nodoc
@@ -717,68 +162,53 @@ class __$$_BtcWebTransactionCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? blockHash = freezed,
-    Object? blockHeight = null,
-    Object? hash = null,
-    Object? addresses = null,
-    Object? total = null,
-    Object? fees = null,
-    Object? confirmations = null,
-    Object? confirmed = freezed,
-    Object? received = freezed,
-    Object? relayedBy = freezed,
-    Object? inputs = null,
-    Object? outputs = null,
+    Object? txid = null,
+    Object? version = null,
+    Object? locktime = null,
+    Object? vin = null,
+    Object? vout = null,
+    Object? size = null,
+    Object? weight = null,
+    Object? fee = null,
+    Object? status = null,
   }) {
     return _then(_$_BtcWebTransaction(
-      blockHash: freezed == blockHash
-          ? _value.blockHash
-          : blockHash // ignore: cast_nullable_to_non_nullable
-              as String?,
-      blockHeight: null == blockHeight
-          ? _value.blockHeight
-          : blockHeight // ignore: cast_nullable_to_non_nullable
-              as int,
-      hash: null == hash
-          ? _value.hash
-          : hash // ignore: cast_nullable_to_non_nullable
+      txid: null == txid
+          ? _value.txid
+          : txid // ignore: cast_nullable_to_non_nullable
               as String,
-      addresses: null == addresses
-          ? _value._addresses
-          : addresses // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      total: null == total
-          ? _value.total
-          : total // ignore: cast_nullable_to_non_nullable
+      version: null == version
+          ? _value.version
+          : version // ignore: cast_nullable_to_non_nullable
               as int,
-      fees: null == fees
-          ? _value.fees
-          : fees // ignore: cast_nullable_to_non_nullable
+      locktime: null == locktime
+          ? _value.locktime
+          : locktime // ignore: cast_nullable_to_non_nullable
               as int,
-      confirmations: null == confirmations
-          ? _value.confirmations
-          : confirmations // ignore: cast_nullable_to_non_nullable
+      vin: null == vin
+          ? _value._vin
+          : vin // ignore: cast_nullable_to_non_nullable
+              as List<BtcWebVin>,
+      vout: null == vout
+          ? _value._vout
+          : vout // ignore: cast_nullable_to_non_nullable
+              as List<BtcWebVout>,
+      size: null == size
+          ? _value.size
+          : size // ignore: cast_nullable_to_non_nullable
               as int,
-      confirmed: freezed == confirmed
-          ? _value.confirmed
-          : confirmed // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      received: freezed == received
-          ? _value.received
-          : received // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      relayedBy: freezed == relayedBy
-          ? _value.relayedBy
-          : relayedBy // ignore: cast_nullable_to_non_nullable
-              as String?,
-      inputs: null == inputs
-          ? _value._inputs
-          : inputs // ignore: cast_nullable_to_non_nullable
-              as List<BtcWebTxInput>,
-      outputs: null == outputs
-          ? _value._outputs
-          : outputs // ignore: cast_nullable_to_non_nullable
-              as List<BtcWebTxOutput>,
+      weight: null == weight
+          ? _value.weight
+          : weight // ignore: cast_nullable_to_non_nullable
+              as int,
+      fee: null == fee
+          ? _value.fee
+          : fee // ignore: cast_nullable_to_non_nullable
+              as int,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as BtcWebTxStatus,
     ));
   }
 }
@@ -787,78 +217,56 @@ class __$$_BtcWebTransactionCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_BtcWebTransaction extends _BtcWebTransaction {
   _$_BtcWebTransaction(
-      {@JsonKey(name: "block_hash") this.blockHash,
-      @JsonKey(name: "block_height") required this.blockHeight,
-      required this.hash,
-      final List<String> addresses = const [],
-      required this.total,
-      required this.fees,
-      this.confirmations = 0,
-      this.confirmed,
-      this.received,
-      @JsonKey(name: "relayed_by") this.relayedBy,
-      final List<BtcWebTxInput> inputs = const [],
-      final List<BtcWebTxOutput> outputs = const []})
-      : _addresses = addresses,
-        _inputs = inputs,
-        _outputs = outputs,
+      {required this.txid,
+      required this.version,
+      required this.locktime,
+      required final List<BtcWebVin> vin,
+      required final List<BtcWebVout> vout,
+      required this.size,
+      required this.weight,
+      required this.fee,
+      required this.status})
+      : _vin = vin,
+        _vout = vout,
         super._();
 
   factory _$_BtcWebTransaction.fromJson(Map<String, dynamic> json) =>
       _$$_BtcWebTransactionFromJson(json);
 
   @override
-  @JsonKey(name: "block_hash")
-  final String? blockHash;
+  final String txid;
   @override
-  @JsonKey(name: "block_height")
-  final int blockHeight;
+  final int version;
   @override
-  final String hash;
-  final List<String> _addresses;
+  final int locktime;
+  final List<BtcWebVin> _vin;
   @override
-  @JsonKey()
-  List<String> get addresses {
-    if (_addresses is EqualUnmodifiableListView) return _addresses;
+  List<BtcWebVin> get vin {
+    if (_vin is EqualUnmodifiableListView) return _vin;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_addresses);
+    return EqualUnmodifiableListView(_vin);
+  }
+
+  final List<BtcWebVout> _vout;
+  @override
+  List<BtcWebVout> get vout {
+    if (_vout is EqualUnmodifiableListView) return _vout;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_vout);
   }
 
   @override
-  final int total;
+  final int size;
   @override
-  final int fees;
+  final int weight;
   @override
-  @JsonKey()
-  final int confirmations;
+  final int fee;
   @override
-  final DateTime? confirmed;
-  @override
-  final DateTime? received;
-  @override
-  @JsonKey(name: "relayed_by")
-  final String? relayedBy;
-  final List<BtcWebTxInput> _inputs;
-  @override
-  @JsonKey()
-  List<BtcWebTxInput> get inputs {
-    if (_inputs is EqualUnmodifiableListView) return _inputs;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_inputs);
-  }
-
-  final List<BtcWebTxOutput> _outputs;
-  @override
-  @JsonKey()
-  List<BtcWebTxOutput> get outputs {
-    if (_outputs is EqualUnmodifiableListView) return _outputs;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_outputs);
-  }
+  final BtcWebTxStatus status;
 
   @override
   String toString() {
-    return 'BtcWebTransaction(blockHash: $blockHash, blockHeight: $blockHeight, hash: $hash, addresses: $addresses, total: $total, fees: $fees, confirmations: $confirmations, confirmed: $confirmed, received: $received, relayedBy: $relayedBy, inputs: $inputs, outputs: $outputs)';
+    return 'BtcWebTransaction(txid: $txid, version: $version, locktime: $locktime, vin: $vin, vout: $vout, size: $size, weight: $weight, fee: $fee, status: $status)';
   }
 
   @override
@@ -866,43 +274,31 @@ class _$_BtcWebTransaction extends _BtcWebTransaction {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_BtcWebTransaction &&
-            (identical(other.blockHash, blockHash) ||
-                other.blockHash == blockHash) &&
-            (identical(other.blockHeight, blockHeight) ||
-                other.blockHeight == blockHeight) &&
-            (identical(other.hash, hash) || other.hash == hash) &&
-            const DeepCollectionEquality()
-                .equals(other._addresses, _addresses) &&
-            (identical(other.total, total) || other.total == total) &&
-            (identical(other.fees, fees) || other.fees == fees) &&
-            (identical(other.confirmations, confirmations) ||
-                other.confirmations == confirmations) &&
-            (identical(other.confirmed, confirmed) ||
-                other.confirmed == confirmed) &&
-            (identical(other.received, received) ||
-                other.received == received) &&
-            (identical(other.relayedBy, relayedBy) ||
-                other.relayedBy == relayedBy) &&
-            const DeepCollectionEquality().equals(other._inputs, _inputs) &&
-            const DeepCollectionEquality().equals(other._outputs, _outputs));
+            (identical(other.txid, txid) || other.txid == txid) &&
+            (identical(other.version, version) || other.version == version) &&
+            (identical(other.locktime, locktime) ||
+                other.locktime == locktime) &&
+            const DeepCollectionEquality().equals(other._vin, _vin) &&
+            const DeepCollectionEquality().equals(other._vout, _vout) &&
+            (identical(other.size, size) || other.size == size) &&
+            (identical(other.weight, weight) || other.weight == weight) &&
+            (identical(other.fee, fee) || other.fee == fee) &&
+            (identical(other.status, status) || other.status == status));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      blockHash,
-      blockHeight,
-      hash,
-      const DeepCollectionEquality().hash(_addresses),
-      total,
-      fees,
-      confirmations,
-      confirmed,
-      received,
-      relayedBy,
-      const DeepCollectionEquality().hash(_inputs),
-      const DeepCollectionEquality().hash(_outputs));
+      txid,
+      version,
+      locktime,
+      const DeepCollectionEquality().hash(_vin),
+      const DeepCollectionEquality().hash(_vout),
+      size,
+      weight,
+      fee,
+      status);
 
   @JsonKey(ignore: true)
   @override
@@ -921,52 +317,809 @@ class _$_BtcWebTransaction extends _BtcWebTransaction {
 
 abstract class _BtcWebTransaction extends BtcWebTransaction {
   factory _BtcWebTransaction(
-      {@JsonKey(name: "block_hash") final String? blockHash,
-      @JsonKey(name: "block_height") required final int blockHeight,
-      required final String hash,
-      final List<String> addresses,
-      required final int total,
-      required final int fees,
-      final int confirmations,
-      final DateTime? confirmed,
-      final DateTime? received,
-      @JsonKey(name: "relayed_by") final String? relayedBy,
-      final List<BtcWebTxInput> inputs,
-      final List<BtcWebTxOutput> outputs}) = _$_BtcWebTransaction;
+      {required final String txid,
+      required final int version,
+      required final int locktime,
+      required final List<BtcWebVin> vin,
+      required final List<BtcWebVout> vout,
+      required final int size,
+      required final int weight,
+      required final int fee,
+      required final BtcWebTxStatus status}) = _$_BtcWebTransaction;
   _BtcWebTransaction._() : super._();
 
   factory _BtcWebTransaction.fromJson(Map<String, dynamic> json) =
       _$_BtcWebTransaction.fromJson;
 
   @override
-  @JsonKey(name: "block_hash")
-  String? get blockHash;
+  String get txid;
   @override
-  @JsonKey(name: "block_height")
-  int get blockHeight;
+  int get version;
   @override
-  String get hash;
+  int get locktime;
   @override
-  List<String> get addresses;
+  List<BtcWebVin> get vin;
   @override
-  int get total;
+  List<BtcWebVout> get vout;
   @override
-  int get fees;
+  int get size;
   @override
-  int get confirmations;
+  int get weight;
   @override
-  DateTime? get confirmed;
+  int get fee;
   @override
-  DateTime? get received;
-  @override
-  @JsonKey(name: "relayed_by")
-  String? get relayedBy;
-  @override
-  List<BtcWebTxInput> get inputs;
-  @override
-  List<BtcWebTxOutput> get outputs;
+  BtcWebTxStatus get status;
   @override
   @JsonKey(ignore: true)
   _$$_BtcWebTransactionCopyWith<_$_BtcWebTransaction> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+BtcWebVin _$BtcWebVinFromJson(Map<String, dynamic> json) {
+  return _BtcWebVin.fromJson(json);
+}
+
+/// @nodoc
+mixin _$BtcWebVin {
+  String get txid => throw _privateConstructorUsedError;
+  int get vout => throw _privateConstructorUsedError;
+  BtcWebVout get prevout => throw _privateConstructorUsedError;
+  String get scriptsig => throw _privateConstructorUsedError;
+  @JsonKey(name: 'scriptsig_asm')
+  String get scriptsigAsm => throw _privateConstructorUsedError;
+  List<String> get witness => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_coinbase')
+  bool get isCoinbase => throw _privateConstructorUsedError;
+  int get sequence => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $BtcWebVinCopyWith<BtcWebVin> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BtcWebVinCopyWith<$Res> {
+  factory $BtcWebVinCopyWith(BtcWebVin value, $Res Function(BtcWebVin) then) =
+      _$BtcWebVinCopyWithImpl<$Res, BtcWebVin>;
+  @useResult
+  $Res call(
+      {String txid,
+      int vout,
+      BtcWebVout prevout,
+      String scriptsig,
+      @JsonKey(name: 'scriptsig_asm') String scriptsigAsm,
+      List<String> witness,
+      @JsonKey(name: 'is_coinbase') bool isCoinbase,
+      int sequence});
+
+  $BtcWebVoutCopyWith<$Res> get prevout;
+}
+
+/// @nodoc
+class _$BtcWebVinCopyWithImpl<$Res, $Val extends BtcWebVin>
+    implements $BtcWebVinCopyWith<$Res> {
+  _$BtcWebVinCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? txid = null,
+    Object? vout = null,
+    Object? prevout = null,
+    Object? scriptsig = null,
+    Object? scriptsigAsm = null,
+    Object? witness = null,
+    Object? isCoinbase = null,
+    Object? sequence = null,
+  }) {
+    return _then(_value.copyWith(
+      txid: null == txid
+          ? _value.txid
+          : txid // ignore: cast_nullable_to_non_nullable
+              as String,
+      vout: null == vout
+          ? _value.vout
+          : vout // ignore: cast_nullable_to_non_nullable
+              as int,
+      prevout: null == prevout
+          ? _value.prevout
+          : prevout // ignore: cast_nullable_to_non_nullable
+              as BtcWebVout,
+      scriptsig: null == scriptsig
+          ? _value.scriptsig
+          : scriptsig // ignore: cast_nullable_to_non_nullable
+              as String,
+      scriptsigAsm: null == scriptsigAsm
+          ? _value.scriptsigAsm
+          : scriptsigAsm // ignore: cast_nullable_to_non_nullable
+              as String,
+      witness: null == witness
+          ? _value.witness
+          : witness // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      isCoinbase: null == isCoinbase
+          ? _value.isCoinbase
+          : isCoinbase // ignore: cast_nullable_to_non_nullable
+              as bool,
+      sequence: null == sequence
+          ? _value.sequence
+          : sequence // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BtcWebVoutCopyWith<$Res> get prevout {
+    return $BtcWebVoutCopyWith<$Res>(_value.prevout, (value) {
+      return _then(_value.copyWith(prevout: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$_BtcWebVinCopyWith<$Res> implements $BtcWebVinCopyWith<$Res> {
+  factory _$$_BtcWebVinCopyWith(
+          _$_BtcWebVin value, $Res Function(_$_BtcWebVin) then) =
+      __$$_BtcWebVinCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String txid,
+      int vout,
+      BtcWebVout prevout,
+      String scriptsig,
+      @JsonKey(name: 'scriptsig_asm') String scriptsigAsm,
+      List<String> witness,
+      @JsonKey(name: 'is_coinbase') bool isCoinbase,
+      int sequence});
+
+  @override
+  $BtcWebVoutCopyWith<$Res> get prevout;
+}
+
+/// @nodoc
+class __$$_BtcWebVinCopyWithImpl<$Res>
+    extends _$BtcWebVinCopyWithImpl<$Res, _$_BtcWebVin>
+    implements _$$_BtcWebVinCopyWith<$Res> {
+  __$$_BtcWebVinCopyWithImpl(
+      _$_BtcWebVin _value, $Res Function(_$_BtcWebVin) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? txid = null,
+    Object? vout = null,
+    Object? prevout = null,
+    Object? scriptsig = null,
+    Object? scriptsigAsm = null,
+    Object? witness = null,
+    Object? isCoinbase = null,
+    Object? sequence = null,
+  }) {
+    return _then(_$_BtcWebVin(
+      txid: null == txid
+          ? _value.txid
+          : txid // ignore: cast_nullable_to_non_nullable
+              as String,
+      vout: null == vout
+          ? _value.vout
+          : vout // ignore: cast_nullable_to_non_nullable
+              as int,
+      prevout: null == prevout
+          ? _value.prevout
+          : prevout // ignore: cast_nullable_to_non_nullable
+              as BtcWebVout,
+      scriptsig: null == scriptsig
+          ? _value.scriptsig
+          : scriptsig // ignore: cast_nullable_to_non_nullable
+              as String,
+      scriptsigAsm: null == scriptsigAsm
+          ? _value.scriptsigAsm
+          : scriptsigAsm // ignore: cast_nullable_to_non_nullable
+              as String,
+      witness: null == witness
+          ? _value._witness
+          : witness // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      isCoinbase: null == isCoinbase
+          ? _value.isCoinbase
+          : isCoinbase // ignore: cast_nullable_to_non_nullable
+              as bool,
+      sequence: null == sequence
+          ? _value.sequence
+          : sequence // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_BtcWebVin implements _BtcWebVin {
+  const _$_BtcWebVin(
+      {required this.txid,
+      required this.vout,
+      required this.prevout,
+      required this.scriptsig,
+      @JsonKey(name: 'scriptsig_asm') required this.scriptsigAsm,
+      required final List<String> witness,
+      @JsonKey(name: 'is_coinbase') required this.isCoinbase,
+      required this.sequence})
+      : _witness = witness;
+
+  factory _$_BtcWebVin.fromJson(Map<String, dynamic> json) =>
+      _$$_BtcWebVinFromJson(json);
+
+  @override
+  final String txid;
+  @override
+  final int vout;
+  @override
+  final BtcWebVout prevout;
+  @override
+  final String scriptsig;
+  @override
+  @JsonKey(name: 'scriptsig_asm')
+  final String scriptsigAsm;
+  final List<String> _witness;
+  @override
+  List<String> get witness {
+    if (_witness is EqualUnmodifiableListView) return _witness;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_witness);
+  }
+
+  @override
+  @JsonKey(name: 'is_coinbase')
+  final bool isCoinbase;
+  @override
+  final int sequence;
+
+  @override
+  String toString() {
+    return 'BtcWebVin(txid: $txid, vout: $vout, prevout: $prevout, scriptsig: $scriptsig, scriptsigAsm: $scriptsigAsm, witness: $witness, isCoinbase: $isCoinbase, sequence: $sequence)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_BtcWebVin &&
+            (identical(other.txid, txid) || other.txid == txid) &&
+            (identical(other.vout, vout) || other.vout == vout) &&
+            (identical(other.prevout, prevout) || other.prevout == prevout) &&
+            (identical(other.scriptsig, scriptsig) ||
+                other.scriptsig == scriptsig) &&
+            (identical(other.scriptsigAsm, scriptsigAsm) ||
+                other.scriptsigAsm == scriptsigAsm) &&
+            const DeepCollectionEquality().equals(other._witness, _witness) &&
+            (identical(other.isCoinbase, isCoinbase) ||
+                other.isCoinbase == isCoinbase) &&
+            (identical(other.sequence, sequence) ||
+                other.sequence == sequence));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      txid,
+      vout,
+      prevout,
+      scriptsig,
+      scriptsigAsm,
+      const DeepCollectionEquality().hash(_witness),
+      isCoinbase,
+      sequence);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_BtcWebVinCopyWith<_$_BtcWebVin> get copyWith =>
+      __$$_BtcWebVinCopyWithImpl<_$_BtcWebVin>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_BtcWebVinToJson(
+      this,
+    );
+  }
+}
+
+abstract class _BtcWebVin implements BtcWebVin {
+  const factory _BtcWebVin(
+      {required final String txid,
+      required final int vout,
+      required final BtcWebVout prevout,
+      required final String scriptsig,
+      @JsonKey(name: 'scriptsig_asm') required final String scriptsigAsm,
+      required final List<String> witness,
+      @JsonKey(name: 'is_coinbase') required final bool isCoinbase,
+      required final int sequence}) = _$_BtcWebVin;
+
+  factory _BtcWebVin.fromJson(Map<String, dynamic> json) =
+      _$_BtcWebVin.fromJson;
+
+  @override
+  String get txid;
+  @override
+  int get vout;
+  @override
+  BtcWebVout get prevout;
+  @override
+  String get scriptsig;
+  @override
+  @JsonKey(name: 'scriptsig_asm')
+  String get scriptsigAsm;
+  @override
+  List<String> get witness;
+  @override
+  @JsonKey(name: 'is_coinbase')
+  bool get isCoinbase;
+  @override
+  int get sequence;
+  @override
+  @JsonKey(ignore: true)
+  _$$_BtcWebVinCopyWith<_$_BtcWebVin> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+BtcWebVout _$BtcWebVoutFromJson(Map<String, dynamic> json) {
+  return _BtcWebVout.fromJson(json);
+}
+
+/// @nodoc
+mixin _$BtcWebVout {
+  String get scriptpubkey => throw _privateConstructorUsedError;
+  @JsonKey(name: 'scriptpubkey_asm')
+  String get scriptpubkeyAsm => throw _privateConstructorUsedError;
+  @JsonKey(name: 'scriptpubkey_type')
+  String get scriptpubkeyType => throw _privateConstructorUsedError;
+  @JsonKey(name: 'scriptpubkey_address')
+  String get scriptpubkeyAddress => throw _privateConstructorUsedError;
+  int get value => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $BtcWebVoutCopyWith<BtcWebVout> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BtcWebVoutCopyWith<$Res> {
+  factory $BtcWebVoutCopyWith(
+          BtcWebVout value, $Res Function(BtcWebVout) then) =
+      _$BtcWebVoutCopyWithImpl<$Res, BtcWebVout>;
+  @useResult
+  $Res call(
+      {String scriptpubkey,
+      @JsonKey(name: 'scriptpubkey_asm') String scriptpubkeyAsm,
+      @JsonKey(name: 'scriptpubkey_type') String scriptpubkeyType,
+      @JsonKey(name: 'scriptpubkey_address') String scriptpubkeyAddress,
+      int value});
+}
+
+/// @nodoc
+class _$BtcWebVoutCopyWithImpl<$Res, $Val extends BtcWebVout>
+    implements $BtcWebVoutCopyWith<$Res> {
+  _$BtcWebVoutCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? scriptpubkey = null,
+    Object? scriptpubkeyAsm = null,
+    Object? scriptpubkeyType = null,
+    Object? scriptpubkeyAddress = null,
+    Object? value = null,
+  }) {
+    return _then(_value.copyWith(
+      scriptpubkey: null == scriptpubkey
+          ? _value.scriptpubkey
+          : scriptpubkey // ignore: cast_nullable_to_non_nullable
+              as String,
+      scriptpubkeyAsm: null == scriptpubkeyAsm
+          ? _value.scriptpubkeyAsm
+          : scriptpubkeyAsm // ignore: cast_nullable_to_non_nullable
+              as String,
+      scriptpubkeyType: null == scriptpubkeyType
+          ? _value.scriptpubkeyType
+          : scriptpubkeyType // ignore: cast_nullable_to_non_nullable
+              as String,
+      scriptpubkeyAddress: null == scriptpubkeyAddress
+          ? _value.scriptpubkeyAddress
+          : scriptpubkeyAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_BtcWebVoutCopyWith<$Res>
+    implements $BtcWebVoutCopyWith<$Res> {
+  factory _$$_BtcWebVoutCopyWith(
+          _$_BtcWebVout value, $Res Function(_$_BtcWebVout) then) =
+      __$$_BtcWebVoutCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String scriptpubkey,
+      @JsonKey(name: 'scriptpubkey_asm') String scriptpubkeyAsm,
+      @JsonKey(name: 'scriptpubkey_type') String scriptpubkeyType,
+      @JsonKey(name: 'scriptpubkey_address') String scriptpubkeyAddress,
+      int value});
+}
+
+/// @nodoc
+class __$$_BtcWebVoutCopyWithImpl<$Res>
+    extends _$BtcWebVoutCopyWithImpl<$Res, _$_BtcWebVout>
+    implements _$$_BtcWebVoutCopyWith<$Res> {
+  __$$_BtcWebVoutCopyWithImpl(
+      _$_BtcWebVout _value, $Res Function(_$_BtcWebVout) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? scriptpubkey = null,
+    Object? scriptpubkeyAsm = null,
+    Object? scriptpubkeyType = null,
+    Object? scriptpubkeyAddress = null,
+    Object? value = null,
+  }) {
+    return _then(_$_BtcWebVout(
+      scriptpubkey: null == scriptpubkey
+          ? _value.scriptpubkey
+          : scriptpubkey // ignore: cast_nullable_to_non_nullable
+              as String,
+      scriptpubkeyAsm: null == scriptpubkeyAsm
+          ? _value.scriptpubkeyAsm
+          : scriptpubkeyAsm // ignore: cast_nullable_to_non_nullable
+              as String,
+      scriptpubkeyType: null == scriptpubkeyType
+          ? _value.scriptpubkeyType
+          : scriptpubkeyType // ignore: cast_nullable_to_non_nullable
+              as String,
+      scriptpubkeyAddress: null == scriptpubkeyAddress
+          ? _value.scriptpubkeyAddress
+          : scriptpubkeyAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_BtcWebVout implements _BtcWebVout {
+  const _$_BtcWebVout(
+      {required this.scriptpubkey,
+      @JsonKey(name: 'scriptpubkey_asm') required this.scriptpubkeyAsm,
+      @JsonKey(name: 'scriptpubkey_type') required this.scriptpubkeyType,
+      @JsonKey(name: 'scriptpubkey_address') required this.scriptpubkeyAddress,
+      required this.value});
+
+  factory _$_BtcWebVout.fromJson(Map<String, dynamic> json) =>
+      _$$_BtcWebVoutFromJson(json);
+
+  @override
+  final String scriptpubkey;
+  @override
+  @JsonKey(name: 'scriptpubkey_asm')
+  final String scriptpubkeyAsm;
+  @override
+  @JsonKey(name: 'scriptpubkey_type')
+  final String scriptpubkeyType;
+  @override
+  @JsonKey(name: 'scriptpubkey_address')
+  final String scriptpubkeyAddress;
+  @override
+  final int value;
+
+  @override
+  String toString() {
+    return 'BtcWebVout(scriptpubkey: $scriptpubkey, scriptpubkeyAsm: $scriptpubkeyAsm, scriptpubkeyType: $scriptpubkeyType, scriptpubkeyAddress: $scriptpubkeyAddress, value: $value)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_BtcWebVout &&
+            (identical(other.scriptpubkey, scriptpubkey) ||
+                other.scriptpubkey == scriptpubkey) &&
+            (identical(other.scriptpubkeyAsm, scriptpubkeyAsm) ||
+                other.scriptpubkeyAsm == scriptpubkeyAsm) &&
+            (identical(other.scriptpubkeyType, scriptpubkeyType) ||
+                other.scriptpubkeyType == scriptpubkeyType) &&
+            (identical(other.scriptpubkeyAddress, scriptpubkeyAddress) ||
+                other.scriptpubkeyAddress == scriptpubkeyAddress) &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, scriptpubkey, scriptpubkeyAsm,
+      scriptpubkeyType, scriptpubkeyAddress, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_BtcWebVoutCopyWith<_$_BtcWebVout> get copyWith =>
+      __$$_BtcWebVoutCopyWithImpl<_$_BtcWebVout>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_BtcWebVoutToJson(
+      this,
+    );
+  }
+}
+
+abstract class _BtcWebVout implements BtcWebVout {
+  const factory _BtcWebVout(
+      {required final String scriptpubkey,
+      @JsonKey(name: 'scriptpubkey_asm')
+          required final String scriptpubkeyAsm,
+      @JsonKey(name: 'scriptpubkey_type')
+          required final String scriptpubkeyType,
+      @JsonKey(name: 'scriptpubkey_address')
+          required final String scriptpubkeyAddress,
+      required final int value}) = _$_BtcWebVout;
+
+  factory _BtcWebVout.fromJson(Map<String, dynamic> json) =
+      _$_BtcWebVout.fromJson;
+
+  @override
+  String get scriptpubkey;
+  @override
+  @JsonKey(name: 'scriptpubkey_asm')
+  String get scriptpubkeyAsm;
+  @override
+  @JsonKey(name: 'scriptpubkey_type')
+  String get scriptpubkeyType;
+  @override
+  @JsonKey(name: 'scriptpubkey_address')
+  String get scriptpubkeyAddress;
+  @override
+  int get value;
+  @override
+  @JsonKey(ignore: true)
+  _$$_BtcWebVoutCopyWith<_$_BtcWebVout> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+BtcWebTxStatus _$BtcWebTxStatusFromJson(Map<String, dynamic> json) {
+  return _BtcWebTxStatus.fromJson(json);
+}
+
+/// @nodoc
+mixin _$BtcWebTxStatus {
+  bool get confirmed => throw _privateConstructorUsedError;
+  @JsonKey(name: 'block_height')
+  int get blockHeight => throw _privateConstructorUsedError;
+  @JsonKey(name: 'block_hash')
+  String get blockHash => throw _privateConstructorUsedError;
+  @JsonKey(name: 'block_time')
+  int get blockTime => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $BtcWebTxStatusCopyWith<BtcWebTxStatus> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BtcWebTxStatusCopyWith<$Res> {
+  factory $BtcWebTxStatusCopyWith(
+          BtcWebTxStatus value, $Res Function(BtcWebTxStatus) then) =
+      _$BtcWebTxStatusCopyWithImpl<$Res, BtcWebTxStatus>;
+  @useResult
+  $Res call(
+      {bool confirmed,
+      @JsonKey(name: 'block_height') int blockHeight,
+      @JsonKey(name: 'block_hash') String blockHash,
+      @JsonKey(name: 'block_time') int blockTime});
+}
+
+/// @nodoc
+class _$BtcWebTxStatusCopyWithImpl<$Res, $Val extends BtcWebTxStatus>
+    implements $BtcWebTxStatusCopyWith<$Res> {
+  _$BtcWebTxStatusCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? confirmed = null,
+    Object? blockHeight = null,
+    Object? blockHash = null,
+    Object? blockTime = null,
+  }) {
+    return _then(_value.copyWith(
+      confirmed: null == confirmed
+          ? _value.confirmed
+          : confirmed // ignore: cast_nullable_to_non_nullable
+              as bool,
+      blockHeight: null == blockHeight
+          ? _value.blockHeight
+          : blockHeight // ignore: cast_nullable_to_non_nullable
+              as int,
+      blockHash: null == blockHash
+          ? _value.blockHash
+          : blockHash // ignore: cast_nullable_to_non_nullable
+              as String,
+      blockTime: null == blockTime
+          ? _value.blockTime
+          : blockTime // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_BtcWebTxStatusCopyWith<$Res>
+    implements $BtcWebTxStatusCopyWith<$Res> {
+  factory _$$_BtcWebTxStatusCopyWith(
+          _$_BtcWebTxStatus value, $Res Function(_$_BtcWebTxStatus) then) =
+      __$$_BtcWebTxStatusCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {bool confirmed,
+      @JsonKey(name: 'block_height') int blockHeight,
+      @JsonKey(name: 'block_hash') String blockHash,
+      @JsonKey(name: 'block_time') int blockTime});
+}
+
+/// @nodoc
+class __$$_BtcWebTxStatusCopyWithImpl<$Res>
+    extends _$BtcWebTxStatusCopyWithImpl<$Res, _$_BtcWebTxStatus>
+    implements _$$_BtcWebTxStatusCopyWith<$Res> {
+  __$$_BtcWebTxStatusCopyWithImpl(
+      _$_BtcWebTxStatus _value, $Res Function(_$_BtcWebTxStatus) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? confirmed = null,
+    Object? blockHeight = null,
+    Object? blockHash = null,
+    Object? blockTime = null,
+  }) {
+    return _then(_$_BtcWebTxStatus(
+      confirmed: null == confirmed
+          ? _value.confirmed
+          : confirmed // ignore: cast_nullable_to_non_nullable
+              as bool,
+      blockHeight: null == blockHeight
+          ? _value.blockHeight
+          : blockHeight // ignore: cast_nullable_to_non_nullable
+              as int,
+      blockHash: null == blockHash
+          ? _value.blockHash
+          : blockHash // ignore: cast_nullable_to_non_nullable
+              as String,
+      blockTime: null == blockTime
+          ? _value.blockTime
+          : blockTime // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_BtcWebTxStatus implements _BtcWebTxStatus {
+  const _$_BtcWebTxStatus(
+      {required this.confirmed,
+      @JsonKey(name: 'block_height') required this.blockHeight,
+      @JsonKey(name: 'block_hash') required this.blockHash,
+      @JsonKey(name: 'block_time') required this.blockTime});
+
+  factory _$_BtcWebTxStatus.fromJson(Map<String, dynamic> json) =>
+      _$$_BtcWebTxStatusFromJson(json);
+
+  @override
+  final bool confirmed;
+  @override
+  @JsonKey(name: 'block_height')
+  final int blockHeight;
+  @override
+  @JsonKey(name: 'block_hash')
+  final String blockHash;
+  @override
+  @JsonKey(name: 'block_time')
+  final int blockTime;
+
+  @override
+  String toString() {
+    return 'BtcWebTxStatus(confirmed: $confirmed, blockHeight: $blockHeight, blockHash: $blockHash, blockTime: $blockTime)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_BtcWebTxStatus &&
+            (identical(other.confirmed, confirmed) ||
+                other.confirmed == confirmed) &&
+            (identical(other.blockHeight, blockHeight) ||
+                other.blockHeight == blockHeight) &&
+            (identical(other.blockHash, blockHash) ||
+                other.blockHash == blockHash) &&
+            (identical(other.blockTime, blockTime) ||
+                other.blockTime == blockTime));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, confirmed, blockHeight, blockHash, blockTime);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_BtcWebTxStatusCopyWith<_$_BtcWebTxStatus> get copyWith =>
+      __$$_BtcWebTxStatusCopyWithImpl<_$_BtcWebTxStatus>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_BtcWebTxStatusToJson(
+      this,
+    );
+  }
+}
+
+abstract class _BtcWebTxStatus implements BtcWebTxStatus {
+  const factory _BtcWebTxStatus(
+          {required final bool confirmed,
+          @JsonKey(name: 'block_height') required final int blockHeight,
+          @JsonKey(name: 'block_hash') required final String blockHash,
+          @JsonKey(name: 'block_time') required final int blockTime}) =
+      _$_BtcWebTxStatus;
+
+  factory _BtcWebTxStatus.fromJson(Map<String, dynamic> json) =
+      _$_BtcWebTxStatus.fromJson;
+
+  @override
+  bool get confirmed;
+  @override
+  @JsonKey(name: 'block_height')
+  int get blockHeight;
+  @override
+  @JsonKey(name: 'block_hash')
+  String get blockHash;
+  @override
+  @JsonKey(name: 'block_time')
+  int get blockTime;
+  @override
+  @JsonKey(ignore: true)
+  _$$_BtcWebTxStatusCopyWith<_$_BtcWebTxStatus> get copyWith =>
       throw _privateConstructorUsedError;
 }

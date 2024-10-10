@@ -60,9 +60,14 @@ function init() {
     }
 
 
-    window.btcSendTransaction = async function (senderWif, senderAddress, recipientAddress, amount) {
-        const result = await transactionService.createTransaction(senderWif, senderAddress, recipientAddress, amount);
-        return _responseOutput(result);
+    window.btcSendTransaction = async function (senderWif, senderAddress, amount, feeRate) {
+        const createData = await transactionService.createTransaction(senderWif, senderAddress, amount, feeRate);
+        if (!createData.success) {
+            return _responseOutput(createData);
+        }
+
+        const broadcastData = await transactionService.broadcastTransaction(createData.result);
+        return _responseOutput(broadcastData);
     }
 
 

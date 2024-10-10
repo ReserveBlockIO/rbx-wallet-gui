@@ -322,14 +322,12 @@ class SendFormProvider extends StateNotifier<SendFormModel> {
           return;
         }
 
-        final transaction = await BtcWebService().sendTransaction(senderWif, senderAddress, address, amountDouble);
+        final txHash = await BtcWebService().sendTransaction(senderWif, address, amountDouble, 0);
 
-        if (transaction == null) {
+        if (txHash == null) {
           Toast.error();
           return;
         }
-
-        final txHash = transaction.hash;
 
         Toast.message("$amount BTC has been sent to $address.");
 
