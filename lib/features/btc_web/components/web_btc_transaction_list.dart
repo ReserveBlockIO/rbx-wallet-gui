@@ -13,13 +13,7 @@ class WebBtcTransactionList extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.read(btcWebTransactionListProvider(address).notifier);
-    final state = ref.watch(btcWebTransactionListProvider(address));
-
-    if (state.processing) {
-      return CenteredLoader();
-    }
-
-    final transactions = state.results;
+    final transactions = ref.watch(btcWebTransactionListProvider(address));
 
     if (transactions.isEmpty) {
       return Center(

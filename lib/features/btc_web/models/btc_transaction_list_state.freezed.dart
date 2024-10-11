@@ -15,31 +15,32 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$BtcTransactionListState {
+mixin _$WebBtcTransactionListState {
   bool get processing => throw _privateConstructorUsedError;
   bool get canLoadMore => throw _privateConstructorUsedError;
   List<BtcWebTransaction> get results => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $BtcTransactionListStateCopyWith<BtcTransactionListState> get copyWith =>
-      throw _privateConstructorUsedError;
+  $WebBtcTransactionListStateCopyWith<WebBtcTransactionListState>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $BtcTransactionListStateCopyWith<$Res> {
-  factory $BtcTransactionListStateCopyWith(BtcTransactionListState value,
-          $Res Function(BtcTransactionListState) then) =
-      _$BtcTransactionListStateCopyWithImpl<$Res, BtcTransactionListState>;
+abstract class $WebBtcTransactionListStateCopyWith<$Res> {
+  factory $WebBtcTransactionListStateCopyWith(WebBtcTransactionListState value,
+          $Res Function(WebBtcTransactionListState) then) =
+      _$WebBtcTransactionListStateCopyWithImpl<$Res,
+          WebBtcTransactionListState>;
   @useResult
   $Res call(
       {bool processing, bool canLoadMore, List<BtcWebTransaction> results});
 }
 
 /// @nodoc
-class _$BtcTransactionListStateCopyWithImpl<$Res,
-        $Val extends BtcTransactionListState>
-    implements $BtcTransactionListStateCopyWith<$Res> {
-  _$BtcTransactionListStateCopyWithImpl(this._value, this._then);
+class _$WebBtcTransactionListStateCopyWithImpl<$Res,
+        $Val extends WebBtcTransactionListState>
+    implements $WebBtcTransactionListStateCopyWith<$Res> {
+  _$WebBtcTransactionListStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -71,11 +72,12 @@ class _$BtcTransactionListStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_BtcTransactionListStateCopyWith<$Res>
-    implements $BtcTransactionListStateCopyWith<$Res> {
-  factory _$$_BtcTransactionListStateCopyWith(_$_BtcTransactionListState value,
-          $Res Function(_$_BtcTransactionListState) then) =
-      __$$_BtcTransactionListStateCopyWithImpl<$Res>;
+abstract class _$$_WebBtcTransactionListStateCopyWith<$Res>
+    implements $WebBtcTransactionListStateCopyWith<$Res> {
+  factory _$$_WebBtcTransactionListStateCopyWith(
+          _$_WebBtcTransactionListState value,
+          $Res Function(_$_WebBtcTransactionListState) then) =
+      __$$_WebBtcTransactionListStateCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -83,12 +85,13 @@ abstract class _$$_BtcTransactionListStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BtcTransactionListStateCopyWithImpl<$Res>
-    extends _$BtcTransactionListStateCopyWithImpl<$Res,
-        _$_BtcTransactionListState>
-    implements _$$_BtcTransactionListStateCopyWith<$Res> {
-  __$$_BtcTransactionListStateCopyWithImpl(_$_BtcTransactionListState _value,
-      $Res Function(_$_BtcTransactionListState) _then)
+class __$$_WebBtcTransactionListStateCopyWithImpl<$Res>
+    extends _$WebBtcTransactionListStateCopyWithImpl<$Res,
+        _$_WebBtcTransactionListState>
+    implements _$$_WebBtcTransactionListStateCopyWith<$Res> {
+  __$$_WebBtcTransactionListStateCopyWithImpl(
+      _$_WebBtcTransactionListState _value,
+      $Res Function(_$_WebBtcTransactionListState) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -98,7 +101,7 @@ class __$$_BtcTransactionListStateCopyWithImpl<$Res>
     Object? canLoadMore = null,
     Object? results = null,
   }) {
-    return _then(_$_BtcTransactionListState(
+    return _then(_$_WebBtcTransactionListState(
       processing: null == processing
           ? _value.processing
           : processing // ignore: cast_nullable_to_non_nullable
@@ -117,8 +120,8 @@ class __$$_BtcTransactionListStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BtcTransactionListState extends _BtcTransactionListState {
-  _$_BtcTransactionListState(
+class _$_WebBtcTransactionListState extends _WebBtcTransactionListState {
+  _$_WebBtcTransactionListState(
       {this.processing = false,
       this.canLoadMore = false,
       final List<BtcWebTransaction> results = const []})
@@ -142,14 +145,14 @@ class _$_BtcTransactionListState extends _BtcTransactionListState {
 
   @override
   String toString() {
-    return 'BtcTransactionListState(processing: $processing, canLoadMore: $canLoadMore, results: $results)';
+    return 'WebBtcTransactionListState(processing: $processing, canLoadMore: $canLoadMore, results: $results)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BtcTransactionListState &&
+            other is _$_WebBtcTransactionListState &&
             (identical(other.processing, processing) ||
                 other.processing == processing) &&
             (identical(other.canLoadMore, canLoadMore) ||
@@ -164,18 +167,17 @@ class _$_BtcTransactionListState extends _BtcTransactionListState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BtcTransactionListStateCopyWith<_$_BtcTransactionListState>
-      get copyWith =>
-          __$$_BtcTransactionListStateCopyWithImpl<_$_BtcTransactionListState>(
-              this, _$identity);
+  _$$_WebBtcTransactionListStateCopyWith<_$_WebBtcTransactionListState>
+      get copyWith => __$$_WebBtcTransactionListStateCopyWithImpl<
+          _$_WebBtcTransactionListState>(this, _$identity);
 }
 
-abstract class _BtcTransactionListState extends BtcTransactionListState {
-  factory _BtcTransactionListState(
+abstract class _WebBtcTransactionListState extends WebBtcTransactionListState {
+  factory _WebBtcTransactionListState(
       {final bool processing,
       final bool canLoadMore,
-      final List<BtcWebTransaction> results}) = _$_BtcTransactionListState;
-  _BtcTransactionListState._() : super._();
+      final List<BtcWebTransaction> results}) = _$_WebBtcTransactionListState;
+  _WebBtcTransactionListState._() : super._();
 
   @override
   bool get processing;
@@ -185,6 +187,6 @@ abstract class _BtcTransactionListState extends BtcTransactionListState {
   List<BtcWebTransaction> get results;
   @override
   @JsonKey(ignore: true)
-  _$$_BtcTransactionListStateCopyWith<_$_BtcTransactionListState>
+  _$$_WebBtcTransactionListStateCopyWith<_$_WebBtcTransactionListState>
       get copyWith => throw _privateConstructorUsedError;
 }

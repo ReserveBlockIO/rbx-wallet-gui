@@ -13,6 +13,7 @@ import 'package:rbx_wallet/core/theme/components.dart';
 import 'package:rbx_wallet/core/theme/pretty_icons.dart';
 import 'package:rbx_wallet/features/block/latest_block.dart';
 import 'package:rbx_wallet/features/btc/screens/tokenized_btc_list_screen.dart';
+import 'package:rbx_wallet/features/btc_web/components/web_btc_transaction_list.dart';
 import 'package:rbx_wallet/features/misc/providers/global_balances_expanded_provider.dart';
 import 'package:rbx_wallet/features/navigation/components/root_container_balance_item.dart';
 import 'package:rbx_wallet/features/navigation/components/root_container_side_nav.dart';
@@ -28,6 +29,8 @@ import '../../core/providers/session_provider.dart';
 import '../../core/providers/web_session_provider.dart';
 import '../auth/auth_utils.dart';
 import '../btc_web/models/btc_web_account.dart';
+import '../btc_web/models/btc_web_transaction.dart';
+import '../btc_web/providers/btc_web_transaction_list_provider.dart';
 import '../chat/components/web_chat_notifier.dart';
 
 import '../../core/base_component.dart';
@@ -211,6 +214,12 @@ class _ContentWrapper extends BaseComponent {
 
                               final latestVfxTx = vfxTransactions != null && vfxTransactions.isNotEmpty ? vfxTransactions.first : null;
 
+                              final myBtcAddress = ref.watch(webSessionProvider.select((value) => value.btcKeypair?.address));
+
+                              final List<BtcWebTransaction>? btcTransactions =
+                                  myBtcAddress != null ? ref.watch(btcWebTransactionListProvider(myBtcAddress)) : null;
+                              final latestBtcTx = btcTransactions != null && btcTransactions.isNotEmpty ? btcTransactions.first : null;
+
                               return LayoutBuilder(builder: (context, constraints) {
                                 final availableWidth = constraints.maxWidth;
 
@@ -388,6 +397,60 @@ class _ContentWrapper extends BaseComponent {
 
                                                 AutoTabsRouter.of(context).setActiveIndex(WebRouteIndex.transactions);
                                               },
+                                              latestTx: latestBtcTx != null
+                                                  ? MouseRegion(
+                                                      cursor: SystemMouseCursors.click,
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          AutoTabsRouter.of(context).setActiveIndex(WebRouteIndex.transactions);
+                                                        },
+                                                        child: AppCard(
+                                                          padding: 12,
+                                                          fullWidth: true,
+                                                          child: Column(
+                                                            mainAxisSize: MainAxisSize.min,
+                                                            children: [
+                                                              Text(
+                                                                "${latestBtcTx.amountBtc(myBtcAddress!)} BTC",
+                                                                style: TextStyle(
+                                                                  color: latestBtcTx.isIncoming(myBtcAddress)
+                                                                      ? Theme.of(context).colorScheme.success
+                                                                      : Colors.red.shade500,
+                                                                  fontWeight: FontWeight.w600,
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                "From: ${latestBtcTx.fromAddress(myBtcAddress)}\nTo: ${latestBtcTx.toAddress(myBtcAddress)}",
+                                                                style: TextStyle(
+                                                                  fontSize: 11,
+                                                                  color: Colors.white.withOpacity(0.9),
+                                                                ),
+                                                                textAlign: TextAlign.center,
+                                                              ),
+                                                              SizedBox(
+                                                                height: 2,
+                                                              ),
+                                                              latestBtcTx.status.confirmed
+                                                                  ? Text(
+                                                                      "Confirmed",
+                                                                      style: TextStyle(
+                                                                        color: AppColors.getSpringGreen(),
+                                                                        fontWeight: FontWeight.w600,
+                                                                      ),
+                                                                    )
+                                                                  : Text(
+                                                                      "Pending",
+                                                                      style: TextStyle(
+                                                                        color: Theme.of(context).colorScheme.warning,
+                                                                        fontWeight: FontWeight.w600,
+                                                                      ),
+                                                                    ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : null,
                                               actions: [
                                                 if (sessionModel.btcKeypair != null)
                                                   AppVerticalIconButton(

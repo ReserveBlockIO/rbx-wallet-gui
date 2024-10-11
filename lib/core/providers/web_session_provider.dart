@@ -272,7 +272,7 @@ class WebSessionProvider extends StateNotifier<WebSessionModel> {
 
   void getBtcBalances() {
     if (state.btcKeypair != null) {
-      ref.invalidate(btcWebTransactionListProvider(state.btcKeypair!.address));
+      ref.read(btcWebTransactionListProvider(state.btcKeypair!.address).notifier).load();
     }
   }
 }

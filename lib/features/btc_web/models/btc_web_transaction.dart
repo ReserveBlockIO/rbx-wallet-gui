@@ -82,6 +82,29 @@ class BtcWebTransaction with _$BtcWebTransaction {
     return totalSent - totalValueToOthers(myAddress) - fee;
   }
 
+  int amount(String myAddress) {
+    return totalSent - totalChange(myAddress) + (isIncoming(myAddress) ? 0 : fee) * (isIncoming(myAddress) ? 1 : -1);
+  }
+
+  double amountBtc(String myAddress) {
+    return amount(myAddress) * BTC_SATOSHI_MULTIPLIER;
+  }
+
+  String fromAddress(String myAddress) {
+    return vin.first.prevout.scriptpubkeyAddress;
+  }
+
+  String toAddress(String myAddress) {
+    return toAddresses.where((element) => element != myAddress).join(',');
+  }
+
+  bool isIncoming(String myAddress) {
+    if (vin.first.prevout.scriptpubkeyAddress == myAddress) {
+      return false;
+    }
+    return true;
+  }
+
   // int myBalanceChangeWithoutFee(String myAddress) {
   //   //
   // }

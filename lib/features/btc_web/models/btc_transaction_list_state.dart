@@ -4,12 +4,12 @@ import 'btc_web_transaction.dart';
 part 'btc_transaction_list_state.freezed.dart';
 
 @freezed
-class BtcTransactionListState with _$BtcTransactionListState {
-  const BtcTransactionListState._();
+class WebBtcTransactionListState with _$WebBtcTransactionListState {
+  const WebBtcTransactionListState._();
 
-  factory BtcTransactionListState({
+  factory WebBtcTransactionListState({
     @Default(false) bool processing,
     @Default(false) bool canLoadMore,
     @Default([]) List<BtcWebTransaction> results,
-  }) = _BtcTransactionListState;
+  }) = _WebBtcTransactionListState;
 }

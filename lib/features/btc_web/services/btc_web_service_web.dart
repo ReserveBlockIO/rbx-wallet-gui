@@ -109,11 +109,8 @@ class BtcWebServiceImpl extends BtcWebServiceInterface {
     try {
       final promise = btcTransactions(address, limit, before);
       final data = await promiseToFuture(promise);
-      final decodedData = jsonDecode(data);
-      print("---------");
 
-      print(jsonEncode(decodedData));
-      print("---------");
+      final decodedData = jsonDecode(data);
 
       final List<dynamic> txDatas = decodedData;
       final List<BtcWebTransaction> transactions = [];
@@ -125,7 +122,7 @@ class BtcWebServiceImpl extends BtcWebServiceInterface {
 
       return transactions;
     } catch (e, st) {
-      print("Error");
+      print("Error!!");
       print(e);
       print(st);
       return [];
