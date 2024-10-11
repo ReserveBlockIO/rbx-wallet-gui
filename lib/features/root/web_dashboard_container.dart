@@ -241,6 +241,8 @@ class _ContentWrapper extends BaseComponent {
                                                     cursor: SystemMouseCursors.click,
                                                     child: GestureDetector(
                                                       onTap: () {
+                                                        ref.read(webSessionProvider.notifier).setSelectedWalletType(WalletType.rbx);
+
                                                         AutoTabsRouter.of(context).setActiveIndex(WebRouteIndex.transactions);
                                                       },
                                                       child: AppCard(
@@ -402,6 +404,7 @@ class _ContentWrapper extends BaseComponent {
                                                       cursor: SystemMouseCursors.click,
                                                       child: GestureDetector(
                                                         onTap: () {
+                                                          ref.read(webSessionProvider.notifier).setSelectedWalletType(WalletType.btc);
                                                           AutoTabsRouter.of(context).setActiveIndex(WebRouteIndex.transactions);
                                                         },
                                                         child: AppCard(
@@ -413,7 +416,7 @@ class _ContentWrapper extends BaseComponent {
                                                               Text(
                                                                 "${latestBtcTx.amountBtc(myBtcAddress!)} BTC",
                                                                 style: TextStyle(
-                                                                  color: latestBtcTx.isIncoming(myBtcAddress)
+                                                                  color: latestBtcTx.amountBtc(myBtcAddress) >= 0
                                                                       ? Theme.of(context).colorScheme.success
                                                                       : Colors.red.shade500,
                                                                   fontWeight: FontWeight.w600,

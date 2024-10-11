@@ -10,11 +10,13 @@ import 'package:rbx_wallet/core/components/centered_loader.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/theme/colors.dart';
+import 'package:rbx_wallet/features/btc_web/providers/btc_web_transaction_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/theme/components.dart';
 import '../../../generated/assets.gen.dart';
 import '../components/web_btc_tokenized_action_buttons.dart';
+import '../components/web_btc_transaction_list_tile.dart';
 import '../models/btc_web_vbtc_token.dart';
 import '../providers/btc_web_vbtc_token_detail_provider.dart';
 
@@ -120,6 +122,8 @@ class WebTokenizedBtcDetailScreen extends BaseScreen {
 
           final isOwner = myAddress == token.ownerAddress;
 
+          final btcTxs = ref.watch(btcWebTransactionListProvider(token.depositAddress));
+
           return SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -205,9 +209,31 @@ class WebTokenizedBtcDetailScreen extends BaseScreen {
                   height: 8,
                 ),
                 _VbtcActionButtonsContainer(token: token, isOwner: isOwner),
-                SizedBox(
-                  height: 16,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Transactions:",
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontSize: 18,
+                    ),
+                  ),
                 ),
+                if (btcTxs.isEmpty) Text("No Transactions"),
+                ListView.builder(
+                  itemCount: btcTxs.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final tx = btcTxs[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: WebBtcTransactionListTile(
+                        transaction: tx,
+                        address: token.depositAddress,
+                      ),
+                    );
+                  },
+                )
               ],
             ),
           );

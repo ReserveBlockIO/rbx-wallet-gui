@@ -109,10 +109,18 @@ class BtcWebServiceImpl extends BtcWebServiceInterface {
     try {
       final promise = btcTransactions(address, limit, before);
       final data = await promiseToFuture(promise);
+      if (address == "2NA7zBmp97n4jhHTYyX9njnEUqqpxog27YX") {
+        print(data);
+        print("----");
+      }
 
       final decodedData = jsonDecode(data);
 
-      final List<dynamic> txDatas = decodedData;
+      final List<dynamic>? txDatas = decodedData;
+      if (txDatas == null) {
+        print("TXs are null");
+        return [];
+      }
       final List<BtcWebTransaction> transactions = [];
 
       for (final json in txDatas) {

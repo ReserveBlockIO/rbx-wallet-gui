@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/base_component.dart';
 import '../../../core/components/centered_loader.dart';
 
+import '../../../core/providers/web_session_provider.dart';
 import '../providers/btc_web_transaction_list_provider.dart';
 import 'web_btc_transaction_list_tile.dart';
 
@@ -33,7 +34,10 @@ class WebBtcTransactionList extends BaseComponent {
             final transaction = transactions[index];
             return Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
-              child: WebBtcTransactionListTile(transaction: transaction),
+              child: WebBtcTransactionListTile(
+                transaction: transaction,
+                address: address,
+              ),
             );
           },
         ),

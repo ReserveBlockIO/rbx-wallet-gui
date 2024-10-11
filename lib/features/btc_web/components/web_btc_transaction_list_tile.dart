@@ -14,14 +14,19 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 class WebBtcTransactionListTile extends StatelessWidget {
   final BtcWebTransaction transaction;
+  final String address;
+
   const WebBtcTransactionListTile({
     super.key,
     required this.transaction,
+    required this.address,
   });
 
   @override
   Widget build(BuildContext context) {
     final tx = transaction;
+
+    final amount = tx.amountBtc(address);
 
     return AppCard(
       padding: 12,
@@ -29,42 +34,60 @@ class WebBtcTransactionListTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          InkWell(
-            onTap: () {
-              if (Env.isTestNet) {
-                launchUrlString("https://mempool.space/testnet4/tx/${tx.txid}");
-              } else {
-                launchUrlString("https://mempool.space/tx/${tx.txid}");
-              }
-            },
+          Padding(
+            padding: const EdgeInsets.all(4.0),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
-                  width: 4,
+                Row(
+                  children: [
+                    Text(
+                      "$amount BTC",
+                      style: TextStyle(
+                        color: amount >= 0 ? Theme.of(context).colorScheme.success : Colors.red.shade600,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  "TX ID: ",
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.white70,
-                    fontWeight: FontWeight.bold,
+                InkWell(
+                  onTap: () {
+                    if (Env.isTestNet) {
+                      launchUrlString("https://mempool.space/testnet4/tx/${tx.txid}");
+                    } else {
+                      launchUrlString("https://mempool.space/tx/${tx.txid}");
+                    }
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "TX ID: ",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white70,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        tx.txid,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white70,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      Icon(
+                        Icons.open_in_new,
+                        size: 12,
+                        color: Colors.white70,
+                      ),
+                    ],
                   ),
-                ),
-                Text(
-                  tx.txid,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.white70,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-                SizedBox(
-                  width: 4,
-                ),
-                Icon(
-                  Icons.open_in_new,
-                  size: 12,
-                  color: Colors.white70,
                 ),
               ],
             ),

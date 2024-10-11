@@ -83,7 +83,53 @@ class BtcWebTransaction with _$BtcWebTransaction {
   }
 
   int amount(String myAddress) {
-    return totalSent - totalChange(myAddress) + (isIncoming(myAddress) ? 0 : fee) * (isIncoming(myAddress) ? 1 : -1);
+    int amount = 0;
+
+    final inputs = vin.where((element) => element.prevout.scriptpubkeyAddress == myAddress).toList();
+    for (final input in inputs) {
+      amount -= input.prevout.value;
+    }
+
+    final outputs = vout.where((element) => element.scriptpubkeyAddress == myAddress).toList();
+
+    for (final output in outputs) {
+      amount += output.value;
+    }
+
+    if (amount < 0) {
+      amount += fee;
+    }
+
+    return amount;
+
+    // final senderAddresses = vin.map((e) => e.prevout.scriptpubkeyAddress);
+
+    // int totalInputAmount = 0;
+    // int totalOutputAmount = 0;
+    // int changeAmount = 0;
+
+    // // Calculate total input from user's address
+    // for (var input in vin) {
+    //   if (input.prevout.scriptpubkeyAddress == myAddress) {
+    //     totalInputAmount += input.prevout.value; // Add input value from user's address
+    //   }
+    // }
+
+    // // Calculate outputs
+    // for (var output in vout) {
+    //   // Check if the output is to the user's address (i.e., change)
+    //   if (output.scriptpubkeyAddress == myAddress) {
+    //     changeAmount += output.value; // Treat as change (goes back to user)
+    //   } else {
+    //     totalOutputAmount += output.value; // Going to other recipients
+    //   }
+    // }
+
+    // // Net amount: If the user is sending, subtract change and inputs.
+    // // If the user is receiving, totalInputAmount will be 0, and only totalOutputAmount matters.
+    // final netAmount = totalOutputAmount - (totalInputAmount - changeAmount);
+
+    // return netAmount;
   }
 
   double amountBtc(String myAddress) {
@@ -98,12 +144,12 @@ class BtcWebTransaction with _$BtcWebTransaction {
     return toAddresses.where((element) => element != myAddress).join(',');
   }
 
-  bool isIncoming(String myAddress) {
-    if (vin.first.prevout.scriptpubkeyAddress == myAddress) {
-      return false;
-    }
-    return true;
-  }
+  // bool isIncoming(String myAddress) {
+  //   if (vin.first.prevout.scriptpubkeyAddress == myAddress) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
   // int myBalanceChangeWithoutFee(String myAddress) {
   //   //
@@ -136,7 +182,7 @@ class BtcWebVin with _$BtcWebVin {
     required BtcWebVout prevout,
     // required String scriptsig,
     // @JsonKey(name: 'scriptsig_asm') required String scriptsigAsm,
-    required List<String> witness,
+    // required List<String> witness,
     // @JsonKey(name: 'is_coinbase') required bool isCoinbase,
     required int sequence,
   }) = _BtcWebVin;

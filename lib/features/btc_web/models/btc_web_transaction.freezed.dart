@@ -330,8 +330,8 @@ mixin _$BtcWebVin {
   BtcWebVout get prevout =>
       throw _privateConstructorUsedError; // required String scriptsig,
 // @JsonKey(name: 'scriptsig_asm') required String scriptsigAsm,
-  List<String> get witness =>
-      throw _privateConstructorUsedError; // @JsonKey(name: 'is_coinbase') required bool isCoinbase,
+// required List<String> witness,
+// @JsonKey(name: 'is_coinbase') required bool isCoinbase,
   int get sequence => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -345,12 +345,7 @@ abstract class $BtcWebVinCopyWith<$Res> {
   factory $BtcWebVinCopyWith(BtcWebVin value, $Res Function(BtcWebVin) then) =
       _$BtcWebVinCopyWithImpl<$Res, BtcWebVin>;
   @useResult
-  $Res call(
-      {String txid,
-      int vout,
-      BtcWebVout prevout,
-      List<String> witness,
-      int sequence});
+  $Res call({String txid, int vout, BtcWebVout prevout, int sequence});
 
   $BtcWebVoutCopyWith<$Res> get prevout;
 }
@@ -371,7 +366,6 @@ class _$BtcWebVinCopyWithImpl<$Res, $Val extends BtcWebVin>
     Object? txid = null,
     Object? vout = null,
     Object? prevout = null,
-    Object? witness = null,
     Object? sequence = null,
   }) {
     return _then(_value.copyWith(
@@ -387,10 +381,6 @@ class _$BtcWebVinCopyWithImpl<$Res, $Val extends BtcWebVin>
           ? _value.prevout
           : prevout // ignore: cast_nullable_to_non_nullable
               as BtcWebVout,
-      witness: null == witness
-          ? _value.witness
-          : witness // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       sequence: null == sequence
           ? _value.sequence
           : sequence // ignore: cast_nullable_to_non_nullable
@@ -414,12 +404,7 @@ abstract class _$$_BtcWebVinCopyWith<$Res> implements $BtcWebVinCopyWith<$Res> {
       __$$_BtcWebVinCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String txid,
-      int vout,
-      BtcWebVout prevout,
-      List<String> witness,
-      int sequence});
+  $Res call({String txid, int vout, BtcWebVout prevout, int sequence});
 
   @override
   $BtcWebVoutCopyWith<$Res> get prevout;
@@ -439,7 +424,6 @@ class __$$_BtcWebVinCopyWithImpl<$Res>
     Object? txid = null,
     Object? vout = null,
     Object? prevout = null,
-    Object? witness = null,
     Object? sequence = null,
   }) {
     return _then(_$_BtcWebVin(
@@ -455,10 +439,6 @@ class __$$_BtcWebVinCopyWithImpl<$Res>
           ? _value.prevout
           : prevout // ignore: cast_nullable_to_non_nullable
               as BtcWebVout,
-      witness: null == witness
-          ? _value._witness
-          : witness // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       sequence: null == sequence
           ? _value.sequence
           : sequence // ignore: cast_nullable_to_non_nullable
@@ -474,9 +454,7 @@ class _$_BtcWebVin implements _BtcWebVin {
       {required this.txid,
       required this.vout,
       required this.prevout,
-      required final List<String> witness,
-      required this.sequence})
-      : _witness = witness;
+      required this.sequence});
 
   factory _$_BtcWebVin.fromJson(Map<String, dynamic> json) =>
       _$$_BtcWebVinFromJson(json);
@@ -489,23 +467,14 @@ class _$_BtcWebVin implements _BtcWebVin {
   final BtcWebVout prevout;
 // required String scriptsig,
 // @JsonKey(name: 'scriptsig_asm') required String scriptsigAsm,
-  final List<String> _witness;
-// required String scriptsig,
-// @JsonKey(name: 'scriptsig_asm') required String scriptsigAsm,
-  @override
-  List<String> get witness {
-    if (_witness is EqualUnmodifiableListView) return _witness;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_witness);
-  }
-
+// required List<String> witness,
 // @JsonKey(name: 'is_coinbase') required bool isCoinbase,
   @override
   final int sequence;
 
   @override
   String toString() {
-    return 'BtcWebVin(txid: $txid, vout: $vout, prevout: $prevout, witness: $witness, sequence: $sequence)';
+    return 'BtcWebVin(txid: $txid, vout: $vout, prevout: $prevout, sequence: $sequence)';
   }
 
   @override
@@ -516,15 +485,13 @@ class _$_BtcWebVin implements _BtcWebVin {
             (identical(other.txid, txid) || other.txid == txid) &&
             (identical(other.vout, vout) || other.vout == vout) &&
             (identical(other.prevout, prevout) || other.prevout == prevout) &&
-            const DeepCollectionEquality().equals(other._witness, _witness) &&
             (identical(other.sequence, sequence) ||
                 other.sequence == sequence));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, txid, vout, prevout,
-      const DeepCollectionEquality().hash(_witness), sequence);
+  int get hashCode => Object.hash(runtimeType, txid, vout, prevout, sequence);
 
   @JsonKey(ignore: true)
   @override
@@ -545,7 +512,6 @@ abstract class _BtcWebVin implements BtcWebVin {
       {required final String txid,
       required final int vout,
       required final BtcWebVout prevout,
-      required final List<String> witness,
       required final int sequence}) = _$_BtcWebVin;
 
   factory _BtcWebVin.fromJson(Map<String, dynamic> json) =
@@ -559,8 +525,8 @@ abstract class _BtcWebVin implements BtcWebVin {
   BtcWebVout get prevout;
   @override // required String scriptsig,
 // @JsonKey(name: 'scriptsig_asm') required String scriptsigAsm,
-  List<String> get witness;
-  @override // @JsonKey(name: 'is_coinbase') required bool isCoinbase,
+// required List<String> witness,
+// @JsonKey(name: 'is_coinbase') required bool isCoinbase,
   int get sequence;
   @override
   @JsonKey(ignore: true)

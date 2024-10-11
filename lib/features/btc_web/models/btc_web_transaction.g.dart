@@ -37,8 +37,6 @@ _$_BtcWebVin _$$_BtcWebVinFromJson(Map<String, dynamic> json) => _$_BtcWebVin(
       txid: json['txid'] as String,
       vout: json['vout'] as int,
       prevout: BtcWebVout.fromJson(json['prevout'] as Map<String, dynamic>),
-      witness:
-          (json['witness'] as List<dynamic>).map((e) => e as String).toList(),
       sequence: json['sequence'] as int,
     );
 
@@ -47,7 +45,6 @@ Map<String, dynamic> _$$_BtcWebVinToJson(_$_BtcWebVin instance) =>
       'txid': instance.txid,
       'vout': instance.vout,
       'prevout': instance.prevout,
-      'witness': instance.witness,
       'sequence': instance.sequence,
     };
 
