@@ -566,3 +566,311 @@ abstract class _TokenVoteTopic extends TokenVoteTopic {
   _$$_TokenVoteTopicCopyWith<_$_TokenVoteTopic> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+WebTokenVoteTopic _$WebTokenVoteTopicFromJson(Map<String, dynamic> json) {
+  return _WebTokenVoteTopic.fromJson(json);
+}
+
+/// @nodoc
+mixin _$WebTokenVoteTopic {
+  @JsonKey(name: "sc_identifier")
+  String get smartContractUid => throw _privateConstructorUsedError;
+  @JsonKey(name: "topic_id")
+  String get topicUid => throw _privateConstructorUsedError;
+  @JsonKey(name: "name")
+  String get topicName => throw _privateConstructorUsedError;
+  @JsonKey(name: "description")
+  String get topicDescription => throw _privateConstructorUsedError;
+  @JsonKey(name: "vote_requirement")
+  double get minimumVoteRequirement =>
+      throw _privateConstructorUsedError; // @JsonKey(name: "TokenHolderCount") required int tokenHolderCount,
+  @JsonKey(name: "created_at")
+  DateTime get topicCreateDate => throw _privateConstructorUsedError;
+  @JsonKey(name: "voting_ends_at")
+  DateTime get votingEndDate => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $WebTokenVoteTopicCopyWith<WebTokenVoteTopic> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $WebTokenVoteTopicCopyWith<$Res> {
+  factory $WebTokenVoteTopicCopyWith(
+          WebTokenVoteTopic value, $Res Function(WebTokenVoteTopic) then) =
+      _$WebTokenVoteTopicCopyWithImpl<$Res, WebTokenVoteTopic>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: "sc_identifier") String smartContractUid,
+      @JsonKey(name: "topic_id") String topicUid,
+      @JsonKey(name: "name") String topicName,
+      @JsonKey(name: "description") String topicDescription,
+      @JsonKey(name: "vote_requirement") double minimumVoteRequirement,
+      @JsonKey(name: "created_at") DateTime topicCreateDate,
+      @JsonKey(name: "voting_ends_at") DateTime votingEndDate});
+}
+
+/// @nodoc
+class _$WebTokenVoteTopicCopyWithImpl<$Res, $Val extends WebTokenVoteTopic>
+    implements $WebTokenVoteTopicCopyWith<$Res> {
+  _$WebTokenVoteTopicCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? smartContractUid = null,
+    Object? topicUid = null,
+    Object? topicName = null,
+    Object? topicDescription = null,
+    Object? minimumVoteRequirement = null,
+    Object? topicCreateDate = null,
+    Object? votingEndDate = null,
+  }) {
+    return _then(_value.copyWith(
+      smartContractUid: null == smartContractUid
+          ? _value.smartContractUid
+          : smartContractUid // ignore: cast_nullable_to_non_nullable
+              as String,
+      topicUid: null == topicUid
+          ? _value.topicUid
+          : topicUid // ignore: cast_nullable_to_non_nullable
+              as String,
+      topicName: null == topicName
+          ? _value.topicName
+          : topicName // ignore: cast_nullable_to_non_nullable
+              as String,
+      topicDescription: null == topicDescription
+          ? _value.topicDescription
+          : topicDescription // ignore: cast_nullable_to_non_nullable
+              as String,
+      minimumVoteRequirement: null == minimumVoteRequirement
+          ? _value.minimumVoteRequirement
+          : minimumVoteRequirement // ignore: cast_nullable_to_non_nullable
+              as double,
+      topicCreateDate: null == topicCreateDate
+          ? _value.topicCreateDate
+          : topicCreateDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      votingEndDate: null == votingEndDate
+          ? _value.votingEndDate
+          : votingEndDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_WebTokenVoteTopicCopyWith<$Res>
+    implements $WebTokenVoteTopicCopyWith<$Res> {
+  factory _$$_WebTokenVoteTopicCopyWith(_$_WebTokenVoteTopic value,
+          $Res Function(_$_WebTokenVoteTopic) then) =
+      __$$_WebTokenVoteTopicCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: "sc_identifier") String smartContractUid,
+      @JsonKey(name: "topic_id") String topicUid,
+      @JsonKey(name: "name") String topicName,
+      @JsonKey(name: "description") String topicDescription,
+      @JsonKey(name: "vote_requirement") double minimumVoteRequirement,
+      @JsonKey(name: "created_at") DateTime topicCreateDate,
+      @JsonKey(name: "voting_ends_at") DateTime votingEndDate});
+}
+
+/// @nodoc
+class __$$_WebTokenVoteTopicCopyWithImpl<$Res>
+    extends _$WebTokenVoteTopicCopyWithImpl<$Res, _$_WebTokenVoteTopic>
+    implements _$$_WebTokenVoteTopicCopyWith<$Res> {
+  __$$_WebTokenVoteTopicCopyWithImpl(
+      _$_WebTokenVoteTopic _value, $Res Function(_$_WebTokenVoteTopic) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? smartContractUid = null,
+    Object? topicUid = null,
+    Object? topicName = null,
+    Object? topicDescription = null,
+    Object? minimumVoteRequirement = null,
+    Object? topicCreateDate = null,
+    Object? votingEndDate = null,
+  }) {
+    return _then(_$_WebTokenVoteTopic(
+      smartContractUid: null == smartContractUid
+          ? _value.smartContractUid
+          : smartContractUid // ignore: cast_nullable_to_non_nullable
+              as String,
+      topicUid: null == topicUid
+          ? _value.topicUid
+          : topicUid // ignore: cast_nullable_to_non_nullable
+              as String,
+      topicName: null == topicName
+          ? _value.topicName
+          : topicName // ignore: cast_nullable_to_non_nullable
+              as String,
+      topicDescription: null == topicDescription
+          ? _value.topicDescription
+          : topicDescription // ignore: cast_nullable_to_non_nullable
+              as String,
+      minimumVoteRequirement: null == minimumVoteRequirement
+          ? _value.minimumVoteRequirement
+          : minimumVoteRequirement // ignore: cast_nullable_to_non_nullable
+              as double,
+      topicCreateDate: null == topicCreateDate
+          ? _value.topicCreateDate
+          : topicCreateDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      votingEndDate: null == votingEndDate
+          ? _value.votingEndDate
+          : votingEndDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_WebTokenVoteTopic extends _WebTokenVoteTopic {
+  _$_WebTokenVoteTopic(
+      {@JsonKey(name: "sc_identifier") required this.smartContractUid,
+      @JsonKey(name: "topic_id") required this.topicUid,
+      @JsonKey(name: "name") required this.topicName,
+      @JsonKey(name: "description") required this.topicDescription,
+      @JsonKey(name: "vote_requirement") required this.minimumVoteRequirement,
+      @JsonKey(name: "created_at") required this.topicCreateDate,
+      @JsonKey(name: "voting_ends_at") required this.votingEndDate})
+      : super._();
+
+  factory _$_WebTokenVoteTopic.fromJson(Map<String, dynamic> json) =>
+      _$$_WebTokenVoteTopicFromJson(json);
+
+  @override
+  @JsonKey(name: "sc_identifier")
+  final String smartContractUid;
+  @override
+  @JsonKey(name: "topic_id")
+  final String topicUid;
+  @override
+  @JsonKey(name: "name")
+  final String topicName;
+  @override
+  @JsonKey(name: "description")
+  final String topicDescription;
+  @override
+  @JsonKey(name: "vote_requirement")
+  final double minimumVoteRequirement;
+// @JsonKey(name: "TokenHolderCount") required int tokenHolderCount,
+  @override
+  @JsonKey(name: "created_at")
+  final DateTime topicCreateDate;
+  @override
+  @JsonKey(name: "voting_ends_at")
+  final DateTime votingEndDate;
+
+  @override
+  String toString() {
+    return 'WebTokenVoteTopic(smartContractUid: $smartContractUid, topicUid: $topicUid, topicName: $topicName, topicDescription: $topicDescription, minimumVoteRequirement: $minimumVoteRequirement, topicCreateDate: $topicCreateDate, votingEndDate: $votingEndDate)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_WebTokenVoteTopic &&
+            (identical(other.smartContractUid, smartContractUid) ||
+                other.smartContractUid == smartContractUid) &&
+            (identical(other.topicUid, topicUid) ||
+                other.topicUid == topicUid) &&
+            (identical(other.topicName, topicName) ||
+                other.topicName == topicName) &&
+            (identical(other.topicDescription, topicDescription) ||
+                other.topicDescription == topicDescription) &&
+            (identical(other.minimumVoteRequirement, minimumVoteRequirement) ||
+                other.minimumVoteRequirement == minimumVoteRequirement) &&
+            (identical(other.topicCreateDate, topicCreateDate) ||
+                other.topicCreateDate == topicCreateDate) &&
+            (identical(other.votingEndDate, votingEndDate) ||
+                other.votingEndDate == votingEndDate));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      smartContractUid,
+      topicUid,
+      topicName,
+      topicDescription,
+      minimumVoteRequirement,
+      topicCreateDate,
+      votingEndDate);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_WebTokenVoteTopicCopyWith<_$_WebTokenVoteTopic> get copyWith =>
+      __$$_WebTokenVoteTopicCopyWithImpl<_$_WebTokenVoteTopic>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_WebTokenVoteTopicToJson(
+      this,
+    );
+  }
+}
+
+abstract class _WebTokenVoteTopic extends WebTokenVoteTopic {
+  factory _WebTokenVoteTopic(
+      {@JsonKey(name: "sc_identifier")
+          required final String smartContractUid,
+      @JsonKey(name: "topic_id")
+          required final String topicUid,
+      @JsonKey(name: "name")
+          required final String topicName,
+      @JsonKey(name: "description")
+          required final String topicDescription,
+      @JsonKey(name: "vote_requirement")
+          required final double minimumVoteRequirement,
+      @JsonKey(name: "created_at")
+          required final DateTime topicCreateDate,
+      @JsonKey(name: "voting_ends_at")
+          required final DateTime votingEndDate}) = _$_WebTokenVoteTopic;
+  _WebTokenVoteTopic._() : super._();
+
+  factory _WebTokenVoteTopic.fromJson(Map<String, dynamic> json) =
+      _$_WebTokenVoteTopic.fromJson;
+
+  @override
+  @JsonKey(name: "sc_identifier")
+  String get smartContractUid;
+  @override
+  @JsonKey(name: "topic_id")
+  String get topicUid;
+  @override
+  @JsonKey(name: "name")
+  String get topicName;
+  @override
+  @JsonKey(name: "description")
+  String get topicDescription;
+  @override
+  @JsonKey(name: "vote_requirement")
+  double get minimumVoteRequirement;
+  @override // @JsonKey(name: "TokenHolderCount") required int tokenHolderCount,
+  @JsonKey(name: "created_at")
+  DateTime get topicCreateDate;
+  @override
+  @JsonKey(name: "voting_ends_at")
+  DateTime get votingEndDate;
+  @override
+  @JsonKey(ignore: true)
+  _$$_WebTokenVoteTopicCopyWith<_$_WebTokenVoteTopic> get copyWith =>
+      throw _privateConstructorUsedError;
+}

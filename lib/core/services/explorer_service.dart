@@ -5,6 +5,7 @@ import '../../features/btc_web/models/btc_web_vbtc_token.dart';
 import '../../features/btc_web/models/vbtc_compile_data.dart';
 import '../../features/price/models/price_history_item.dart';
 import '../../features/nft/models/web_nft.dart';
+import '../../features/token/models/token_vote_topic.dart';
 import '../../features/token/models/web_fungible_token.dart';
 import '../../features/web/models/web_address.dart';
 import '../../utils/toast.dart';
@@ -389,6 +390,19 @@ class ExplorerService extends BaseService {
       print("retrieveToken error");
       print(e);
       return null;
+    }
+  }
+
+  Future<PaginatedResponse<WebTokenVoteTopic>> listTokenVotingTopics(String scId, {int page = 1, int limit = 10}) async {
+    try {
+      final response = await getJson("/fungible-tokens/$scId/voting-topics/");
+      final List<WebTokenVoteTopic> results = response['results'].map<WebTokenVoteTopic>((json) => WebTokenVoteTopic.fromJson(json)).toList();
+
+      return PaginatedResponse(count: response['count'], page: response['page'], num_pages: response['num_pages'], results: results);
+    } catch (e) {
+      print("listTokenVotingTopics error");
+      print(e);
+      return PaginatedResponse.empty();
     }
   }
 

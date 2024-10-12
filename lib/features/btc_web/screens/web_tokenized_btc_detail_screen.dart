@@ -11,6 +11,7 @@ import 'package:rbx_wallet/core/providers/web_session_provider.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/core/theme/colors.dart';
 import 'package:rbx_wallet/features/btc_web/providers/btc_web_transaction_list_provider.dart';
+import 'package:rbx_wallet/features/transactions/providers/web_transaction_list_provider.dart';
 import 'package:rbx_wallet/utils/toast.dart';
 
 import '../../../core/theme/components.dart';
@@ -209,6 +210,38 @@ class WebTokenizedBtcDetailScreen extends BaseScreen {
                   height: 8,
                 ),
                 _VbtcActionButtonsContainer(token: token, isOwner: isOwner),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Text(
+                //     "Ownership:",
+                //     style: TextStyle(
+                //       decoration: TextDecoration.underline,
+                //       fontSize: 18,
+                //     ),
+                //   ),
+                // ),
+                // ListView.builder(
+                //     itemCount: token.addresses.entries.length,
+                //     shrinkWrap: true,
+                //     itemBuilder: (context, index) {
+                //       final entry = token.addresses.entries.toList()[index];
+                //       final address = entry.key;
+                //       final balance = entry.value;
+
+                //       final percent = token.globalBalance > 0 ? balance / token.globalBalance : null;
+
+                //       return Padding(
+                //         padding: const EdgeInsets.only(bottom: 16.0),
+                //         child: AppCard(
+                //           padding: 0,
+                //           child: ListTile(
+                //             title: Text("$balance VBTC"),
+                //             subtitle: Text(address),
+                //             trailing: percent != null ? Text("${percent * 100}%") : null,
+                //           ),
+                //         ),
+                //       );
+                //     }),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(

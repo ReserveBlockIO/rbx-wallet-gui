@@ -45,3 +45,26 @@ Map<String, dynamic> _$$_TokenVoteTopicToJson(_$_TokenVoteTopic instance) =>
       'PercentInFavor': instance.percentInFavor,
       'PercentAgainst': instance.percentAgainst,
     };
+
+_$_WebTokenVoteTopic _$$_WebTokenVoteTopicFromJson(Map<String, dynamic> json) =>
+    _$_WebTokenVoteTopic(
+      smartContractUid: json['sc_identifier'] as String,
+      topicUid: json['topic_id'] as String,
+      topicName: json['name'] as String,
+      topicDescription: json['description'] as String,
+      minimumVoteRequirement: (json['vote_requirement'] as num).toDouble(),
+      topicCreateDate: DateTime.parse(json['created_at'] as String),
+      votingEndDate: DateTime.parse(json['voting_ends_at'] as String),
+    );
+
+Map<String, dynamic> _$$_WebTokenVoteTopicToJson(
+        _$_WebTokenVoteTopic instance) =>
+    <String, dynamic>{
+      'sc_identifier': instance.smartContractUid,
+      'topic_id': instance.topicUid,
+      'name': instance.topicName,
+      'description': instance.topicDescription,
+      'vote_requirement': instance.minimumVoteRequirement,
+      'created_at': instance.topicCreateDate.toIso8601String(),
+      'voting_ends_at': instance.votingEndDate.toIso8601String(),
+    };

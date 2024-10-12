@@ -51,3 +51,28 @@ class TokenVoteTopic with _$TokenVoteTopic {
     return endsAt.isAfter(DateTime.now());
   }
 }
+
+@freezed
+class WebTokenVoteTopic with _$WebTokenVoteTopic {
+  const WebTokenVoteTopic._();
+
+  factory WebTokenVoteTopic({
+    @JsonKey(name: "sc_identifier") required String smartContractUid,
+    @JsonKey(name: "topic_id") required String topicUid,
+    @JsonKey(name: "name") required String topicName,
+    @JsonKey(name: "description") required String topicDescription,
+    @JsonKey(name: "vote_requirement") required double minimumVoteRequirement,
+    // @JsonKey(name: "TokenHolderCount") required int tokenHolderCount,
+    @JsonKey(name: "created_at") required DateTime topicCreateDate,
+    @JsonKey(name: "voting_ends_at") required DateTime votingEndDate,
+    // @JsonKey(name: "VoteYes") required int voteYes,
+    // @JsonKey(name: "VoteNo") required int voteNo,
+    // @JsonKey(name: "TotalVotes") required double totalVotes,
+    // @JsonKey(name: "PercentVotesYes") required double percentVotesYes,
+    // @JsonKey(name: "PercentVotesNo") required double percentVotesNo,
+    // @JsonKey(name: "PercentInFavor") required double percentInFavor,
+    // @JsonKey(name: "PercentAgainst") required double percentAgainst,
+  }) = _WebTokenVoteTopic;
+
+  factory WebTokenVoteTopic.fromJson(Map<String, dynamic> json) => _$WebTokenVoteTopicFromJson(json);
+}
