@@ -406,6 +406,17 @@ class ExplorerService extends BaseService {
     }
   }
 
+  Future<WebTokenVoteTopic?> retrieveTokenVotingTopic(String topicId) async {
+    try {
+      final result = await getJson("/fungible-tokens/voting-topics/$topicId/");
+      return WebTokenVoteTopic.fromJson(result);
+    } catch (e) {
+      print("retrieveTokenVotingTopic");
+      print(e);
+      return null;
+    }
+  }
+
   Future<String?> btcAdnrLookup(String btcAddress) async {
     try {
       final result = await getJson('/adnr/btc/$btcAddress/');

@@ -20,7 +20,7 @@ class TopicDetailScreen extends BaseScreen {
       data: (topic) => topic != null
           ? AppBar(
               title: Text(topic.name),
-              actions: const [WalletSelector()],
+              // actions: const [WalletSelector()],
               backgroundColor: Colors.black,
             )
           : AppBar(

@@ -9,6 +9,7 @@ import '../features/chat/screens/web_seller_chat_screen.dart';
 import '../features/chat/screens/web_shop_chat_screen.dart';
 import '../features/token/screens/token_create_screen.dart';
 import '../features/token/screens/token_list_screen.dart';
+import '../features/token/screens/token_topic_create_screen.dart';
 import '../features/token/screens/web_token_create_screen.dart';
 import '../features/token/screens/web_token_detail_screen.dart';
 import '../features/web_shop/screens/build_sale_start_tx_screen.dart';
@@ -151,6 +152,7 @@ const webDashboardTabRouter = AutoRoute(
         AutoRoute(path: "", page: TokenListScreen),
         AutoRoute(path: "create", page: WebTokenCreateScreen),
         AutoRoute(path: "detail/:scId", page: WebTokenDetailScreen),
+        AutoRoute(path: "detail/new-topic/:scId/:address", page: CreateTokenTopicScreen),
       ],
     ),
     AutoRoute(

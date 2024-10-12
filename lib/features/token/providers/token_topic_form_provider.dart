@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/features/token/models/new_token_topic.dart';
+import 'package:rbx_wallet/features/token/providers/web_token_actions_manager.dart';
 import 'package:rbx_wallet/features/token/services/token_service.dart';
 
 import '../../../core/models/value_label.dart';
@@ -58,6 +60,15 @@ class TokenTopicFormProvider extends StateNotifier<NewTokenTopic> {
   Future<bool?> submit() async {
     if (!formKey.currentState!.validate()) {
       return null;
+    }
+
+    if (kIsWeb) {
+      final success = await ref.read(webTokenActionsManager).createVotingTopic(state);
+      if (success == true) {
+        clear();
+        return true;
+      }
+      return false;
     }
 
     ref.read(globalLoadingProvider.notifier).start();

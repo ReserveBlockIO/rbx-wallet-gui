@@ -75,4 +75,27 @@ class WebTokenVoteTopic with _$WebTokenVoteTopic {
   }) = _WebTokenVoteTopic;
 
   factory WebTokenVoteTopic.fromJson(Map<String, dynamic> json) => _$WebTokenVoteTopicFromJson(json);
+
+  TokenVoteTopic toNative() {
+    return TokenVoteTopic(
+      smartContractUid: smartContractUid,
+      topicUid: topicUid,
+      topicName: topicName,
+      topicDescription: topicDescription,
+      minimumVoteRequirement: minimumVoteRequirement.round(),
+      tokenHolderCount: 0,
+      topicCreateDate: (topicCreateDate.millisecondsSinceEpoch / 1000).round(),
+      votingEndDate: (votingEndDate.millisecondsSinceEpoch / 1000).round(),
+
+      //TODO votiing part
+      voteYes: 0,
+      voteNo: 0,
+      totalVotes: 0,
+      percentVotesYes: 0,
+      percentVotesNo: 0,
+      percentInFavor: 0,
+      percentAgainst: 0,
+      blockHeight: 0,
+    );
+  }
 }

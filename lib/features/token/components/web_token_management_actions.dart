@@ -1,16 +1,21 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
 import 'package:rbx_wallet/core/providers/web_session_provider.dart';
+import 'package:rbx_wallet/core/web_router.gr.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/theme/components.dart';
 import '../../../utils/toast.dart';
+import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
 import '../models/web_fungible_token.dart';
 import '../providers/web_token_actions_manager.dart';
+import '../providers/web_token_topic_list_provider.dart';
+import '../screens/token_topic_detail_screen.dart';
 
 class WebTokenManagementActions extends BaseComponent {
   const WebTokenManagementActions({
@@ -57,13 +62,97 @@ class WebTokenManagementActions extends BaseComponent {
                   label: "Voting",
                   variant: AppColorVariant.Dark,
                   onPressed: () {
-                    Toast.message("Action Not Available Yet.");
+                    showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        builder: (context) {
+                          return WebTokenTopicBottomSheet(tokenDetail: tokenDetail, isOwner: isOwner);
+                        });
                   },
                 ),
               //TODO: VOTE
             ],
           ),
         ),
+      ],
+    );
+  }
+}
+
+class WebTokenTopicBottomSheet extends BaseComponent {
+  final WebFungibleTokenDetail tokenDetail;
+  final bool isOwner;
+
+  const WebTokenTopicBottomSheet({
+    super.key,
+    required this.tokenDetail,
+    required this.isOwner,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final token = tokenDetail.token;
+
+    final data = ref.watch(webTokenTopicListProvider(token.smartContractId));
+    final address = ref.read(webSessionProvider).keypair?.address;
+    if (address == null) {
+      return SizedBox();
+    }
+
+    final double balance = tokenDetail.holders.containsKey(address) ? tokenDetail.holders[address] : 0.0;
+
+    if (data.topics.isEmpty && !isOwner) {
+      return ModalContainer(
+        children: [
+          Center(
+            child: Text("No Voting Topics"),
+          )
+        ],
+      );
+    }
+
+    return ModalContainer(
+      withClose: true,
+      children: [
+        if (isOwner)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            child: AppCard(
+                padding: 0,
+                child: ListTile(
+                  title: Text("Create New Voting Topic"),
+                  subtitle: Text("As the token owner, you can create topics for other holders to vote on."),
+                  trailing: Icon(Icons.add),
+                  onTap: () {
+                    AutoRouter.of(context).push(CreateTokenTopicScreenRoute(scId: token.smartContractId, address: address));
+                  },
+                )),
+          ),
+        ...data.topics.map((t) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            child: AppCard(
+              padding: 0,
+              child: ListTile(
+                title: Text(t.topicName),
+                subtitle: Text(
+                  t.topicDescription,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                trailing: Icon(Icons.chevron_right),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => TokenTopicDetailScreen(t.toNative(), address, balance, isOwner),
+                    ),
+                  );
+                },
+              ),
+            ),
+          );
+        })
       ],
     );
   }

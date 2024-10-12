@@ -1,5 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/utils.dart';
+import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
 import 'package:rbx_wallet/features/token/models/web_fungible_token.dart';
 import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
 
@@ -13,6 +15,7 @@ import '../../global_loader/global_loading_provider.dart';
 import '../../keygen/models/keypair.dart';
 import '../../keygen/models/ra_keypair.dart';
 import '../../raw/raw_service.dart';
+import '../models/new_token_topic.dart';
 
 class WebTokenActionsManager {
   final Ref ref;
@@ -203,22 +206,26 @@ class WebTokenActionsManager {
     );
   }
 
-  Future<bool?> createVotingTopic(WebFungibleToken token) async {
-    print("TODO!");
+  Future<bool?> createVotingTopic(NewTokenTopic topic) async {
+    final now = (DateTime.now().millisecondsSinceEpoch / 1000).round();
+    final end = (DateTime.now().add(Duration(days: topic.votingDaysAsInt)).millisecondsSinceEpoch / 1000).round();
+    final topicUid = "${generateRandomString(8)}$now";
+    final h = ref.read(walletInfoProvider)?.blockHeight ?? 0;
+
     final data = {
       "Function": "TokenVoteTopicCreate()",
-      "ContractUID": "7ea07bcbc7914f36a9b53e587eef2369:1728133202", //**
-      "FromAddress": "xMjrfrzkrNC2g3KJidbwF21gB7R3m46B9w", //**
+      "ContractUID": topic.smartContractUid, //**
+      "FromAddress": topic.fromAddress, //**
       "TokenVoteTopic": {
-        "SmartContractUID": "7ea07bcbc7914f36a9b53e587eef2369:1728133202", //**
-        "TopicUID": "2yKRCE0y1728182840", //** GENERATE RANDOM?
-        "TopicName": "Super Test Topic", //**
-        "TopicDescription": "Hello ", //**
-        "MinimumVoteRequirement": 1000, //**
-        "BlockHeight": 7667, //**  use most recent block
-        "TokenHolderCount": 2, //**
-        "TopicCreateDate": 1728182840, //**
-        "VotingEndDate": 1730774840, //** based on timestamp + length
+        "SmartContractUID": topic.smartContractUid, //**
+        "TopicUID": topicUid, //** GENERATE RANDOM?
+        "TopicName": topic.name, //**
+        "TopicDescription": topic.description, //**
+        "MinimumVoteRequirement": topic.minimumVoteRequirement, //**
+        "BlockHeight": h, //**  use most recent block
+        "TokenHolderCount": 1, //**
+        "TopicCreateDate": now, //**
+        "VotingEndDate": end, //** based on timestamp + length
         "VoteYes": 0,
         "VoteNo": 0,
         "TotalVotes": 0,
@@ -228,7 +235,12 @@ class WebTokenActionsManager {
         "PercentAgainst": 0
       }
     };
-    return null;
+
+    return await _verifyConfirmAndSendTx(
+      toAddress: "Token_Base",
+      data: data,
+      txType: TxType.tokenTx,
+    );
   }
 
   Future<bool?> transferVbtcAmount(

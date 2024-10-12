@@ -48,4 +48,17 @@ class NewTokenTopic with _$NewTokenTopic {
       votingEndDays: TokenVotingDays.Thirty,
     );
   }
+
+  int get votingDaysAsInt {
+    switch (votingEndDays) {
+      case TokenVotingDays.Thirty:
+        return 30;
+      case TokenVotingDays.Sixty:
+        return 60;
+      case TokenVotingDays.Ninety:
+        return 90;
+      case TokenVotingDays.OneHundredEighty:
+        return 180;
+    }
+  }
 }

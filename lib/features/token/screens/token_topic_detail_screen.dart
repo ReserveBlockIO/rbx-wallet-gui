@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pie_chart/pie_chart.dart';
@@ -8,6 +9,7 @@ import 'package:rbx_wallet/core/base_screen.dart';
 import 'package:rbx_wallet/core/components/badges.dart';
 import 'package:rbx_wallet/core/components/buttons.dart';
 import 'package:rbx_wallet/core/dialogs.dart';
+import 'package:rbx_wallet/core/services/explorer_service.dart';
 import 'package:rbx_wallet/core/theme/app_theme.dart';
 import 'package:rbx_wallet/features/encrypt/utils.dart';
 import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
@@ -89,6 +91,17 @@ class _TokenTopicDetailState extends BaseComponentState<TokenTopicDetail> {
   }
 
   Future<void> poll() async {
+    if (kIsWeb) {
+      final t = await ExplorerService().retrieveTokenVotingTopic(widget.topic.topicUid);
+
+      if (t != null) {
+        setState(() {
+          topic = t.toNative();
+        });
+      }
+
+      return;
+    }
     final nft = await NftService().getNftData(topic.smartContractUid);
 
     if (nft != null && nft.tokenStateDetails != null) {
@@ -147,8 +160,10 @@ class _TokenTopicDetailState extends BaseComponentState<TokenTopicDetail> {
         const SizedBox(height: 6),
         SelectableText("Smart Contract UID: ${topic.smartContractUid}"),
         const SizedBox(height: 6),
-        Text("Block Height: ${topic.blockHeight}"),
-        const SizedBox(height: 6),
+        if (!kIsWeb) ...[
+          Text("Block Height: ${topic.blockHeight}"),
+          const SizedBox(height: 6),
+        ],
         Text("Minimum Tokens to Vote: ${topic.minimumVoteRequirement}"),
         const SizedBox(height: 6),
         Text("Your Balance: ${widget.balance}"),
