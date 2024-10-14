@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/theme/components.dart';
+import '../../../core/app_constants.dart';
+import '../../../core/theme/components.dart';
 import '../../../core/components/badges.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/env.dart';

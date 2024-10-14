@@ -1,7 +1,7 @@
-import 'package:rbx_wallet/features/btc_web/models/btc_web_transaction.dart';
-import 'package:rbx_wallet/features/btc_web/models/btc_web_balance_info.dart';
-import 'package:rbx_wallet/features/btc_web/models/btc_web_account.dart';
-import 'package:rbx_wallet/features/btc_web/services/btc_web_service_interface.dart';
+import '../models/btc_web_transaction.dart';
+import '../models/btc_web_balance_info.dart';
+import '../models/btc_web_account.dart';
+import 'btc_web_service_interface.dart';
 
 class BtcWebServiceImpl extends BtcWebServiceInterface {
   @override

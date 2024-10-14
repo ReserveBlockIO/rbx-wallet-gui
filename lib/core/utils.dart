@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:rbx_wallet/features/btc/services/btc_service.dart';
+import '../features/btc/services/btc_service.dart';
 import '../features/transactions/models/transaction.dart';
 
 import '../features/wallet/providers/wallet_list_provider.dart';

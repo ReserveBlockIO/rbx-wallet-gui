@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/back_to_home_button.dart';
-import 'package:rbx_wallet/core/theme/colors.dart';
+import '../../../core/components/back_to_home_button.dart';
+import '../../../core/theme/colors.dart';
 
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';

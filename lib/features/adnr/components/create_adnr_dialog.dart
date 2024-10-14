@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/btc_web/services/btc_web_service.dart';
+import '../../btc_web/services/btc_web_service.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/base_component.dart';

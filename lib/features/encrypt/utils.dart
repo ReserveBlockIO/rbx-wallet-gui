@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
+import '../reserve/services/reserve_account_service.dart';
 
 import '../../core/dialogs.dart';
 import '../../core/providers/session_provider.dart';

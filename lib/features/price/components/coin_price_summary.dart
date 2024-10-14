@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/core/theme/colors.dart';
-import 'package:rbx_wallet/core/theme/components.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/centered_loader.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/theme/colors.dart';
+import '../../../core/theme/components.dart';
 
 import '../models/price_data.dart';
 import '../providers/price_detail_providers.dart';

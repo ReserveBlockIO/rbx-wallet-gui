@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/btc/services/btc_service.dart';
+import '../../btc/services/btc_service.dart';
 import '../../../core/services/explorer_service.dart';
 import '../../raw/raw_service.dart';
 import '../../reserve/services/reserve_account_service.dart';

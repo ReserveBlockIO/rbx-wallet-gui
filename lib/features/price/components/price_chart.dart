@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/currency_segmented_button.dart';
-import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dart';
-import 'package:rbx_wallet/core/services/explorer_service.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/components/currency_segmented_button.dart';
+import '../../../core/providers/currency_segmented_button_provider.dart';
+import '../../../core/services/explorer_service.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../core/theme/colors.dart';

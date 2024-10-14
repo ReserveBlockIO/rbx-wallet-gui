@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/app_constants.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/badges.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/adnr/components/create_adnr_dialog.dart';
-import 'package:rbx_wallet/features/adnr/providers/adnr_pending_provider.dart';
-import 'package:rbx_wallet/features/btc_web/models/btc_web_account.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+import '../../../core/app_constants.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/badges.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../adnr/components/create_adnr_dialog.dart';
+import '../../adnr/providers/adnr_pending_provider.dart';
+import '../models/btc_web_account.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../../utils/toast.dart';
+import '../../../utils/validation.dart';
 
 import '../../../core/dialogs.dart';
 import '../../../core/providers/web_session_provider.dart';

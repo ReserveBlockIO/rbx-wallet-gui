@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/adnr/components/vfx_adnr_component.dart';
+import 'vfx_adnr_component.dart';
 import '../../../core/base_component.dart';
 import '../../wallet/models/wallet.dart';
 

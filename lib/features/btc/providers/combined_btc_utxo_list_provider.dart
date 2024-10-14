@@ -1,7 +1,7 @@
-import 'package:rbx_wallet/features/btc/models/btc_utxo.dart';
-import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
-import 'package:rbx_wallet/features/btc/providers/btc_utxo_list_provider.dart';
-import 'package:rbx_wallet/features/btc/providers/tokenized_bitcoin_list_provider.dart';
+import '../models/btc_utxo.dart';
+import 'btc_account_list_provider.dart';
+import 'btc_utxo_list_provider.dart';
+import 'tokenized_bitcoin_list_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'combined_btc_utxo_list_provider.g.dart';

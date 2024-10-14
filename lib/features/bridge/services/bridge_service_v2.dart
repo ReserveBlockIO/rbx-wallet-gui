@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/balance/models/balance.dart';
-import 'package:rbx_wallet/features/token/providers/token_nfts_provider.dart';
+import '../../balance/models/balance.dart';
+import '../../token/providers/token_nfts_provider.dart';
 import '../../../core/services/base_service.dart';
 
 class BridgeServiceV2 extends BaseService {

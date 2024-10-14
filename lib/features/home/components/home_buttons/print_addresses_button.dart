@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
+import '../../../btc/providers/btc_account_list_provider.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/components/buttons.dart';

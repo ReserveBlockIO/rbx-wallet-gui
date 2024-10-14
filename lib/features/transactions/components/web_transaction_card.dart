@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:rbx_wallet/core/theme/components.dart';
+import '../../../core/theme/components.dart';
 import '../../../core/components/buttons.dart';
 import '../../web/components/web_callback_button.dart';
 import '../../../core/components/badges.dart';

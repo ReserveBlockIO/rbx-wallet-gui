@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/theme/components.dart';
+import '../../../../../core/theme/components.dart';
 
 import '../../../../../core/base_component.dart';
 import '../../../../../core/theme/colors.dart';

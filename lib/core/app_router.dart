@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
-import 'package:rbx_wallet/features/btc/screens/tokenized_btc_list_screen.dart';
-import 'package:rbx_wallet/features/token/screens/token_create_screen.dart';
-import 'package:rbx_wallet/features/token/screens/token_list_screen.dart';
+import '../features/btc/screens/tokenized_btc_list_screen.dart';
+import '../features/token/screens/token_create_screen.dart';
+import '../features/token/screens/token_list_screen.dart';
 
 import '../features/adjudicator/adjudicator_screen.dart';
 import '../features/adnr/screens/adnr_screen.dart';

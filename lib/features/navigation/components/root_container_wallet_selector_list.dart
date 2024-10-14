@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dart';
-import 'package:rbx_wallet/core/theme/components.dart';
-import 'package:rbx_wallet/features/btc/models/btc_account.dart';
+import '../../../core/providers/currency_segmented_button_provider.dart';
+import '../../../core/theme/components.dart';
+import '../../btc/models/btc_account.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';

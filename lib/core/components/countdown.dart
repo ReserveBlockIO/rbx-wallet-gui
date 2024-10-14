@@ -1,6 +1,6 @@
 import 'package:date_count_down/date_count_down.dart';
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/theme/components.dart';
+import '../theme/components.dart';
 
 class AppCountdown extends StatelessWidget {
   final DateTime dueDate;

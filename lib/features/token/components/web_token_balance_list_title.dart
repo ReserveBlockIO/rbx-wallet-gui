@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/token/models/web_fungible_token.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/base_component.dart';
+import '../models/web_fungible_token.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/components/buttons.dart';
 import '../../../core/theme/app_theme.dart';

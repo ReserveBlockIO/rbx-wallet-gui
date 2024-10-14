@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/misc/providers/global_balances_expanded_provider.dart';
+import '../../misc/providers/global_balances_expanded_provider.dart';
 import '../../../core/models/web_session_model.dart';
 import '../../web/components/web_wordmark.dart';
 

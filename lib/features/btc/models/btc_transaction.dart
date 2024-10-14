@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
-import 'package:rbx_wallet/features/btc/models/btc_utxo.dart';
+import 'btc_utxo.dart';
 
 part 'btc_transaction.freezed.dart';
 part 'btc_transaction.g.dart';

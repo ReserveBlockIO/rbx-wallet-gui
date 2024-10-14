@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/currency_segmented_button.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/btc/components/btc_transaction_list_tile.dart';
-import 'package:rbx_wallet/features/btc/providers/btc_transaction_list_provider.dart';
+import '../../../core/components/currency_segmented_button.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../btc/components/btc_transaction_list_tile.dart';
+import '../../btc/providers/btc_transaction_list_provider.dart';
 import '../../../core/theme/app_theme.dart';
 
 import '../../../core/base_component.dart';

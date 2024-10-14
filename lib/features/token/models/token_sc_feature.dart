@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
+import '../../nft/models/nft.dart';
 
 import '../../asset/asset.dart';
 import '../constants.dart';

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/navigation/constants.dart';
-import 'package:rbx_wallet/features/price/components/coin_price_summary.dart';
-import 'package:rbx_wallet/features/wallet/utils.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/providers/currency_segmented_button_provider.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../navigation/constants.dart';
+import '../../price/components/coin_price_summary.dart';
+import '../../wallet/utils.dart';
 
 import '../../../app.dart';
 import '../../price/components/price_chart.dart';

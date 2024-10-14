@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:rbx_wallet/core/theme/colors.dart';
+import '../theme/colors.dart';
 
 class _Animation extends StatelessWidget {
   final double size;

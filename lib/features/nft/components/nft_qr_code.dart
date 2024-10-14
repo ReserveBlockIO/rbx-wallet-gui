@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:rbx_wallet/core/theme/colors.dart';
+import '../../../core/theme/colors.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../core/components/buttons.dart';

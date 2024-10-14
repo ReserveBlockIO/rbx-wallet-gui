@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_detail_watcher.dart';
-import 'package:rbx_wallet/features/nft/providers/sale_provider.dart';
-import 'package:rbx_wallet/features/reserve/providers/ra_auto_activate_provider.dart';
-import 'package:rbx_wallet/features/reserve/services/reserve_account_service.dart';
-import 'package:rbx_wallet/features/token/providers/auto_mint_provider.dart';
-import 'package:rbx_wallet/features/token/providers/pending_token_pause_provider.dart';
-import 'package:rbx_wallet/features/token/services/token_service.dart';
-import 'package:rbx_wallet/features/web_shop/providers/web_shop_list_provider.dart';
+import '../../nft/providers/nft_detail_watcher.dart';
+import '../../nft/providers/sale_provider.dart';
+import '../../reserve/providers/ra_auto_activate_provider.dart';
+import '../../reserve/services/reserve_account_service.dart';
+import '../../token/providers/auto_mint_provider.dart';
+import '../../token/providers/pending_token_pause_provider.dart';
+import '../../token/services/token_service.dart';
+import '../../web_shop/providers/web_shop_list_provider.dart';
 
 import '../../../core/providers/web_session_provider.dart';
 import '../../dst/providers/dec_shop_provider.dart';

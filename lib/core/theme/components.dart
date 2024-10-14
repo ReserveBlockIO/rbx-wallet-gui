@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/theme/colors.dart';
-import 'package:rbx_wallet/core/theme/pretty_icons.dart';
+import 'colors.dart';
+import 'pretty_icons.dart';
 
 class AppCard extends StatelessWidget {
   final Widget child;

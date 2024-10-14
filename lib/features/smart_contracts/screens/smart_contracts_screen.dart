@@ -6,7 +6,7 @@ import '../../../core/components/big_button.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../utils/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:rbx_wallet/core/components/back_to_home_button.dart';
+import '../../../core/components/back_to_home_button.dart';
 
 import '../../../core/app_router.gr.dart';
 import '../../../core/base_screen.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/price/models/price_data.dart';
+import '../models/price_data.dart';
 
 import '../../../core/services/explorer_service.dart';
 

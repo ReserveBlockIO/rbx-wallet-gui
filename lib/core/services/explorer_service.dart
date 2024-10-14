@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:rbx_wallet/features/price/models/price_data.dart';
+import '../../features/price/models/price_data.dart';
 import '../../features/btc_web/models/btc_web_vbtc_token.dart';
 import '../../features/btc_web/models/vbtc_compile_data.dart';
 import '../../features/price/models/price_history_item.dart';

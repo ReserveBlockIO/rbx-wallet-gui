@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/nft/providers/nft_detail_watcher.dart';
-import 'package:rbx_wallet/features/token/providers/pending_token_pause_provider.dart';
-import 'package:rbx_wallet/features/token/services/token_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../nft/providers/nft_detail_watcher.dart';
+import '../providers/pending_token_pause_provider.dart';
+import '../services/token_service.dart';
+import '../../../utils/toast.dart';
 
 class PauseTokenButton extends BaseComponent {
   final String scId;

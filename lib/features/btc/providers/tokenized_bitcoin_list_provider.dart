@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/btc/models/tokenized_bitcoin.dart';
-import 'package:rbx_wallet/features/btc/services/btc_service.dart';
+import '../models/tokenized_bitcoin.dart';
+import '../services/btc_service.dart';
 
 class TokenizedBitcoinListProvider extends StateNotifier<List<TokenizedBitcoin>> {
   final Ref ref;

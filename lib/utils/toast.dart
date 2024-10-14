@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/theme/colors.dart';
+import '../core/theme/colors.dart';
 
 import '../app.dart';
 import '../core/dialogs.dart';

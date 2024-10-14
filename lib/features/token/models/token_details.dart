@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/token/models/token_vote_topic.dart';
+import 'token_vote_topic.dart';
 
 part 'token_details.freezed.dart';
 part 'token_details.g.dart';

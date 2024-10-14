@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/providers/cached_memory_image_provider.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/services/nft_service.dart';
-import 'package:rbx_wallet/features/token/models/token_account.dart';
-import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
+import '../../../core/base_component.dart';
+import '../../../core/providers/cached_memory_image_provider.dart';
+import '../../nft/models/nft.dart';
+import '../../nft/services/nft_service.dart';
+import '../models/token_account.dart';
+import '../models/token_sc_feature.dart';
 
 import '../../../core/theme/components.dart';
 import '../../nft/providers/transferred_provider.dart';

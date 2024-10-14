@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/theme/colors.dart';
-import 'package:rbx_wallet/features/btc/models/btc_transaction.dart';
-import 'package:rbx_wallet/features/transactions/components/transaction_list_tile.dart';
-import 'package:rbx_wallet/features/transactions/models/transaction.dart';
-import 'package:rbx_wallet/features/transactions/providers/combined_tx_list_provider.dart';
+import '../../../core/base_component.dart';
+import '../../../core/theme/colors.dart';
+import '../../btc/models/btc_transaction.dart';
+import 'transaction_list_tile.dart';
+import '../models/transaction.dart';
+import '../providers/combined_tx_list_provider.dart';
 
 import '../../btc/components/btc_transaction_list_tile.dart';
 

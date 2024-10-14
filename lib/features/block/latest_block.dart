@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/env.dart';
+import '../../core/env.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../core/theme/app_theme.dart';
 import 'package:timeago/timeago.dart' as timeago;

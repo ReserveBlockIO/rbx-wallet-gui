@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/btc/providers/btc_account_list_provider.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+import '../base_component.dart';
+import '../providers/session_provider.dart';
+import '../theme/app_theme.dart';
+import '../../features/btc/providers/btc_account_list_provider.dart';
+import '../../features/wallet/providers/wallet_list_provider.dart';
 
 import '../providers/currency_segmented_button_provider.dart';
 import '../theme/colors.dart';

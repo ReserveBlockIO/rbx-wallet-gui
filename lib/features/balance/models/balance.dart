@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/token/models/token_account.dart';
+import '../../token/models/token_account.dart';
 
 part 'balance.freezed.dart';
 part 'balance.g.dart';

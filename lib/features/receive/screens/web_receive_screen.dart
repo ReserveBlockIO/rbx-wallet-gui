@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/theme/pretty_icons.dart';
+import '../../../core/theme/pretty_icons.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/components.dart';
 import '../../web/components/web_wallet_type_switcher.dart';

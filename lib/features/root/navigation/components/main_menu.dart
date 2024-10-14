@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/features/btc/providers/tokenized_bitcoin_list_provider.dart';
+import '../../../btc/providers/tokenized_bitcoin_list_provider.dart';
 import '../../../../core/theme/app_theme.dart';
 
 import '../../../../core/base_component.dart';
@@ -398,7 +398,8 @@ class _NavButton extends StatelessWidget {
       width: double.infinity,
       child: TextButton.icon(
         style: TextButton.styleFrom(
-          foregroundColor: textColor, padding: const EdgeInsets.all(22.0),
+          foregroundColor: textColor,
+          padding: const EdgeInsets.all(22.0),
           alignment: Alignment.centerLeft,
         ),
         icon: Icon(

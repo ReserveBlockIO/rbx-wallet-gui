@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/theme/components.dart';
+import '../../../core/theme/components.dart';
 import '../../../core/components/badges.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';

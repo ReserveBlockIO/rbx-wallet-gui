@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/btc/utils.dart';
+import '../utils.dart';
 
 part 'btc_utxo.freezed.dart';
 part 'btc_utxo.g.dart';

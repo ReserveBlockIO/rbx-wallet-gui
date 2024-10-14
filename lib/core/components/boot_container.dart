@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/core/theme/components.dart';
-import 'package:rbx_wallet/features/navigation/components/root_container_rotating_cube.dart';
+import 'centered_loader.dart';
+import '../theme/components.dart';
+import '../../features/navigation/components/root_container_rotating_cube.dart';
 import '../../app.dart';
 import '../app_constants.dart';
 import '../env.dart';

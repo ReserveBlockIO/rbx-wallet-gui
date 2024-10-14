@@ -9,10 +9,10 @@ import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:intl/intl.dart';
 import 'package:process/process.dart';
 import 'package:process_run/shell.dart';
-import 'package:rbx_wallet/core/providers/currency_segmented_button_provider.dart';
+import 'currency_segmented_button_provider.dart';
 
-import 'package:rbx_wallet/features/balance/models/balance.dart';
-import 'package:rbx_wallet/features/bridge/services/bridge_service_v2.dart';
+import '../../features/balance/models/balance.dart';
+import '../../features/bridge/services/bridge_service_v2.dart';
 import '../../features/btc/providers/electrum_connected_provider.dart';
 import '../../features/btc/providers/tokenized_bitcoin_list_provider.dart';
 import '../../features/price/providers/price_detail_providers.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
+import 'app_theme.dart';
 
 enum ColorShade { s50, s100, s200, s300, s400 }
 

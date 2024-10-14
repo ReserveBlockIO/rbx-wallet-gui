@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:rbx_wallet/utils/toast.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/services/base_service.dart';
 import '../models/new_token_topic.dart';

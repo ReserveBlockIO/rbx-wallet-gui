@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/core/services/explorer_service.dart';
-import 'package:rbx_wallet/features/faucet/components/faucet_form.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/components/centered_loader.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../../core/services/explorer_service.dart';
+import '../components/faucet_form.dart';
+import '../../wallet/components/wallet_selector.dart';
 
 class FaucetScreen extends BaseScreen {
   const FaucetScreen({super.key});

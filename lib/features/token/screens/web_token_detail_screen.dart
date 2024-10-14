@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/components/centered_loader.dart';
-import 'package:rbx_wallet/features/token/models/web_fungible_token.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/components/centered_loader.dart';
+import '../models/web_fungible_token.dart';
 
 import '../components/web_token_detail_component.dart';
 import '../providers/web_token_detail_provider.dart';

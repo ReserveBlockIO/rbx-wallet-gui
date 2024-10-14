@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/models/value_label.dart';
-import 'package:rbx_wallet/features/token/models/new_token_topic.dart';
+import '../../core/models/value_label.dart';
+import 'models/new_token_topic.dart';
 
 String tokenVotingDaysToString(BuildContext context, TokenVotingDays value) {
   switch (value) {

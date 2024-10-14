@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/smart_contracts/providers/create_smart_contract_provider.dart';
+import '../../../providers/create_smart_contract_provider.dart';
 
 import '../../../../../app.dart';
 import '../../../../../core/base_component.dart';

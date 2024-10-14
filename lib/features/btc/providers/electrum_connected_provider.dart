@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/btc/services/btc_service.dart';
+import '../services/btc_service.dart';
 
 class ElectrumConnectedProvider extends StateNotifier<bool?> {
   ElectrumConnectedProvider() : super(null) {

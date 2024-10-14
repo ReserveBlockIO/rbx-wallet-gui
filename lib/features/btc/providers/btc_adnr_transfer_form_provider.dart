@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/adnr/providers/adnr_pending_provider.dart';
-import 'package:rbx_wallet/features/bridge/providers/log_provider.dart';
-import 'package:rbx_wallet/features/btc/services/btc_service.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../adnr/providers/adnr_pending_provider.dart';
+import '../../bridge/providers/log_provider.dart';
+import '../services/btc_service.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../../utils/toast.dart';
+import '../../../utils/validation.dart';
 
 import '../../bridge/models/log_entry.dart';
 

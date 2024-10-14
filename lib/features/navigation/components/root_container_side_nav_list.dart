@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/features/root/web_dashboard_container.dart';
+import '../../root/web_dashboard_container.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/providers/session_provider.dart';

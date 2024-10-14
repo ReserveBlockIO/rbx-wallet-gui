@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/core/theme/colors.dart';
-import 'package:rbx_wallet/features/btc_web/screens/web_tokenized_btc_detail_screen.dart';
-import 'package:rbx_wallet/generated/assets.gen.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/theme/colors.dart';
+import '../screens/web_tokenized_btc_detail_screen.dart';
+import '../../../generated/assets.gen.dart';
 
 import '../../../core/base_component.dart';
 import '../../../core/providers/web_session_provider.dart';

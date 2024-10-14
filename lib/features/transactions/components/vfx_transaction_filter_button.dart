@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/theme/colors.dart';
-import 'package:rbx_wallet/core/theme/components.dart';
-import 'package:rbx_wallet/features/smart_contracts/components/sc_creator/common/modal_container.dart';
-import 'package:rbx_wallet/features/transactions/models/transaction.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+import '../../../core/base_component.dart';
+import '../../../core/theme/colors.dart';
+import '../../../core/theme/components.dart';
+import '../../smart_contracts/components/sc_creator/common/modal_container.dart';
+import '../models/transaction.dart';
+import '../../wallet/components/wallet_selector.dart';
+import '../../wallet/providers/wallet_list_provider.dart';
 
 import '../providers/vfx_transaction_filter_provider.dart';
 import '../tx_helpers.dart';

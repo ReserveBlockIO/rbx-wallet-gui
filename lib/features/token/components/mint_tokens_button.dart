@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/components/buttons.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/core/theme/app_theme.dart';
-import 'package:rbx_wallet/features/global_loader/global_loading_provider.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/token/models/token_account.dart';
-import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
-import 'package:rbx_wallet/features/token/services/token_service.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-import 'package:rbx_wallet/utils/validation.dart';
+import '../../../core/base_component.dart';
+import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../global_loader/global_loading_provider.dart';
+import '../../nft/models/nft.dart';
+import '../models/token_account.dart';
+import '../models/token_sc_feature.dart';
+import '../services/token_service.dart';
+import '../../../utils/toast.dart';
+import '../../../utils/validation.dart';
 
 class MintTokensButton extends BaseComponent {
   final Nft nft;

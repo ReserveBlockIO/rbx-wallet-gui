@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/services/explorer_service.dart';
+import '../../../../core/services/explorer_service.dart';
 import '../../../bridge/services/bridge_service.dart';
 
 import '../../../../core/base_component.dart';

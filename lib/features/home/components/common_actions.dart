@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/app.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/core/theme/colors.dart';
-import 'package:rbx_wallet/core/theme/components.dart';
-import 'package:rbx_wallet/features/navigation/utils.dart';
-import 'package:rbx_wallet/features/wallet/utils.dart';
+import '../../../app.dart';
+import '../../../core/base_component.dart';
+import '../../../core/theme/colors.dart';
+import '../../../core/theme/components.dart';
+import '../../navigation/utils.dart';
+import '../../wallet/utils.dart';
 
 import '../../../core/theme/pretty_icons.dart';
 

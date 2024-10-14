@@ -5,8 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rbx_wallet/core/theme/colors.dart';
-import 'package:rbx_wallet/features/sc_property/models/sc_property.dart';
+import '../../../../core/theme/colors.dart';
+import '../../../sc_property/models/sc_property.dart';
 import '../../../../core/theme/components.dart';
 import '../../../sc_property/components/properties_manager.dart';
 

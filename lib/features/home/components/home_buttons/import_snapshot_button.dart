@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/env.dart';
+import '../../../../core/env.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/components/buttons.dart';

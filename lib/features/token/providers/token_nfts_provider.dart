@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/nft/services/nft_service.dart';
-import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
+import '../../nft/services/nft_service.dart';
+import '../models/token_sc_feature.dart';
 
 class TokenNftsProvider extends StateNotifier<Map<String, TokenScFeature>> {
   final Ref ref;

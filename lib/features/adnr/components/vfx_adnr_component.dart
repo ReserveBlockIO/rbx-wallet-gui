@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
+import '../../../core/base_component.dart';
+import '../../wallet/models/wallet.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/components/badges.dart';

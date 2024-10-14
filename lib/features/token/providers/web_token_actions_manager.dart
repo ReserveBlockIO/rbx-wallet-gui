@@ -1,9 +1,9 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/utils.dart';
-import 'package:rbx_wallet/features/bridge/providers/wallet_info_provider.dart';
-import 'package:rbx_wallet/features/token/models/web_fungible_token.dart';
-import 'package:rbx_wallet/features/web/utils/raw_transaction.dart';
+import '../../../core/utils.dart';
+import '../../bridge/providers/wallet_info_provider.dart';
+import '../models/web_fungible_token.dart';
+import '../../web/utils/raw_transaction.dart';
 
 import '../../../core/app_constants.dart';
 import '../../../core/dialogs.dart';

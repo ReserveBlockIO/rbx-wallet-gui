@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/features/token/models/new_token_topic.dart';
-import 'package:rbx_wallet/features/token/providers/web_token_actions_manager.dart';
-import 'package:rbx_wallet/features/token/services/token_service.dart';
+import '../models/new_token_topic.dart';
+import 'web_token_actions_manager.dart';
+import '../services/token_service.dart';
 
 import '../../../core/models/value_label.dart';
 import '../../../utils/validation.dart';

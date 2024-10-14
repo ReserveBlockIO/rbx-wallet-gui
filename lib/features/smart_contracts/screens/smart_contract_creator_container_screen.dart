@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/wallet/models/wallet.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+import '../../../core/providers/session_provider.dart';
+import '../../wallet/models/wallet.dart';
+import '../../wallet/providers/wallet_list_provider.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/dialogs.dart';

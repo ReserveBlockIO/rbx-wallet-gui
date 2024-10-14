@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_window_close/flutter_window_close.dart';
-import 'package:rbx_wallet/core/theme/components.dart';
+import 'theme/components.dart';
 import 'utils.dart';
 import '../features/global_loader/global_loading_provider.dart';
 import '../features/payment/components/payment_disclaimer.dart';

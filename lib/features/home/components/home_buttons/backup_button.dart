@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rbx_wallet/core/dialogs.dart';
-import 'package:rbx_wallet/features/wallet/providers/wallet_list_provider.dart';
+import '../../../../core/dialogs.dart';
+import '../../../wallet/providers/wallet_list_provider.dart';
 
 import '../../../../core/base_component.dart';
 import '../../../../core/components/buttons.dart';

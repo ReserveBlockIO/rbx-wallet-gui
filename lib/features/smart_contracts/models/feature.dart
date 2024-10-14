@@ -1,9 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rbx_wallet/features/smart_contracts/models/tokenize.dart';
-import 'package:rbx_wallet/features/token/models/token_sc_feature.dart';
+import 'tokenize.dart';
+import '../../token/models/token_sc_feature.dart';
 
 import '../features/evolve/evolve.dart';
 import '../features/royalty/royalty.dart';

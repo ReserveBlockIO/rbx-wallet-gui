@@ -1,6 +1,6 @@
-import 'package:rbx_wallet/features/btc/providers/btc_transaction_list_provider.dart';
-import 'package:rbx_wallet/features/transactions/models/transaction.dart';
-import 'package:rbx_wallet/features/transactions/providers/transaction_list_provider.dart';
+import '../../btc/providers/btc_transaction_list_provider.dart';
+import '../models/transaction.dart';
+import 'transaction_list_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../btc/models/btc_transaction.dart';

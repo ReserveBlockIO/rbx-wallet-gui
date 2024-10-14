@@ -2,9 +2,8 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 
-import 'package:rbx_wallet/features/token/models/token_details.dart';
-import 'package:rbx_wallet/utils/toast.dart';
-
+import '../../token/models/token_details.dart';
+import '../../../utils/toast.dart';
 
 import '../../../core/models/paginated_response.dart';
 import '../../../core/services/base_service.dart';

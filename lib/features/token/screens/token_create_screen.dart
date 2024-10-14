@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_screen.dart';
-import 'package:rbx_wallet/core/providers/session_provider.dart';
-import 'package:rbx_wallet/features/token/components/token_form.dart';
-import 'package:rbx_wallet/features/wallet/components/wallet_selector.dart';
+import '../../../core/base_screen.dart';
+import '../../../core/providers/session_provider.dart';
+import '../components/token_form.dart';
+import '../../wallet/components/wallet_selector.dart';
 
 class TokenCreateScreen extends BaseScreen {
   const TokenCreateScreen({super.key})

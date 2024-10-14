@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/app.dart';
+import '../../../app.dart';
 import '../../web_shop/services/web_shop_service.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/dialogs.dart';

@@ -1,5 +1,5 @@
-import 'package:rbx_wallet/features/transactions/models/transaction.dart';
-import 'package:rbx_wallet/features/transactions/models/web_transaction.dart';
+import 'models/transaction.dart';
+import 'models/web_transaction.dart';
 
 class TxHelper {
   final Transaction? tx;

@@ -3,15 +3,15 @@ import 'dart:math' as math;
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/base_component.dart';
-import 'package:rbx_wallet/utils/formatting.dart';
+import '../../../core/base_component.dart';
+import '../../../utils/formatting.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/components.dart';
 import '../../block/latest_block.dart';
 import '../../block/validated_blocks_provider.dart';
 import '../providers/validating_status_provider.dart';
-import 'package:rbx_wallet/core/components/back_to_home_button.dart';
+import '../../../core/components/back_to_home_button.dart';
 
 import '../../../core/base_screen.dart';
 import '../../../core/components/buttons.dart';

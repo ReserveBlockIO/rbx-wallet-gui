@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:rbx_wallet/core/providers/cached_memory_image_provider.dart';
+import '../../../../../core/providers/cached_memory_image_provider.dart';
 import '../../../../../core/env.dart';
 import '../../../../../core/services/explorer_service.dart';
 import '../../../../global_loader/global_loading_provider.dart';

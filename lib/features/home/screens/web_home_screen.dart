@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/app.dart';
+import '../../../app.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/theme/components.dart';
 import '../../../core/theme/pretty_icons.dart';

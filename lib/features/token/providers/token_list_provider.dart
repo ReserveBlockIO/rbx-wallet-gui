@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rbx_wallet/core/providers/web_session_provider.dart';
-import 'package:rbx_wallet/features/nft/models/nft.dart';
-import 'package:rbx_wallet/features/nft/services/nft_service.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../nft/models/nft.dart';
+import '../../nft/services/nft_service.dart';
 import '../../../core/services/explorer_service.dart';
 
 import '../../../core/models/paginated_response.dart';
