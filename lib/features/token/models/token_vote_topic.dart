@@ -25,6 +25,7 @@ class TokenVoteTopic with _$TokenVoteTopic {
     @JsonKey(name: "PercentVotesNo") required double percentVotesNo,
     @JsonKey(name: "PercentInFavor") required double percentInFavor,
     @JsonKey(name: "PercentAgainst") required double percentAgainst,
+    List<WebTokenVoteTopicVoteDataItem>? webVoteList,
   }) = _TokenVoteTopic;
 
   factory TokenVoteTopic.fromJson(Map<String, dynamic> json) => _$TokenVoteTopicFromJson(json);
@@ -53,6 +54,40 @@ class TokenVoteTopic with _$TokenVoteTopic {
 }
 
 @freezed
+class WebTokenVoteTopicVoteDataItem with _$WebTokenVoteTopicVoteDataItem {
+  const WebTokenVoteTopicVoteDataItem._();
+
+  factory WebTokenVoteTopicVoteDataItem({
+    required String address,
+    required bool value,
+    @JsonKey(name: "created_at") required DateTime createdAt,
+  }) = _WebTokenVoteTopicVoteDataItem;
+
+  factory WebTokenVoteTopicVoteDataItem.fromJson(Map<String, dynamic> json) => _$WebTokenVoteTopicVoteDataItemFromJson(json);
+
+  String get createdAtFormatted {
+    final dateTime = DateFormat('MM/dd/yy - HH:mm').format(createdAt.toLocal());
+    return "$dateTime ${DateTime.now().timeZoneName.toString()}";
+  }
+}
+
+@freezed
+class WebTokenVoteTopicVoteData with _$WebTokenVoteTopicVoteData {
+  const WebTokenVoteTopicVoteData._();
+
+  factory WebTokenVoteTopicVoteData({
+    required List<WebTokenVoteTopicVoteDataItem> votes,
+    @JsonKey(name: "vote_yes") required int voteYes,
+    @JsonKey(name: "vote_no") required int voteNo,
+    @JsonKey(name: "total_votes") required int totalVotes,
+    @JsonKey(name: "percent_yes") required double percentYes,
+    @JsonKey(name: "percent_no") required double percentNo,
+  }) = _WebTokenVoteTopicVoteData;
+
+  factory WebTokenVoteTopicVoteData.fromJson(Map<String, dynamic> json) => _$WebTokenVoteTopicVoteDataFromJson(json);
+}
+
+@freezed
 class WebTokenVoteTopic with _$WebTokenVoteTopic {
   const WebTokenVoteTopic._();
 
@@ -62,16 +97,9 @@ class WebTokenVoteTopic with _$WebTokenVoteTopic {
     @JsonKey(name: "name") required String topicName,
     @JsonKey(name: "description") required String topicDescription,
     @JsonKey(name: "vote_requirement") required double minimumVoteRequirement,
-    // @JsonKey(name: "TokenHolderCount") required int tokenHolderCount,
     @JsonKey(name: "created_at") required DateTime topicCreateDate,
     @JsonKey(name: "voting_ends_at") required DateTime votingEndDate,
-    // @JsonKey(name: "VoteYes") required int voteYes,
-    // @JsonKey(name: "VoteNo") required int voteNo,
-    // @JsonKey(name: "TotalVotes") required double totalVotes,
-    // @JsonKey(name: "PercentVotesYes") required double percentVotesYes,
-    // @JsonKey(name: "PercentVotesNo") required double percentVotesNo,
-    // @JsonKey(name: "PercentInFavor") required double percentInFavor,
-    // @JsonKey(name: "PercentAgainst") required double percentAgainst,
+    @JsonKey(name: "vote_data") required WebTokenVoteTopicVoteData voteData,
   }) = _WebTokenVoteTopic;
 
   factory WebTokenVoteTopic.fromJson(Map<String, dynamic> json) => _$WebTokenVoteTopicFromJson(json);
@@ -86,16 +114,15 @@ class WebTokenVoteTopic with _$WebTokenVoteTopic {
       tokenHolderCount: 0,
       topicCreateDate: (topicCreateDate.millisecondsSinceEpoch / 1000).round(),
       votingEndDate: (votingEndDate.millisecondsSinceEpoch / 1000).round(),
-
-      //TODO votiing part
-      voteYes: 0,
-      voteNo: 0,
-      totalVotes: 0,
-      percentVotesYes: 0,
-      percentVotesNo: 0,
-      percentInFavor: 0,
-      percentAgainst: 0,
+      voteYes: voteData.voteYes,
+      voteNo: voteData.voteNo,
+      totalVotes: voteData.totalVotes.toDouble(),
+      percentVotesYes: voteData.percentYes,
+      percentVotesNo: voteData.percentNo,
+      percentInFavor: voteData.percentYes,
+      percentAgainst: voteData.percentNo,
       blockHeight: 0,
+      webVoteList: voteData.votes,
     );
   }
 }

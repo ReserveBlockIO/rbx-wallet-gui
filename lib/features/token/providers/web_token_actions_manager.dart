@@ -243,6 +243,22 @@ class WebTokenActionsManager {
     );
   }
 
+  Future<bool?> voteOnTopic(String scId, String scOwnerAddress, String fromAddress, String topicId, bool value) async {
+    final data = {
+      "Function": "TokenVoteTopicCast()",
+      "ContractUID": scId,
+      "FromAddress": fromAddress,
+      "TopicUID": topicId,
+      "VoteType": value ? 1 : 0
+    };
+
+    return await _verifyConfirmAndSendTx(
+      toAddress: scOwnerAddress,
+      data: data,
+      txType: TxType.tokenTx,
+    );
+  }
+
   Future<bool?> transferVbtcAmount(
     BtcWebVbtcToken token,
     String toAddress,

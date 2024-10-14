@@ -23,6 +23,7 @@ import 'package:collection/collection.dart';
 
 import '../../voting/components/topic_detail.dart';
 import '../models/token_vote.dart';
+import '../providers/web_token_actions_manager.dart';
 
 class TokenTopicDetailScreen extends BaseScreen {
   final TokenVoteTopic topic;
@@ -246,14 +247,29 @@ class _TopicVotingActions extends BaseComponent {
                 if (confirmed == true) {
                   // provider.voteYes();
                   ref.read(globalLoadingProvider.notifier).start();
-                  final success = await TokenService().castVote(
-                    scId: topic.smartContractUid,
-                    fromAddress: address,
-                    topicUid: topic.topicUid,
-                    yes: true,
-                  );
 
-                  if (success) {
+                  bool? success;
+
+                  if (kIsWeb) {
+                    final token = await ExplorerService().retrieveToken(topic.smartContractUid);
+                    if (token == null) {
+                      Toast.error("Could not get owner of token");
+                      success = false;
+                    } else {
+                      success = await ref
+                          .read(webTokenActionsManager)
+                          .voteOnTopic(topic.smartContractUid, token.token.ownerAddress, address, topic.topicUid, true);
+                    }
+                  } else {
+                    success = await TokenService().castVote(
+                      scId: topic.smartContractUid,
+                      fromAddress: address,
+                      topicUid: topic.topicUid,
+                      yes: true,
+                    );
+                  }
+
+                  if (success == true) {
                     ref.read(pendingVotesProvider.notifier).addId(pendingVoteKey);
                     Toast.message("Vote casted");
                   }
@@ -282,13 +298,28 @@ class _TopicVotingActions extends BaseComponent {
                   // provider.voteNo();
                   ref.read(globalLoadingProvider.notifier).start();
 
-                  final success = await TokenService().castVote(
-                    scId: topic.smartContractUid,
-                    fromAddress: address,
-                    topicUid: topic.topicUid,
-                    yes: false,
-                  );
-                  if (success) {
+                  bool? success;
+
+                  if (kIsWeb) {
+                    final token = await ExplorerService().retrieveToken(topic.smartContractUid);
+                    if (token == null) {
+                      Toast.error("Could not get owner of token");
+                      success = false;
+                    } else {
+                      success = await ref
+                          .read(webTokenActionsManager)
+                          .voteOnTopic(topic.smartContractUid, token.token.ownerAddress, address, topic.topicUid, false);
+                    }
+                  } else {
+                    success = await TokenService().castVote(
+                      scId: topic.smartContractUid,
+                      fromAddress: address,
+                      topicUid: topic.topicUid,
+                      yes: false,
+                    );
+                  }
+
+                  if (success == true) {
                     ref.read(pendingVotesProvider.notifier).addId(pendingVoteKey);
                     Toast.message("Vote casted");
                   }
@@ -442,6 +473,40 @@ class _TopicVotingDetails extends BaseComponent {
                 label: "Vote History",
                 onPressed: () async {
                   // await ref.read(voteListProvider(topic.uid).notifier).load();
+
+                  if (kIsWeb) {
+                    final votes = topic.webVoteList;
+                    if (votes == null || votes.isEmpty) {
+                      Toast.message("No Votes");
+                      return;
+                    }
+
+                    showModalBottomSheet(
+                      isScrollControlled: true,
+                      backgroundColor: Colors.black87,
+                      context: context,
+                      builder: (context) {
+                        return ModalContainer(
+                            padding: 8,
+                            withClose: true,
+                            withDecor: false,
+                            children: votes
+                                .map(
+                                  (vote) => ListTile(
+                                    title: SelectableText(vote.address),
+                                    subtitle: Text(vote.createdAtFormatted),
+                                    trailing: AppBadge(
+                                      label: vote.value ? "YES" : "NO",
+                                      variant: vote.value ? AppColorVariant.Success : AppColorVariant.Danger,
+                                    ),
+                                  ),
+                                )
+                                .toList());
+                      },
+                    );
+
+                    return;
+                  }
 
                   final votes = await TokenService().listVotes(topic.topicUid);
                   showModalBottomSheet(
