@@ -10,6 +10,7 @@ class RootContainerSideNavItem extends StatefulWidget {
   final bool isActive;
   final bool isExpanded;
   final PrettyIconType iconType;
+  final IconData? icon;
   const RootContainerSideNavItem({
     super.key,
     required this.title,
@@ -17,6 +18,7 @@ class RootContainerSideNavItem extends StatefulWidget {
     required this.isActive,
     required this.isExpanded,
     required this.iconType,
+    this.icon,
   });
 
   @override
@@ -79,6 +81,7 @@ class _RootContainerSideNavItemState extends State<RootContainerSideNavItem> {
                       child: Tooltip(
                           message: widget.isExpanded ? "" : widget.title,
                           child: PrettyIcon(
+                            customIcon: widget.icon,
                             type: widget.iconType,
                             glow: isHovering || widget.isActive,
                           )),

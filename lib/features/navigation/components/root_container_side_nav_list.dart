@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rbx_wallet/app.dart';
+import '../../../core/dialogs.dart';
+import '../../../core/providers/web_session_provider.dart';
+import '../../../core/web_router.gr.dart';
 import '../../root/web_dashboard_container.dart';
 
 import '../../../core/base_component.dart';
@@ -53,6 +56,9 @@ class RootContainerSideNavList extends BaseComponent {
             iconType: PrettyIconType.lock,
             onPressed: () {
               tabsRouter.setActiveIndex(kIsWeb ? WebRouteIndex.reserve : 14);
+              if (inDrawer) {
+                rootScaffoldKey.currentState!.closeDrawer();
+              }
             },
             isActive: tabsRouter.activeIndex == (kIsWeb ? WebRouteIndex.reserve : 14),
             isExpanded: isExpanded,
@@ -62,6 +68,9 @@ class RootContainerSideNavList extends BaseComponent {
             iconType: PrettyIconType.domain,
             onPressed: () {
               tabsRouter.setActiveIndex(kIsWeb ? WebRouteIndex.adnrs : 10);
+              if (inDrawer) {
+                rootScaffoldKey.currentState!.closeDrawer();
+              }
             },
             isActive: tabsRouter.activeIndex == (kIsWeb ? WebRouteIndex.adnrs : 10),
             isExpanded: isExpanded,
@@ -71,6 +80,9 @@ class RootContainerSideNavList extends BaseComponent {
             iconType: PrettyIconType.send,
             onPressed: () {
               tabsRouter.setActiveIndex(1);
+              if (inDrawer) {
+                rootScaffoldKey.currentState!.closeDrawer();
+              }
             },
             isActive: tabsRouter.activeIndex == 1,
             isExpanded: isExpanded,
@@ -80,6 +92,9 @@ class RootContainerSideNavList extends BaseComponent {
             iconType: PrettyIconType.receive,
             onPressed: () {
               tabsRouter.setActiveIndex(2);
+              if (inDrawer) {
+                rootScaffoldKey.currentState!.closeDrawer();
+              }
             },
             isActive: tabsRouter.activeIndex == 2,
             isExpanded: isExpanded,
@@ -89,6 +104,9 @@ class RootContainerSideNavList extends BaseComponent {
             iconType: PrettyIconType.transactions,
             onPressed: () {
               tabsRouter.setActiveIndex(3);
+              if (inDrawer) {
+                rootScaffoldKey.currentState!.closeDrawer();
+              }
             },
             isActive: tabsRouter.activeIndex == 3,
             isExpanded: isExpanded,
@@ -99,9 +117,15 @@ class RootContainerSideNavList extends BaseComponent {
             onPressed: () {
               if (kIsWeb) {
                 tabsRouter.setActiveIndex(WebRouteIndex.vbtc);
+                if (inDrawer) {
+                  rootScaffoldKey.currentState!.closeDrawer();
+                }
                 return;
               }
               tabsRouter.setActiveIndex(15);
+              if (inDrawer) {
+                rootScaffoldKey.currentState!.closeDrawer();
+              }
             },
             isActive: tabsRouter.activeIndex == (kIsWeb ? WebRouteIndex.vbtc : 15),
             isExpanded: isExpanded,
@@ -112,9 +136,14 @@ class RootContainerSideNavList extends BaseComponent {
             onPressed: () {
               if (kIsWeb) {
                 tabsRouter.setActiveIndex(WebRouteIndex.tokens);
+                if (inDrawer) {
+                  rootScaffoldKey.currentState!.closeDrawer();
+                }
                 return;
               }
-
+              if (inDrawer) {
+                rootScaffoldKey.currentState!.closeDrawer();
+              }
               if (tabsRouter.activeIndex == 13) {
                 tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
               } else {
@@ -130,7 +159,13 @@ class RootContainerSideNavList extends BaseComponent {
             onPressed: () {
               if (kIsWeb) {
                 tabsRouter.setActiveIndex(WebRouteIndex.smartContracts);
+                if (inDrawer) {
+                  rootScaffoldKey.currentState!.closeDrawer();
+                }
                 return;
+              }
+              if (inDrawer) {
+                rootScaffoldKey.currentState!.closeDrawer();
               }
               if (ref.read(sessionProvider).currentWallet == null) {
                 Toast.error("An account is required to access this section.");
@@ -148,7 +183,13 @@ class RootContainerSideNavList extends BaseComponent {
             onPressed: () {
               if (kIsWeb) {
                 tabsRouter.setActiveIndex(WebRouteIndex.nfts);
+                if (inDrawer) {
+                  rootScaffoldKey.currentState!.closeDrawer();
+                }
                 return;
+              }
+              if (inDrawer) {
+                rootScaffoldKey.currentState!.closeDrawer();
               }
               if (ref.read(sessionProvider).currentWallet == null) {
                 Toast.error("An account is required to access this section.");
@@ -166,9 +207,14 @@ class RootContainerSideNavList extends BaseComponent {
             onPressed: () {
               if (kIsWeb) {
                 tabsRouter.setActiveIndex(WebRouteIndex.shop);
+                if (inDrawer) {
+                  rootScaffoldKey.currentState!.closeDrawer();
+                }
                 return;
               }
-
+              if (inDrawer) {
+                rootScaffoldKey.currentState!.closeDrawer();
+              }
               if (tabsRouter.activeIndex == 9) {
                 tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
               } else {
@@ -184,6 +230,9 @@ class RootContainerSideNavList extends BaseComponent {
               iconType: PrettyIconType.validator,
               onPressed: () {
                 tabsRouter.setActiveIndex(4);
+                if (inDrawer) {
+                  rootScaffoldKey.currentState!.closeDrawer();
+                }
               },
               isActive: tabsRouter.activeIndex == 4,
               isExpanded: isExpanded,
@@ -197,6 +246,31 @@ class RootContainerSideNavList extends BaseComponent {
                   tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)!.popUntilRoot();
                 } else {
                   tabsRouter.setActiveIndex(16);
+                }
+                if (inDrawer) {
+                  rootScaffoldKey.currentState!.closeDrawer();
+                }
+              },
+              isActive: tabsRouter.activeIndex == 16,
+              isExpanded: isExpanded,
+            ),
+          if (kIsWeb)
+            RootContainerSideNavItem(
+              title: "Sign Out",
+              iconType: PrettyIconType.custom,
+              icon: Icons.logout,
+              onPressed: () async {
+                final confirmed = await ConfirmDialog.show(
+                  title: "Sign Out",
+                  body: "Are you sure you want to logout of the VFX Web Wallet?",
+                  destructive: true,
+                  confirmText: "Logout",
+                  cancelText: "Cancel",
+                );
+                if (confirmed == true) {
+                  await ref.read(webSessionProvider.notifier).logout();
+
+                  AutoRouter.of(context).replace(const WebAuthRouter());
                 }
               },
               isActive: tabsRouter.activeIndex == 16,

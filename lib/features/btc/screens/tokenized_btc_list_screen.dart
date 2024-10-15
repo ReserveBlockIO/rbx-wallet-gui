@@ -4,11 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/base_screen.dart';
+import '../../../core/breakpoints.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/components/back_to_home_button.dart';
 import '../../../core/theme/colors.dart';
+import '../../web/components/web_mobile_drawer_button.dart';
 import '../models/tokenized_bitcoin.dart';
 import '../providers/tokenized_btc_onboard_provider.dart';
 
@@ -33,7 +35,10 @@ class TokenizeBtcListScreen extends BaseScreen {
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
+    final isMobile = BreakPoints.useMobileLayout(context);
+
     return AppBar(
+      leading: isMobile ? WebMobileDrawerButton() : null,
       backgroundColor: Colors.black,
       title: Text("Tokenized Bitcoin (vBTC)"),
       // leading: BackToHomeButton(),

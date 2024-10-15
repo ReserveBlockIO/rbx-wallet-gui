@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/breakpoints.dart';
+import '../../web/components/web_mobile_drawer_button.dart';
 import '../../web/components/web_wallet_type_switcher.dart';
 
 import '../../../core/base_screen.dart';
@@ -19,7 +21,10 @@ class WebSendScreen extends BaseScreen {
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
+    final isMobile = BreakPoints.useMobileLayout(context);
+
     return AppBar(
+      leading: isMobile ? WebMobileDrawerButton() : null,
       title: const Text("Send VFX"),
       shadowColor: Colors.transparent,
       backgroundColor: Colors.black,

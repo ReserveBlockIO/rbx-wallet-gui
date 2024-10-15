@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/breakpoints.dart';
 import '../../../core/theme/pretty_icons.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/components.dart';
+import '../../web/components/web_mobile_drawer_button.dart';
 import '../../web/components/web_wallet_type_switcher.dart';
 
 import '../../../core/base_screen.dart';
@@ -29,10 +31,13 @@ class WebReceiveScreen extends BaseScreen {
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
+    final isMobile = BreakPoints.useMobileLayout(context);
+
     return AppBar(
       title: const Text("Receive"),
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
+      leading: isMobile ? WebMobileDrawerButton() : null,
     );
   }
 

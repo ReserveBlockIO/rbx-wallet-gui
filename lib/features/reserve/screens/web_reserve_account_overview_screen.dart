@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/breakpoints.dart';
 import '../../../core/theme/components.dart';
 import '../../../core/components/badges.dart';
 import '../../../core/components/buttons.dart';
@@ -10,6 +11,7 @@ import '../../../core/theme/app_theme.dart';
 import '../../auth/auth_utils.dart';
 import '../../web/components/web_activate_ra_button.dart';
 import '../../web/components/web_fund_ra_account_button.dart';
+import '../../web/components/web_mobile_drawer_button.dart';
 import '../../web/components/web_recover_ra_button.dart';
 import '../../web/components/web_restore_ra_button.dart';
 import '../../web/components/web_wallet_type_switcher.dart';
@@ -30,10 +32,13 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
+    final isMobile = BreakPoints.useMobileLayout(context);
+
     return AppBar(
       title: Text("Your Vault Account"),
       backgroundColor: Colors.black,
       actions: [],
+      leading: isMobile ? WebMobileDrawerButton() : null,
     );
   }
 

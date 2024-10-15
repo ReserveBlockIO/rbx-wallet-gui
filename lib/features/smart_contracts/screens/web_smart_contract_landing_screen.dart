@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../web/components/web_mobile_drawer_button.dart';
 import '../../web/components/web_wallet_type_switcher.dart';
 import '../../../utils/toast.dart';
 import '../../../core/components/big_button.dart';
@@ -25,7 +26,10 @@ class WebSmartContractLandingScreen extends BaseScreen {
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
+    final isMobile = BreakPoints.useMobileLayout(context);
+
     return AppBar(
+      leading: isMobile ? WebMobileDrawerButton() : null,
       title: const Text("Create Smart Contract"),
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,

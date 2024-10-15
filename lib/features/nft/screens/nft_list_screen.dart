@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/breakpoints.dart';
 import '../../../core/components/back_to_home_button.dart';
 import '../../../core/theme/colors.dart';
 
@@ -8,6 +9,7 @@ import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/providers/session_provider.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../web/components/web_mobile_drawer_button.dart';
 import '../services/nft_service.dart';
 import '../../web/components/web_wallet_type_switcher.dart';
 import '../../../utils/toast.dart';
@@ -33,7 +35,10 @@ class NftListScreen extends BaseScreen {
     final _provider = ref.read(nftListViewProvider.notifier);
     final isGrid = ref.watch(nftListViewProvider);
 
+    final isMobile = BreakPoints.useMobileLayout(context);
+
     return AppBar(
+      leading: isMobile ? WebMobileDrawerButton() : null,
       title: const Text("NFTs"),
       backgroundColor: Colors.black12,
       shadowColor: Colors.transparent,

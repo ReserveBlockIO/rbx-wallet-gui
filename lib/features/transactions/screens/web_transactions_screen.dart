@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/breakpoints.dart';
 import '../../../core/models/web_session_model.dart';
 import '../../../core/providers/currency_segmented_button_provider.dart';
 import '../../btc_web/providers/btc_web_transaction_list_provider.dart';
+import '../../web/components/web_mobile_drawer_button.dart';
 import '../../web/components/web_wallet_type_switcher.dart';
 import '../../../core/components/centered_loader.dart';
 
@@ -30,10 +32,13 @@ class WebTransactionScreen extends BaseScreen {
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     final session = ref.watch(webSessionProvider);
 
+    final isMobile = BreakPoints.useMobileLayout(context);
+
     return AppBar(
       title: const Text("Transactions"),
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
+      leading: isMobile ? WebMobileDrawerButton() : null,
       actions: [
         if (session.selectedWalletType == WalletType.rbx) VfxTransactionFilterButton(),
         WebWalletTypeSwitcher(),

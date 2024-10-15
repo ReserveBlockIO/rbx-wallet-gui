@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/base_component.dart';
+import '../../../core/breakpoints.dart';
 import '../../../core/theme/components.dart';
 import '../../btc_web/components/web_btc_adnr_content.dart';
 import '../../../app.dart';
@@ -12,6 +13,7 @@ import '../../../core/dialogs.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/theme/colors.dart';
+import '../../web/components/web_mobile_drawer_button.dart';
 import '../components/create_adnr_dialog.dart';
 import '../providers/adnr_pending_provider.dart';
 import '../../global_loader/global_loading_provider.dart';
@@ -33,10 +35,13 @@ class WebAdnrScreen extends BaseScreen {
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
+    final isMobile = BreakPoints.useMobileLayout(context);
+
     return AppBar(
       title: const Text("Domains"),
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
+      leading: isMobile ? WebMobileDrawerButton() : null,
     );
   }
 
