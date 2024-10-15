@@ -23,7 +23,7 @@ abstract class BaseScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: backgroundColor ?? Color(0xff050505),
       appBar: appBar(context, ref),
-      drawer: includeWebDrawer && BreakPoints.useMobileLayout(context) ? const WebDrawer() : null,
+      // drawer: includeWebDrawer && BreakPoints.useMobileLayout(context) ? const WebDrawer() : null,
       floatingActionButton: floatingActionButton(context, ref),
       body: Padding(
         padding: EdgeInsets.symmetric(

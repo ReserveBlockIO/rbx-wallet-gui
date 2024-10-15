@@ -3,14 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app.dart';
 import '../../../core/app_constants.dart';
+import '../../../core/theme/colors.dart';
 import '../../../core/theme/components.dart';
 import '../../../core/theme/pretty_icons.dart';
+import '../../auth/screens/web_auth_screen.dart';
 import '../../btc_web/services/btc_web_service.dart';
 import '../../navigation/constants.dart';
+import '../../navigation/root_container.dart';
 import '../../payment/components/web_buy_rbx_button.dart';
 import '../../price/components/coin_price_summary.dart';
 import '../../price/components/price_chart.dart';
 import '../../wallet/utils.dart';
+import '../../web/components/web_mobile_drawer_button.dart';
+import '../../web/components/web_wallet_mobile_account_info.dart';
 import '../../web/components/web_wallet_type_switcher.dart';
 
 import '../../../core/dialogs.dart';
@@ -29,6 +34,7 @@ import '../../../generated/assets.gen.dart';
 import '../../root/web_dashboard_container.dart';
 import '../../web/components/web_latest_block.dart';
 import '../../web/components/web_wallet_details.dart';
+import '../../web/providers/account_info_visible_provider.dart';
 
 class WebHomeScreen extends BaseScreen {
   const WebHomeScreen({Key? key})
@@ -51,34 +57,83 @@ class WebHomeScreen extends BaseScreen {
             backgroundColor: Colors.black,
             shadowColor: Colors.transparent,
             actions: [WebWalletTypeSwitcher()],
+            leading: const WebMobileDrawerButton(),
           )
         : null;
   }
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    return SingleChildScrollView(
-      child: ConstrainedBox(
-        constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height - 60),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final visibilityProvider = ref.read(webMobileAccountInfoVisibleProvider.notifier);
+    final visibilityState = ref.watch(webMobileAccountInfoVisibleProvider);
+
+    return Stack(
+      children: [
+        Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: const [
-                  SizedBox(height: 4),
-                  WebWalletDetails(),
-                  SizedBox(height: 32),
-                ],
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(0),
+            //   child: Column(
+            //     mainAxisSize: MainAxisSize.min,
+            //     children: const [
+            //       SizedBox(height: 4),
+            //       WebWalletDetails(),
+            //       SizedBox(height: 32),
+            //     ],
+            //   ),
+            // ),
             const _Brand(),
+
+            Expanded(
+                child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: WebMobileAccountInfo(),
+            )),
             const _Actions(),
           ],
         ),
-      ),
+        if (visibilityState != null)
+          GestureDetector(
+            onTap: () {
+              visibilityProvider.clear();
+            },
+            child: Container(
+              color: Colors.black12,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+          ),
+        AnimatedPositioned(
+          duration: ROOT_CONTAINER_TRANSITION_DURATION,
+          curve: ROOT_CONTAINER_TRANSITION_CURVE,
+          top: visibilityState == 0 ? 0 : -(ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT + 64),
+          left: 0,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: WebAccountInfoVfx(),
+          ),
+        ),
+        AnimatedPositioned(
+          duration: ROOT_CONTAINER_TRANSITION_DURATION,
+          curve: ROOT_CONTAINER_TRANSITION_CURVE,
+          top: visibilityState == 1 ? 0 : -(ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT + 64),
+          left: 0,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: WebAccountInfoVbtc(),
+          ),
+        ),
+        AnimatedPositioned(
+          duration: ROOT_CONTAINER_TRANSITION_DURATION,
+          curve: ROOT_CONTAINER_TRANSITION_CURVE,
+          top: visibilityState == 2 ? 0 : -(ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT + 64),
+          left: 0,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: WebAccountInfoBtc(),
+          ),
+        ),
+      ],
     );
   }
 
@@ -191,16 +246,11 @@ class _Brand extends StatelessWidget {
               scale: 1,
             ),
           ),
-          // Center(
-          //   child: Image.asset(
-          //     Assets.images.rbxWallet.path,
-          //     width: 160,
-          //     height: 27,
-          //     fit: BoxFit.contain,
-          //   ),
-          // ),
-          Center(
-            child: WebWordmark(),
+          SizedBox(
+            height: 8,
+          ),
+          WebWalletWordWordmark(
+            withSubtitle: false,
           )
         ],
       ),

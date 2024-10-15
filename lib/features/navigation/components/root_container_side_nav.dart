@@ -10,8 +10,8 @@ import 'root_container_side_nav_list.dart';
 
 class RootContainerSideNav extends BaseComponent {
   final bool isExpanded;
-  final VoidCallback onToggleExpanded;
-  const RootContainerSideNav({super.key, required this.isExpanded, required this.onToggleExpanded});
+  final VoidCallback? onToggleExpanded;
+  const RootContainerSideNav({super.key, required this.isExpanded, this.onToggleExpanded});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,12 +37,13 @@ class RootContainerSideNav extends BaseComponent {
                 ),
               ),
               clipBehavior: Clip.antiAlias,
-              child: RootContainerSideNavList(tabsRouter: tabsRouter, isExpanded: isExpanded),
+              child: RootContainerSideNavList(isExpanded: isExpanded),
             ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: RootContainerExpander(onToggleExpanded: onToggleExpanded, isExpanded: isExpanded),
-            )
+            if (onToggleExpanded != null)
+              Align(
+                alignment: Alignment.centerLeft,
+                child: RootContainerExpander(onToggleExpanded: onToggleExpanded!, isExpanded: isExpanded),
+              )
           ],
         ),
       ),

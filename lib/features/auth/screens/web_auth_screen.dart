@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/theme/colors.dart';
 import '../../misc/providers/global_balances_expanded_provider.dart';
 import '../../../core/models/web_session_model.dart';
 import '../../web/components/web_wordmark.dart';
@@ -85,207 +86,238 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
 
     final keypair = ref.watch(webSessionProvider).keypair;
 
-    return Stack(
-      children: [
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Transform.translate(
-            offset: Offset(12, 12),
-            child: Opacity(
-              opacity: 0.5,
-              child: Image.asset(
-                Assets.images.decorBottomRight.path,
-                width: isMobile ? 250 : 400,
-                height: isMobile ? 250 : 400,
-                fit: BoxFit.contain,
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            color: Colors.black,
+            child: Center(
+              child: Container(
+                color: Colors.black,
+                width: 100,
+                height: 100,
+                child: Image.asset(
+                  Assets.images.animatedCube.path,
+                  scale: 1,
+                ),
               ),
             ),
           ),
-        ),
-        Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+          // Padding(
+          //   padding: const EdgeInsets.all(12.0),
+          //   child: Image.asset(
+          //     Assets.images.rbxWallet.path,
+          //     width: 120,
+          //     height: 20,
+          //     fit: BoxFit.contain,
+          //   ),
+          // ),
+          SizedBox(
+            height: 8,
+          ),
+          WebWalletWordWordmark(),
+
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                color: Colors.black,
-                child: Center(
-                  child: Container(
-                    color: Colors.black,
-                    width: 100,
-                    height: 100,
-                    child: Image.asset(
-                      Assets.images.animatedCube.path,
-                      scale: 1,
-                    ),
-                  ),
-                ),
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.all(12.0),
-              //   child: Image.asset(
-              //     Assets.images.rbxWallet.path,
-              //     width: 120,
-              //     height: 20,
-              //     fit: BoxFit.contain,
-              //   ),
-              // ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: WebWordmark(),
-              ),
-              const Text(
-                APP_VERSION,
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: 2),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AppButton(
-                    label: "Create account",
-                    icon: Icons.add,
-                    onPressed: () {
-                      // AuthModal.show(
-                      //     context: context,
-                      //     onValidSubmission: (auth) async {
-                      //       await handleCreateWithEmail(
-                      //         context,
-                      //         ref,
-                      //         auth.email,
-                      //         auth.password,
-                      //       );
-                      //       if (ref.read(webSessionProvider).isAuthenticated) {
-                      //         redirectToDashboard();
-                      //       }
-                      //     });
+              AppButton(
+                label: "Create account",
+                icon: Icons.add,
+                onPressed: () {
+                  // AuthModal.show(
+                  //     context: context,
+                  //     onValidSubmission: (auth) async {
+                  //       await handleCreateWithEmail(
+                  //         context,
+                  //         ref,
+                  //         auth.email,
+                  //         auth.password,
+                  //       );
+                  //       if (ref.read(webSessionProvider).isAuthenticated) {
+                  //         redirectToDashboard();
+                  //       }
+                  //     });
 
-                      showModalBottomSheet(
-                        backgroundColor: Colors.transparent,
-                        context: context,
-                        builder: (context) {
-                          return AuthTypeModal(
-                            handleMneumonic: () async {
-                              final success =
-                                  await ConfirmDialog.show(title: 'Mneumonic', body: 'Are you sure you want to create a Mneumonic account?');
-                              if (success == true) {
-                                await handleCreateWithMnemonic(context, ref);
-                                if (ref.read(webSessionProvider).isAuthenticated) {
-                                  redirectToDashboard();
-                                }
-                              }
-                            },
-                            handleUsername: () {
-                              AuthModal.show(
-                                  context: context,
-                                  onValidSubmission: (auth) async {
-                                    await handleCreateWithEmail(
-                                      context,
-                                      ref,
-                                      auth.email,
-                                      auth.password,
-                                    );
-                                    if (ref.read(webSessionProvider).isAuthenticated) {
-                                      redirectToDashboard();
-                                    }
-                                  });
-                            },
-                          );
+                  showModalBottomSheet(
+                    backgroundColor: Colors.transparent,
+                    context: context,
+                    builder: (context) {
+                      return AuthTypeModal(
+                        handleMneumonic: () async {
+                          final success = await ConfirmDialog.show(title: 'Mneumonic', body: 'Are you sure you want to create a Mneumonic account?');
+                          if (success == true) {
+                            await handleCreateWithMnemonic(context, ref);
+                            if (ref.read(webSessionProvider).isAuthenticated) {
+                              redirectToDashboard();
+                            }
+                          }
                         },
-                      );
-                    },
-                    variant: AppColorVariant.Light,
-                  ),
-                  const SizedBox(width: 8),
-                  AppButton(
-                    label: "Login",
-                    icon: Icons.upload,
-                    onPressed: () {
-                      // AuthModal.show(
-                      //   context: context,
-                      //   forCreate: false,
-                      //   onValidSubmission: (auth) async {
-                      //     await handleCreateWithEmail(context, ref, auth.email, auth.password, false);
-
-                      //     if (ref.read(webSessionProvider).isAuthenticated) {
-                      //       redirectToDashboard();
-                      //     }
-                      //   },
-                      // );
-
-                      showModalBottomSheet(
-                        backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
-                        context: context,
-                        builder: (context) {
-                          return AuthTypeModal(
-                            handleMneumonic: () async {
-                              await handleRecoverFromMnemonic(context, ref);
-
-                              if (ref.read(webSessionProvider).isAuthenticated) {
-                                redirectToDashboard();
-                              }
-
-                              //do stuff
-                            },
-                            handleUsername: () {
-                              AuthModal.show(
-                                context: context,
-                                forCreate: false,
-                                onValidSubmission: (auth) async {
-                                  await handleCreateWithEmail(context, ref, auth.email, auth.password, false);
-
-                                  if (ref.read(webSessionProvider).isAuthenticated) {
-                                    redirectToDashboard();
-                                  }
-                                },
-                              );
-                            },
-                            handlePrivateKey: (context) async {
-                              await handleImportWithPrivateKey(context, ref).then((value) {
+                        handleUsername: () {
+                          AuthModal.show(
+                              context: context,
+                              onValidSubmission: (auth) async {
+                                await handleCreateWithEmail(
+                                  context,
+                                  ref,
+                                  auth.email,
+                                  auth.password,
+                                );
                                 if (ref.read(webSessionProvider).isAuthenticated) {
                                   redirectToDashboard();
                                 }
                               });
-                              // await Future.delayed(const Duration(milliseconds: 300));
-                            },
-                          );
                         },
                       );
                     },
-                    variant: AppColorVariant.Light,
-                  ),
-                ],
+                  );
+                },
+                variant: AppColorVariant.Light,
               ),
-              if (keypair != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 12.0),
-                  child: AppButton(
-                    label: "Resume Session",
-                    variant: AppColorVariant.Light,
-                    type: AppButtonType.Text,
-                    underlined: true,
-                    onPressed: () {
-                      redirectToDashboard();
+              const SizedBox(width: 8),
+              AppButton(
+                label: "Login",
+                icon: Icons.upload,
+                onPressed: () {
+                  // AuthModal.show(
+                  //   context: context,
+                  //   forCreate: false,
+                  //   onValidSubmission: (auth) async {
+                  //     await handleCreateWithEmail(context, ref, auth.email, auth.password, false);
+
+                  //     if (ref.read(webSessionProvider).isAuthenticated) {
+                  //       redirectToDashboard();
+                  //     }
+                  //   },
+                  // );
+
+                  showModalBottomSheet(
+                    backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
+                    context: context,
+                    builder: (context) {
+                      return AuthTypeModal(
+                        handleMneumonic: () async {
+                          await handleRecoverFromMnemonic(context, ref);
+
+                          if (ref.read(webSessionProvider).isAuthenticated) {
+                            redirectToDashboard();
+                          }
+
+                          //do stuff
+                        },
+                        handleUsername: () {
+                          AuthModal.show(
+                            context: context,
+                            forCreate: false,
+                            onValidSubmission: (auth) async {
+                              await handleCreateWithEmail(context, ref, auth.email, auth.password, false);
+
+                              if (ref.read(webSessionProvider).isAuthenticated) {
+                                redirectToDashboard();
+                              }
+                            },
+                          );
+                        },
+                        handlePrivateKey: (context) async {
+                          await handleImportWithPrivateKey(context, ref).then((value) {
+                            if (ref.read(webSessionProvider).isAuthenticated) {
+                              redirectToDashboard();
+                            }
+                          });
+                          // await Future.delayed(const Duration(milliseconds: 300));
+                        },
+                      );
                     },
-                  ),
-                ),
-              Padding(
-                padding: const EdgeInsets.only(top: 24.0),
-                child: Image.asset(
-                  Assets.images.reserveBlockWordmark.path,
-                  width: 120,
-                ),
+                  );
+                },
+                variant: AppColorVariant.Light,
               ),
-              if (Env.isTestNet)
-                const Padding(
-                  padding: EdgeInsets.only(top: 16.0),
-                  child: Text(
-                    "TESTNET",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green, letterSpacing: 2),
-                  ),
-                ),
             ],
           ),
+          if (keypair != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 12.0),
+              child: AppButton(
+                label: "Resume Session",
+                variant: AppColorVariant.Light,
+                type: AppButtonType.Text,
+                underlined: true,
+                onPressed: () {
+                  redirectToDashboard();
+                },
+              ),
+            ),
+
+          if (Env.isTestNet)
+            const Padding(
+              padding: EdgeInsets.only(top: 16.0),
+              child: Text(
+                "TESTNET",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green, letterSpacing: 2),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class WebWalletWordWordmark extends StatelessWidget {
+  final bool withSubtitle;
+  const WebWalletWordWordmark({
+    super.key,
+    this.withSubtitle = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Verified",
+              style: TextStyle(
+                color: Colors.white.withOpacity(0.9),
+                fontSize: 26,
+                fontWeight: FontWeight.w300,
+                fontFamily: 'Mukta',
+                letterSpacing: 0,
+                height: 1,
+              ),
+            ),
+            SizedBox(
+              width: 1,
+            ),
+            Text(
+              "X",
+              style: TextStyle(
+                color: AppColors.getBlue(ColorShade.s100),
+                fontSize: 26,
+                fontWeight: FontWeight.w700,
+                fontFamily: 'Mukta',
+                letterSpacing: 0,
+                height: 1,
+              ),
+            ),
+          ],
         ),
+        if (withSubtitle) ...[
+          SizedBox(
+            height: 8,
+          ),
+          Text(
+            "Web Wallet $APP_VERSION",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white.withOpacity(0.7),
+              letterSpacing: 2,
+            ),
+          ),
+        ]
       ],
     );
   }

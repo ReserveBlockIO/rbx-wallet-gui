@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rbx_wallet/core/theme/colors.dart';
 import '../../../../core/providers/web_session_provider.dart';
 import '../../../../utils/toast.dart';
 import '../../../../core/dialogs.dart';
@@ -8,6 +9,9 @@ import '../../../../core/dialogs.dart';
 import '../../../../core/base_component.dart';
 import '../../../../generated/assets.gen.dart';
 import '../../../auth/auth_utils.dart';
+import '../../../auth/screens/web_auth_screen.dart';
+import '../../../navigation/components/root_container_side_nav.dart';
+import '../../../navigation/components/root_container_side_nav_list.dart';
 import '../../web_dashboard_container.dart';
 
 class WebDrawer extends BaseComponent {
@@ -16,9 +20,27 @@ class WebDrawer extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Drawer(
-      backgroundColor: Colors.black87.withOpacity(.7),
-      child: WebMenu(
-        inDrawer: true,
+      backgroundColor: AppColors.getGray(ColorShade.s200),
+      // child: WebMenu(
+      //   inDrawer: true,
+      // ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: WebWalletWordWordmark(
+              withSubtitle: false,
+            ),
+          ),
+          Expanded(
+            child: RootContainerSideNavList(
+              isExpanded: true,
+              // tabsRouter: tabsRouter,
+              inDrawer: true,
+            ),
+          ),
+        ],
       ),
     );
   }

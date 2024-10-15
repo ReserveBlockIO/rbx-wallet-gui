@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../app.dart';
 import '../../core/app_constants.dart';
 import '../../core/components/buttons.dart';
 import '../../core/models/web_session_model.dart';
@@ -126,25 +127,25 @@ class _ContentWrapper extends BaseComponent {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (Env.isTestNet)
-            Container(
-              width: double.infinity,
-              color: Colors.green.shade800,
-              child: const Padding(
-                padding: EdgeInsets.all(4.0),
-                child: Center(
-                  child: Text(
-                    "VFX TESTNET",
-                    style: TextStyle(
-                      fontSize: 13,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+          // if (Env.isTestNet)
+          //   Container(
+          //     width: double.infinity,
+          //     color: Colors.green.shade800,
+          //     child: const Padding(
+          //       padding: EdgeInsets.all(4.0),
+          //       child: Center(
+          //         child: Text(
+          //           "VFX TESTNET",
+          //           style: TextStyle(
+          //             fontSize: 13,
+          //             letterSpacing: 2,
+          //             fontWeight: FontWeight.bold,
+          //             color: Colors.white,
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
           if (kIsWeb) WebChatNotifier(ref: ref, address: ref.watch(webSessionProvider).keypair?.address),
           Expanded(
             child: Stack(
@@ -203,320 +204,7 @@ class _ContentWrapper extends BaseComponent {
                                 isHoveringTopBalance = false;
                               });
                             },
-                            child: Consumer(builder: (context, ref, _) {
-                              final sessionModel = ref.watch(webSessionProvider);
-
-                              final forceExpand = ref.watch(globalBalancesExpandedProvider);
-
-                              final List<WebTransaction>? vfxTransactions = sessionModel.keypair != null
-                                  ? ref.watch(webTransactionListProvider(sessionModel.keypair!.address).select((value) => value.transactions))
-                                  : null;
-
-                              final latestVfxTx = vfxTransactions != null && vfxTransactions.isNotEmpty ? vfxTransactions.first : null;
-
-                              final myBtcAddress = ref.watch(webSessionProvider.select((value) => value.btcKeypair?.address));
-
-                              final List<BtcWebTransaction>? btcTransactions =
-                                  myBtcAddress != null ? ref.watch(btcWebTransactionListProvider(myBtcAddress)) : null;
-                              final latestBtcTx = btcTransactions != null && btcTransactions.isNotEmpty ? btcTransactions.first : null;
-
-                              return LayoutBuilder(builder: (context, constraints) {
-                                final availableWidth = constraints.maxWidth;
-
-                                final connector1Left = (availableWidth / 3) - 10;
-                                final connector2Left = (availableWidth / 3) + (availableWidth / 3) - 5;
-                                return Stack(
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          child: RootContainerBalanceItem(
-                                            heading: '${(sessionModel.balance ?? 0) + (sessionModel.raBalance ?? 0)} VFX',
-                                            headingColor: AppColors.getBlue(),
-                                            accountCount: '',
-                                            forceExpand: forceExpand,
-                                            latestTx: latestVfxTx != null
-                                                ? MouseRegion(
-                                                    cursor: SystemMouseCursors.click,
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                        ref.read(webSessionProvider.notifier).setSelectedWalletType(WalletType.rbx);
-
-                                                        AutoTabsRouter.of(context).setActiveIndex(WebRouteIndex.transactions);
-                                                      },
-                                                      child: AppCard(
-                                                        padding: 12,
-                                                        fullWidth: true,
-                                                        child: Column(
-                                                          mainAxisSize: MainAxisSize.min,
-                                                          children: [
-                                                            if (latestVfxTx.type == TxType.rbxTransfer)
-                                                              Text(
-                                                                "${latestVfxTx.amount} VFX",
-                                                                style: TextStyle(
-                                                                  color: latestVfxTx.amount != null && latestVfxTx.amount! < 0
-                                                                      ? Colors.red.shade500
-                                                                      : Theme.of(context).colorScheme.success,
-                                                                  fontWeight: FontWeight.w600,
-                                                                ),
-                                                              )
-                                                            else
-                                                              Text(
-                                                                latestVfxTx.typeLabel,
-                                                                style: TextStyle(
-                                                                  color: AppColors.getBlue(),
-                                                                  fontWeight: FontWeight.w600,
-                                                                ),
-                                                              ),
-                                                            Text(
-                                                              "From: ${latestVfxTx.fromAddress}\nTo: ${latestVfxTx.toAddress}",
-                                                              style: TextStyle(
-                                                                fontSize: 11,
-                                                                color: Colors.white.withOpacity(0.9),
-                                                              ),
-                                                              textAlign: TextAlign.center,
-                                                            ),
-                                                            SizedBox(
-                                                              height: 2,
-                                                            ),
-                                                            Text(
-                                                              "Success",
-                                                              style: TextStyle(
-                                                                color: AppColors.getSpringGreen(),
-                                                                fontWeight: FontWeight.w600,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                : null,
-                                            handleViewAllTxs: () {
-                                              ref.read(webSessionProvider.notifier).setSelectedWalletType(WalletType.rbx);
-
-                                              AutoTabsRouter.of(context).setActiveIndex(WebRouteIndex.transactions);
-                                            },
-                                            topIndicator: Image.asset(
-                                              "assets/images/cube_still.png",
-                                              width: 32,
-                                              height: 32,
-                                            ),
-                                            actions: [
-                                              if (sessionModel.keypair != null)
-                                                AppVerticalIconButton(
-                                                  onPressed: () async {
-                                                    await Clipboard.setData(ClipboardData(text: sessionModel.keypair!.address));
-                                                    Toast.message("Address copied to clipboard");
-                                                  },
-                                                  icon: Icons.copy,
-                                                  label: "Copy\nAddress",
-                                                  prettyIconType: PrettyIconType.custom,
-                                                ),
-                                              if (sessionModel.raKeypair != null)
-                                                AppVerticalIconButton(
-                                                  onPressed: () async {
-                                                    await Clipboard.setData(ClipboardData(text: sessionModel.raKeypair!.address));
-                                                    Toast.message("Address copied to clipboard");
-                                                  },
-                                                  icon: Icons.copy,
-                                                  label: "Vault\nAddress",
-                                                  prettyIconType: PrettyIconType.custom,
-                                                ),
-                                              AppVerticalIconButton(
-                                                onPressed: () {
-                                                  AccountUtils.getCoin(context, ref, VfxOrBtcOption.vfx);
-                                                },
-                                                icon: FontAwesomeIcons.coins,
-                                                label: "Get\nVFX",
-                                                prettyIconType: PrettyIconType.custom,
-                                                iconScale: 0.75,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 16,
-                                        ),
-                                        Expanded(
-                                          child: RootContainerBalanceItem(
-                                            topIndicator: Container(
-                                              decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(32)),
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(4.0),
-                                                child: Image.asset(
-                                                  "assets/images/vbtc_small.png",
-                                                  width: 32,
-                                                  height: 32,
-                                                ),
-                                              ),
-                                            ),
-                                            forceExpand: forceExpand,
-                                            heading: "0 vBTC",
-                                            headingColor: AppColors.getWhite(),
-                                            accountCount: "",
-                                            handleViewAllTxs: () {},
-                                            actions: [
-                                              AppVerticalIconButton(
-                                                onPressed: () {},
-                                                icon: FontAwesomeIcons.bitcoin,
-                                                prettyIconType: PrettyIconType.custom,
-                                                label: "vBTC\nTokens",
-                                              ),
-                                              AppVerticalIconButton(
-                                                onPressed: () {
-                                                  SpecialDialog().show(
-                                                    context,
-                                                    content: VbtcInfo(),
-                                                    title: "vBTC",
-                                                    maxWidth: 800,
-                                                  );
-                                                },
-                                                prettyIconType: PrettyIconType.custom,
-                                                icon: Icons.help,
-                                                label: "What's\nvBTC",
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 16,
-                                        ),
-                                        Expanded(
-                                          child: RootContainerBalanceItem(
-                                              topIndicator: FaIcon(
-                                                FontAwesomeIcons.bitcoin,
-                                                color: AppColors.getBtc(),
-                                                size: 28,
-                                              ),
-                                              forceExpand: forceExpand,
-                                              heading: "${(sessionModel.btcBalanceInfo?.btcBalance ?? 0).toStringAsFixed(8)} BTC",
-                                              headingColor: AppColors.getBtc(),
-                                              accountCount: "",
-                                              handleViewAllTxs: () {
-                                                ref.read(webSessionProvider.notifier).setSelectedWalletType(WalletType.btc);
-
-                                                AutoTabsRouter.of(context).setActiveIndex(WebRouteIndex.transactions);
-                                              },
-                                              latestTx: latestBtcTx != null
-                                                  ? MouseRegion(
-                                                      cursor: SystemMouseCursors.click,
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          ref.read(webSessionProvider.notifier).setSelectedWalletType(WalletType.btc);
-                                                          AutoTabsRouter.of(context).setActiveIndex(WebRouteIndex.transactions);
-                                                        },
-                                                        child: AppCard(
-                                                          padding: 12,
-                                                          fullWidth: true,
-                                                          child: Column(
-                                                            mainAxisSize: MainAxisSize.min,
-                                                            children: [
-                                                              Text(
-                                                                "${latestBtcTx.amountBtc(myBtcAddress!)} BTC",
-                                                                style: TextStyle(
-                                                                  color: latestBtcTx.amountBtc(myBtcAddress) >= 0
-                                                                      ? Theme.of(context).colorScheme.success
-                                                                      : Colors.red.shade500,
-                                                                  fontWeight: FontWeight.w600,
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                "From: ${latestBtcTx.fromAddress(myBtcAddress)}\nTo: ${latestBtcTx.toAddress(myBtcAddress)}",
-                                                                style: TextStyle(
-                                                                  fontSize: 11,
-                                                                  color: Colors.white.withOpacity(0.9),
-                                                                ),
-                                                                textAlign: TextAlign.center,
-                                                              ),
-                                                              SizedBox(
-                                                                height: 2,
-                                                              ),
-                                                              latestBtcTx.status.confirmed
-                                                                  ? Text(
-                                                                      "Confirmed",
-                                                                      style: TextStyle(
-                                                                        color: AppColors.getSpringGreen(),
-                                                                        fontWeight: FontWeight.w600,
-                                                                      ),
-                                                                    )
-                                                                  : Text(
-                                                                      "Pending",
-                                                                      style: TextStyle(
-                                                                        color: Theme.of(context).colorScheme.warning,
-                                                                        fontWeight: FontWeight.w600,
-                                                                      ),
-                                                                    ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  : null,
-                                              actions: [
-                                                if (sessionModel.btcKeypair != null)
-                                                  AppVerticalIconButton(
-                                                    onPressed: () async {
-                                                      await Clipboard.setData(ClipboardData(text: sessionModel.btcKeypair!.address));
-                                                      Toast.message("Address copied to clipboard");
-                                                    },
-                                                    icon: Icons.copy,
-                                                    label: "Copy\nAddress",
-                                                    prettyIconType: PrettyIconType.custom,
-                                                  ),
-                                                AppVerticalIconButton(
-                                                  onPressed: () {
-                                                    AccountUtils.getCoin(context, ref, VfxOrBtcOption.btc);
-                                                  },
-                                                  icon: FontAwesomeIcons.coins,
-                                                  iconScale: 0.7,
-                                                  label: "Get\nBTC",
-                                                  prettyIconType: PrettyIconType.custom,
-                                                ),
-                                              ]),
-                                        ),
-                                      ],
-                                    ),
-                                    AnimatedPositioned(
-                                      duration: ROOT_CONTAINER_TRANSITION_DURATION,
-                                      curve: Curves.easeInOut,
-                                      top: forceExpand ? ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT / 2 : 0,
-                                      child: IgnorePointer(
-                                        ignoring: true,
-                                        child: Padding(
-                                          padding: EdgeInsets.only(left: connector1Left),
-                                          // child: RootContainerBalanceRowConnector(),
-                                          child: Transform.translate(
-                                            offset: Offset(-33, 4),
-                                            child: ConnectorVisual(
-                                              isBtc: false,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    AnimatedPositioned(
-                                      duration: ROOT_CONTAINER_TRANSITION_DURATION,
-                                      curve: Curves.easeInOut,
-                                      top: forceExpand ? ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT / 2 : 0,
-                                      child: IgnorePointer(
-                                        ignoring: true,
-                                        child: Padding(
-                                          padding: EdgeInsets.only(left: connector2Left),
-                                          child: Transform.translate(
-                                            offset: Offset(-6, 4),
-                                            child: ConnectorVisual(
-                                              isBtc: true,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              });
-                            }),
+                            child: WebAccountInfoExpanderRow(),
                           ),
                         ),
                       ),
@@ -789,29 +477,387 @@ class _ContentWrapper extends BaseComponent {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    return Column(mainAxisSize: MainAxisSize.min, children: [
-      if (Env.isTestNet)
-        Container(
-          width: double.infinity,
-          color: Colors.green.shade800,
-          child: const Padding(
-            padding: EdgeInsets.all(4.0),
-            child: Center(
-              child: Text(
-                "VFX TESTNET",
-                style: TextStyle(
-                  fontSize: 13,
-                  letterSpacing: 2,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+    return Scaffold(
+      key: rootScaffoldKey,
+      drawer: WebDrawer(),
+      body: Column(mainAxisSize: MainAxisSize.min, children: [
+        // if (Env.isTestNet)
+        //   Container(
+        //     width: double.infinity,
+        //     color: Colors.green.shade800,
+        //     child: const Padding(
+        //       padding: EdgeInsets.all(4.0),
+        //       child: Center(
+        //         child: Text(
+        //           "VFX TESTNET",
+        //           style: TextStyle(
+        //             fontSize: 13,
+        //             letterSpacing: 2,
+        //             fontWeight: FontWeight.bold,
+        //             color: Colors.white,
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        if (kIsWeb) WebChatNotifier(ref: ref, address: ref.watch(webSessionProvider).keypair!.address),
+        Expanded(child: child),
+      ]),
+    );
+  }
+}
+
+class WebAccountInfoExpanderRow extends BaseComponent {
+  const WebAccountInfoExpanderRow({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final forceExpand = ref.watch(globalBalancesExpandedProvider);
+
+    return LayoutBuilder(builder: (context, constraints) {
+      final availableWidth = constraints.maxWidth;
+
+      final connector1Left = (availableWidth / 3) - 10;
+      final connector2Left = (availableWidth / 3) + (availableWidth / 3) - 5;
+      return Stack(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(child: WebAccountInfoVfx()),
+              SizedBox(
+                width: 16,
+              ),
+              Expanded(
+                child: WebAccountInfoVbtc(),
+              ),
+              SizedBox(
+                width: 16,
+              ),
+              Expanded(
+                child: WebAccountInfoBtc(),
+              ),
+            ],
+          ),
+          AnimatedPositioned(
+            duration: ROOT_CONTAINER_TRANSITION_DURATION,
+            curve: Curves.easeInOut,
+            top: forceExpand ? ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT / 2 : 0,
+            child: IgnorePointer(
+              ignoring: true,
+              child: Padding(
+                padding: EdgeInsets.only(left: connector1Left),
+                // child: RootContainerBalanceRowConnector(),
+                child: Transform.translate(
+                  offset: Offset(-33, 4),
+                  child: ConnectorVisual(
+                    isBtc: false,
+                  ),
                 ),
               ),
             ),
           ),
+          AnimatedPositioned(
+            duration: ROOT_CONTAINER_TRANSITION_DURATION,
+            curve: Curves.easeInOut,
+            top: forceExpand ? ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT / 2 : 0,
+            child: IgnorePointer(
+              ignoring: true,
+              child: Padding(
+                padding: EdgeInsets.only(left: connector2Left),
+                child: Transform.translate(
+                  offset: Offset(-6, 4),
+                  child: ConnectorVisual(
+                    isBtc: true,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    });
+  }
+}
+
+class WebAccountInfoBtc extends BaseComponent {
+  const WebAccountInfoBtc({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sessionModel = ref.watch(webSessionProvider);
+
+    final forceExpand = ref.watch(globalBalancesExpandedProvider);
+
+    final myBtcAddress = ref.watch(webSessionProvider.select((value) => value.btcKeypair?.address));
+
+    final List<BtcWebTransaction>? btcTransactions = myBtcAddress != null ? ref.watch(btcWebTransactionListProvider(myBtcAddress)) : null;
+    final latestBtcTx = btcTransactions != null && btcTransactions.isNotEmpty ? btcTransactions.first : null;
+
+    return RootContainerBalanceItem(
+        topIndicator: FaIcon(
+          FontAwesomeIcons.bitcoin,
+          color: AppColors.getBtc(),
+          size: 28,
         ),
-      if (kIsWeb) WebChatNotifier(ref: ref, address: ref.watch(webSessionProvider).keypair!.address),
-      Expanded(child: child),
-    ]);
+        forceExpand: forceExpand,
+        heading: "${(sessionModel.btcBalanceInfo?.btcBalance ?? 0).toStringAsFixed(8)} BTC",
+        headingColor: AppColors.getBtc(),
+        accountCount: "",
+        handleViewAllTxs: () {
+          ref.read(webSessionProvider.notifier).setSelectedWalletType(WalletType.btc);
+
+          AutoTabsRouter.of(context).setActiveIndex(WebRouteIndex.transactions);
+        },
+        latestTx: latestBtcTx != null
+            ? MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  onTap: () {
+                    ref.read(webSessionProvider.notifier).setSelectedWalletType(WalletType.btc);
+                    AutoTabsRouter.of(context).setActiveIndex(WebRouteIndex.transactions);
+                  },
+                  child: AppCard(
+                    padding: 12,
+                    fullWidth: true,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "${latestBtcTx.amountBtc(myBtcAddress!)} BTC",
+                          style: TextStyle(
+                            color: latestBtcTx.amountBtc(myBtcAddress) >= 0 ? Theme.of(context).colorScheme.success : Colors.red.shade500,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          "From: ${latestBtcTx.fromAddress(myBtcAddress)}\nTo: ${latestBtcTx.toAddress(myBtcAddress)}",
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Colors.white.withOpacity(0.9),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        latestBtcTx.status.confirmed
+                            ? Text(
+                                "Confirmed",
+                                style: TextStyle(
+                                  color: AppColors.getSpringGreen(),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              )
+                            : Text(
+                                "Pending",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.warning,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            : null,
+        actions: [
+          if (sessionModel.btcKeypair != null)
+            AppVerticalIconButton(
+              onPressed: () async {
+                await Clipboard.setData(ClipboardData(text: sessionModel.btcKeypair!.address));
+                Toast.message("Address copied to clipboard");
+              },
+              icon: Icons.copy,
+              label: "Copy\nAddress",
+              prettyIconType: PrettyIconType.custom,
+            ),
+          AppVerticalIconButton(
+            onPressed: () {
+              AccountUtils.getCoin(context, ref, VfxOrBtcOption.btc);
+            },
+            icon: FontAwesomeIcons.coins,
+            iconScale: 0.7,
+            label: "Get\nBTC",
+            prettyIconType: PrettyIconType.custom,
+          ),
+        ]);
+  }
+}
+
+class WebAccountInfoVbtc extends BaseComponent {
+  const WebAccountInfoVbtc({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final forceExpand = ref.watch(globalBalancesExpandedProvider);
+
+    return RootContainerBalanceItem(
+      topIndicator: Container(
+        decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(32)),
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Image.asset(
+            "assets/images/vbtc_small.png",
+            width: 32,
+            height: 32,
+          ),
+        ),
+      ),
+      forceExpand: forceExpand,
+      heading: "0 vBTC",
+      headingColor: AppColors.getWhite(),
+      accountCount: "",
+      handleViewAllTxs: () {},
+      actions: [
+        AppVerticalIconButton(
+          onPressed: () {},
+          icon: FontAwesomeIcons.bitcoin,
+          prettyIconType: PrettyIconType.custom,
+          label: "vBTC\nTokens",
+        ),
+        AppVerticalIconButton(
+          onPressed: () {
+            SpecialDialog().show(
+              context,
+              content: VbtcInfo(),
+              title: "vBTC",
+              maxWidth: 800,
+            );
+          },
+          prettyIconType: PrettyIconType.custom,
+          icon: Icons.help,
+          label: "What's\nvBTC",
+        ),
+      ],
+    );
+  }
+}
+
+class WebAccountInfoVfx extends BaseComponent {
+  const WebAccountInfoVfx({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sessionModel = ref.watch(webSessionProvider);
+    final List<WebTransaction>? vfxTransactions = sessionModel.keypair != null
+        ? ref.watch(webTransactionListProvider(sessionModel.keypair!.address).select((value) => value.transactions))
+        : null;
+    final latestVfxTx = vfxTransactions != null && vfxTransactions.isNotEmpty ? vfxTransactions.first : null;
+    final forceExpand = ref.watch(globalBalancesExpandedProvider);
+
+    return RootContainerBalanceItem(
+      heading: '${(sessionModel.balance ?? 0) + (sessionModel.raBalance ?? 0)} VFX',
+      headingColor: AppColors.getBlue(),
+      accountCount: '',
+      forceExpand: forceExpand,
+      latestTx: latestVfxTx != null
+          ? MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () {
+                  ref.read(webSessionProvider.notifier).setSelectedWalletType(WalletType.rbx);
+
+                  AutoTabsRouter.of(context).setActiveIndex(WebRouteIndex.transactions);
+                },
+                child: AppCard(
+                  padding: 12,
+                  fullWidth: true,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (latestVfxTx.type == TxType.rbxTransfer)
+                        Text(
+                          "${latestVfxTx.amount} VFX",
+                          style: TextStyle(
+                            color:
+                                latestVfxTx.amount != null && latestVfxTx.amount! < 0 ? Colors.red.shade500 : Theme.of(context).colorScheme.success,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        )
+                      else
+                        Text(
+                          latestVfxTx.typeLabel,
+                          style: TextStyle(
+                            color: AppColors.getBlue(),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      Text(
+                        "From: ${latestVfxTx.fromAddress}\nTo: ${latestVfxTx.toAddress}",
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: Colors.white.withOpacity(0.9),
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(
+                        height: 2,
+                      ),
+                      Text(
+                        "Success",
+                        style: TextStyle(
+                          color: AppColors.getSpringGreen(),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          : null,
+      handleViewAllTxs: () {
+        ref.read(webSessionProvider.notifier).setSelectedWalletType(WalletType.rbx);
+
+        AutoTabsRouter.of(context).setActiveIndex(WebRouteIndex.transactions);
+      },
+      topIndicator: Image.asset(
+        "assets/images/cube_still.png",
+        width: 32,
+        height: 32,
+      ),
+      actions: [
+        if (sessionModel.keypair != null)
+          AppVerticalIconButton(
+            onPressed: () async {
+              await Clipboard.setData(ClipboardData(text: sessionModel.keypair!.address));
+              Toast.message("Address copied to clipboard");
+            },
+            icon: Icons.copy,
+            label: "Copy\nAddress",
+            prettyIconType: PrettyIconType.custom,
+          ),
+        if (sessionModel.raKeypair != null)
+          AppVerticalIconButton(
+            onPressed: () async {
+              await Clipboard.setData(ClipboardData(text: sessionModel.raKeypair!.address));
+              Toast.message("Address copied to clipboard");
+            },
+            icon: Icons.copy,
+            label: "Vault\nAddress",
+            prettyIconType: PrettyIconType.custom,
+          ),
+        AppVerticalIconButton(
+          onPressed: () {
+            AccountUtils.getCoin(context, ref, VfxOrBtcOption.vfx);
+          },
+          icon: FontAwesomeIcons.coins,
+          label: "Get\nVFX",
+          prettyIconType: PrettyIconType.custom,
+          iconScale: 0.75,
+        ),
+      ],
+    );
   }
 }
 
