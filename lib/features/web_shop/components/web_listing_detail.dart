@@ -1314,7 +1314,9 @@ class _BidHistoryModal extends BaseComponent {
                 title: Text("${bid.amount} VFX"),
                 subtitle: SelectableText(isMobile ? "${bid.address} \n${timeago.format(bid.sendDateTime)}" : bid.address),
                 trailing: Builder(builder: (context) {
-                  final currentAddress = kIsWeb ? ref.watch(webSessionProvider).keypair?.address : ref.watch(sessionProvider).currentWallet?.address;
+                  final currentAddress = kIsWeb
+                      ? ref.watch(webSessionProvider.select((v) => v.keypair?.address))
+                      : ref.watch(sessionProvider.select((v) => v.currentWallet?.address));
                   final isBidder = currentAddress == bid.address;
 
                   // if (isBidder && bid.bidStatus == BidStatus.Sent) {

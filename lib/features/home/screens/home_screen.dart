@@ -34,7 +34,7 @@ class HomeScreen extends BaseScreen {
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
-    final address = ref.watch(sessionProvider).currentWallet?.address;
+    final address = ref.watch(sessionProvider.select((v) => v.currentWallet?.address));
     return AppBar(
       title: const Text("Dashboard"),
       backgroundColor: Colors.black12,
@@ -80,7 +80,7 @@ class HomeScreen extends BaseScreen {
               if (!kIsWeb) const Divider(),
               if (!kIsWeb)
                 HomeButtons(
-                  includeRestoreHd: ref.watch(walletListProvider).isEmpty,
+                  includeRestoreHd: ref.watch(walletListProvider.select((v) => v.isEmpty)),
                 ),
               const Divider(),
               const LogWindow(),

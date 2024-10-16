@@ -22,8 +22,8 @@ class RemoteShopListTile extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentUrl = ref.watch(connectedShopProvider).url;
-    final isConnected = ref.watch(connectedShopProvider).isConnected;
+    final currentUrl = ref.watch(connectedShopProvider.select((v) => v.url));
+    final isConnected = ref.watch(connectedShopProvider.select((v) => v.isConnected));
 
     return Padding(
       padding: const EdgeInsets.all(8.0),

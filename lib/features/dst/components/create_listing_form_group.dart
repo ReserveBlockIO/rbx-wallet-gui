@@ -89,7 +89,7 @@ class _EnableGallery extends BaseComponent {
   @override
   Widget build(BuildContext context, ref) {
     final provider = ref.read(listingFormProvider.notifier);
-    final model = ref.watch(listingFormProvider).galleryOnly;
+    final model = ref.watch(listingFormProvider.select((v) => v.galleryOnly));
 
     return Row(
       children: [
@@ -119,7 +119,7 @@ class _EnableBuyNow extends BaseComponent {
   @override
   Widget build(BuildContext context, ref) {
     final provider = ref.read(listingFormProvider.notifier);
-    final model = ref.watch(listingFormProvider).enableBuyNow;
+    final model = ref.watch(listingFormProvider.select((v) => v.enableBuyNow));
 
     return Row(
       children: [
@@ -149,7 +149,7 @@ class _EnableAuction extends BaseComponent {
   @override
   Widget build(BuildContext context, ref) {
     final provider = ref.read(listingFormProvider.notifier);
-    final model = ref.watch(listingFormProvider).enableAuction;
+    final model = ref.watch(listingFormProvider.select((v) => v.enableAuction));
 
     return Row(
       children: [
@@ -179,7 +179,7 @@ class _EnableReservePrice extends BaseComponent {
   @override
   Widget build(BuildContext context, ref) {
     final provider = ref.read(listingFormProvider.notifier);
-    final model = ref.watch(listingFormProvider).enableReservePrice;
+    final model = ref.watch(listingFormProvider.select((v) => v.enableReservePrice));
 
     return Row(
       children: [

@@ -22,7 +22,7 @@ class TransactionWindow extends BaseComponent {
     final recentTransactions = transactions.take(5).toList();
     final recentBtcTranscations = ref.watch(btcTransactionListProvider).take(5).toList();
 
-    final isBtc = ref.watch(sessionProvider).btcSelected;
+    final isBtc = ref.watch(sessionProvider.select((v) => v.btcSelected));
 
     return Column(
       mainAxisSize: MainAxisSize.min,

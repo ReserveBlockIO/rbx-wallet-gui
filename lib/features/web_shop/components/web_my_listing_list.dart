@@ -26,7 +26,7 @@ class WebMyListingList extends BaseComponent {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final listProvider = ref.watch(webListingListProvider("$shopId,$collectionId").notifier);
+    final listProvider = ref.read(webListingListProvider("$shopId,$collectionId").notifier);
     final isExpanded = ref.watch(shopListViewProvider);
 
     return InfiniteList<WebListing>(

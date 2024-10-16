@@ -24,7 +24,7 @@ class ScWizardEvolvesDialog extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.read(evolvePhaseWizardFormProvider(phaseIndex).notifier);
     final model = ref.read(evolvePhaseWizardFormProvider(phaseIndex));
-    final type = ref.watch(scWizardProvider.notifier).getEvolveType(entryIndex);
+    final type = ref.read(scWizardProvider.notifier).getEvolveType(entryIndex);
     return StatefulBuilder(builder: (context, setState) {
       return Form(
         key: formKey,

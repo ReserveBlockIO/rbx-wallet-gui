@@ -49,7 +49,7 @@ class ValidatorScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final currentWallet = ref.watch(sessionProvider).currentWallet;
+    final currentWallet = ref.watch(sessionProvider.select((v) => v.currentWallet));
 
     if (currentWallet == null) {
       return const InvalidWallet(message: "No account selected");

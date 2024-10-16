@@ -23,7 +23,7 @@ class CompleteSaleButton extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final myAddress = ref.watch(webSessionProvider).keypair?.address;
+    final myAddress = ref.watch(webSessionProvider.select((v) => v.keypair?.address));
 
     if (tx.type == TxType.nftSale) {
       if (myAddress != null && tx.toAddress == myAddress) {

@@ -39,7 +39,7 @@ class RootContainerBalanceRow extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final vfxBalance = ref.watch(sessionProvider).totalBalance;
+    final vfxBalance = ref.watch(sessionProvider.select((v) => v.totalBalance));
     final btcBalance = ref.watch(btcBalanceProvider);
 
     final allVfxWallets = ref.watch(walletListProvider);

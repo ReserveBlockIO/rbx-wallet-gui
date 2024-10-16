@@ -45,7 +45,7 @@ class StatusContainer extends BaseComponent {
                 // mainAxisSize: MainAxisSize.min,
                 shrinkWrap: true,
                 children: [
-                  if (ref.watch(sessionProvider).updateAvailable)
+                  if (ref.watch(sessionProvider.select((v) => v.updateAvailable)))
                     Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
@@ -108,7 +108,7 @@ class StatusContainer extends BaseComponent {
                   if (walletInfo != null)
                     _DetailItem(
                       label: "Wallet Started",
-                      value: ref.watch(sessionProvider).startTimeFormatted,
+                      value: ref.watch(sessionProvider.select((v) => v.startTimeFormatted)),
                       icon: Icons.timer,
                     ),
                   if (walletInfo?.networkMetrics != null)
@@ -216,7 +216,7 @@ class _BlockStatus extends BaseComponent {
         child: Builder(builder: (context) {
           final walletInfo = ref.watch(walletInfoProvider);
 
-          if (!ref.watch(sessionProvider).cliStarted) {
+          if (!ref.watch(sessionProvider.select((v) => v.cliStarted))) {
             return const SizedBox(
               width: 16,
               height: 16,
@@ -422,7 +422,7 @@ class _StatusIndicator extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (!ref.watch(sessionProvider).cliStarted) {
+    if (!ref.watch(sessionProvider.select((v) => v.cliStarted))) {
       return const AppBadge(
         label: "CLI Inactive",
         variant: AppColorVariant.Danger,

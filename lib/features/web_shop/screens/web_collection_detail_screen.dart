@@ -37,7 +37,8 @@ class WebCollectionDetailScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     final data = ref.watch(webCollectionDetailProvider("$shopId,$collectionId"));
-    final address = kIsWeb ? ref.watch(webSessionProvider).keypair?.address : ref.watch(sessionProvider).currentWallet?.address;
+    final address =
+        kIsWeb ? ref.watch(webSessionProvider.select((v) => v.keypair?.address)) : ref.watch(sessionProvider.select((v) => v.currentWallet?.address));
 
     return data.when(
       data: (collection) => collection != null

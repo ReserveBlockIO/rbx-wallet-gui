@@ -376,7 +376,7 @@ class SmartContractCreatorMain extends BaseComponent {
   }
 
   Widget buildCompileButton(WidgetRef ref, SmartContract _model, BuildContext context) {
-    final disabled = ref.watch(sessionProvider).isMintingOrCompiling;
+    final disabled = ref.watch(sessionProvider.select((v) => v.isMintingOrCompiling));
     bool hovering = false;
 
     return StatefulBuilder(builder: (context, setState) {

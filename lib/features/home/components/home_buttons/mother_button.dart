@@ -16,7 +16,7 @@ class MotherButton extends BaseComponent {
     return AppButton(
       label: "MOTHER",
       icon: Icons.hub_outlined,
-      onPressed: ref.watch(sessionProvider).cliStarted
+      onPressed: ref.watch(sessionProvider.select((v) => v.cliStarted))
           ? () async {
               final data = await MotherService().getHost();
               final List<MotherChild> children = data != null ? await MotherService().getChildren() : [];

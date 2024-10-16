@@ -209,7 +209,8 @@ class _LayoutState extends State<_Layout> {
                             return AnimatedDefaultTextStyle(
                               duration: ROOT_CONTAINER_TRANSITION_DURATION,
                               style: TextStyle(
-                                color: ref.watch(sessionProvider).btcSelected ? AppColors.getBtc() : AppColors.getBlue(ColorShade.s100),
+                                color:
+                                    ref.watch(sessionProvider.select((v) => v.btcSelected)) ? AppColors.getBtc() : AppColors.getBlue(ColorShade.s100),
                                 fontSize: 26,
                                 fontWeight: FontWeight.w700,
                                 fontFamily: 'Mukta',
@@ -470,7 +471,7 @@ class _LayoutState extends State<_Layout> {
                                       builder: (context, ref, _) {
                                         late final Color color;
                                         late final String message;
-                                        if (!ref.watch(sessionProvider).cliStarted) {
+                                        if (!ref.watch(sessionProvider.select((v) => v.cliStarted))) {
                                           color = Theme.of(context).colorScheme.danger;
                                           message = "CLI Inactive";
                                         } else {

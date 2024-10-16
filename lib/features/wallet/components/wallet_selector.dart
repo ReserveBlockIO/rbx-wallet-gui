@@ -42,9 +42,9 @@ class WalletSelector extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final btcSelected = ref.watch(sessionProvider).btcSelected;
-    final currentWallet = !btcSelected ? ref.watch(sessionProvider).currentWallet : null;
-    final currentBtcAccount = btcSelected ? ref.watch(sessionProvider).currentBtcAccount : null;
+    final btcSelected = ref.watch(sessionProvider.select((v) => v.btcSelected));
+    final currentWallet = !btcSelected ? ref.watch(sessionProvider.select((v) => v.currentWallet)) : null;
+    final currentBtcAccount = btcSelected ? ref.watch(sessionProvider.select((v) => v.currentBtcAccount)) : null;
     // final List<dynamic> deleted = singleton<Storage>().getList(Storage.DELETED_WALLETS_KEY) ?? [];
 
     final allWallets = ref.watch(walletListProvider);

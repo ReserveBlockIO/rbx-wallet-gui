@@ -33,10 +33,10 @@ class WebSendScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final keypair = ref.watch(webSessionProvider).keypair;
-    final raKeypair = ref.watch(webSessionProvider).raKeypair;
-    final wallet = ref.watch(webSessionProvider).currentWallet;
-    final btcWebAccount = ref.watch(webSessionProvider).btcKeypair;
+    final keypair = ref.watch(webSessionProvider.select((v) => v.keypair));
+    final raKeypair = ref.watch(webSessionProvider.select((v) => v.raKeypair));
+    final wallet = ref.watch(webSessionProvider.select((v) => v.currentWallet));
+    final btcWebAccount = ref.watch(webSessionProvider.select((v) => v.btcKeypair));
 
     if (keypair == null && raKeypair == null && btcWebAccount == null) {
       return const Center(child: WebNotWallet());

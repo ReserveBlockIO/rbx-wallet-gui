@@ -23,7 +23,7 @@ class TokenList extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final accounts = ref.watch(sessionProvider).balances.where((b) => b.tokens.isNotEmpty).toList();
+    final accounts = ref.watch(sessionProvider.select((v) => v.balances)).where((b) => b.tokens.isNotEmpty).toList();
 
     if (accounts.isEmpty) {
       if (shrinkWrap) {

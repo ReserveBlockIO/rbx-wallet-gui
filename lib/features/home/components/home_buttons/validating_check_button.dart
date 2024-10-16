@@ -17,7 +17,7 @@ class ValidatingCheckButton extends BaseComponent {
     return AppButton(
       label: "Validator Check",
       icon: Icons.medical_services,
-      onPressed: ref.watch(sessionProvider).cliStarted
+      onPressed: ref.watch(sessionProvider.select((v) => v.cliStarted))
           ? () async {
               final isValidating = await BridgeService().isValidating();
 

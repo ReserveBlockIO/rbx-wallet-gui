@@ -211,7 +211,7 @@ class WebWalletTypeSwitcher extends BaseComponent {
                       return;
                     }
 
-                    ref.watch(webSessionProvider.notifier).updateBtcKeypair(account, true);
+                    ref.read(webSessionProvider.notifier).updateBtcKeypair(account, true);
 
                     final keypair = Keypair(
                       private: account.privateKey,
@@ -244,7 +244,7 @@ class WebWalletTypeSwitcher extends BaseComponent {
                       return;
                     }
 
-                    ref.watch(webSessionProvider.notifier).updateBtcKeypair(account, true);
+                    ref.read(webSessionProvider.notifier).updateBtcKeypair(account, true);
 
                     Toast.message("BTC Account Imported");
                   }

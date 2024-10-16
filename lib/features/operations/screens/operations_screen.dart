@@ -40,7 +40,7 @@ class OperationsScreen extends BaseScreen {
     return Column(
       children: [
         HomeButtons(
-          includeRestoreHd: ref.watch(walletListProvider).isEmpty,
+          includeRestoreHd: ref.watch(walletListProvider.select((v) => v.isEmpty)),
         ),
         SizedBox(
           height: 16,
@@ -197,7 +197,7 @@ class NewStatusContainer extends ConsumerWidget {
         if (walletInfo != null)
           _DetailItem(
             label: "Wallet Started",
-            value: ref.watch(sessionProvider).startTimeFormatted,
+            value: ref.watch(sessionProvider.select((v) => v.startTimeFormatted)),
             icon: Icons.timer,
           ),
         if (walletInfo?.networkMetrics != null)

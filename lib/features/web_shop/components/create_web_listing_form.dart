@@ -110,7 +110,7 @@ class _EnableBuyNow extends BaseComponent {
   @override
   Widget build(BuildContext context, ref) {
     final provider = ref.read(createWebListingProvider.notifier);
-    final model = ref.watch(createWebListingProvider).enableBuyNow;
+    final model = ref.watch(createWebListingProvider.select((v) => v.enableBuyNow));
 
     return Row(
       children: [
@@ -140,7 +140,7 @@ class _EnableAuction extends BaseComponent {
   @override
   Widget build(BuildContext context, ref) {
     final provider = ref.read(createWebListingProvider.notifier);
-    final model = ref.watch(createWebListingProvider).enableAuction;
+    final model = ref.watch(createWebListingProvider.select((v) => v.enableAuction));
 
     return Row(
       children: [
@@ -193,7 +193,7 @@ class _EnableGallery extends BaseComponent {
   @override
   Widget build(BuildContext context, ref) {
     final provider = ref.read(createWebListingProvider.notifier);
-    final model = ref.watch(createWebListingProvider).galleryOnly;
+    final model = ref.watch(createWebListingProvider.select((v) => v.galleryOnly));
 
     return Row(
       children: [
@@ -223,7 +223,7 @@ class _EnableReservePrice extends BaseComponent {
   @override
   Widget build(BuildContext context, ref) {
     final provider = ref.read(createWebListingProvider.notifier);
-    final model = ref.watch(createWebListingProvider).enableReservePrice;
+    final model = ref.watch(createWebListingProvider.select((v) => v.enableReservePrice));
 
     return Row(
       children: [

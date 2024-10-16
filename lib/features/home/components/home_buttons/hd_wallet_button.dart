@@ -34,7 +34,7 @@ class HdWalletButton extends BaseComponent {
     return AppButton(
       label: "Create HD Account",
       icon: Icons.hd_outlined,
-      onPressed: !ref.watch(sessionProvider).cliStarted
+      onPressed: !ref.watch(sessionProvider.select((v) => v.cliStarted))
           ? null
           : () async {
               if (ref.read(walletIsEncryptedProvider)) {

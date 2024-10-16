@@ -21,7 +21,7 @@ class WebMyCollectionList extends BaseComponent {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final listProvider = ref.watch(webCollectionListProvider(shopId).notifier);
+    final listProvider = ref.read(webCollectionListProvider(shopId).notifier);
 
     return InfiniteList<WebCollection>(
       pagingController: listProvider.pagingController,

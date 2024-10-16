@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/app_constants.dart';
@@ -20,7 +19,7 @@ class WebRecoverRaButton extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final keypair = ref.watch(webSessionProvider).raKeypair;
+    final keypair = ref.watch(webSessionProvider.select((v) => v.raKeypair));
     final hasRecovered = ref.watch(webRaPendingRecoveryProvider).contains(keypair?.address);
 
     if (keypair == null) {

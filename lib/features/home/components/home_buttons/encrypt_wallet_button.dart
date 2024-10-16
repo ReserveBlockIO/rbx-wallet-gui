@@ -28,7 +28,7 @@ class EncryptWalletButton extends BaseComponent {
         return AppButton(
           icon: Icons.lock_open_rounded,
           label: "Unlock Wallet",
-          onPressed: !ref.watch(sessionProvider).cliStarted
+          onPressed: !ref.watch(sessionProvider.select((v) => v.cliStarted))
               ? null
               : () async {
                   final password = await PromptModal.show(
@@ -61,7 +61,7 @@ class EncryptWalletButton extends BaseComponent {
       return AppButton(
         label: "Lock Wallet",
         icon: Icons.lock,
-        onPressed: !ref.watch(sessionProvider).cliStarted
+        onPressed: !ref.watch(sessionProvider.select((v) => v.cliStarted))
             ? null
             : () async {
                 if (ref.read(currentValidatorProvider)?.isValidating == true) {
@@ -82,7 +82,7 @@ class EncryptWalletButton extends BaseComponent {
     return AppButton(
       label: "Encrypt Wallet",
       icon: Icons.lock,
-      onPressed: !ref.watch(sessionProvider).cliStarted
+      onPressed: !ref.watch(sessionProvider.select((v) => v.cliStarted))
           ? null
           : () async {
               if (ref.read(walletListProvider).isEmpty) {
