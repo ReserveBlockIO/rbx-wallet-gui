@@ -17,7 +17,7 @@ class RestoreHdWalletButton extends BaseComponent {
     return AppButton(
       label: "Restore HD Account",
       icon: Icons.hd_outlined,
-      onPressed: !ref.watch(sessionProvider).cliStarted
+      onPressed: !ref.watch(sessionProvider.select((v) => v.cliStarted))
           ? null
           : () async {
               final val = await PromptModal.show(

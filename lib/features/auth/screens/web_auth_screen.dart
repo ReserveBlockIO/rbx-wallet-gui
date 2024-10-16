@@ -84,7 +84,7 @@ class WebAuthScreenScreenState extends BaseScreenState<WebAuthScreen> {
 
     final isMobile = BreakPoints.useMobileLayout(context);
 
-    final keypair = ref.watch(webSessionProvider).keypair;
+    final keypair = ref.watch(webSessionProvider.select((v) => v.keypair));
 
     return Center(
       child: Column(

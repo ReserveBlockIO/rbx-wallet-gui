@@ -48,7 +48,7 @@ class WebHomeScreen extends BaseScreen {
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
-    final address = ref.watch(webSessionProvider).currentWallet?.address;
+    final address = ref.watch(webSessionProvider.select((v) => v.currentWallet?.address));
     final isMobile = BreakPoints.useMobileLayout(context);
 
     return isMobile

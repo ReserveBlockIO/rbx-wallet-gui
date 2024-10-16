@@ -178,7 +178,7 @@ class TokenManagementScreen extends BaseScreen {
   Widget body(BuildContext context, WidgetRef ref) {
     final isOwnedByRA = nft.currentOwner.startsWith("xRBX");
 
-    final accounts = ref.watch(sessionProvider).balances.where((b) => b.tokens.isNotEmpty).toList();
+    final accounts = ref.watch(sessionProvider.select((v) => v.balances)).where((b) => b.tokens.isNotEmpty).toList();
     final List<TokenAccount> tokenAccounts = [];
     final List<String> addresses = [];
 

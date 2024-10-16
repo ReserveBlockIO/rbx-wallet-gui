@@ -71,9 +71,9 @@ class WebReceiveScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final address = ref.watch(webSessionProvider).currentWallet?.address;
-    final usingRa = ref.watch(webSessionProvider).usingRa;
-    final adnr = ref.watch(webSessionProvider).adnr;
+    final address = ref.watch(webSessionProvider.select((v) => v.currentWallet?.address));
+    final usingRa = ref.watch(webSessionProvider.select((v) => v.usingRa));
+    final adnr = ref.watch(webSessionProvider.select((v) => v.adnr));
 
     if (address == null) {
       return const WebNotWallet();

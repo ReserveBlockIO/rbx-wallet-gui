@@ -43,7 +43,7 @@ class BuildSaleStartTxScreen extends BaseScreen {
 
     return Builder(
       builder: (context) {
-        final keypair = ref.watch(webSessionProvider).keypair;
+        final keypair = ref.watch(webSessionProvider.select((v) => v.keypair));
         if (keypair == null || ownerAddress != keypair.address) {
           return Center(
             child: Column(

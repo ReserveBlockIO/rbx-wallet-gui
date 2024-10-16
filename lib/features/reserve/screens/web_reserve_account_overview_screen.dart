@@ -44,9 +44,9 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final keypair = ref.watch(webSessionProvider).raKeypair;
+    final keypair = ref.watch(webSessionProvider.select((v) => v.raKeypair));
 
-    final balance = ref.watch(webSessionProvider).raBalance ?? 0.0;
+    final balance = ref.watch(webSessionProvider.select((v) => v.raBalance)) ?? 0.0;
 
     return Center(
       child: ConstrainedBox(
@@ -134,7 +134,7 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
                           );
                         }
 
-                        if (ref.watch(webSessionProvider).raActivated) {
+                        if (ref.watch(webSessionProvider.select((v) => v.raActivated))) {
                           return Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -150,7 +150,7 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
                           );
                         }
 
-                        final balance = ref.watch(webSessionProvider).raBalance;
+                        final balance = ref.watch(webSessionProvider.select((v) => v.raBalance));
 
                         if (balance == 0) {
                           return Container(
@@ -174,9 +174,9 @@ class WebReserveAccountOverviewScreen extends BaseScreen {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      if ((ref.watch(webSessionProvider).balance ?? 0) > 5 &&
-                                          ref.watch(webSessionProvider).keypair != null &&
-                                          ref.read(webSessionProvider).raKeypair != null)
+                                      if ((ref.watch(webSessionProvider.select((v) => v.balance)) ?? 0) > 5 &&
+                                          ref.watch(webSessionProvider.select((v) => v.keypair)) != null &&
+                                          ref.read(webSessionProvider.select((v) => v.raKeypair)) != null)
                                         WebFundRaAccountButton(),
                                       AppButton(
                                         label: "Copy Address",

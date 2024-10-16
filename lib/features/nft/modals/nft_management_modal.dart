@@ -267,7 +267,7 @@ class EvolutionStateRow extends BaseComponent {
     final isCurrent = phase.isCurrentState;
 
     final isMinter = kIsWeb
-        ? ref.watch(webSessionProvider).keypair?.address == nft.minterAddress
+        ? ref.watch(webSessionProvider.select((v) => v.keypair?.address)) == nft.minterAddress
         : ref.watch(walletListProvider).firstWhereOrNull((w) => w.address == nft.minterAddress) != null;
 
     final showMedia = isMinter || index <= nft.currentEvolvePhaseIndex + 1;

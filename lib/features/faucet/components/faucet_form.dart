@@ -14,7 +14,7 @@ class FaucetForm extends BaseComponent {
     final provider = ref.read(faucetFormProvider.notifier);
     final model = ref.watch(faucetFormProvider);
 
-    final address = ref.watch(sessionProvider).currentWallet?.address;
+    final address = ref.watch(sessionProvider.select((v) => v.currentWallet?.address));
     if (address == null) {
       return Center(
         child: Text("Please choose a VFX account to continue"),

@@ -18,13 +18,13 @@ class WebCallbackButton extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final keypair = ref.watch(webSessionProvider).raKeypair;
+    final keypair = ref.watch(webSessionProvider.select((v) => v.raKeypair));
 
     if (keypair == null) {
       return SizedBox.shrink();
     }
 
-    final address = ref.watch(webSessionProvider).currentWallet?.address;
+    final address = ref.watch(webSessionProvider.select((v) => v.currentWallet?.address));
     final toMe = tx.toAddress == address;
 
     if (tx.isPending || toMe || tx.unlockTime == null) {

@@ -35,7 +35,7 @@ class LogWindow extends BaseComponent {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
               child: SizedBox(
-                height: ref.watch(sessionProvider).logWindowExpanded ? 600 : 130,
+                height: ref.watch(sessionProvider.select((v) => v.logWindowExpanded)) ? 600 : 130,
                 width: double.infinity,
                 child: Stack(
                   children: [
@@ -65,7 +65,7 @@ class LogWindow extends BaseComponent {
                     // ),
                     Align(
                       alignment: Alignment.bottomRight,
-                      child: ref.watch(sessionProvider).logWindowExpanded
+                      child: ref.watch(sessionProvider.select((v) => v.logWindowExpanded))
                           ? AppButton(
                               label: "Collapse",
                               onPressed: () {

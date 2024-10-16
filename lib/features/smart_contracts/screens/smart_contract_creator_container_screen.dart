@@ -17,7 +17,7 @@ class SmartContractCreatorContainerScreen extends BaseScreen {
     final _model = ref.watch(createSmartContractProvider);
 
     final wallets = ref.read(walletListProvider).where((w) => !w.isReserved);
-    final selectedWallet = ref.watch(sessionProvider).currentWallet;
+    final selectedWallet = ref.watch(sessionProvider.select((v) => v.currentWallet));
 
     return AppBar(
         title: Text(_model.isCompiled ? "View Compiled Smart Contract" : "Create Smart Contract"),

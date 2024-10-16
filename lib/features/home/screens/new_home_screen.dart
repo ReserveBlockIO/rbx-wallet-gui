@@ -36,7 +36,7 @@ class NewHomeScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final vfxAddress = ref.watch(sessionProvider).currentWallet?.address;
+    final vfxAddress = ref.watch(sessionProvider.select((v) => v.currentWallet?.address));
 
     return Padding(
       padding: const EdgeInsets.all(16.0).copyWith(top: ROOT_CONTAINER_BALANCE_ITEM_EXPANDED_HEIGHT + 16),

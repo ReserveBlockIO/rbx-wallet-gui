@@ -120,7 +120,8 @@ class ManageWalletBtcListTile extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     final btcOrange = AppColors.getBtc();
 
-    final isSelected = ref.watch(sessionProvider).btcSelected && account.address == ref.watch(sessionProvider).currentBtcAccount?.address;
+    final isSelected = ref.watch(sessionProvider.select((v) => v.btcSelected)) &&
+        account.address == ref.watch(sessionProvider.select((v) => v.currentBtcAccount?.address));
 
     return ListTile(
       key: Key("btc_wallet_${account.address}_$isSelected"),
@@ -130,7 +131,8 @@ class ManageWalletBtcListTile extends BaseComponent {
               ref.read(sessionProvider.notifier).setCurrentBtcAccount(account, false);
             },
       dense: true,
-      leading: ref.watch(sessionProvider).btcSelected && account.address == ref.watch(sessionProvider).currentBtcAccount?.address
+      leading: ref.watch(sessionProvider.select((v) => v.btcSelected)) &&
+              account.address == ref.watch(sessionProvider.select((v) => v.currentBtcAccount?.address))
           ? Icon(Icons.check_box_rounded, color: btcOrange)
           : Icon(Icons.check_box_outline_blank_outlined, color: btcOrange),
       title: Row(
@@ -238,7 +240,8 @@ class ManageWalletListTile extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     final color = wallet.isReserved ? Colors.deepPurple.shade200 : Colors.white;
 
-    final isSelected = !ref.watch(sessionProvider).btcSelected && wallet.address == ref.watch(sessionProvider).currentWallet?.address;
+    final isSelected = !ref.watch(sessionProvider.select((v) => v.btcSelected)) &&
+        wallet.address == ref.watch(sessionProvider.select((v) => v.currentWallet?.address));
 
     return ListTile(
       key: Key("vfx_wallet_${wallet.address}_$isSelected"),

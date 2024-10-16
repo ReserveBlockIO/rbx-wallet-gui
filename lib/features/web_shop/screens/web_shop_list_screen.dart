@@ -102,7 +102,7 @@ class WebShopListScreen extends BaseScreen {
               ),
         IconButton(
             onPressed: () {
-              ref.watch(webShopListProvider(WebShopListType.public).notifier).refresh();
+              ref.read(webShopListProvider(WebShopListType.public).notifier).refresh();
             },
             icon: Icon(Icons.refresh)),
       ],

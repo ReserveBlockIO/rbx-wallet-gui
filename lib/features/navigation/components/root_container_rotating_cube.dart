@@ -12,7 +12,7 @@ class RootContainerRotatingCube extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(sessionProvider).btcSelected
+    return ref.watch(sessionProvider.select((v) => v.btcSelected))
         ? Image.asset(
             Assets.images.animatedCubeBtc.path,
             scale: 1,

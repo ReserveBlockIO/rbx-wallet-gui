@@ -24,9 +24,9 @@ class MainMenu extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     final tabsRouter = AutoTabsRouter.of(context);
 
-    final totalBalance = ref.watch(sessionProvider).totalBalance;
+    final totalBalance = ref.watch(sessionProvider.select((v) => v.totalBalance));
     final btcBalance = ref.watch(btcBalanceProvider);
-    final btcAccountSyncInfo = ref.watch(sessionProvider).btcAccountSyncInfo;
+    final btcAccountSyncInfo = ref.watch(sessionProvider.select((v) => v.btcAccountSyncInfo));
 
     double vBtcBalance = 0;
     for (final a in ref.watch(tokenizedBitcoinListProvider)) {
@@ -101,7 +101,7 @@ class MainMenu extends BaseComponent {
                   Container(
                     color: Colors.black,
                     child: Center(
-                      child: _RotatingCube(btc: ref.watch(sessionProvider).btcSelected),
+                      child: _RotatingCube(btc: ref.watch(sessionProvider.select((v) => v.btcSelected))),
                     ),
                   ),
                   Container(
