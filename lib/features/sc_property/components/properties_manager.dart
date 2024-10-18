@@ -33,7 +33,7 @@ class PropertiesManager extends BaseComponent {
   @override
   Widget body(BuildContext context, WidgetRef ref) {
     final provider = ref.read(createSmartContractProvider.notifier);
-    final properties = ref.watch(createSmartContractProvider).properties;
+    final properties = ref.watch(createSmartContractProvider.select((v) => v.properties));
 
     return FormGroupContainer(
       child: AppCard(

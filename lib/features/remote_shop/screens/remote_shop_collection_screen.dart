@@ -1,4 +1,3 @@
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,7 +31,7 @@ class RemoteShopCollectionScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     final model = ref.watch(connectedShopProvider);
-    final balance = ref.watch(sessionProvider).currentWallet!.balance;
+    final balance = ref.watch(sessionProvider.select((v) => v.currentWallet!.balance));
     final shop = model.data;
 
     if (shop == null) {

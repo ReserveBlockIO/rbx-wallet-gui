@@ -16,7 +16,7 @@ class SendScreen extends BaseScreen {
 
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
-    final isBtc = ref.watch(sessionProvider).btcSelected;
+    final isBtc = ref.watch(sessionProvider.select((v) => v.btcSelected));
 
     return AppBar(
       title: Text("Send ${isBtc ? 'BTC' : 'VFX'}"),
@@ -36,10 +36,10 @@ class SendScreen extends BaseScreen {
           child: CurrencySegementedButton(),
         ),
         Builder(builder: (context) {
-          final isBtc = ref.watch(sessionProvider).btcSelected;
+          final isBtc = ref.watch(sessionProvider.select((v) => v.btcSelected));
 
-          final currentWallet = !isBtc ? ref.watch(sessionProvider).currentWallet : null;
-          final currentBtcAccount = isBtc ? ref.watch(sessionProvider).currentBtcAccount : null;
+          final currentWallet = !isBtc ? ref.watch(sessionProvider.select((v) => v.currentWallet)) : null;
+          final currentBtcAccount = isBtc ? ref.watch(sessionProvider.select((v) => v.currentBtcAccount)) : null;
 
           if (currentWallet == null && currentBtcAccount == null) {
             return const InvalidWallet(message: "No account selected");

@@ -146,7 +146,7 @@ class _ContentWrapper extends BaseComponent {
           //       ),
           //     ),
           //   ),
-          if (kIsWeb) WebChatNotifier(ref: ref, address: ref.watch(webSessionProvider).keypair?.address),
+          if (kIsWeb) WebChatNotifier(ref: ref, address: ref.watch(webSessionProvider.select((v) => v.keypair?.address))),
           Expanded(
             child: Stack(
               children: [
@@ -500,7 +500,7 @@ class _ContentWrapper extends BaseComponent {
         //       ),
         //     ),
         //   ),
-        if (kIsWeb) WebChatNotifier(ref: ref, address: ref.watch(webSessionProvider).keypair!.address),
+        if (kIsWeb) WebChatNotifier(ref: ref, address: ref.watch(webSessionProvider.select((v) => v.keypair!.address))),
         Expanded(child: child),
       ]),
     );
@@ -1041,7 +1041,7 @@ class _TopLeft extends BaseComponent {
           mainAxisSize: MainAxisSize.min,
           children: [
             // RootContainerRotatingCube(),
-            ref.watch(webSessionProvider).selectedWalletType == WalletType.btc
+            ref.watch(webSessionProvider.select((v) => v.selectedWalletType)) == WalletType.btc
                 ? Image.asset(
                     Assets.images.animatedCubeBtc.path,
                     scale: 1,
@@ -1081,7 +1081,7 @@ class _TopLeft extends BaseComponent {
                 return AnimatedDefaultTextStyle(
                   duration: ROOT_CONTAINER_TRANSITION_DURATION,
                   style: TextStyle(
-                    color: ref.watch(sessionProvider).btcSelected ? AppColors.getBtc() : AppColors.getBlue(ColorShade.s100),
+                    color: ref.watch(sessionProvider.select((v) => v.btcSelected)) ? AppColors.getBtc() : AppColors.getBlue(ColorShade.s100),
                     fontSize: 26,
                     fontWeight: FontWeight.w700,
                     fontFamily: 'Mukta',

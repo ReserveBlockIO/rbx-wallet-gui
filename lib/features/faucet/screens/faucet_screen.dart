@@ -22,9 +22,9 @@ class FaucetScreen extends BaseScreen {
 
   @override
   Widget body(BuildContext context, WidgetRef ref) {
-    final isBtc = ref.watch(sessionProvider).btcSelected;
+    final isBtc = ref.watch(sessionProvider.select((v) => v.btcSelected));
 
-    final wallet = ref.watch(sessionProvider).currentWallet;
+    final wallet = ref.watch(sessionProvider.select((v) => v.currentWallet));
 
     if (isBtc || wallet == null) {
       return Center(

@@ -16,7 +16,7 @@ class VerifyNftOwnershipButton extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cliStarted = ref.watch(sessionProvider).cliStarted;
+    final cliStarted = ref.watch(sessionProvider.select((v) => v.cliStarted));
 
     return AppButton(
       label: "Verify NFT Ownership",

@@ -34,7 +34,7 @@ class WebTransactionCard extends BaseComponent {
       date = "$date | Settlement Date: $settlementDate";
     }
 
-    final address = ref.watch(webSessionProvider).currentWallet?.address;
+    final address = ref.watch(webSessionProvider.select((v) => v.currentWallet?.address));
     final isMobile = BreakPoints.useMobileLayout(context);
     final toMe = tx.toAddress == address;
 

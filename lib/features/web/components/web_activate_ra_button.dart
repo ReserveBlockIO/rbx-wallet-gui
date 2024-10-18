@@ -20,7 +20,7 @@ class WebActivateRaButton extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final keypair = ref.watch(webSessionProvider).raKeypair;
+    final keypair = ref.watch(webSessionProvider.select((v) => v.raKeypair));
 
     final hasActivated = ref.watch(webRaPendingActivationProvider).contains(keypair?.address);
 

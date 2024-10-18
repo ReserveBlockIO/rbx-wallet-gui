@@ -112,7 +112,7 @@ class SendForm extends BaseComponent {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     bool isWeb = kIsWeb;
-    bool isBtc = kIsWeb ? ref.watch(webSessionProvider).usingBtc : ref.watch(sessionProvider).btcSelected;
+    bool isBtc = kIsWeb ? ref.watch(webSessionProvider.select((v) => v.usingBtc)) : ref.watch(sessionProvider.select((v) => v.btcSelected));
 
     const leadingWidth = 70.0;
 
@@ -132,19 +132,19 @@ class SendForm extends BaseComponent {
     Color color = Colors.white;
 
     if (isBtc) {
-      balance = kIsWeb ? ((ref.watch(webSessionProvider).btcBalanceInfo?.btcBalance) ?? 0.0) : btcAccount!.balance;
+      balance = kIsWeb ? ((ref.watch(webSessionProvider.select((v) => v.btcBalanceInfo?.btcBalance))) ?? 0.0) : btcAccount!.balance;
       color = btcColor;
     } else {
       balance = isWeb
-          ? ref.watch(webSessionProvider).usingRa
-              ? ref.watch(webSessionProvider).raBalance
-              : ref.watch(webSessionProvider).balance
+          ? ref.watch(webSessionProvider.select((v) => v.usingRa))
+              ? ref.watch(webSessionProvider.select((v) => v.raBalance))
+              : ref.watch(webSessionProvider.select((v) => v.balance))
           : wallet?.balance ?? 0;
 
       color = wallet!.isReserved ? Colors.deepPurple.shade200 : Colors.white;
 
       if (kIsWeb) {
-        color = ref.watch(webSessionProvider).usingRa ? Colors.deepPurple.shade200 : Colors.white;
+        color = ref.watch(webSessionProvider.select((v) => v.usingRa)) ? Colors.deepPurple.shade200 : Colors.white;
       }
     }
 
@@ -184,7 +184,7 @@ class SendForm extends BaseComponent {
                                   color: Color(0xFF080808),
                                   constraints: BoxConstraints(maxWidth: 500),
                                   itemBuilder: (context) {
-                                    final currentWallet = ref.watch(sessionProvider).currentWallet;
+                                    final currentWallet = ref.watch(sessionProvider.select((v) => v.currentWallet));
                                     final allWallets = ref.watch(walletListProvider);
                                     final allBtcAccounts = ref.watch(btcAccountListProvider);
 
@@ -314,7 +314,7 @@ class SendForm extends BaseComponent {
                                 children: [
                                   AppBadge(
                                     label: kIsWeb
-                                        ? "${ref.watch(webSessionProvider).btcBalanceInfo?.btcBalance ?? 0} BTC"
+                                        ? "${ref.watch(webSessionProvider.select((v) => v.btcBalanceInfo?.btcBalance)) ?? 0} BTC"
                                         : "${btcAccount!.balance} BTC",
                                     variant: AppColorVariant.Btc,
                                   ),
@@ -415,7 +415,7 @@ class SendForm extends BaseComponent {
               ),
               if (isBtc && !kIsWeb)
                 Consumer(builder: (context, ref, _) {
-                  final recommendedFees = ref.watch(sessionProvider).btcRecommendedFees ?? BtcRecommendedFees.fallback();
+                  final recommendedFees = ref.watch(sessionProvider.select((v) => v.btcRecommendedFees)) ?? BtcRecommendedFees.fallback();
 
                   int fee = 0;
 

@@ -18,7 +18,7 @@ class WebFundRaAccountButton extends BaseComponent {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final keypair = ref.watch(webSessionProvider).raKeypair;
+    final keypair = ref.watch(webSessionProvider.select((v) => v.raKeypair));
     final hasFunded = ref.watch(webRaPendingFundingProvider).contains(keypair?.address);
 
     if (keypair == null) {
@@ -32,7 +32,7 @@ class WebFundRaAccountButton extends BaseComponent {
       onPressed: () async {
         final confirmed = await ConfirmDialog.show(
           title: "Fund Your Vault Account",
-          body: "Would you like to send 5 VFX from ${ref.watch(webSessionProvider).keypair!.address}?",
+          body: "Would you like to send 5 VFX from ${ref.watch(webSessionProvider.select((v) => v.keypair!.address))}?",
           confirmText: "Send",
           cancelText: "Cancel",
         );

@@ -343,7 +343,7 @@ class ReceiveScreen extends BaseScreen {
                                     final privateKey = data.first;
                                     const addressType = BtcAddressType.segwit;
                                     final success = await ref.read(btcAccountListProvider.notifier).importPrivateKey(privateKey, addressType);
-                                    final btcAccountSyncInfo = ref.watch(sessionProvider).btcAccountSyncInfo;
+                                    final btcAccountSyncInfo = ref.watch(sessionProvider.select((v) => v.btcAccountSyncInfo));
 
                                     if (success) {
                                       if (btcAccountSyncInfo != null) {

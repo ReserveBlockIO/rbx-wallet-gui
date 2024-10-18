@@ -16,7 +16,7 @@ class ShowDebugDataButton extends BaseComponent {
 
   @override
   Widget build(BuildContext context, ref) {
-    final cliStarted = ref.watch(sessionProvider).cliStarted;
+    final cliStarted = ref.watch(sessionProvider.select((v) => v.cliStarted));
 
     return AppButton(
       label: "Show Debug Data",
