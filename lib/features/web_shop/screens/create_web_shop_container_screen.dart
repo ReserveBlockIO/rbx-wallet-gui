@@ -58,24 +58,19 @@ class CreateWebShopContainerScreen extends BaseScreen {
         const SizedBox(
           height: 16,
         ),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const CreateWebShopFormGroup(),
-              ],
-            ),
+        SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CreateWebShopFormGroup(),
+            ],
           ),
         ),
-        Container(
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            color: Color(0xFF040f26),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 600),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
