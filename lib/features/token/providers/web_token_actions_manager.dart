@@ -317,6 +317,53 @@ class WebTokenActionsManager {
     );
   }
 
+  Future<Map<String, dynamic>?> withdrawVbtc({
+    required String scId,
+    required double amount,
+    required String btcAddress,
+    required int feeRate,
+  }) async {
+    final keypair = ref.read(webSessionProvider).keypair;
+    if (keypair == null) {
+      Toast.error("No VFX account found");
+      return null;
+    }
+
+    final timestamp = (DateTime.now().millisecondsSinceEpoch / 1000).round();
+    final uniqueId = generateRandomString(16, 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz');
+    final message = "${keypair.address}.$timestamp.$uniqueId";
+
+    final signature = await RawTransaction.getSignature(message: message, privateKey: keypair.private, publicKey: keypair.public);
+
+    if (signature == null) {
+      Toast.error("Signature generation failed.");
+      return null;
+    }
+
+    final data = {
+      'SmartContractUID': scId,
+      'Amount': amount,
+      'VFXAddress': keypair.address,
+      'BTCToAddress': btcAddress,
+      'Timestamp': timestamp,
+      'UniqueId': uniqueId,
+      'VFXSignature': signature,
+      'ChosenFeeRate': feeRate,
+      "IsTest": false,
+    };
+    print(data);
+    print("------");
+
+    final result = await RawService().withdrawVbtc(data);
+
+    if (result == null) {
+      Toast.error();
+      return null;
+    }
+
+    return result;
+  }
+
   bool verifyBalance({bool isRa = false}) {
     if (isRa) {
       if ((ref.read(webSessionProvider).raBalance ?? 0) < MIN_RBX_FOR_SC_ACTION) {

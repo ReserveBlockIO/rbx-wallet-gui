@@ -200,13 +200,9 @@ class RawTransaction {
 
     final base64Signature = base64Encode(der);
 
-    print("publicKey: $publicKey");
-
     if (publicKey.startsWith("04")) {
       publicKey = publicKey.replaceFirst("04", "");
     }
-
-    print("publicKey afet: $publicKey");
 
     final hex = HEX.decode(publicKey);
 

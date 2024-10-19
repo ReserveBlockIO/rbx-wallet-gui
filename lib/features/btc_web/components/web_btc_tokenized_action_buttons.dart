@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
+import '../../../core/dialogs.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../btc/models/tokenized_bitcoin.dart';
@@ -57,7 +60,26 @@ class WebTokenizedBtcActionButtons extends BaseComponent {
           label: "Withdraw",
           icon: Icons.download,
           variant: AppColorVariant.Primary,
-          onPressed: () async {},
+          onPressed: () async {
+            final manager = ref.read(webTokenActionsManager);
+            if (!manager.verifyBalance()) {
+              return;
+            }
+
+            final result = await manager.withdrawVbtc(
+              scId: token.scIdentifier,
+              amount: 0.0001,
+              btcAddress: "tb1qmsgnjlndfgpf0xppwxq62zj34fwn0a2j09xkju",
+              feeRate: 5,
+            );
+
+            if (result == null) {
+              Toast.error();
+              return;
+            }
+
+            InfoDialog.show(title: "Response", content: SelectableText(jsonEncode(result)));
+          },
         ),
         AppButton(
           label: "Transfer Ownership",

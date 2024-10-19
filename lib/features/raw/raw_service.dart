@@ -268,6 +268,18 @@ class RawService extends BaseService {
     }
   }
 
+  Future<Map<String, dynamic>?> withdrawVbtc(Map<String, dynamic> payload) async {
+    try {
+      final result = await postJson("/withdraw-vbtc/", params: payload, cleanPath: false);
+
+      print(jsonEncode(result));
+      return result;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   // Shop
 
   // Not sure if these are needed yet
