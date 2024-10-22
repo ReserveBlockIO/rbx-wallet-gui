@@ -250,7 +250,10 @@ class _DetailItem extends StatelessWidget {
             Expanded(
               child: Text(
                 label,
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(decoration: TextDecoration.underline),
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      decoration: TextDecoration.underline,
+                      fontSize: 13,
+                    ),
               ),
             ),
             trailing ?? SizedBox.shrink()
@@ -261,10 +264,7 @@ class _DetailItem extends StatelessWidget {
         ),
         Text(
           value,
-          style: Theme.of(context)
-              .textTheme
-              .bodySmall!
-              .copyWith(fontSize: mono ? 10 : null, fontFamily: mono ? "RobotoMono" : null, color: Colors.white38),
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 14, fontFamily: mono ? "RobotoMono" : null, color: Colors.white38),
         ),
         const SizedBox(
           height: 8,

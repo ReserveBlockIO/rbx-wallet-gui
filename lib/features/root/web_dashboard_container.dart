@@ -675,7 +675,7 @@ class WebAccountInfoBtc extends BaseComponent {
               },
               icon: Icons.copy,
               label: "Copy\nAddress",
-              prettyIconType: PrettyIconType.custom,
+              prettyIconType: PrettyIconType.topCards,
             ),
           AppVerticalIconButton(
             onPressed: () {
@@ -684,7 +684,7 @@ class WebAccountInfoBtc extends BaseComponent {
             icon: FontAwesomeIcons.coins,
             iconScale: 0.7,
             label: "Get\nBTC",
-            prettyIconType: PrettyIconType.custom,
+            prettyIconType: PrettyIconType.topCards,
           ),
         ]);
   }
@@ -720,7 +720,7 @@ class WebAccountInfoVbtc extends BaseComponent {
         AppVerticalIconButton(
           onPressed: () {},
           icon: FontAwesomeIcons.bitcoin,
-          prettyIconType: PrettyIconType.custom,
+          prettyIconType: PrettyIconType.topCards,
           label: "vBTC\nTokens",
         ),
         AppVerticalIconButton(
@@ -732,7 +732,7 @@ class WebAccountInfoVbtc extends BaseComponent {
               maxWidth: 800,
             );
           },
-          prettyIconType: PrettyIconType.custom,
+          prettyIconType: PrettyIconType.topCards,
           icon: Icons.help,
           label: "What's\nvBTC",
         ),
@@ -835,7 +835,7 @@ class WebAccountInfoVfx extends BaseComponent {
             },
             icon: Icons.copy,
             label: "Copy\nAddress",
-            prettyIconType: PrettyIconType.custom,
+            prettyIconType: PrettyIconType.topCards,
           ),
         if (sessionModel.raKeypair != null)
           AppVerticalIconButton(
@@ -845,7 +845,7 @@ class WebAccountInfoVfx extends BaseComponent {
             },
             icon: Icons.copy,
             label: "Vault\nAddress",
-            prettyIconType: PrettyIconType.custom,
+            prettyIconType: PrettyIconType.topCards,
           ),
         AppVerticalIconButton(
           onPressed: () {
@@ -853,7 +853,7 @@ class WebAccountInfoVfx extends BaseComponent {
           },
           icon: FontAwesomeIcons.coins,
           label: "Get\nVFX",
-          prettyIconType: PrettyIconType.custom,
+          prettyIconType: PrettyIconType.topCards,
           iconScale: 0.75,
         ),
       ],

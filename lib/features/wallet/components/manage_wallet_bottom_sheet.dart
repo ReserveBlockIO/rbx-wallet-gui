@@ -259,16 +259,25 @@ class ManageWalletListTile extends BaseComponent {
         children: [
           Text(
             wallet.label,
-            style: TextStyle(color: color),
+            style: TextStyle(
+              color: color,
+              fontSize: 16,
+            ),
           ),
           wallet.isReserved
               ? Text(
                   " [Available: ${wallet.availableBalance} VFX]",
-                  style: TextStyle(color: color),
+                  style: TextStyle(
+                    color: color,
+                    fontSize: 16,
+                  ),
                 )
               : Text(
                   " [${wallet.balance} VFX]",
-                  style: TextStyle(color: color),
+                  style: TextStyle(
+                    color: color,
+                    fontSize: 16,
+                  ),
                 ),
           if (wallet.isReserved || wallet.lockedBalance > 0)
             Padding(
@@ -289,13 +298,16 @@ class ManageWalletListTile extends BaseComponent {
       subtitle: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(wallet.address),
+          Text(
+            wallet.address,
+            style: TextStyle(fontSize: 16),
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 6.0),
             child: InkWell(
               child: const Icon(
                 Icons.copy,
-                size: 12,
+                size: 16,
               ),
               onTap: () async {
                 await Clipboard.setData(

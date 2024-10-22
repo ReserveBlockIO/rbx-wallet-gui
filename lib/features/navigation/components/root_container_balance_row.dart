@@ -120,7 +120,7 @@ class RootContainerBalanceRow extends BaseComponent {
                       },
                       icon: Icons.wallet,
                       label: "View\nAddress",
-                      prettyIconType: PrettyIconType.custom,
+                      prettyIconType: PrettyIconType.topCards,
                     ),
                     AppVerticalIconButton(
                       onPressed: () {
@@ -128,7 +128,7 @@ class RootContainerBalanceRow extends BaseComponent {
                       },
                       icon: Icons.add,
                       label: "New\nAddress",
-                      prettyIconType: PrettyIconType.custom,
+                      prettyIconType: PrettyIconType.topCards,
                     ),
                     AppVerticalIconButton(
                       onPressed: () {
@@ -136,7 +136,7 @@ class RootContainerBalanceRow extends BaseComponent {
                       },
                       icon: FontAwesomeIcons.coins,
                       label: "Get\nVFX",
-                      prettyIconType: PrettyIconType.custom,
+                      prettyIconType: PrettyIconType.topCards,
                       iconScale: 0.75,
                     ),
                   ],
@@ -177,7 +177,7 @@ class RootContainerBalanceRow extends BaseComponent {
                         RootContainerUtils.navigateToTab(context, RootTab.vbtc);
                       },
                       icon: FontAwesomeIcons.bitcoin,
-                      prettyIconType: PrettyIconType.custom,
+                      prettyIconType: PrettyIconType.topCards,
                       label: "vBTC\nTokens",
                     ),
                     AppVerticalIconButton(
@@ -189,7 +189,7 @@ class RootContainerBalanceRow extends BaseComponent {
                           maxWidth: 800,
                         );
                       },
-                      prettyIconType: PrettyIconType.custom,
+                      prettyIconType: PrettyIconType.topCards,
                       icon: Icons.help,
                       label: "What's\nvBTC",
                     ),
@@ -225,7 +225,7 @@ class RootContainerBalanceRow extends BaseComponent {
                           ),
                         );
                       },
-                      prettyIconType: PrettyIconType.custom,
+                      prettyIconType: PrettyIconType.topCards,
                       icon: Icons.wallet,
                       label: "View\nAddresses",
                     ),
@@ -234,7 +234,7 @@ class RootContainerBalanceRow extends BaseComponent {
                         AccountUtils.promptBtcNewOrImport(context, ref);
                       },
                       icon: Icons.add,
-                      prettyIconType: PrettyIconType.custom,
+                      prettyIconType: PrettyIconType.topCards,
                       label: "New\nAddress",
                     ),
                     AppVerticalIconButton(
@@ -244,7 +244,7 @@ class RootContainerBalanceRow extends BaseComponent {
                       icon: FontAwesomeIcons.coins,
                       iconScale: 0.7,
                       label: "Get\nBTC",
-                      prettyIconType: PrettyIconType.custom,
+                      prettyIconType: PrettyIconType.topCards,
                     ),
                   ],
                   latestTx: latestBtcTx != null ? _LatestBtcTx(tx: latestBtcTx) : null,

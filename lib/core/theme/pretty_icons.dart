@@ -18,6 +18,7 @@ enum PrettyIconType {
   transactions('transactions'),
   validator('validator'),
   custom('custom'),
+  topCards('custom', 1.4),
   ;
 
   final String assetName;
@@ -44,8 +45,8 @@ class PrettyIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 24,
-      height: 24,
+      width: 32,
+      height: 32,
       child: AnimatedContainer(
         duration: Duration(milliseconds: 200),
         decoration: BoxDecoration(
@@ -69,7 +70,7 @@ class PrettyIcon extends StatelessWidget {
                 height: 24,
                 isAntiAlias: true,
               ),
-              if (type == PrettyIconType.custom && customIcon != null)
+              if ((type == PrettyIconType.custom || type == PrettyIconType.topCards) && customIcon != null)
                 Icon(
                   customIcon,
                   color: customIconColor ?? AppColors.getGray(),

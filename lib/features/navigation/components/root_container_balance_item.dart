@@ -95,7 +95,7 @@ class RootContainerBalanceItemState extends State<RootContainerBalanceItem> {
                                   child: Text(
                                     "View All Txs",
                                     style: TextStyle(
-                                      color: widget.headingColor.withOpacity(0.65),
+                                      color: widget.headingColor,
                                       fontSize: 13,
                                       decoration: TextDecoration.underline,
                                     ),

@@ -417,7 +417,7 @@ class _LayoutState extends State<_Layout> {
 
                   return AnimatedPositioned(
                     right: 0,
-                    bottom: latestBlockIsExpanded ? 0 : -320,
+                    bottom: latestBlockIsExpanded ? 0 : -360,
                     duration: ROOT_CONTAINER_TRANSITION_DURATION,
                     curve: ROOT_CONTAINER_TRANSITION_CURVE,
                     child: MouseRegion(
@@ -617,8 +617,8 @@ class _LayoutState extends State<_Layout> {
                             ),
                           ),
                           SizedBox(
-                            width: 240,
-                            height: 320,
+                            width: 280,
+                            height: 360,
                             child: LatestBlock(),
                           ),
                         ],
