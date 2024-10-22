@@ -29,6 +29,7 @@ class WebTokenActionsManager {
     int txType = TxType.tokenTx,
     double amount = 0,
     int? unlockHours,
+    bool showConfirmation = true,
   }) async {
     final keypair = keypairOverride ?? ref.read(webSessionProvider).keypair;
     if (keypair == null) {
@@ -56,15 +57,17 @@ class WebTokenActionsManager {
 
     final txFee = txData['Fee'];
 
-    final confirmed = await ConfirmDialog.show(
-      title: "Valid Transaction",
-      body: "Transaction verified. There will be a fee of $txFee VFX. Would you like to proceed?",
-      confirmText: "Yes",
-      cancelText: "Cancel",
-    );
+    if (showConfirmation) {
+      final confirmed = await ConfirmDialog.show(
+        title: "Valid Transaction",
+        body: "Transaction verified. There will be a fee of $txFee VFX. Would you like to proceed?",
+        confirmText: "Yes",
+        cancelText: "Cancel",
+      );
 
-    if (confirmed != true) {
-      return null;
+      if (confirmed != true) {
+        return null;
+      }
     }
 
     ref.read(globalLoadingProvider.notifier).start();
@@ -317,7 +320,7 @@ class WebTokenActionsManager {
     );
   }
 
-  Future<Map<String, dynamic>?> withdrawVbtc({
+  Future<bool?> withdrawVbtc({
     required String scId,
     required double amount,
     required String btcAddress,
@@ -361,7 +364,29 @@ class WebTokenActionsManager {
       return null;
     }
 
-    return result;
+    return await sendWithdrawlFinializationTx(result);
+  }
+
+  Future<bool?> sendWithdrawlFinializationTx(WebWithdrawlBtcResult result) async {
+    final keypair = ref.read(webSessionProvider).keypair;
+    if (keypair == null) {
+      Toast.error("No VFX account found");
+      return null;
+    }
+
+    final data = {
+      "Function": "TokenizedWithdrawalComplete()",
+      "ContractUID": result.scId,
+      "UniqueId": result.uniqueId,
+      "TransactionHash": result.txHash,
+    };
+
+    return await _verifyConfirmAndSendTx(
+      toAddress: "TW_Base",
+      data: data,
+      txType: 21,
+      showConfirmation: false,
+    );
   }
 
   bool verifyBalance({bool isRa = false}) {

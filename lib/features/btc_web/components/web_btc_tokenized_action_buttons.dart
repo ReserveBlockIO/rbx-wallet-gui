@@ -68,9 +68,9 @@ class WebTokenizedBtcActionButtons extends BaseComponent {
 
             final result = await manager.withdrawVbtc(
               scId: token.scIdentifier,
-              amount: 0.0001,
+              amount: 0.00005,
               btcAddress: "tb1qmsgnjlndfgpf0xppwxq62zj34fwn0a2j09xkju",
-              feeRate: 5,
+              feeRate: 10,
             );
 
             if (result == null) {

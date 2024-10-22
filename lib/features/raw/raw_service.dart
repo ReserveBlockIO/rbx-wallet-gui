@@ -13,6 +13,18 @@ import '../transactions/models/web_transaction.dart';
 import '../transactions/providers/web_transaction_list_provider.dart';
 import '../web/utils/raw_transaction.dart';
 
+class WebWithdrawlBtcResult {
+  final String txHash;
+  final String uniqueId;
+  final String scId;
+
+  const WebWithdrawlBtcResult({
+    required this.txHash,
+    required this.uniqueId,
+    required this.scId,
+  });
+}
+
 class RawService extends BaseService {
   RawService()
       : super(
@@ -268,12 +280,31 @@ class RawService extends BaseService {
     }
   }
 
-  Future<Map<String, dynamic>?> withdrawVbtc(Map<String, dynamic> payload) async {
+  Future<WebWithdrawlBtcResult?> withdrawVbtc(Map<String, dynamic> payload) async {
+    print(jsonEncode(payload));
+    print("----");
     try {
-      final result = await postJson("/withdraw-vbtc/", params: payload, cleanPath: false);
+      final response = await postJson("/withdraw-vbtc/", params: payload, cleanPath: false);
 
-      print(jsonEncode(result));
-      return result;
+      final data = response['data'];
+      print(jsonEncode(data));
+
+      if (data.containsKey('result')) {
+        final Map<String, dynamic> result = data['result'];
+
+        if (result.containsKey('Success') && result['Success'] == true) {
+          final txHash = result['Hash'];
+          final uniqueId = result['UniqueId'];
+          final scId = result['SmartContractUID'];
+          return WebWithdrawlBtcResult(txHash: txHash, uniqueId: uniqueId, scId: scId);
+        }
+        Toast.error(result['Message']);
+        return null;
+      }
+
+      Toast.error();
+
+      return null;
     } catch (e) {
       print(e);
       return null;
