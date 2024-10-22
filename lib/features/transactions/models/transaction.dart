@@ -219,6 +219,10 @@ class Transaction with _$Transaction {
 
       case 19:
         return "Tokenization Burn";
+      case 20:
+        return "Tokenization Withdrawl";
+      case 21:
+        return "Tokenization Withdrawl";
       default:
         return type.toString();
     }

@@ -176,6 +176,10 @@ class WebTransaction with _$WebTransaction {
         return "Tokenization TX";
       case 19:
         return "Tokenization Burn";
+      case 20:
+        return "Tokenization Withdrawl";
+      case 21:
+        return "Tokenization Withdrawl";
       default:
         return "-";
     }
