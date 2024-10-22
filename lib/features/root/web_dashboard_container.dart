@@ -456,8 +456,8 @@ class _ContentWrapper extends BaseComponent {
                             ),
                           ),
                           SizedBox(
-                            width: 240,
-                            height: 320,
+                            width: 280,
+                            height: 360,
                             child: LatestBlock(
                               blockOverride: block.toNativeBlock(),
                             ),
@@ -894,7 +894,7 @@ class _WalletListItem extends StatelessWidget {
           children: [
             Text(
               address,
-              style: TextStyle(color: color),
+              style: TextStyle(color: color, fontSize: 18),
             ),
             SizedBox(
               width: 6,
@@ -907,7 +907,7 @@ class _WalletListItem extends StatelessWidget {
               child: Icon(
                 Icons.copy,
                 color: color,
-                size: 14,
+                size: 18,
               ),
             ),
           ],

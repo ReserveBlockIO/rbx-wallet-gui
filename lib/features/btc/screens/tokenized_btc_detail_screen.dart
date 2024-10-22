@@ -171,6 +171,7 @@ class TokenizedBtcDetailScreen extends BaseScreen {
                       _DetailRow(
                         label: "Description",
                         value: token.tokenDescription,
+                        inExpanded: true,
                       ),
                       _DetailRow(
                         label: "Owner",
@@ -452,10 +453,12 @@ class _DetailRow extends StatelessWidget {
   final String label;
   final String value;
   final bool withCopy;
+  final bool inExpanded;
   const _DetailRow({
     required this.label,
     required this.value,
     this.withCopy = false,
+    this.inExpanded = false,
   });
 
   @override
@@ -474,7 +477,7 @@ class _DetailRow extends StatelessWidget {
           SizedBox(
             width: 6,
           ),
-          Text(value),
+          inExpanded ? Expanded(child: Text(value)) : Text(value),
           SizedBox(
             width: 6,
           ),
