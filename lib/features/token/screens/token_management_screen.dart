@@ -406,6 +406,8 @@ class TokenDetailsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isOwnedByRA = nft.currentOwner.startsWith("xRBX");
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -453,6 +455,7 @@ class TokenDetailsContent extends StatelessWidget {
                 label: "Owner",
                 value: owner,
                 copyable: true,
+                showReserveColor: isOwnedByRA,
               ),
               TokenDetailRow(
                 label: "Token Ticker",
@@ -491,6 +494,7 @@ class TokenDetailRow extends StatelessWidget {
   final String label;
   final String value;
   final bool copyable;
+  final bool showReserveColor;
   final bool dividerBelow;
 
   const TokenDetailRow({
@@ -498,6 +502,7 @@ class TokenDetailRow extends StatelessWidget {
     required this.value,
     this.copyable = false,
     this.dividerBelow = true,
+    this.showReserveColor = false,
   });
 
   @override
@@ -507,7 +512,12 @@ class TokenDetailRow extends StatelessWidget {
       children: [
         ListTile(
           dense: true,
-          title: Text(value),
+          title: Text(
+            value,
+            style: TextStyle(
+              color: showReserveColor ? Theme.of(context).colorScheme.reserve : null,
+            ),
+          ),
           subtitle: Text(label),
           trailing: copyable
               ? MouseRegion(

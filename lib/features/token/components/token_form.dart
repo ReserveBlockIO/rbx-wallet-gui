@@ -303,7 +303,7 @@ class TokenForm extends BaseComponent {
               child: Divider(),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 AppButton(
                   label: "Cancel",
@@ -312,6 +312,9 @@ class TokenForm extends BaseComponent {
                     provider.clear();
                     AutoRouter.of(context).pop();
                   },
+                ),
+                SizedBox(
+                  width: 64,
                 ),
                 AppButton(
                   label: "Create",

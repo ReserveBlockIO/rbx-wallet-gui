@@ -86,7 +86,12 @@ class TokenListTile extends BaseComponent {
                   ),
                 )
               : Icon(Icons.toll),
-          title: Text(titleOverride ?? tokenAccount.label),
+          title: Text(
+            titleOverride ?? tokenAccount.label,
+            style: TextStyle(
+              color: isOwnedByRA ? Theme.of(context).colorScheme.reserve : null,
+            ),
+          ),
           subtitle: Text("Balance: ${tokenAccount.balance}"),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,

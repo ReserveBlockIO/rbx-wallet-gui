@@ -145,6 +145,8 @@ class _TokenInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isOwnedByRA = token.ownerAddress.startsWith("xRBX");
+
     return AppCard(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,6 +194,7 @@ class _TokenInfo extends StatelessWidget {
                   label: "Owner",
                   value: token.ownerAddress,
                   copyable: true,
+                  showReserveColor: isOwnedByRA,
                 ),
                 TokenDetailRow(
                   label: "Token Ticker",

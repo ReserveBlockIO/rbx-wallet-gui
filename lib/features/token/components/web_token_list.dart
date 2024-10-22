@@ -68,6 +68,7 @@ class WebTokenList extends BaseComponent {
         itemBuilder: (context, index) {
           final account = accounts[index];
           final token = account.token;
+          final isOwnedByRA = account.address.startsWith("xRBX");
 
           return Padding(
             padding: const EdgeInsets.only(bottom: 16),
@@ -80,7 +81,12 @@ class WebTokenList extends BaseComponent {
                         type: PrettyIconType.fungibleToken,
                       ),
                 title: Text("[${token.ticker}] ${token.name}"),
-                subtitle: Text(account.address),
+                subtitle: Text(
+                  account.address,
+                  style: TextStyle(
+                    color: isOwnedByRA ? Theme.of(context).colorScheme.reserve : null,
+                  ),
+                ),
                 trailing: AppBadge(
                   label: "${account.balance} ${token.ticker}",
                   variant: account.address.startsWith("xRBX") ? AppColorVariant.Reserve : AppColorVariant.Secondary,

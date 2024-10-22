@@ -58,6 +58,7 @@ class TokenList extends BaseComponent {
         final account = accounts[index];
 
         List<TokenAccount> tokens = account.tokens;
+        final isOwnedByRA = account.address.startsWith("xRBX");
 
         if (filterByToken != null) {
           tokens = tokens.where((t) => t.smartContractId == filterByToken).toList();
@@ -90,6 +91,7 @@ class TokenList extends BaseComponent {
                       child: Icon(
                         Icons.copy,
                         size: 14,
+                        color: isOwnedByRA ? Theme.of(context).colorScheme.reserve : null,
                       ),
                     ),
                     SizedBox(
@@ -100,6 +102,7 @@ class TokenList extends BaseComponent {
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 14,
+                        color: isOwnedByRA ? Theme.of(context).colorScheme.reserve : null,
                       ),
                     ),
                   ],
