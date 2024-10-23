@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../core/app_router.gr.dart';
 import '../../../core/components/back_to_home_button.dart';
 import '../../../core/theme/components.dart';
@@ -252,39 +253,42 @@ class ReserveAccountRecoverButton extends BaseComponent {
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.read(reserveAccountProvider.notifier);
 
-    return AppButton(
-      label: "Recover",
-      icon: Icons.warning,
-      type: AppButtonType.Text,
-      variant: AppColorVariant.Warning,
-      onPressed: () async {
-        final confirmed = await ConfirmDialog.show(
-          title: "Recover Funds & NFTs",
-          body:
-              "This is a destructive function that will callback all pending transactions and NFTs and move everything to this recovery account:\n\n${wallet.recoveryAddress}",
-          confirmText: "Proceed",
-          cancelText: "Cancel",
-          destructive: true,
-        );
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: AppButton(
+        label: "Recover",
+        icon: FontAwesomeIcons.triangleExclamation,
+        type: AppButtonType.Outlined,
+        variant: AppColorVariant.Warning,
+        onPressed: () async {
+          final confirmed = await ConfirmDialog.show(
+            title: "Recover Funds & NFTs",
+            body:
+                "This is a destructive function that will callback all pending transactions and NFTs and move everything to this recovery account:\n\n${wallet.recoveryAddress}",
+            confirmText: "Proceed",
+            cancelText: "Cancel",
+            destructive: true,
+          );
 
-        if (confirmed != true) {
-          return;
-        }
+          if (confirmed != true) {
+            return;
+          }
 
-        final backup = await ConfirmDialog.show(
-          title: "Backup Media",
-          body:
-              "NFT Media will not be transferred in this process. Would you like to export a backup now now so you can import into your new environment?",
-          confirmText: "Backup",
-          cancelText: "No",
-        );
+          final backup = await ConfirmDialog.show(
+            title: "Backup Media",
+            body:
+                "NFT Media will not be transferred in this process. Would you like to export a backup now now so you can import into your new environment?",
+            confirmText: "Backup",
+            cancelText: "No",
+          );
 
-        if (backup == true) {
-          await backupMedia(context, ref);
-        }
+          if (backup == true) {
+            await backupMedia(context, ref);
+          }
 
-        provider.recoverAccount(context, wallet.address);
-      },
+          provider.recoverAccount(context, wallet.address);
+        },
+      ),
     );
   }
 }

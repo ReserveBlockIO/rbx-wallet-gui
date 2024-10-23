@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../app.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/theme/colors.dart';
@@ -309,47 +310,26 @@ class _Actions extends BaseComponent {
                 },
               ),
               AppVerticalIconButton(
-                label: "TX\nHistory",
-                icon: Icons.paid,
+                label: "Transfer",
+                icon: Icons.history,
                 prettyIconType: PrettyIconType.transactions,
-                onPressed: () {
-                  tabsRouter.setActiveIndex(WebRouteIndex.transactions);
-                },
-              ),
-
-              AppVerticalIconButton(
-                label: "Add\nDomain",
-                icon: Icons.link,
-                prettyIconType: PrettyIconType.domain,
-                onPressed: () {
-                  tabsRouter.setActiveIndex(WebRouteIndex.adnrs);
-                },
-              ),
-
-              AppVerticalIconButton(
-                label: "Mint\nNFT",
-                icon: Icons.receipt_long,
-                prettyIconType: PrettyIconType.smartContract,
-                onPressed: () {
-                  tabsRouter.setActiveIndex(WebRouteIndex.smartContracts);
-                },
-              ),
-
-              AppVerticalIconButton(
-                label: "P2P\nAuctions",
-                icon: Icons.leak_add,
-                prettyIconType: PrettyIconType.p2p,
-                onPressed: () {
-                  tabsRouter.setActiveIndex(WebRouteIndex.shop);
-                },
+                onPressed: () {},
+                color: AppColors.getWhite(ColorShade.s200),
               ),
               AppVerticalIconButton(
-                label: "Vault\nAccount",
-                prettyIconType: PrettyIconType.lock,
-                icon: Icons.security,
-                onPressed: () {
-                  tabsRouter.setActiveIndex(WebRouteIndex.reserve);
-                },
+                label: "Tokens",
+                prettyIconType: PrettyIconType.fungibleToken,
+                icon: Icons.toll,
+                onPressed: () {},
+                color: AppColors.getWhite(ColorShade.s200),
+              ),
+              AppVerticalIconButton(
+                label: "Tutorials",
+                prettyIconType: PrettyIconType.custom,
+                icon: FontAwesomeIcons.video,
+                iconScale: 0.7,
+                onPressed: () {},
+                color: AppColors.getWhite(ColorShade.s200),
               ),
               AppVerticalIconButton(
                 label: "Open\nExplorer",
