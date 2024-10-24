@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/base_component.dart';
+import '../../bridge/services/bridge_service.dart';
 import '../../wallet/models/wallet.dart';
 
 import '../../../core/app_constants.dart';
@@ -15,6 +17,7 @@ import '../../../utils/validation.dart';
 import '../../bridge/models/log_entry.dart';
 import '../../bridge/providers/log_provider.dart';
 import '../../encrypt/utils.dart';
+import '../../wallet/providers/wallet_list_provider.dart';
 import '../providers/adnr_pending_provider.dart';
 import '../services/adnr_service.dart';
 import 'create_adnr_dialog.dart';
@@ -88,12 +91,11 @@ class VfxAdnrCard extends BaseComponent {
                   variant: AppColorVariant.Success,
                   onPressed: () async {
                     if (!await passwordRequiredGuard(context, ref)) return;
+                    if (!widgetGuardWalletIsSynced(ref)) return;
 
-                    if (!widgetGuardWalletIsSynced(ref)) {
-                      return;
-                    }
                     if (wallet.balance < (ADNR_COST + MIN_RBX_FOR_SC_ACTION)) {
-                      Toast.error("Not enough VFX in this wallet to create a VFX domain. $ADNR_COST RBX required (plus TX fee).");
+                      fundWallet(context, wallet.address, ref);
+                      // Toast.error("Not enough VFX in this wallet to create a VFX domain. $ADNR_COST RBX required (plus TX fee).");
                       return;
                     }
 
@@ -208,5 +210,90 @@ class VfxAdnrCard extends BaseComponent {
         ),
       );
     });
+  }
+
+  Future<void> fundWallet(BuildContext context, String walletAddress, WidgetRef ref) async {
+    final funders = ref.read(walletListProvider).where((w) => !w.isReserved && w.balance > (w.isValidating ? 50006 : 6)).toList();
+    final fundingWallet = funders.isNotEmpty ? funders.first : null;
+    if (fundingWallet != null) {
+      final shouldSendFunds = await ConfirmDialog.show(
+        title: "Fund Account",
+        content: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 600),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("You don't have the required funds to buy the domain in this account."),
+              Text(""),
+              SelectableText("Please send funds to $walletAddress"),
+              Text(""),
+              Text(
+                  "You have an account with a sufficient balance.\n\nWould you like to send 6 VFX from:\n${fundingWallet.address}\n[Balance: ${fundingWallet.balance} VFX]?"),
+            ],
+          ),
+        ),
+        confirmText: "Send",
+        cancelText: "Cancel",
+      );
+
+      if (shouldSendFunds == true) {
+        const amount = 6.0;
+
+        final confirmed = await ConfirmDialog.show(
+          title: "Please Confirm",
+          body: "Sending:\n$amount VFX\n\nTo:\n$walletAddress\n\nFrom:\n${fundingWallet.address}",
+          confirmText: "Send",
+          cancelText: "Cancel",
+        );
+
+        if (confirmed != true) {
+          return;
+        }
+
+        final message = await BridgeService().sendFunds(
+          amount: amount,
+          to: walletAddress.replaceAll("\n", ""),
+          from: fundingWallet.address,
+        );
+
+        if (message != null) {
+          final txHash = message.replaceAll("Success! TxId: ", "");
+          ref.read(logProvider.notifier).append(
+                LogEntry(message: message, textToCopy: txHash, variant: AppColorVariant.Success),
+              );
+          await InfoDialog.show(
+            contextOverride: context,
+            title: "Funds Sent",
+            body: "$amount VFX has been sent to $walletAddress.\n\nPlease wait for transaction to reflect and then you can get your domain.",
+          );
+        }
+      }
+    } else {
+      InfoDialog.show(
+          contextOverride: context,
+          title: "Fund Account",
+          content: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 600),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Text("You must now fund your Vault Account with a minimum of 5 VFX."),
+                // Text(""),
+                Text("Please send funds to $walletAddress"),
+                Divider(),
+                AppButton(
+                  label: "Copy Address",
+                  icon: Icons.copy,
+                  onPressed: () async {
+                    await Clipboard.setData(ClipboardData(text: walletAddress));
+                    Toast.message("Address copied to clipboard.");
+                  },
+                )
+              ],
+            ),
+          ));
+    }
   }
 }
