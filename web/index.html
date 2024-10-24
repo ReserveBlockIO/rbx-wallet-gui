@@ -30,7 +30,7 @@
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="RBX Wallet">
+  <meta name="apple-mobile-web-app-title" content="VFX Web Wallet">
   <link rel="apple-touch-icon" href="android-icon-192x192-seochecker-007.gif">
 
   <meta name="description"
@@ -42,7 +42,7 @@
   <meta name="language" content="English">
   <meta property="og:title" content="ReserveBlock">
   <meta property="og:site_name" content="ReserveBlock">
-  <!-- <meta property="og:url" content="https://wallet.rbx.network/" /> -->
+
   <meta property="og:description"
     content="Your Block. Your Data. Your NFT Reserved. An open-source decentralized NFT centric blockchain for everyone.">
   <meta property="og:type" content="website">
@@ -59,27 +59,23 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
 
-  <title>RBX Wallet</title>
+  <title>VFX Web Wallet</title>
   <link rel="manifest" href="manifest.json">
-  <!-- <link rel="stylesheet" type="text/css" href="splash/splash.css"> -->
+  <link rel="stylesheet" type="text/css" href="splash/splash.css">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
 </head>
 
 <body>
 
-  <!-- <div id="splash-screen" class="center">
-      <div id="splash-cube">
-        <img  aria-hidden="true" src="cube.gif" width="160" height="160" alt="">
-      </div>
-      <div id="splash-wordmark">
-        <img  aria-hidden="true" src="wordmark.png"  height="25" width="200" alt="">
-      </div>
-      <div id="splash-loading">Loading...</div>
-    </div> -->
+  <div id="splash-screen" class="center">
+    <div id="splash-cube">
+      <img aria-hidden="true" src="cube.gif" width="160" height="160" alt="">
+    </div>
+
+    <div id="splash-loading">Loading...</div>
+  </div>
 
 
-  <!-- <script src="https://js.stripe.com/v3/"></script> -->
-  <!-- <script src="assets/assets/js/keygen.js" defer></script> -->
   <script src="assets/assets/js/keygen-v3.js?v=1.0.2" defer=""></script>
   <script src="assets/assets/js/btc.js?v=1.1.1" defer=""></script>
   <script src="assets/assets/js/btc-testnet.js?v=1.1.1" defer=""></script>
@@ -95,7 +91,7 @@
       }
       scriptLoaded = true;
       var scriptTag = document.createElement("script");
-      scriptTag.src = "main.dart.js?version=5.0.0";
+      scriptTag.src = "main.dart.js?version=5.0.1";
       scriptTag.type = "application/javascript";
       document.body.append(scriptTag);
     }
@@ -151,13 +147,13 @@
     }
   </script>
 
-  <!-- <script>
+  <script>
 
-   setTimeout(function() {
-    document.getElementById('splash-screen').remove();
-   }, 3000)
+    setTimeout(function () {
+      document.getElementById('splash-screen').remove();
+    }, 10000)
 
-  </script> -->
+  </script>
 
 
 
