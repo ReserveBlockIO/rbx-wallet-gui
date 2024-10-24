@@ -477,7 +477,7 @@ class AuthModal {
           titlePadding: const EdgeInsets.all(18.0),
           contentPadding: const EdgeInsets.all(18.0),
           insetPadding: const EdgeInsets.all(8.0),
-          backgroundColor: const Color(0xFF040f26),
+          // backgroundColor: const Color(0xFF040f26),
           content: Form(
             key: _formKey,
             child: Padding(

@@ -4,12 +4,14 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import '../../../core/app_constants.dart';
 import '../../../core/base_component.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/dialogs.dart';
 import '../../../core/providers/web_session_provider.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../utils/validation.dart';
 import '../../btc/models/tokenized_bitcoin.dart';
 import '../../btc/providers/btc_pending_tokenized_address_list_provider.dart';
 import '../../btc/utils.dart';
@@ -65,20 +67,41 @@ class WebTokenizedBtcActionButtons extends BaseComponent {
             if (!manager.verifyBalance()) {
               return;
             }
-
-            final result = await manager.withdrawVbtc(
-              scId: token.scIdentifier,
-              amount: 0.00005,
-              btcAddress: "tb1qmsgnjlndfgpf0xppwxq62zj34fwn0a2j09xkju",
-              feeRate: 10,
+            final amount = await PromptModal.show(
+              title: 'Amount',
+              validator: (val) => formValidatorNumber(val, "Amount"),
+              body: 'The amount you want to send',
+              labelText: "Sending amount",
             );
+            if (amount != null && double.tryParse(amount) != null) {
+              final address = await PromptModal.show(
+                title: 'Btc Address',
+                validator: (val) => formValidatorNotEmpty(val, "Address"),
+                labelText: "Recieving Address",
+              );
+              if (address != null) {
+                final feeRate = await PromptModal.show(
+                  title: 'Fee Rate',
+                  validator: (val) => formValidatorInteger(val, "Fee Rate"),
+                  labelText: "Fee Rate",
+                );
+                if (feeRate != null && int.tryParse(feeRate) != null) {
+                  final result = await manager.withdrawVbtc(
+                    scId: token.scIdentifier,
+                    amount: double.parse(amount),
+                    btcAddress: address,
+                    feeRate: int.parse(feeRate),
+                  );
 
-            if (result == null) {
-              Toast.error();
-              return;
+                  if (result == null) {
+                    Toast.error();
+                    return;
+                  }
+
+                  InfoDialog.show(title: "Response", content: SelectableText(jsonEncode(result)));
+                }
+              }
             }
-
-            InfoDialog.show(title: "Response", content: SelectableText(jsonEncode(result)));
           },
         ),
         AppButton(
