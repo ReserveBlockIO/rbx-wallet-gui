@@ -33,8 +33,9 @@ class WebReceiveScreen extends BaseScreen {
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     final isMobile = BreakPoints.useMobileLayout(context);
 
+    final isBtc = ref.watch(webSessionProvider.select((v) => v.usingBtc));
     return AppBar(
-      title: const Text("Receive"),
+      title: isBtc ? Text("Receive BTC") : Text("Receive VFX"),
       backgroundColor: Colors.black,
       shadowColor: Colors.transparent,
       leading: isMobile ? WebMobileDrawerButton() : null,

@@ -22,10 +22,10 @@ class WebSendScreen extends BaseScreen {
   @override
   AppBar? appBar(BuildContext context, WidgetRef ref) {
     final isMobile = BreakPoints.useMobileLayout(context);
-
+    final isBtc = ref.watch(webSessionProvider.select((v) => v.usingBtc));
     return AppBar(
       leading: isMobile ? WebMobileDrawerButton() : null,
-      title: const Text("Send VFX"),
+      title: isBtc ? Text("Send BTC") : Text("Send VFX"),
       shadowColor: Colors.transparent,
       backgroundColor: Colors.black,
     );
